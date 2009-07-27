@@ -1,0 +1,36 @@
+# Copyright 2008 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SCM_REPOSITORY="svn://svn.berlios.de/codeblocks"
+
+require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ none ] ]
+
+SUMMARY="Code::Blocks C/C++ IDE"
+DESCRIPTION="Code::Blocks free C/C++ IDE"
+HOMEPAGE="http://www.codeblocks.org"
+DOWNLOADS=""
+
+LICENCES="GPL-3.0"
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS="contrib"
+
+DEPENDENCIES="
+    build+run:
+        x11-libs/wxGTK:2.8
+"
+
+BUGS_TO=""
+
+src_prepare() {
+    ./update_revision.sh
+    autotools_src_prepare
+}
+
+src_configure() {
+    local myconf=""
+    if option contrib; then
+        myconf="--with-contrib-plugins=all"
+    fi
+    econf --prefix=/usr ${myconf}
+}

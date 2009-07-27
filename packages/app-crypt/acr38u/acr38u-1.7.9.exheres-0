@@ -1,0 +1,36 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'acr38u-1.7.9-r3.ebuild' from Gentoo, which is:
+#     Copyright 1999-2007 Gentoo Foundation
+
+SUMMARY="ACR38U card reader driver"
+DESCRIPTION="Card reader support for Belgian Electronic Identity Card Runtime supplied by the Belgian Federal Government."
+HOMEPAGE="http://www.acs.com.hk/acr38-drivers-manual.php"
+
+DL_FILENAME="ACR38_LINUX_100709_P"
+DOWNLOADS="http://www.acs.com.hk/download/${DL_FILENAME}.tar.gz"
+
+LICENCES=""
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        sys-apps/pcsc-lite
+"
+
+BUGS_TO=""
+
+WORK="${WORKBASE}/${DL_FILENAME}"
+
+src_configure()
+{
+    econf --enable-static=false --enable-usbdropdir=${IMAGE}/`pkg-config libpcsclite --variable=usbdropdir`
+}
+
+src_install()
+{
+    default
+    sed -i -e "s|${IMAGE}/usr/lib|/usr/lib|g" ${IMAGE}/usr/lib/libacr38ucontrol.la
+}

@@ -1,0 +1,30 @@
+# Copyright 2007 Bryan Østergaard
+# Distributed under the terms of the GNU General Public License v2
+
+MY_PV=${PV:0:3}
+
+SUMMARY="Event-based replacement for the /sbin/init daemon"
+HOMEPAGE="http://upstart.ubuntu.com/"
+REMOTE_IDS="launchpad:${PN}"
+DOWNLOADS="http://upstart.ubuntu.com/download/${MY_PV}/${PNV}.tar.bz2"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64 ~ia64 ~x86"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        !sys-apps/sysvinit
+"
+
+WANT_AUTOMAKE="1.10"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=( --exec-prefix=/ )
+
+src_install() {
+    default
+    cd ${IMAGE}
+    rmdir bin lib usr/include
+    keepdir etc/init/conf.d etc/init/jobs.d
+}

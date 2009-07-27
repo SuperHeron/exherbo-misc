@@ -1,0 +1,31 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'linux-mod.eclass' from Gentoo, which is:
+#     Copyright 1999-2004 Gentoo Foundation
+
+export_exlib_phases src_configure src_compile src_install pkg_postinst pkg_postrm
+
+DEPENDENCIES="
+    build:
+        sys-kernel/vanilla-sources
+    build+run:
+        app-admin/eclectic-kernelmod
+        sys-apps/module-init-tools
+"
+
+kernelmod_src_configure() {
+}
+
+kernelmod_src_compile() {
+}
+
+kernelmod_src_install() {
+}
+
+kernelmod_pkg_postinst() {
+    eclectic kernelmod add ${PN}
+}
+
+kernelmod_pkg_postrm() {
+    eclectic kernelmod delete ${PN}
+}

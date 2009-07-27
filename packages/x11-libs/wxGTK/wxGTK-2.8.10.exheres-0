@@ -1,0 +1,54 @@
+# Copyright 2009 Maxime Coste <frrrwww@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Cross-Platform GUI Library"
+DESCRIPTION="
+wxWidgets gives you a single, easy-to-use API for writing GUI applications on
+multiple platforms that still utilize the native platform's controls and
+utilities.
+"
+HOMEPAGE="http://www.wxwidgets.org"
+DOWNLOADS="mirror://sourceforge/wxwindows/${PNV}.tar.bz2"
+
+LICENCES="LGPL-2"
+SLOT="2.8"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS="tiff sdl gnome opengl xml unicode threads"
+
+DEPENDENCIES="
+    build+run:
+        x11-libs/gtk+:2
+        media-libs/libpng
+        media-libs/jpeg
+        x11-libs/libXpm
+        sys-libs/zlib
+        tiff? ( media-libs/tiff )
+        sdl? ( media-libs/SDL )
+        gnome? ( gnome-platform/gnome-vfs )
+        xml? ( dev-libs/expat )
+"
+
+src_configure() {
+    econf \
+        --with-gtk \
+        --enable-intl \
+        --enable-controls \
+        --with-libpng \
+        --with-libjpeg \
+        --with-libxpm \
+        --with-zlib \
+        $(option_with tiff libtiff) \
+        $(option_with sdl) \
+        $(option_with xml expat) \
+        $(option_with opengl) \
+        $(option_enable unicode) \
+        $(option_enable threads)
+}
+
+src_install() {
+    default
+    insinto /usr/share/doc/${PVNR}
+    doins -r docs/*
+    # remove empty directories
+    find "${IMAGE}" -type d -empty -delete
+}
