@@ -1,0 +1,35 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="CCID free software driver"
+DESCRIPTION="This package provides the source code for a generic USB CCID  (Chip/Smart Card Interface Devices) driver and  ICCD (Integrated Circuit(s) Card Devices)."
+HOMEPAGE="http://pcsclite.alioth.debian.org/ccid.html"
+
+DL_NUMBER="3080"
+DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${PNV}.tar.bz2"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS="serial usb"
+
+DEPENDENCIES="
+    build+run:
+        sys-fs/udev
+        sys-libs/pcsc-lite
+        usb? ( dev-libs/libusb:0.1 )
+"
+
+BUGS_TO=""
+
+DEFAULT_SRC_CONFIGURE_PARAMS=( '--enable-udev' )
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'serial twinserial'
+    'usb'
+)
+
+src_install() {
+    default
+    insinto etc/udev/rules.d
+    newins src/pcscd_ccid.rules 85-pcscd_ccid.rules
+}
