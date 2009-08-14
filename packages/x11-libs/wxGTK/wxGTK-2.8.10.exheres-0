@@ -28,27 +28,32 @@ DEPENDENCIES="
         xml? ( dev-libs/expat )
 "
 
-src_configure() {
-    econf \
-        --with-gtk \
-        --enable-intl \
-        --enable-controls \
-        --with-libpng \
-        --with-libjpeg \
-        --with-libxpm \
-        --with-zlib \
-        $(option_with tiff libtiff) \
-        $(option_with sdl) \
-        $(option_with xml expat) \
-        $(option_with opengl) \
-        $(option_enable unicode) \
-        $(option_enable threads)
-}
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--enable-compat26'
+    '--enable-shared'
+    '--with-regex=builtin'
+    '--with-gtk'
+    '--enable-intl'
+    '--enable-controls'
+    '--with-libpng'
+    '--with-libjpeg'
+    '--with-libxpm'
+    '--with-zlib=sys'
+)
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'unicode' 'threads' )
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
+    'tiff libtiff'
+    'sdl'
+    'xml expat sys'
+    'opengl'
+)
 
 src_install() {
     default
-    insinto /usr/share/doc/${PVNR}
-    doins -r docs/*
+#    insinto /usr/share/doc/${PVNR}
+#    doins -r docs/*
+    dodoc -r docs/*
     # remove empty directories
     find "${IMAGE}" -type d -empty -delete
 }

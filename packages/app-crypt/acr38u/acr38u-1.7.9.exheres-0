@@ -7,30 +7,26 @@ SUMMARY="ACR38U card reader driver"
 DESCRIPTION="Card reader support for Belgian Electronic Identity Card Runtime supplied by the Belgian Federal Government."
 HOMEPAGE="http://www.acs.com.hk/acr38-drivers-manual.php"
 
-DL_FILENAME="ACR38_LINUX_100709_P"
+DL_FILENAME="ACR38_LINUX_$(ever range 1)00$(ever range 2)0$(ever range 3)_P"
 DOWNLOADS="http://www.acs.com.hk/download/${DL_FILENAME}.tar.gz"
 
-LICENCES=""
+LICENCES="LGPL-2.1"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
-        sys-apps/pcsc-lite
+        sys-libs/pcsc-lite
 "
 
 BUGS_TO=""
 
 WORK="${WORKBASE}/${DL_FILENAME}"
 
-src_configure()
-{
-    econf --enable-static=false --enable-usbdropdir=${IMAGE}/`pkg-config libpcsclite --variable=usbdropdir`
-}
+USBDROPDIR=`pkg-config libpcsclite --variable=usbdropdir`
 
-src_install()
-{
-    default
-    sed -i -e "s|${IMAGE}/usr/lib|/usr/lib|g" ${IMAGE}/usr/lib/libacr38ucontrol.la
-}
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    "--enable-static=false"
+    "--enable-usbdropdir=${IMAGE}${USBDROPDIR:1}"
+)

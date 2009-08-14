@@ -35,7 +35,7 @@ BUGS_TO=""
 src_configure() {
     local with_drivers
     for driver in ${MY_FPRINT_DRIVERS}; do
-        if option fprint_drivers:${driver}; then
+        if optionq fprint_drivers:${driver}; then
             with_drivers="${with_drivers},${driver}"
         fi
     done

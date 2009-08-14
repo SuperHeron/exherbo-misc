@@ -1,0 +1,58 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require multilib
+
+SUMMARY="ACR38U card reader driver"
+DESCRIPTION="Card reader support for Belgian Electronic Identity Card Runtime supplied by the Belgian Federal Government."
+HOMEPAGE="http://www.acs.com.hk/acr38-drivers-manual.php"
+
+DL_FILENAME="ACR38U_driver_LnxFedora7_$(ever range 1)$(ever range 2)$(ever range 3)_P"
+DOWNLOADS="http://www.acs.com.hk/drivers/eng/${DL_FILENAME}.zip"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        app-arch/rpm2targz
+    run:
+        sys-libs/pcsc-lite
+"
+
+BUGS_TO=""
+
+#USBDROPDIR=`pkg-config libpcsclite --variable=usbdropdir`
+
+#DEFAULT_SRC_CONFIGURE_PARAMS=(
+#    "--enable-static=false"
+#    "--enable-usbdropdir=${IMAGE}${USBDROPDIR:1}"
+#)
+
+src_unpack() {
+    default
+    ebegin "Converting rpm to tar.gz and unpacking"
+    cd ${WORKBASE}
+    mkdir ${PNV}
+    rpm2targz -O ${DL_FILENAME}.rpm | tar -zxf - --no-same-owner -C ${PNV}
+    eend $?
+}
+
+src_prepare() {
+    cd ${WORK}
+    sed -i -e "s|/usr/lib|/usr/$(get_libdir)|g" usr/lib/libacr38ucontrol.la
+}
+
+src_install() {
+    einfo "Installing ACR38U driver files"
+    cd ${WORK}
+    doins -r etc
+    insinto usr/include
+    doins usr/include/ACS38DrvTools.h
+    dodir usr/$(get_libdir)
+    insinto usr/$(get_libdir)
+    cd usr/lib
+    doins -r *
+}

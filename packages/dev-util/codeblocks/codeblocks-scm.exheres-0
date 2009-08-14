@@ -10,10 +10,12 @@ DESCRIPTION="Code::Blocks free C/C++ IDE"
 HOMEPAGE="http://www.codeblocks.org"
 DOWNLOADS=""
 
-LICENCES="GPL-3.0"
+LICENCES="GPL-3"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="contrib"
+MYOPTIONS="
+    contrib-plugins [[ description = [ Build community-contributed plugins ] ]]
+"
 
 DEPENDENCIES="
     build+run:
@@ -22,15 +24,9 @@ DEPENDENCIES="
 
 BUGS_TO=""
 
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'contrib-plugins contrib-plugins all' )
+
 src_prepare() {
     ./update_revision.sh
     autotools_src_prepare
-}
-
-src_configure() {
-    local myconf=""
-    if option contrib; then
-        myconf="--with-contrib-plugins=all"
-    fi
-    econf --prefix=/usr ${myconf}
 }

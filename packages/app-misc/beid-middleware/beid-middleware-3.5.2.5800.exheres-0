@@ -1,0 +1,108 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require multilib
+
+SUMMARY="Belgian eID middleware"
+DESCRIPTION="The eID Middleware software offers components for using the Belgian eID on your computer.
+"
+HOMEPAGE="http://eid.belgium.be"
+MY_PNV="${PN}-$(ever range 1-3)-source-$(ever range 4)"
+DOWNLOADS="http://eid-mw.googlecode.com/files/${MY_PNV}.zip"
+
+LICENCES="LGPL-3"
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+LANGS="de en fr nl"
+MYOPTIONS="
+    doc
+    ( linguas: ${LANGS} ) [[ number-selected = at-most-one ]]
+    pcsc_drivers: acr38u ccid
+"
+
+DEPENDENCIES="
+    build:
+        doc? ( app-doc/doxygen[>=1.5.7] )
+        dev-lang/swig[>=1.3.35]
+        dev-lang/sun-java-jdk:=[>=1.5.0]
+    build+run:
+        dev-libs/openssl[>=0.9.8g]
+        dev-libs/xerces-c[>=2.7.0]
+        x11-libs/wxGTK:2.8 [[ note = [ For wxGTK 2.6 compatibility ] ]]
+        x11-libs/qt:4[>=4.5.0][qt3support]
+    run:
+        pcsc_drivers:acr38u? ( app-crypt/acr38u[>=1.8.0] )
+        pcsc_drivers:ccid? ( app-crypt/ccid )
+        sys-libs/pcsc-lite[>=1.4.4]
+"
+
+BUGS_TO=""
+
+WORK="${WORKBASE}/${MY_PNV}"
+
+src_prepare() {
+    expatch -p1 "${FILES}/${PNV}-fix_paths.patch"
+    ebegin "Making configure script executable"
+    cd "${WORK}/_src/eidmw"
+    chmod +x configure
+    eend $?
+    if optionq !linguas:en; then
+        for lang in ${LANGS}; do
+            if optionq linguas:${lang}; then
+                ebegin "Patching configuration file"
+                cd "${WORK}/_src/eidmw/install"
+                sed -i "s/\=en/\=${lang}/" beid.conf.3.5
+                eend $?
+                break
+            fi
+        done
+    fi
+}
+
+src_configure() {
+    cd "${WORK}/_src/eidmw"
+    ./configure --lib=/usr/$(get_libdir) --prefix=/usr || die "configure failed"
+}
+
+src_compile() {
+    cd "${WORK}/_src/eidmw"
+    emake || die "make failed"
+}
+
+src_install() {
+    local install_dir="${WORK}/_src/eidmw/install"
+    cd "${install_dir}/lib"
+    dolib lib/libbeidapplayer.so.*.*.*
+    dolib lib/libbeidcardlayer.so.*.*.*
+    dolib lib/libbeidcommon.so.*.*.*
+    dolib lib/libbeidpkcs11.so.*.*.*
+    dolib lib/libbeiddialogsQT.so.*.*.*
+    dolib lib/libbeidlib.so.*.*.*
+    dolib lib/libbeidlibJava_Wrapper.so.*.*.*
+    into /usr/lib/siscardplugins
+    dolib lib/libsiscardplugin1__ACS__.so.*.*.*
+    cd "${install_dir}/thirdparty"
+    into /usr/lib/beidqt
+    dolib libQtCore.so
+    dolib libQtGui.so
+    into /usr/lib/beidqt/plugins/imageformats
+    dolib libqjpeg.so
+    cd "${install_dir}/bin"
+    into /
+    dobin beidgui
+    dobin beiddialogsQTsrv
+    dobin eidmw_de.qm
+    dobin eidmw_en.qm
+    dobin eidmw_fr.qm
+    dobin eidmw_nl.qm
+    dodoc *.html
+    cd "${install_dir}"
+    insinto /usr/share/pixmaps
+    doins eid35.png
+    insinto /usr/share/applications
+    doins beidgui35.desktop
+    insinto /etc/beid
+    newins beid.conf.3.5 beid.conf
+    diropts -m0777
+    keepdir /usr/share/beid/crl
+}
