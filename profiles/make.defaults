@@ -1,4 +1,3 @@
-SUBOPTIONS="FPRINT_DRIVERS INITNG_PLUGINS PCSC_DRIVERS"
+SUBOPTIONS="FPRINT_DRIVERS PCSC_DRIVERS"
 FPRINT_DRIVERS="upekts upektc upeksonly vcom5s uru4000 fdu2000 aes1610 aes2501 aes4000"
-INITNG_PLUGINS="also chdir chroot conflict cpout critical ctrlaltdel daemon_clean dbus_event debug_commands fmon fstat history idleprobe initctl interactive iparser last limit lockfile logfile netdev netprobe ngc4 ngcs nge pause provide reload renice service_file simple_launcher stcmd stdout suid syncron syslog sysreq unneeded usplash"
 PCSC_DRIVERS="acr38u ccid"
