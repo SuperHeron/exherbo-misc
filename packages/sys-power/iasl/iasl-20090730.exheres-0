@@ -1,0 +1,33 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Intel ACPI Source Language (ASL) compiler/disassembler"
+DESCRIPTION="iasl compiles ASL (ACPI Source Language) into AML (ACPI Machine
+Language). This AML is suitable for inclusion as a DSDT in system
+firmware. It also can disassemble AML, for debugging purposes."
+HOMEPAGE="http://www.acpica.org"
+DOWNLOADS="http://www.acpica.org/download/acpica-unix-${PV}.tar.gz"
+
+LICENCES=""
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        sys-devel/bison
+        sys-devel/flex
+"
+
+BUGS_TO=""
+
+WORK="${WORKBASE}/acpica-unix-${PV}/compiler"
+
+DEFAULT_SRC_PREPARE_PATCHES=( -p2 "${FILES}/${PNV}-parallelmake.patch" )
+
+src_install() {
+    cd ${WORK}
+    dobin iasl
+    dodoc readme.txt
+}
+

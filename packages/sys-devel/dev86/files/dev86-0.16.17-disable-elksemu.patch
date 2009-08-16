@@ -1,0 +1,29 @@
+Source: Robert de Bath, author
+Upstream: yes, http://www.bullopensource.org/xen/patches/dev86.diff
+Reason: disable elksemu on 64-bit environments
+diff -Nurd linux86.old/ifdef.c linux86/ifdef.c
+--- linux86.old/ifdef.c	2004-10-02 14:59:29.000000000 +0100
++++ linux86/ifdef.c	2006-05-19 19:28:34.631034000 +0100
+@@ -443,10 +443,6 @@
+ #ifdef __i386__
+    save_name("__elksemu_works__", 'D');
+ #endif
+-/* Is this true ? */
+-#ifdef __x86_64__
+-   save_name("__elksemu_works__", 'D');
+-#endif
+ #endif
+ #ifdef __unix__
+    save_name("__unix__", 'D');
+diff -Nurd linux86.old/makefile.in linux86/makefile.in
+--- linux86.old/makefile.in	2004-10-02 14:00:53.000000000 +0100
++++ linux86/makefile.in	2006-05-19 19:33:34.671974000 +0100
+@@ -206,7 +206,7 @@
+ 	$(MAKEC) elksemu elksemu
+ 	cp -p elksemu/elksemu bin/elksemu
+ #else
+-elksemu: bindir
++try_elksemu: bindir
+ 	$(MAKEC) elksemu CC='ncc' elksemu
+ 	cp -p elksemu/elksemu bin/elksemu
+ #endif
