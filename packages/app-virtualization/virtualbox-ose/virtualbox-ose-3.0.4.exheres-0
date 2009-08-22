@@ -10,15 +10,35 @@ DOWNLOADS="http://download.virtualbox.org/${PN}/${PV}/${MY_PNV}.tar.bz2"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS=""
+MYOPTIONS="
+    alsa pulseaudio
+
+    ( alsa pulseaudio ) [[ number-selected = at-least-one ]]
+"
 
 DEPENDENCIES="
-    build:
     build+run:
+        dev-lang/python:=[>=2.5&<3.0]
+        dev-libs/libIDL
+        dev-libs/libxml2
+        dev-libs/libxslt
+        media-libs/SDL
+        net-libs/gsoap
+        sys-apps/hal
+        sys-devel/dev86
+        sys-libs/libcap
+        sys-power/iasl
+        x11-dri/mesa
+        x11-libs/libXcursor
+        x11-libs/libXmu
+        x11-libs/qt:4[>=4.4.3]
+        alsa? ( sys-sound/alsa-lib )
+        pulseaudio? ( media-sound/pulseaudio )
 "
 
 BUGS_TO=""
 
+// TODO
 DEFAULT_SRC_CONFIGURE_PARAMS=( )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( )
