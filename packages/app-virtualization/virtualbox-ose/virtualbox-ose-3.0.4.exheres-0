@@ -10,36 +10,67 @@ DOWNLOADS="http://download.virtualbox.org/${PN}/${PV}/${MY_PNV}.tar.bz2"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="
-    alsa pulseaudio
-
-    ( alsa pulseaudio ) [[ number-selected = at-least-one ]]
-"
+MYOPTIONS="X alsa dbus opengl pulseaudio python truetype webservice wine
+    webservice [[ description = [ Build VBoxWebSrv ] ]]
+    wine [[ description = [ Build wine support ] ]]"
 
 DEPENDENCIES="
+    build:
+        dev-util/kBuild
     build+run:
-        dev-lang/python:=[>=2.5&<3.0]
+        app-cdr/cdrkit
+        dev-lang/yasm[>=0.5.1]
         dev-libs/libIDL
-        dev-libs/libxml2
-        dev-libs/libxslt
-        media-libs/SDL
-        net-libs/gsoap
-        sys-apps/hal
+        dev-libs/libxml2[>=2.6.26]
+        dev-libs/libxslt[>=1.1.17]
+        dev-libs/openssl[>=0.9.7]
+        media-libs/libpng[>=1.2.5]
+        net-misc/curl[>=7.15.0]
         sys-devel/dev86
         sys-libs/libcap
+        sys-libs/zlib[>=1.2.1]
         sys-power/iasl
-        x11-dri/mesa
         x11-libs/libXcursor
-        x11-libs/libXmu
-        x11-libs/qt:4[>=4.4.3]
-        alsa? ( sys-sound/alsa-lib )
-        pulseaudio? ( media-sound/pulseaudio )
+        X?
+        (
+            media-libs/SDL[>=1.2.7]
+            x11-libs/qt:4[>=4.4.3]
+            opengl? ( x11-dri/mesa x11-libs/libXmu )
+            truetype? ( media-libs/SDL_ttf[>=2.0.6] )
+        )
+        alsa? ( sys-sound/alsa-lib[>=1.0.6] )
+        dbus? ( sys-apps/dbus sys-apps/hal )
+        pulseaudio? ( media-sound/pulseaudio[>=0.9.0] )
+        python? ( dev-lang/python:=[>=2.5&<3.0] )
+        webservice? ( net-libs/gsoap )
+        wine? ( app-emulation/wine )
 "
 
 BUGS_TO=""
 
-// TODO
-DEFAULT_SRC_CONFIGURE_PARAMS=( )
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( )
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( )
+WORK="${WORKBASE}/${MY_PNV/-OSE/_OSE}"
 
+src_configure() {
+    local myconf
+    if optionq X; then
+        optionq opengl || myconf="${myconf} --disable-opengl"
+        optionq truetype || myconf="${myconf} --disable-sdl-ttf)"
+    else
+        myconf="${myconf} --build-headless"
+    fi
+    optionq alsa || myconf="${myconf} --disable-alsa"
+    optionq dbus || myconf="${myconf} --disable-dbus"
+    optionq pulseaudio || myconf="${myconf} --disable-pulse"
+    optionq python || myconf="${myconf} --disable-python"
+    optionq webservice && myconf="${myconf} --enable-webservice"
+    optionq wine && myconf="${myconf} --setup-wine"
+    ./configure --disable-kmods ${myconf} || die "configure failed"
+}
+
+src_compile() {
+    kBuild/env.sh kmk all || die "kmk all failed"
+}
+
+src_install() {
+    kBuild/env.sh kmk PATH_ROOT="/usr" PATH_INS="${IMAGE}" install || die "kmk install failed"
+}
