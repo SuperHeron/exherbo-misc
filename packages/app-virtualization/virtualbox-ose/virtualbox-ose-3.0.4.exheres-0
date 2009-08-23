@@ -9,7 +9,7 @@ DOWNLOADS="http://download.virtualbox.org/${PN}/${PV}/${MY_PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
-PLATFORMS="~amd64 ~x86"
+PLATFORMS=""
 MYOPTIONS="X alsa dbus opengl pulseaudio python truetype webservice wine
     webservice [[ description = [ Build VBoxWebSrv ] ]]
     wine [[ description = [ Build wine support ] ]]"
@@ -64,6 +64,7 @@ src_configure() {
     optionq python || myconf="${myconf} --disable-python"
     optionq webservice && myconf="${myconf} --enable-webservice"
     optionq wine && myconf="${myconf} --setup-wine"
+    # Call configure script directly as it is not a GNU one
     ./configure --disable-kmods ${myconf} || die "configure failed"
 }
 
