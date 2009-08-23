@@ -1,0 +1,31 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'kbuild-0.1.5-r1.ebuild', which is:
+#     Copyright 1999-2009 Gentoo Foundation
+
+SCM_REPOSITORY="http://svn.netlabs.org/repos/kbuild"
+
+require scm-svn
+
+SUMMARY="kBuild is a makefile framework for writing simple makefiles for complex tasks."
+DESCRIPTION="
+"
+HOMEPAGE="http://svn.netlabs.org/kbuild/wiki"
+DOWNLOADS=""
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS="platform: amd64 x86"
+
+BUGS_TO=""
+
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-glibc-2.10.patch" )
+
+src_compile() {
+    kBuild/env.sh --full kmk || die "bootstrap failed"
+}
+
+src_install() {
+    kBuild/env.sh kmk NIX_INSTALL_DIR="/usr" PATH_INS="${IMAGE}" install || die "kmk install failed"
+}
