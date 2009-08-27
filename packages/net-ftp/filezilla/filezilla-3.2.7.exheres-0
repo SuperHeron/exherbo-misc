@@ -3,7 +3,7 @@
 
 AT_M4DIR="."
 
-require autotools [ supported_autoconf=[ none ] supported_automake=[ none ] ]
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
 
 SUMMARY="FileZilla Client, free FTP client"
 DESCRIPTION="FileZilla Client is a fast and reliable cross-platform FTP, FTPS and SFTP client with lots of useful features and an intuitive graphical user interface."

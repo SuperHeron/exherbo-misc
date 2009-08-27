@@ -5,7 +5,7 @@
 
 SCM_REPOSITORY="git://github.com/dsd/fprint_demo.git"
 
-require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ none ] ]
+require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
 
 SUMMARY="LibFprint demonstration software"
 DESCRIPTION="Software to demonstrate libfprint's capabilities.

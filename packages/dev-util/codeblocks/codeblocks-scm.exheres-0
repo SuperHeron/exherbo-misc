@@ -3,7 +3,7 @@
 
 SCM_REPOSITORY="svn://svn.berlios.de/codeblocks"
 
-require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ none ] ]
+require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
 
 SUMMARY="Code::Blocks C/C++ IDE"
 DESCRIPTION="Code::Blocks free C/C++ IDE"

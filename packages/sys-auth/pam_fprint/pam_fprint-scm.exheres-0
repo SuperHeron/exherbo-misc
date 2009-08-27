@@ -5,7 +5,7 @@
 
 SCM_REPOSITORY="git://github.com/dsd/pam_fprint.git"
 
-require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ none ] ]
+require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
 
 SUMMARY="Fprint pam authentification module"
 DESCRIPTION="pam_fprint is a PAM module which uses libfprint's fingerprint verification functionality to implement a fingerprint-based login system.
