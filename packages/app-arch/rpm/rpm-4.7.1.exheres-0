@@ -1,0 +1,48 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Powerful command line driven package management system"
+DESCRIPTION="
+The RPM Package Manager (RPM) is a powerful command line
+driven package management system capable of installing,
+uninstalling, verifying, querying, and updating computer
+software packages. Each software package consists of an archive
+of files along with information about the package like its version,
+a description, and the like. There is also a library API,
+permitting advanced developers to manage such transactions
+from programming languages such as C or Python. 
+"
+HOMEPAGE="http://rpm.org"
+DOWNLOADS="http://rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
+
+LICENCES="|| ( GPL-2 LGPL-2 )"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        app-arch/bzip2
+        app-arch/gzip
+        app-arch/unzip
+        app-arch/xz
+        dev-libs/nspr
+        dev-libs/nss
+        sys-apps/file
+        sys-devel/gettext
+        sys-libs/db:=[>=4.5]
+        sys-libs/zlib
+"
+
+src_configure() {
+    econf --with-external-db --without-lua \
+        CPPFLAGS="$(pkg-config --cflags-only-I nspr nss)" \
+        LDFLAGS="$(pkg-config --libs-only-L nss)" \
+        LIBS="$(pkg-config --libs-only-l nss)" || die "configure failed"
+}
+
+src_install() {
+    default
+    find "${IMAGE}" -type d -empty -delete || die "Couldn't remove empty dirs"
+}
+
