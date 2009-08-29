@@ -1,0 +1,56 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require multilib
+
+SUMMARY="Botan, a C++ crypto library"
+DESCRIPTION="
+Botan is a BSD-licensed crypto library written in C++.
+In provides applications with the ability to use a number
+of cryptographic algorithms, as well as X.509 certificates
+and CRLs, PKCS #10 certificate requests, a filter/pipe message
+processing system, and a wide variety of other features,
+all written in portable C++.
+"
+HOMEPAGE="http://botan.randombit.net"
+MY_PNV="Botan-${PV}"
+DOWNLOADS="http://files.randombit.net/${PN}/${MY_PNV}.tbz"
+
+LICENCES="BSD-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="bzip2 gmp openssl zlib"
+
+DEPENDENCIES="
+    build+run:
+        dev-lang/python:=[>=2.4&<3.0]
+        dev-libs/boost
+        bzip2? ( app-arch/bzip2 )
+        gmp? ( dev-libs/gmp[>=4.1] )
+        openssl? ( dev-libs/openssl[>=0.9.7] )
+        zlib? ( sys-libs/zlib )
+"
+
+REMOTE_IDS="freshmeat:${PN}"
+
+WORK="${WORKBASE}/${MY_PNV}"
+
+src_configure() {
+    ./configure.py \
+        --docdir="usr/share/doc" \
+        --libdir="usr/$(get_libdir)" \
+        --includedir="usr/include" \
+        --enable-shared \
+        --makefile-style="unix" \
+        --with-tr1-implementation="boost" \
+        $(option_with bzip2) \
+        $(option_with gmp gnump) \
+        $(option_with openssl) \
+        $(option_with zlib) \
+    || die "configure.py failed"
+    # Patch Makefile for installation in /usr/bin
+    sed -i -e 's|/bin|/usr/bin|' Makefile
+}
+
+DEFAULT_SRC_INSTALL_EXCLUDE=( "readme.txt" )
+
