@@ -1,0 +1,56 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+AT_M4DIR="m4"
+
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ none ] ]
+
+SUMMARY="distcc: a fast, free distributed C/C++ compiler"
+DESCRIPTION="
+distcc is a program to distribute builds of C, C++, Objective C
+or Objective C++ code across several machines on a network.
+distcc should always generate the same results as a local build,
+is simple to install and use, and is usually much faster than a local compile. 
+"
+HOMEPAGE="http://distcc.org"
+DOWNLOADS="http://${PN}.googlecode.com/files/${PNV}.tar.bz2"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="avahi gnome gtk
+    gnome [[ requires = [ gtk ] ]]
+"
+
+DEPENDENCIES="
+    build+run:
+        dev-lang/python:=[>=2.4]
+        dev-libs/popt
+        avahi? ( net-dns/avahi )
+        gtk? (
+            x11-libs/gtk+:2
+            x11-libs/pango
+            gnome? (
+                gnome-platform/libglade:2
+                gnome-platform/libgnome:2
+                gnome-platform/libgnomeui:2
+            )
+        )
+"
+
+BUGS_TO=""
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    -p0 ${FILES}/${PNV}-src_where_uninitialized.patch
+)
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--enable-rfc2553'
+    "--with-docdir=/usr/share/doc/${PNV}"
+)
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
+    'avahi'
+    'gnome'
+    'gtk'
+)
+
