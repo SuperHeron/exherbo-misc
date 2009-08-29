@@ -1,0 +1,58 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+AT_M4DIR="m4"
+
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.9 ] ]
+
+SUMMARY="monotone: reliable, distributed version control"
+DESCRIPTION="
+monotone is a free distributed version control system.
+It provides a simple, single-file transactional version store,
+with fully disconnected operation and an efficient peer-to-peer
+synchronization protocol. It understands history-sensitive merging,
+lightweight branches, integrated code review and 3rd party testing.
+It uses cryptographic version naming and client-side RSA certificates.
+It has good internationalization support, runs on Linux, Solaris,
+Mac OS X, Windows, and other unixes, and is licensed under the GNU GPL.
+"
+HOMEPAGE="http://monotone.ca"
+DOWNLOADS="http://monotone.ca/downloads/${PV}/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="ipv6 nls"
+
+DEPENDENCIES="
+    build:
+        sys-apps/texinfo
+    build+run:
+        dev-db/sqlite:3[>=3.3.8]
+        dev-lang/lua[>=5.1]
+        dev-libs/boost:=[>=1.33.0]
+        dev-libs/botan[>=1.8.0]
+        dev-libs/pcre[>=7.4]
+        net-dns/libidn
+        sys-libs/zlib[>=1.1.4]
+        nls? ( sys-devel/gettext )
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    "--docdir=/usr/share/doc/${PNV}"
+    "--htmldir=/usr/share/doc/${PNV}"
+)
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'ipv6'
+    'nls'
+)
+
+src_install() {
+    default
+    # Workaround for htmldir not set to docdir
+    cd "${IMAGE}/usr/share/doc"
+    mv "${PN}/${PN}.html" "${PNV}"
+    rmdir "${PN}"
+}
+
