@@ -40,22 +40,22 @@ LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
-    gtk [[ description = [ Enable the GTK+ 'pidgin' client ] ]]
-    ncurses [[ description = [ Enable the ncurses 'finch' client ] ]]
-    perl [[ description = [ Support for plugins written in perl ] ]]
-    gstreamer [[ description = [ Needed for sound in the GTK+ client ] ]]
-    vv [[ description = [ Support for Voice and Video support ] ]]
     avahi [[ description = [ Needed for the Bonjour protocol ] ]]
+    dbus
+    gstreamer [[ description = [ Needed for sound in the GTK+ client ] ]]
+    gtk [[ description = [ Enable the GTK+ 'pidgin' client ] ]]
+    mono
+    ncurses [[ description = [ Enable the ncurses 'finch' client ] ]]
+    networkmanager
+    nls
+    nss [[ description = [ Support for Mozilla's NSS library ] ]]
+    perl [[ description = [ Support for plugins written in perl ] ]]
+    spell
+    ssl
+    startup-notification
     tcl [[ description = [ Support plugins written in tcl/tk ] ]]
     tk
-    dbus
-    nls
-    startup-notification
-    networkmanager
-    ssl
-    spell
-    mono
-    nss [[ description = [ Support for Mozilla's NSS library ] ]]
+    vv [[ description = [ Support for Voice and Video support ] ]]
 
     (
         gtk
@@ -71,54 +71,54 @@ MYOPTIONS="
 DEPENDENCIES="
     build:
         dev-lang/perl
-        dev-util/intltool
         dev-perl/XML-Parser
+        dev-util/intltool
         gtk? ( x11-proto/scrnsaverproto )
     build+run:
         dev-libs/glib
         dev-libs/libxml2
-        gtk? (
-            x11-libs/gtk+
-            x11-libs/libXScrnSaver
-        )
+        avahi? ( net-dns/avahi )
+        dbus? ( dev-libs/dbus-glib )
         gstreamer? (
             media-libs/gstreamer
             media-plugins/gst-plugins-good
             vv? ( net-im/farsight2 )
         )
+        gtk? (
+            x11-libs/gtk+
+            x11-libs/libXScrnSaver
+        )
+        mono? ( dev-lang/mono )
         ncurses? ( sys-libs/ncurses )
-        dbus? ( dev-libs/dbus-glib )
-        nls? ( sys-devel/gettext )
-        perl? ( dev-lang/perl )
-        startup-notification? ( x11-libs/startup-notification )
-        avahi? ( net-dns/avahi )
         networkmanager? ( net-apps/NetworkManager )
+        nls? ( sys-devel/gettext )
+        nss? ( dev-libs/nss )
+        perl? ( dev-lang/perl )
+        spell? ( app-spell/gtkspell )
+        ssl? ( dev-libs/gnutls )
+        startup-notification? ( x11-libs/startup-notification )
         tcl? ( dev-lang/tcl )
         tk? ( dev-lang/tk )
-        ssl? ( dev-libs/gnutls )
-        spell? ( app-spell/gtkspell )
-        mono? ( dev-lang/mono )
-        nss? ( dev-libs/nss )
 "
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'avahi'
+    'dbus'
+    'gstreamer'
     'gtk gtkui'
     'gtk screensaver'
+    'mono'
     'ncurses consoleui'
-    'nls'
-    'dbus'
-    'perl'
-    'startup-notification'
-    'gstreamer'
-    'vv'
-    'avahi'
     'networkmanager nm'
+    'nls'
+    'nss'
+    'perl'
+    'spell gtkspell'
+    'ssl gnutls yes'
+    'startup-notification'
     'tcl'
     'tk'
-    'ssl gnutls yes'
-    'spell gtkspell'
-    'mono'
-    'nss'
+    'vv'
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
