@@ -1,0 +1,261 @@
+# Copyright 2009 David Leverton <dleverton@exherbo.org>
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'scm-mtn.eclass', which is:
+#     Copyright 2008 David Leverton <dleverton@exherbo.org>
+
+if [[ -z ${SCM_TYPE} ]]; then
+    SCM_TYPE=mtn
+    require scm
+fi
+
+scm-mtn_do_dependencies() {
+    local mtn='dev-scm/monotone[>=0.44]'
+
+    local tunnel=
+    if [[ $(scm_get_var REPOSITORY) == ssh://* || $(scm_get_var REPOSITORY) == ssh+ux://* ]]; then
+        tunnel='net-misc/openssh'
+    fi
+
+    local wget= uncompress=
+    if [[ $(scm_get_var MTN_SEED) == https://* ]]; then
+        wget="net-misc/wget$(scm_usedeps ssl)"
+    elif [[ -n $(scm_get_var MTN_SEED) ]]; then
+        wget='net-misc/wget'
+    fi
+    if [[ $(scm_get_var MTN_SEED) == *.bz2 ]]; then
+        uncompress='app-arch/bzip2'
+    elif [[ $(scm_get_var MTN_SEED) == *.gz ]]; then
+        uncompress='app-arch/gzip'
+    elif [[ $(scm_get_var MTN_SEED) == *.lzma ]]; then
+        uncompress="app-arch/lzma-utils$(scm_usedeps -nocxx)"
+    fi
+
+    echo "${mtn} ${tunnel} ${wget} ${uncompress}"
+}
+
+scm-mtn_do_need_slotted_checkout_dir() {
+    false
+}
+
+scm-mtn_do_check_vars() {
+    [[ -n $(scm_get_var TAG) && -n $(scm_get_var REVISION) ]] \
+        && die "for mtn, $(scm_var_name REVISION) must not be set at the same time as $(scm_var_name TAG)"
+    [[ -z $(scm_get_var BRANCH) && -z $(scm_get_var REVISION) && -z $(scm_get_var TAG) ]] \
+        && die "for mtn, one of $(scm_var_name BRANCH), $(scm_var_name REVISION) and $(scm_var_name TAG) must be set"
+
+    local rev=$(scm_get_var REVISION)
+    [[ -n ${rev} ]] && [[ ${rev} == *[^0123456789abcdef]* || ${#rev} -ne 40 ]] \
+        && die "for mtn, $(scm_var_name REVISION) must be a 40-character lowercase hexadecimal SHA-1 sum"
+
+    [[ -n $(scm_get_var SUBPATH) ]] && die "for mtn, $(scm_var_name SUBPATH) must not be set"
+
+    local keys
+    scm_get_array SIGNING_KEYS keys
+    [[ ${#keys[@]} -gt 0 ]] && die "for mtn, $(scm_var_name SIGNING_KEYS) must not be set"
+
+    [[ -n $(scm_get_var MTN_SEED)
+            && $(scm_get_var MTN_SEED) != http://*
+            && $(scm_get_var MTN_SEED) != https://*
+            && $(scm_get_var MTN_SEED) != ftp://* ]] \
+        && die "$(scm_var_name MTN_SEED) must be a http://, https:// or ftp:// URI"
+
+    local repo=$(scm_get_var REPOSITORY)
+    if [[ ${repo} == file:// ]]; then
+        scm_set_var REPOSITORY file://"$(scm_trim_slashes -trailing "${repo#file://}")"
+    elif [[ ${repo} == ssh://* || ${repo} == ssh+ux://* ]]; then
+        scm_modify_var REPOSITORY scm_trim_slashes -scheme -trailing
+    fi
+}
+
+scm-mtn_mtn() {
+    local dir=$(scm_get_var CHECKOUT_TO)
+    local global=( --db="${dir}/${dir##*/}.mtn" --ignore-suspend-certs )
+
+    local echo=echo
+    if [[ ${1} == -q ]]; then
+        shift
+        echo=:
+        global=( "${global[@]}" --quiet )
+    fi
+
+    local cmd=${1}
+    shift
+    if has ${cmd} automate au db; then
+        cmd="${cmd} ${1}"
+        shift
+    fi
+
+    ${echo} mtn "${global[@]}" ${cmd} "${@}"
+    mtn "${global[@]}" ${cmd} "${@}" || scm_die_unless_nonfatal "mtn ${cmd} failed"
+}
+
+scm-mtn_get_var() {
+    scm-mtn_mtn -q ls vars | sed -n -e "s/${1}: ${2} //p"
+}
+
+scm-mtn_do_appraise() {
+    local dir=$(scm_get_var CHECKOUT_TO)
+
+    if [[ ! -f ${dir}/${dir##*/}.mtn ]]; then
+        echo "${dir} is not a mtn checkout"
+        return 3
+    fi
+
+    if [[ -n $(scm_get_var REVISION) ]]; then
+        if [[ -z $(scm-mtn_mtn -q automate select i:$(scm_get_var REVISION)) ]]; then
+            echo "$(scm_get_var REVISION) is not present in ${dir}"
+            return 1
+        elif [[ -n $(scm_get_var BRANCH) && -z $(scm-mtn_mtn -q automate select "i:$(scm_var_var REVISION)/b:$(scm-mtn_escape "$(scm_get_var BRANCH)")") ]]; then
+            echo "revision $(scm_get_var REVISION) is not part of branch $(scm_get_var BRANCH) of ${dir}"
+            return 1
+        else
+            return 2
+        fi
+    fi
+
+    local origin=$(scm-mtn_get_var database default-server)
+    [[ -n ${origin} ]] || die "could not determine origin server for ${dir}"
+    if [[ ${origin} != $(scm_get_var REPOSITORY) ]]; then
+        echo "${dir} is a clone of ${origin}, but wanted $(scm_get_var REPOSITORY)"
+        return 1
+    fi
+
+    if [[ -n $(scm_get_var TAG) ]]; then
+        local sel=t:$(scm-mtn_escape "$(scm_get_var TAG)")
+        [[ -n $(scm_get_var BRANCH) ]] && sel=${sel}/b:"$(scm-mtn_escape "$(scm_get_var BRANCH)")"
+        local revs=( $(scm-mtn_mtn -q automate select "${sel}") )
+        local onbranch=
+        [[ -n $(scm_get_var BRANCH) ]] && onbranch=" on branch $(scm_get_var BRANCH)"
+        if [[ ${#revs[@]} -eq 0 ]]; then
+            echo "${dir} does not contain the tag $(scm_get_var TAG)${onbranch}"
+            return 1
+        elif [[ ${#revs[@]} -gt 1 ]]; then
+            die "${dir} contains multiple revisions with the tag $(scm_get_var TAG)${onbranch}"
+        else
+            return 2
+        fi
+    fi
+
+    if [[ -n $(scm_get_var BRANCH) ]] && ! scm-mtn_mtn -q automate branches | grep -Fx "$(scm_get_var BRANCH)" >/dev/null; then
+        echo "${dir} does not contain the branch $(scm_get_var BRANCH)"
+        return 1
+    fi
+
+    return 0
+}
+
+scm-mtn_escape() {
+    sed -e 's,[\\*?{}/],\\&,g' <<<"${1}"
+}
+
+scm-mtn_pull() {
+    local branch=$(scm_get_var BRANCH)
+    if [[ -n ${branch} ]]; then
+        scm-mtn_mtn pull --set-default "$(scm_get_var REPOSITORY)" "$(scm-mtn_escape "${branch}")"
+        scm_set_array FETCHED_BRANCHES "${branch}"
+    else
+        scm-mtn_mtn pull --set-default "$(scm_get_var REPOSITORY)" "*"
+    fi
+}
+
+scm-mtn_do_checkout() {
+    mkdir -p "$(scm_get_var CHECKOUT_TO)"
+
+    if [[ -n $(scm_get_var MTN_SEED) ]]; then
+        local dir=$(scm_get_var CHECKOUT_TO)
+        local db=${dir}/${dir##*/}.mtn.partial
+        case $(scm_get_var MTN_SEED) in
+            *.bz2)  download=${download}.bz2  ;;
+            *.gz)   download=${download}.gz   ;;
+            *.lzma) download=${download}.lzma ;;
+        esac
+
+        echo wget "$(scm_get_var MTN_SEED)" -O "${download}"
+        wget "$(scm_get_var MTN_SEED)" -O "${download}" || die "wget failed"
+
+        case ${download} in
+            *.bz2)
+                echo bunzip2 "${download}"
+                bunzip2 "${download}" || die "bunzip2 failed"
+                ;;
+            *.gz)
+                echo gunzip "${download}"
+                gunzip "${download}" || die "gunzip failed"
+                ;;
+            *.lzma)
+                echo unlzma "${download}"
+                unlzma "${download}" || die "unlzma failed"
+                ;;
+        esac
+        echo mv "${download}" "${download%.partial}"
+        mv "${download}" "${download%.partial}" || die "mv failed"
+
+        scm-mtn_do_update
+    else
+        scm-mtn_mtn db init
+        scm-mtn_pull
+    fi
+}
+
+scm-mtn_do_update() {
+    local schema=$(LC_ALL=C scm-mtn_mtn -q db info | sed -n -e 's/^schema version *: *//p')
+    [[ -z ${schema} ]] && die "could not determine mtn database schema version for $(scm_get_var CHECKOUT_TO)"
+    [[ ${schema} == *migrat* ]] && scm-mtn_mtn db migrate
+
+    local old_origin=$(scm-mtn_get_var database default-server)
+    if [[ ${old_origin} != $(scm_get_var REPOSITORY) ]]; then
+        scm-mtn_mtn -q automate branches | while read -r; do
+            scm-mtn_mtn db kill_branch_certs_locally "${REPLY}"
+        done
+        scm-mtn_mtn -q automate tags | {
+            sed -n -e '1{/^ *format_version \+"1" *$/!q1}' \
+                -e '/^ *tag \+/{s/^ *tag \+"\(.*\)"$/\1/;s/\\"/"/g;s/\\\\/\\/g;p}' \
+                || die "could not parse mtn automate tags output"
+        } | while read -r; do
+            scm-mtn_mtn db kill_tag_locally "${REPLY}"
+        done
+    fi
+
+    scm-mtn_pull
+}
+
+scm-mtn_warn_divergence() {
+    if [[ -z $(scm_get_var MTN_WARNED_DIVERGENCE) ]]; then
+        ewarn "branch $(scm_get_var BRANCH) in $(scm_get_var CHECKOUT_TO) has multiple heads, choosing ${1}"
+        scm_set_var MTN_WARNED_DIVERGENCE yes
+    fi
+}
+
+scm-mtn_do_revision() {
+    if [[ -n $(scm_get_var TAG) ]]; then
+        local sel=t:$(scm-mtn_escape "$(scm_get_var TAG)")
+        [[ -n $(scm_get_var BRANCH) ]] && sel=${sel}/b:$(scm-mtn_escape "$(scm_get_var BRANCH)")
+        scm-mtn_mtn -q automate select "${sel}"
+    elif [[ -n $(scm_get_var REVISION) ]]; then
+        scm_get_var REVISION
+    else
+        local heads=( $(scm-mtn_mtn -q automate heads "$(scm_get_var BRANCH)" | LC_ALL=C sort) )
+        [[ ${#heads[@]} -gt 1 ]] && scm-mtn_warn_divergence ${heads[0]}
+        echo ${heads[0]}
+    fi
+}
+
+scm-mtn_do_unpack() {
+    local args=( )
+    [[ -n $(scm_get_var BRANCH) ]] && args=( "${args[@]}" -b "$(scm_get_var BRANCH)" )
+    if [[ -n $(scm_get_var TAG) ]]; then
+        local sel=t:$(scm-mtn_escape "$(scm_get_var TAG)")
+        [[ -n $(scm_get_var BRANCH) ]] && sel=${sel}/b:$(scm-mtn_escape "$(scm_get_var BRANCH)")
+        args=( "${args[@]}" -r "${sel}" )
+    elif [[ -n $(scm_get_var REVISION) ]]; then
+        args=( "${args[@]}" -r i:$(scm_get_var REVISION) )
+    else
+        local heads=( $(scm-mtn_mtn -q automate heads "$(scm_get_var BRANCH)" | LC_ALL=C sort) )
+        if [[ ${#heads[@]} -gt 1 ]]; then
+            scm-mtn_warn_divergence ${heads[0]}
+            args=( "${args[@]}" -r i:${heads[0]} )
+        fi
+    fi
+    scm-mtn_mtn checkout "${args[@]}" "$(scm_get_var UNPACK_TO)"
+}
