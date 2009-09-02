@@ -1,8 +1,6 @@
 # Copyright 2009 David Leverton <dleverton@exherbo.org>
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
-# Based in part upon 'scm-mtn.eclass', which is:
-#     Copyright 2008 David Leverton <dleverton@exherbo.org>
 
 if [[ -z ${SCM_TYPE} ]]; then
     SCM_TYPE=mtn
@@ -19,7 +17,7 @@ scm-mtn_do_dependencies() {
 
     local wget= uncompress=
     if [[ $(scm_get_var MTN_SEED) == https://* ]]; then
-        wget="net-misc/wget$(scm_usedeps ssl)"
+        wget="net-misc/wget[ssl]"
     elif [[ -n $(scm_get_var MTN_SEED) ]]; then
         wget='net-misc/wget'
     fi
@@ -28,7 +26,7 @@ scm-mtn_do_dependencies() {
     elif [[ $(scm_get_var MTN_SEED) == *.gz ]]; then
         uncompress='app-arch/gzip'
     elif [[ $(scm_get_var MTN_SEED) == *.lzma ]]; then
-        uncompress="app-arch/lzma-utils$(scm_usedeps -nocxx)"
+        uncompress="app-arch/lzma-utils[-nocxx]"
     fi
 
     echo "${mtn} ${tunnel} ${wget} ${uncompress}"
@@ -76,7 +74,7 @@ scm-mtn_mtn() {
     if [[ ${1} == -q ]]; then
         shift
         echo=:
-        global=( "${global[@]}" --quiet )
+        global+=( --quiet )
     fi
 
     local cmd=${1}
@@ -164,11 +162,11 @@ scm-mtn_do_checkout() {
 
     if [[ -n $(scm_get_var MTN_SEED) ]]; then
         local dir=$(scm_get_var CHECKOUT_TO)
-        local db=${dir}/${dir##*/}.mtn.partial
+        local download=${dir}/${dir##*/}.mtn.partial
         case $(scm_get_var MTN_SEED) in
-            *.bz2)  download=${download}.bz2  ;;
-            *.gz)   download=${download}.gz   ;;
-            *.lzma) download=${download}.lzma ;;
+            *.bz2)  download+=.bz2  ;;
+            *.gz)   download+=.gz   ;;
+            *.lzma) download+=.lzma ;;
         esac
 
         echo wget "$(scm_get_var MTN_SEED)" -O "${download}"
@@ -199,7 +197,7 @@ scm-mtn_do_checkout() {
 }
 
 scm-mtn_do_update() {
-    local schema=$(LC_ALL=C scm-mtn_mtn -q db info | sed -n -e 's/^schema version *: *//p')
+    local schema=$(scm-mtn_mtn -q db info | sed -n -e 's/^schema version *: *//p')
     [[ -z ${schema} ]] && die "could not determine mtn database schema version for $(scm_get_var CHECKOUT_TO)"
     [[ ${schema} == *migrat* ]] && scm-mtn_mtn db migrate
 
@@ -235,7 +233,7 @@ scm-mtn_do_revision() {
     elif [[ -n $(scm_get_var REVISION) ]]; then
         scm_get_var REVISION
     else
-        local heads=( $(scm-mtn_mtn -q automate heads "$(scm_get_var BRANCH)" | LC_ALL=C sort) )
+        local heads=( $(scm-mtn_mtn -q automate heads "$(scm_get_var BRANCH)" | sort) )
         [[ ${#heads[@]} -gt 1 ]] && scm-mtn_warn_divergence ${heads[0]}
         echo ${heads[0]}
     fi
@@ -243,18 +241,18 @@ scm-mtn_do_revision() {
 
 scm-mtn_do_unpack() {
     local args=( )
-    [[ -n $(scm_get_var BRANCH) ]] && args=( "${args[@]}" -b "$(scm_get_var BRANCH)" )
+    [[ -n $(scm_get_var BRANCH) ]] && args+=( -b "$(scm_get_var BRANCH)" )
     if [[ -n $(scm_get_var TAG) ]]; then
         local sel=t:$(scm-mtn_escape "$(scm_get_var TAG)")
         [[ -n $(scm_get_var BRANCH) ]] && sel=${sel}/b:$(scm-mtn_escape "$(scm_get_var BRANCH)")
-        args=( "${args[@]}" -r "${sel}" )
+        args+=( -r "${sel}" )
     elif [[ -n $(scm_get_var REVISION) ]]; then
-        args=( "${args[@]}" -r i:$(scm_get_var REVISION) )
+        args+=( -r i:$(scm_get_var REVISION) )
     else
-        local heads=( $(scm-mtn_mtn -q automate heads "$(scm_get_var BRANCH)" | LC_ALL=C sort) )
+        local heads=( $(scm-mtn_mtn -q automate heads "$(scm_get_var BRANCH)" | sort) )
         if [[ ${#heads[@]} -gt 1 ]]; then
             scm-mtn_warn_divergence ${heads[0]}
-            args=( "${args[@]}" -r i:${heads[0]} )
+            args+=( -r i:${heads[0]} )
         fi
     fi
     scm-mtn_mtn checkout "${args[@]}" "$(scm_get_var UNPACK_TO)"
