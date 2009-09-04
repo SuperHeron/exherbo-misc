@@ -15,16 +15,17 @@ scm-mtn_do_dependencies() {
         tunnel='net-misc/openssh'
     fi
 
-    local wget='net-misc/wget' uncompress=
-
-    if [[ $(scm_get_var MTN_SEED) == *.bz2 ]]; then
-        uncompress='app-arch/bzip2'
-    elif [[ $(scm_get_var MTN_SEED) == *.gz ]]; then
-        uncompress='app-arch/gzip'
-    elif [[ $(scm_get_var MTN_SEED) == *.lzma ]]; then
-        uncompress='app-arch/xz'
+    local wget= uncompress=
+    if [[ -n $(scm_get_var MTN_SEED) ]]; then
+        wget='net-misc/wget'
+        if [[ $(scm_get_var MTN_SEED) == *.bz2 ]]; then
+            uncompress='app-arch/bzip2'
+        elif [[ $(scm_get_var MTN_SEED) == *.gz ]]; then
+            uncompress='app-arch/gzip'
+        elif [[ $(scm_get_var MTN_SEED) == *.lzma || $(scm_get_var MTN_SEED) == *.xz ]]; then
+            uncompress='app-arch/xz'
+        fi
     fi
-
     echo "${mtn} ${tunnel} ${wget} ${uncompress}"
 }
 
@@ -55,7 +56,7 @@ scm-mtn_do_check_vars() {
         && die "$(scm_var_name MTN_SEED) must be a http://, https:// or ftp:// URI"
 
     local repo=$(scm_get_var REPOSITORY)
-    if [[ ${repo} == file:// ]]; then
+    if [[ ${repo} == file://* ]]; then
         scm_set_var REPOSITORY file://"$(scm_trim_slashes -trailing "${repo#file://}")"
     elif [[ ${repo} == ssh://* || ${repo} == ssh+ux://* ]]; then
         scm_modify_var REPOSITORY scm_trim_slashes -scheme -trailing
@@ -154,6 +155,7 @@ scm-mtn_pull() {
 }
 
 scm-mtn_do_checkout() {
+    echo "mkdir -p $(scm_get_var CHECKOUT_TO)"
     mkdir -p "$(scm_get_var CHECKOUT_TO)"
 
     if [[ -n $(scm_get_var MTN_SEED) ]]; then
@@ -163,6 +165,7 @@ scm-mtn_do_checkout() {
             *.bz2)  download+=.bz2  ;;
             *.gz)   download+=.gz   ;;
             *.lzma) download+=.lzma ;;
+            *.xz)   download+=.xz   ;;
         esac
 
         echo wget "$(scm_get_var MTN_SEED)" -O "${download}"
@@ -170,16 +173,24 @@ scm-mtn_do_checkout() {
 
         case ${download} in
             *.bz2)
-                echo bunzip2 "${download}"
+                echo "bunzip2 ${download}"
                 bunzip2 "${download}" || die "bunzip2 failed"
+                download="${download%.bz2}"
                 ;;
             *.gz)
-                echo gunzip "${download}"
+                echo "gunzip ${download}"
                 gunzip "${download}" || die "gunzip failed"
+                download="${download%.gzip}"
                 ;;
             *.lzma)
-                echo unlzma "${download}"
+                echo "unlzma ${download}"
                 unlzma "${download}" || die "unlzma failed"
+                download="${download%.lzma}"
+                ;;
+            *.xz)
+                echo "unxz ${download}"
+                unxz "${download}" || die "unxz failed"
+                download="${download%.xz}"
                 ;;
         esac
         echo mv "${download}" "${download%.partial}"
