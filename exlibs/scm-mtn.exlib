@@ -1,4 +1,4 @@
-# Copyright 2009 David Leverton <dleverton@exherbo.org>
+# Copyright 2008-2009 David Leverton <dleverton@exherbo.org>
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
@@ -15,18 +15,14 @@ scm-mtn_do_dependencies() {
         tunnel='net-misc/openssh'
     fi
 
-    local wget= uncompress=
-    if [[ $(scm_get_var MTN_SEED) == https://* ]]; then
-        wget="net-misc/wget[ssl]"
-    elif [[ -n $(scm_get_var MTN_SEED) ]]; then
-        wget='net-misc/wget'
-    fi
+    local wget='net-misc/wget' uncompress=
+
     if [[ $(scm_get_var MTN_SEED) == *.bz2 ]]; then
         uncompress='app-arch/bzip2'
     elif [[ $(scm_get_var MTN_SEED) == *.gz ]]; then
         uncompress='app-arch/gzip'
     elif [[ $(scm_get_var MTN_SEED) == *.lzma ]]; then
-        uncompress="app-arch/lzma-utils[-nocxx]"
+        uncompress='app-arch/xz'
     fi
 
     echo "${mtn} ${tunnel} ${wget} ${uncompress}"
