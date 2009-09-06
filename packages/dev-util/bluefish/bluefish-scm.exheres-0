@@ -1,0 +1,66 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SCM_REPOSITORY="https://bluefish.svn.sourceforge.net/svnroot/bluefish"
+SCM_SUBPATH="${PN}"
+
+require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.8 ] ] freedesktop-desktop freedesktop-mime
+
+SUMMARY="Bluefish GTK+ web editor"
+DESCRIPTION="
+Bluefish is a powerful editor targeted towards programmers and webdesigners,
+with many options to write websites, scripts and programming code. Bluefish
+supports many programming and markup languages, and it focuses on editing
+dynamic and interactive websites.
+"
+HOMEPAGE="http://bluefish.openoffice.nl"
+DOWNLOADS=""
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="python spell"
+
+DEPENDENCIES="
+    build:
+        dev-util/intltool
+        sys-devel/gettext
+    build+run:
+        dev-libs/libxml2
+        dev-libs/pcre
+        x11-libs/gtk+:2[>=2.12]
+        x11-libs/pango
+        python? ( dev-lang/python:= )
+        spell? ( app-spell/enchant )
+"
+# Add gnome-extra/gucharmap as post-suggested
+
+REMOTE_IDS="sourceforge:${PN}"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=( '--disable-update-databases' )
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'python'
+    'spell spell-check'
+)
+
+src_prepare() {
+    # Run shipped autogen.sh instead of autotools_src_prepare
+    ./autogen.sh
+}
+
+src_install() {
+    default
+    dosym ${PN}-unstable /usr/bin/${PN}
+}
+
+# Update desktop and MIME databases at the same time
+pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+    freedesktop-mime_pkg_postinst
+}
+
+pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+    freedesktop-mime_pkg_postrm
+}
+
