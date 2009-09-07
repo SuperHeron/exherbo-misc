@@ -33,7 +33,7 @@ DEPENDENCIES="
     run:
         pcsc_drivers:acr38u? ( app-crypt/acr38u[>=1.8.0] )
         pcsc_drivers:ccid? ( app-crypt/ccid )
-        sys-libs/pcsc-lite[>=1.4.4]
+        sys-apps/pcsc-lite[>=1.4.4]
 "
 
 BUGS_TO=""

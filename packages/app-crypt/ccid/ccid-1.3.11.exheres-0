@@ -15,8 +15,8 @@ MYOPTIONS="serial usb"
 
 DEPENDENCIES="
     build+run:
+        sys-apps/pcsc-lite
         sys-fs/udev
-        sys-libs/pcsc-lite
         usb? ( dev-libs/libusb:0.1 )
 "
 

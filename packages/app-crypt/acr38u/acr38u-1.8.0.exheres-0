@@ -19,7 +19,7 @@ DEPENDENCIES="
     build:
         app-arch/rpm2targz
     run:
-        sys-libs/pcsc-lite
+        sys-apps/pcsc-lite
 "
 
 BUGS_TO=""

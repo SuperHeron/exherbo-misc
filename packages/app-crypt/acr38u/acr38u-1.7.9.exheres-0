@@ -17,7 +17,7 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
-        sys-libs/pcsc-lite
+        sys-apps/pcsc-lite
 "
 
 BUGS_TO=""
