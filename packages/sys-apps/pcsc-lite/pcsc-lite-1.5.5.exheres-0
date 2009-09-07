@@ -41,9 +41,9 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'hal'
+    'hal libhal'
     'static'
-    'usb'
+    'usb libusb'
 )
 
 src_install() {
