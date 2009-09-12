@@ -1,0 +1,47 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="A system to store and display time-series data"
+DESCRIPTION="
+RRDtool is the OpenSource industry standard, high performance
+data logging and graphing system for time series data.
+Use it to write your custom monitoring shell scripts or create
+whole applications using its Perl, Python, Ruby, TCL or PHP bindings.
+"
+HOMEPAGE="http://oss.oetiker.ch/rrdtool/"
+DOWNLOADS="http://oss.oetiker.ch/rrdtool/pub/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="cgi perl python ruby tcl"
+
+DEPENDENCIES="
+    build+run:
+        dev-libs/libxml2[>=2.6.31]
+        dev-util/intltool[>=0.35.0]
+        sys-apps/groff
+        sys-devel/gettext
+        x11-libs/cairo[>=1.4.6][pdf][svg]
+        x11-libs/pango[>=1.17]
+        perl? ( dev-lang/perl:=[>=5.8.1] )
+        python? ( dev-lang/python:=[>=2.3] )
+        ruby? ( dev-lang/ruby:= )
+        tcl? ( dev-lang/tcl:=[>=8.3] )
+"
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'cgi rrdcgi'
+    'perl'
+    'perl perl-site-install'
+    'python'
+    'ruby'
+    'ruby ruby-site-install'
+    'tcl'
+)
+
+src_install() {
+    default
+    find "${IMAGE}/usr/share/locale" -type d -empty -delete || die "Couldn't remove empty directories in ${IMAGE}/usr/share/locale"
+}
+
