@@ -1,0 +1,46 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="MJPEG tools"
+DESCRIPTION="
+The mjpeg programs are a set of tools that can do recording of
+videos and playback, simple cut-and-paste editing and the MPEG
+compression of audio and video under Linux. 
+"
+HOMEPAGE="http://mjpeg.sourceforge.net"
+DOWNLOADS="mirror://sourceforge/mjpeg/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="dv png quicktime"
+
+DEPENDENCIES="
+    build:
+        sys-kernel/linux-headers
+    build+run:
+        media-libs/jpeg[>=6b]
+        media-libs/SDL[>=1.1.3]
+        media-libs/SDL_gfx
+        x11-libs/gtk+:2[>=2.4.0]
+        x11-libs/libXxf86dga
+        dv? ( media-libs/libdv[>=0.9] )
+        png? ( media-libs/libpng )
+        quicktime? ( media-libs/libquicktime[>0.9.7] )
+"
+
+REMOTE_IDS="sourceforge:mjpeg"
+
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
+    'dv libdv'
+    'png libpng'
+    'quicktime libquicktime'
+)
+
+src_prepare() {
+    # Strip ARCHCFLAGS to avoid silly warnings
+    sed -i -e '/ARCHFLAGS=/s:=.*:=:' configure
+    # Glibc 2.10 compatibility
+    expatch "${FILES}/${PNV}-glibc-2.10.patch"
+}
+
