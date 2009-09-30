@@ -1,0 +1,33 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require gnome-2
+
+SUMMARY="Gnome Netstatus Applet"
+DESCRIPTION="
+An applet which provides information about a network interface on GNOME panel.
+"
+HOMEPAGE="http://www.gnome.org"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        dev-lang/perl[>=5]
+        dev-util/intltool[>=0.35.0]
+        gnome-desktop/gnome-panel[>=2.0.0]
+        gnome-platform/GConf:2
+        sys-devel/gettext
+        x11-libs/gtk+:2[>=2.16.0]
+"
+
+DEFAULT_SRC_PREPARE_PATCHES=( -p1 ${FILES}/${PNV}-list-interfaces.patch )
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--disable-deprecations'
+)
+
