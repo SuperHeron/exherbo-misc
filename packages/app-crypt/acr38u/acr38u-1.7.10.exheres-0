@@ -7,8 +7,9 @@ SUMMARY="ACR38U card reader driver"
 DESCRIPTION="Card reader support for Belgian Electronic Identity Card Runtime supplied by the Belgian Federal Government."
 HOMEPAGE="http://www.acs.com.hk/acr38-drivers-manual.php"
 
-DL_FILENAME="ACR38_LINUX_$(ever range 1)00$(ever range 2)0$(ever range 3)_P"
-DOWNLOADS="http://www.acs.com.hk/download/${DL_FILENAME}.tar.gz"
+OLD_DL_FILENAME="ACR38_LINUX_$(ever range 1)00$(ever delete_all $(ever range 2-3))_P"
+DL_FILENAME="ACR38U_driver_Lnx_$(ever delete_all)_P"
+DOWNLOADS="http://www.acs.com.hk/drivers/eng/${DL_FILENAME}.tar.gz"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
@@ -22,7 +23,7 @@ DEPENDENCIES="
 
 BUGS_TO=""
 
-WORK="${WORKBASE}/${DL_FILENAME}"
+WORK="${WORKBASE}/${OLD_DL_FILENAME}"
 
 USBDROPDIR=`pkg-config libpcsclite --variable=usbdropdir`
 
