@@ -38,6 +38,8 @@ DEPENDENCIES="
         xml? ( dev-libs/expat )
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=( -p4 "${FILES}/${PNV}-glib-gsocket.patch" )
+
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--enable-compat26'
     '--enable-controls'
