@@ -1,0 +1,14 @@
+Source: Pierre Lejeune <superheron@gmail.com>
+Upstream: no
+Reason: Fix Ocaml 3.11.1+ detection
+--- config/configure.orig	2009-02-24 21:47:56.000000000 +0000
++++ config/configure	2009-10-03 18:47:17.446388603 +0000
+@@ -4580,7 +4580,7 @@
+ else
+   OCAMLVERSION=`$OCAMLC -v | sed -n -e 's|.*version* *\(.*\)$|\1|p' `
+   case "$OCAMLVERSION" in
+-    "$REQUIRED_OCAML"*|3.11.0*|3.10.*|3.09.*|3.08.4*|3.08.3*) ;;
++    "$REQUIRED_OCAML"*|3.11.*|3.10.*|3.09.*|3.08.4*|3.08.3*) ;;
+     *)
+         echo "Need build"
+         BUILD_OCAML=yes
