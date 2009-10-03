@@ -1,3 +1,4 @@
-SUBOPTIONS="FPRINT_DRIVERS PCSC_DRIVERS"
+SUBOPTIONS="FPRINT_DRIVERS P2P_NETWORKS PCSC_DRIVERS"
 FPRINT_DRIVERS="upekts upektc upeksonly vcom5s uru4000 fdu2000 aes1610 aes2501 aes4000"
+P2P_NETWORKS="bittorrent directconnect donkey donkeysui fasttrack filetp gnutella gnutella2"
 PCSC_DRIVERS="acr38u ccid"
