@@ -1,0 +1,28 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require gnome-2
+
+SUMMARY="Alacarte - GNOME menu editor"
+DESCRIPTION="
+Alacarte is a menu editor for GNOME using the freedesktop.org menu
+specification.
+"
+HOMEPAGE="http://www.gnome.org"
+
+LICENCES="LGPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        dev-lang/python:=[>=2.4&<3]
+        gnome-bindings/pygobject:2[>=2.15.1]
+        gnome-bindings/pygtk:2[>=2.13.0]
+        gnome-desktop/gnome-menus[>=2.27.92][python]
+"
+
+BUGS_TO="http://bugzilla.gnome.org/enter_bug.cgi?product=alacarte"
+
