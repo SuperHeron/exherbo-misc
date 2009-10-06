@@ -22,7 +22,7 @@ DEPENDENCIES="
         gnome-desktop/gnome-settings-daemon[>=2.24.0]
         x11-libs/gtk+:2[>=2.14.0]
         x11-libs/libXi[>=1.2.0]
-        !x11-apps/synaptics
+        !x11-apps/gsynaptics
 "
 
 BUGS_TO="http://bugzilla.gnome.org/enter_bug.cgi?product=GPointingDeviceSetting$"
