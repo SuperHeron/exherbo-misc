@@ -1,0 +1,55 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="very secure FTP daemon"
+DESCRIPTION="
+vsftpd is a GPL licensed FTP server for UNIX systems, including Linux. It is secure and extremely fast. It is stable.
+"
+HOMEPAGE="http://vsftpd.beasts.org"
+DOWNLOADS="ftp://vsftpd.beasts.org/users/cevans/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="pam ssl tcp-wrappers xinetd"
+
+DEPENDENCIES="
+    build:
+    build+run:
+        group/ftp
+        sys-libs/libcap
+        user/ftp
+        pam? ( sys-libs/pam )
+        ssl? ( dev-libs/openssl )
+        tcp-wrappers? ( sys-apps/tcp-wrappers )
+    run:
+        xinetd? ( sys-apps/xinetd )
+"
+
+DEFAULT_SRC_PREPARE_PATCHES=( ${FILES}/${PNV}-Makefile-destdir.patch )
+
+src_configure() {
+    cd ${WORK}
+    ebegin 'Settings build options'
+    optionq pam || sed -i -e 's/#define VSF_BUILD_PAM/#undef VSF_BUILD_PAM/' builddefs.h || die 'sed for option pam failed'
+    optionq tcp-wrappers && sed -i -e 's/#undef VSF_BUILD_TCPWRAPPERS/#define VSF_BUILD_TCPWRAPPERS/' builddefs.h || die 'sed for option tcp-wrappers failed'
+    optionq ssl && sed -i -e 's/#undef VSF_BUILD_SSL/#define VSF_BUILD_SSL/' builddefs.h || die 'sed for option ssl failed'
+    eend $?
+}
+
+src_install() {
+    cd ${WORK}
+    mkdir -p "${IMAGE}/usr/sbin"
+    mkdir -p ${IMAGE}/usr/share/man/man{5,8}
+    if optionq xinetd; then
+        mkdir -p /etc/xinetd.d
+        sed -i -e 's|/usr/local/sbin/vsftpd|/usr/sbin/vsftpd/' xinetd.d/vsftpd || die 'sed failed'
+    fi
+    default
+    insinto /etc
+    doins vsftpd.conf
+    newinitd "${FILES}/${PNV}-initd" "${PN}"
+    newconfd "${FILES}/${PNV}-confd" "${PN}"
+    keepdir '/usr/share/empty'
+}
+
