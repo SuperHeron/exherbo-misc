@@ -41,6 +41,7 @@ DEPENDENCIES="
 DEFAULT_SRC_PREPARE_PATCHES=( -p4 "${FILES}/${PNV}-glib-gsocket.patch" )
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--disable-joystick'
     '--enable-compat26'
     '--enable-controls'
     '--enable-gui'
@@ -52,6 +53,7 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--with-libxpm=sys'
     '--with-regex=builtin'
     '--with-zlib=sys'
+    '--hates=docdir'
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
