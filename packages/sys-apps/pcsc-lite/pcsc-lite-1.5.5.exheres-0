@@ -36,7 +36,6 @@ BUGS_TO=""
 WORK="${WORKBASE}/${MY_PNV}"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    "--docdir=/usr/share/doc/${PNVR}"
     "--enable-usbdropdir=/usr/$(get_libdir)/readers/usb"
 )
 

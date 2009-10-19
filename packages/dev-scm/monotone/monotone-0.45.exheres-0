@@ -39,7 +39,6 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    "--docdir=/usr/share/doc/${PNV}"
     "--htmldir=/usr/share/doc/${PNV}"
 )
 
