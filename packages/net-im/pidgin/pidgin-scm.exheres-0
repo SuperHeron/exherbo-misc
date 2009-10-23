@@ -141,7 +141,7 @@ UPSTREAM_DOCUMENTATION="
 "
 
 src_prepare() {
-    echo "intltoolize --force --copy" && intltoolize --force --copy || die "intltoolize --force --copy failed"
+    edo intltoolize --force --copy
     autotools_src_prepare
 }
 

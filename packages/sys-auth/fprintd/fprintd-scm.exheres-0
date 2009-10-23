@@ -37,7 +37,7 @@ DEFAULT_SRC_CONFIGURE_PARAMS=( '--disable-pam' )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc gtk-doc' )
 
 src_prepare() {
-    echo "gtkdocize --copy" && gtkdocize --copy || die "gtkdocize --copy failed"
-    echo "intltoolize --force --copy" && intltoolize --force --copy || die "intltoolize --force --copy failed"
+    edo gtkdocize --copy
+    edo intltoolize --force --copy
     autotools_src_prepare
 }

@@ -155,8 +155,7 @@ scm-mtn_pull() {
 }
 
 scm-mtn_do_checkout() {
-    echo "mkdir -p $(scm_get_var CHECKOUT_TO)"
-    mkdir -p "$(scm_get_var CHECKOUT_TO)"
+    edo mkdir -p "$(scm_get_var CHECKOUT_TO)"
 
     if [[ -n $(scm_get_var MTN_SEED) ]]; then
         local dir=$(scm_get_var CHECKOUT_TO)
@@ -168,33 +167,27 @@ scm-mtn_do_checkout() {
             *.xz)   download+=.xz   ;;
         esac
 
-        echo wget "$(scm_get_var MTN_SEED)" -O "${download}"
-        wget "$(scm_get_var MTN_SEED)" -O "${download}" || die "wget failed"
+        edo wget "$(scm_get_var MTN_SEED)" -O "${download}"
 
         case ${download} in
             *.bz2)
-                echo "bunzip2 ${download}"
-                bunzip2 "${download}" || die "bunzip2 failed"
+                edo bunzip2 "${download}"
                 download="${download%.bz2}"
                 ;;
             *.gz)
-                echo "gunzip ${download}"
-                gunzip "${download}" || die "gunzip failed"
+                edo gunzip "${download}"
                 download="${download%.gzip}"
                 ;;
             *.lzma)
-                echo "unlzma ${download}"
-                unlzma "${download}" || die "unlzma failed"
+                edo unlzma "${download}"
                 download="${download%.lzma}"
                 ;;
             *.xz)
-                echo "unxz ${download}"
-                unxz "${download}" || die "unxz failed"
+                edo unxz "${download}"
                 download="${download%.xz}"
                 ;;
         esac
-        echo mv "${download}" "${download%.partial}"
-        mv "${download}" "${download%.partial}" || die "mv failed"
+        edo mv "${download}" "${download%.partial}"
 
         scm-mtn_do_update
     else
