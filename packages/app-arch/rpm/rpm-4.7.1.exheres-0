@@ -36,8 +36,8 @@ DEPENDENCIES="
 
 src_configure() {
     econf --with-external-db --without-lua \
-        CPPFLAGS="$(pkg-config --cflags-only-I nspr nss)" \
-        LDFLAGS="$(pkg-config --libs-only-L nss)" \
+        CPPFLAGS="$(pkg-config --cflags-only-I nspr nss) ${CPPFLAGS}" \
+        LDFLAGS="$(pkg-config --libs-only-L nss) ${LDFLAGS}" \
         LIBS="$(pkg-config --libs-only-l nss)" || die "configure failed"
 }
 
