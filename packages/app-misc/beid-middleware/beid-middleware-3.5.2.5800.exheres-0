@@ -47,15 +47,13 @@ DEFAULT_SRC_PREPARE_PATCHES=(
 src_prepare()
 {
     default
-    ebegin "Making configure script executable"
-    chmod +x configure
-    eend $?
+    edo chmod +x configure || die "edo failed. old paludis?"
     if optionq !linguas:en; then
         for lang in ${LANGS}; do
             if optionq linguas:${lang}; then
                 ebegin "Patching configuration file for default language"
-                cd "${WORK}/install"
-                sed -i "s/\=en/\=${lang}/" beid.conf.3.5
+                edo cd "${WORK}/install"
+                edo sed -i "s/\=en/\=${lang}/" beid.conf.3.5
                 eend $?
             fi
         done
@@ -64,29 +62,32 @@ src_prepare()
 
 src_configure() {
     # Not a GNU configure
-    ./configure --lib=-L/usr/$(get_libdir) --lib+=-L/usr/$(get_libdir)/qt4 --prefix=${IMAGE}/usr || die "configure failed"
+    edo ./configure \
+        --lib=-L/usr/$(get_libdir) \
+        --lib+=-L/usr/$(get_libdir)/qt4 \
+        --prefix=${IMAGE}/usr
 }
 
 src_install() {
-    cd "${WORK}/lib"
-    dolib libbeidapplayer.so*
-    dolib libbeidcardlayer.so*
-    dolib libbeidcommon.so*
-    dolib libbeidpkcs11.so*
-    dolib libbeiddialogsQT.so*
-    dolib libbeidlib.so*
-    dolib libbeidlibJava_Wrapper.so*
+    edo cd "${WORK}/lib"
+    dolib libbeidapplayer.so* \
+          libbeidcardlayer.so* \
+          libbeidcommon.so* \
+          libbeidpkcs11.so* \
+          libbeiddialogsQT.so* \
+          libbeidlib.so* \
+          libbeidlibJava_Wrapper.so*
     insinto "/usr/$(get_libdir)/siscardplugins"
     doins libsiscardplugin1__ACS__.so*
-    cd "${WORK}/bin"
+    edo cd "${WORK}/bin"
     into /usr
-    dobin beidgui
-    dobin beiddialogsQTsrv
-    dobin eidmw_de.qm
-    dobin eidmw_en.qm
-    dobin eidmw_fr.qm
-    dobin eidmw_nl.qm
-    cd "${WORK}/install"
+    dobin beidgui \
+          beiddialogsQTsrv \
+          eidmw_de.qm \
+          eidmw_en.qm \
+          eidmw_fr.qm \
+          eidmw_nl.qm
+    edo cd "${WORK}/install"
     insinto /usr/share/pixmaps
     doins eid35.png
     insinto /usr/share/applications
@@ -98,11 +99,11 @@ src_install() {
 }
 
 pkg_postinst() {
-    einfo "Firefox XPI add-on for registering PKCS#11 library does not yet belong to this package."
-    einfo "XPI file is available at : http://eid-mw.googlecode.com/files/belgiumeid-1.0.6.xpi"
-    einfo "To know how to use your software with beID, visit :"
-    einfo "  * French : http://eid.belgium.be/fr/Informations_legales_et_techniques/Mises_a_jour_des_logiciels/index.jsp"
-    einfo "  * Dutch : http://eid.belgium.be/nl/Achtergrondinfo/Handleidingen_voor_softwareupdates/index.jsp"
-    einfo "Make sure pcscd daemon is running before using your eID card reader."
+    elog "Firefox XPI add-on for registering PKCS#11 library does not yet belong to this package."
+    elog "XPI file is available at : http://eid-mw.googlecode.com/files/belgiumeid-1.0.6.xpi"
+    elog "To know how to use your software with beID, visit :"
+    elog "  * French : http://eid.belgium.be/fr/Informations_legales_et_techniques/Mises_a_jour_des_logiciels/index.jsp"
+    elog "  * Dutch : http://eid.belgium.be/nl/Achtergrondinfo/Handleidingen_voor_softwareupdates/index.jsp"
+    elog "Make sure pcscd daemon is running before using your eID card reader."
 }
 
