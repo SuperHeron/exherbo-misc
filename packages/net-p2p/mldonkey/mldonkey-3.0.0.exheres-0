@@ -12,8 +12,16 @@ LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 MY_P2P_NETWORKS="bittorrent directconnect donkey donkeysui fasttrack filetp gnutella gnutella2"
-MYOPTIONS="bzip2 doc gd gui magic threads p2p_networks: ${MY_P2P_NETWORKS}"
+MYOPTIONS="bzip2 doc gd gui magic threads
 
+    magic [[ description = [ Enable use of libmagic ] ]]
+
+    p2p_networks: ${MY_P2P_NETWORKS}
+
+    fasttrack [[ description = [ Enable fasttrack support ] ]]
+    gnutella  [[ description = [ Enable gnutella support ] ]]
+    gnutella2 [[ description = [ Enable gnutella2 support ] ]]
+"
 DEPENDENCIES="
     build:
     build+run:
