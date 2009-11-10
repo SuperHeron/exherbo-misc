@@ -1,3 +1,6 @@
+Source: written by Pierre Lejeune <superheron@gmail.com>
+Upstream: submitted, see issue 7
+Reason: fix compilation issues with xerces-c-3 and swig
 --- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/eidlibJava_Wrapper/GeneratedFiles/eidlibJava_Wrapper.cpp	2009-06-17 16:11:08.000000000 +0200
 +++ beid-middleware-3.5.2-source-5800/_src/eidmw/eidlibJava_Wrapper/GeneratedFiles/eidlibJava_Wrapper.cpp	2009-10-29 20:07:57.080026982 +0100
 @@ -3743,7 +3743,7 @@

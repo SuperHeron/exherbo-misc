@@ -1,3 +1,6 @@
+Source: written by Pierre Lejeune <superheron@gmail.com>
+Upstream: submitted, see issue 7
+Reason: fix missing c standard library headers
 --- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/common/LogBase.h	2009-06-17 16:11:04.000000000 +0200
 +++ beid-middleware-3.5.2-source-5800/_src/eidmw/common/LogBase.h	2009-10-28 21:36:59.681022867 +0100
 @@ -73,6 +73,7 @@
