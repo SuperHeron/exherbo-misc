@@ -23,6 +23,7 @@ src_prepare() {
     if optionq platform:amd64; then
         expatch -p1 "${FILES}/${PNV}-disable-elksemu.patch"
     fi
+    expatch -p0 "${FILES}/${PNV}-no-strip.patch"
 }
 
 src_install() {

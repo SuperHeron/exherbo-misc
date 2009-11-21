@@ -1,0 +1,36 @@
+Source: written by Pierre Lejeune <superheron@gmail.com>
+Upstream: no
+Reason: disable stripping during install phase
+--- makefile.in.orig	2009-11-21 22:59:51.335364087 +0100
++++ makefile.in	2009-11-21 23:05:53.756386996 +0100
+@@ -78,7 +78,7 @@
+ 
+ # Install files with the userid of the currently running process.
+ INDAT=-m 644
+-INEXE=-m 755 -s
++INEXE=-m 755
+ INSCR=-m 755
+ 
+ #ifdef __CYGWIN__
+--- dis88/Makefile.orig	1998-07-31 15:01:40.000000000 +0200
++++ dis88/Makefile	2009-11-21 23:12:17.675416050 +0100
+@@ -37,7 +37,7 @@
+ 	$(CC) $(LDFLAGS) -o dis88 $(OBJ)
+ 
+ install:	dis88
+-	install -m 755 -s dis88   $(DIST)$(PREFIX)/bin/dis86
++	install -m 755    dis88   $(DIST)$(PREFIX)/bin/dis86
+ 	install -m 644    dis88.1 $(DIST)$(PREFIX)/man/man1/dis86.1
+ 
+ $(OBJ): dis.h a.out.h
+--- bootblocks/Makefile.orig	2004-01-24 11:55:38.000000000 +0100
++++ bootblocks/Makefile	2009-11-21 23:15:47.909365414 +0100
+@@ -38,7 +38,7 @@
+ EXTRAS=minix.h zimage.s minix_elks.c lsys.c boot_win.c
+ 
+ install: makeboot
+-	install -m 755 -s makeboot $(DIST)$(PREFIX)/bin/makeboot
++	install -m 755    makeboot $(DIST)$(PREFIX)/bin/makeboot
+ 
+ monitor.com: $(MOBJ)
+ 	$(CC) $(CFLAGS) $(LDFLAGS) $(MONDEFS) -d $(MOBJ) -o monitor.com -M > monitor.sym
