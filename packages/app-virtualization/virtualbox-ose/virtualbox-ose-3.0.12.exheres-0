@@ -5,7 +5,7 @@ SUMMARY="A family of powerful x86 virtualization products"
 DESCRIPTION="VirtualBox is a powerful x86 virtualization product for enterprise as well as home use. Not only is VirtualBox an extremely feature rich, high performance product for enterprise customers, it is also the only professional solution that is freely available as Open Source Software under the terms of the GNU General Public License (GPL)."
 HOMEPAGE="http://www.virtualbox.org"
 MY_PNV="VirtualBox-${PV}-OSE"
-DOWNLOADS="http://download.virtualbox.org/${PN}/${PV}/${MY_PNV}.tar.bz2"
+DOWNLOADS="http://download.virtualbox.org/${PN%-ose}/${PV}/${MY_PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -24,6 +24,7 @@ DEPENDENCIES="
         dev-libs/libxml2[>=2.6.26]
         dev-libs/libxslt[>=1.1.17]
         dev-libs/openssl[>=0.9.7]
+        group/vboxusers
         media-libs/libpng[>=1.2.5]
         net-misc/curl[>=7.15.0]
         sys-devel/dev86
@@ -54,7 +55,7 @@ src_configure() {
     local myconf
     if optionq X; then
         optionq opengl || myconf="${myconf} --disable-opengl"
-        optionq truetype || myconf="${myconf} --disable-sdl-ttf)"
+        optionq truetype || myconf="${myconf} --disable-sdl-ttf"
     else
         myconf="${myconf} --build-headless"
     fi
@@ -65,13 +66,13 @@ src_configure() {
     optionq webservice && myconf="${myconf} --enable-webservice"
     optionq wine && myconf="${myconf} --setup-wine"
     # Call configure script directly as it is not a GNU one
-    ./configure --disable-kmods ${myconf} || die "configure failed"
+    edo ./configure --disable-kmods ${myconf}
 }
 
 src_compile() {
-    kBuild/env.sh kmk all || die "kmk all failed"
+    edo kBuild/env.sh kmk -j${EXJOBS} all
 }
 
 src_install() {
-    kBuild/env.sh kmk PATH_ROOT="/usr" PATH_INS="${IMAGE}" install || die "kmk install failed"
+    edo kBuild/env.sh kmk -j1 PATH_INS="${IMAGE}/usr" install
 }
