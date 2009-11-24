@@ -1,6 +1,8 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require multilib
+
 SUMMARY="A family of powerful x86 virtualization products"
 DESCRIPTION="VirtualBox is a powerful x86 virtualization product for enterprise as well as home use. Not only is VirtualBox an extremely feature rich, high performance product for enterprise customers, it is also the only professional solution that is freely available as Open Source Software under the terms of the GNU General Public License (GPL)."
 HOMEPAGE="http://www.virtualbox.org"
@@ -12,12 +14,16 @@ SLOT="0"
 PLATFORMS=""
 MYOPTIONS="X alsa dbus opengl pulseaudio python truetype webservice wine
     webservice [[ description = [ Build VBoxWebSrv ] ]]
-    wine [[ description = [ Build wine support ] ]]"
+    wine [[ description = [ Build wine support ] ]]
+
+    ( opengl truetype ) [[ requires = X ]]
+"
 
 DEPENDENCIES="
     build:
         dev-util/kBuild
     build+run:
+        !app-virtualization/virtualbox-bin
         app-cdr/cdrkit
         dev-lang/yasm[>=0.5.1]
         dev-libs/libIDL
@@ -34,7 +40,7 @@ DEPENDENCIES="
         x11-libs/libXcursor
         X?
         (
-            media-libs/SDL[>=1.2.7]
+            media-libs/SDL[>=1.2.7][X]
             x11-libs/qt:4[>=4.4.3]
             opengl? ( x11-dri/mesa x11-libs/libXmu )
             truetype? ( media-libs/SDL_ttf[>=2.0.6] )
@@ -42,7 +48,7 @@ DEPENDENCIES="
         alsa? ( sys-sound/alsa-lib[>=1.0.6] )
         dbus? ( sys-apps/dbus sys-apps/hal )
         pulseaudio? ( media-sound/pulseaudio[>=0.9.0] )
-        python? ( dev-lang/python:=[>=2.5&<3.0] )
+        python? ( dev-lang/python:=[>=2.5] )
         webservice? ( net-libs/gsoap )
         wine? ( app-emulation/wine )
 "
@@ -52,7 +58,7 @@ BUGS_TO=""
 WORK="${WORKBASE}/${MY_PNV/-OSE/_OSE}"
 
 src_configure() {
-    local myconf
+    local myconf=
     if optionq X; then
         optionq opengl || myconf="${myconf} --disable-opengl"
         optionq truetype || myconf="${myconf} --disable-sdl-ttf"
@@ -70,9 +76,73 @@ src_configure() {
 }
 
 src_compile() {
-    edo kBuild/env.sh kmk -j${EXJOBS} all
+    edo source env.sh
+    edo kmk -j${EXJOBS} all
 }
 
 src_install() {
-    edo kBuild/env.sh kmk -j1 PATH_INS="${IMAGE}/usr" install
+    local installdir= outdir=
+    edo source env.sh
+    installdir="/usr/${LIBDIR}/${PN}"
+    outdir="${WORK}/out/${BUILD_TARGET}.${BUILD_TARGET_ARCH}/release"
+
+    insinto /etc/vbox
+    hereins vbox.cfg <<EOF
+# VirtualBox installation directory
+INSTALL_DIR='${installdir}'
+# VirtualBox version
+INSTALL_VER='${PV}'
+EOF
+
+    insinto /usr/share/applications/
+    doins "${outdir}"/bin/virtualbox.desktop
+
+    insinto /usr/share/pixmaps/
+    doins "${outdir}"/bin/VBox.png
+
+    insinto /usr/share/"${PN}"
+    doins -r "${outdir}"/bin/nls
+
+    # Move kernel modules files
+    insinto /usr/src/${PNV}
+    doins -r "${outdir}"/bin/src/*
+
+    dodir "${installdir}" /usr/bin
+    insinto "${installdir}"
+    doins -r "${outdir}"/bin/components
+
+    edo mv "${outdir}"/bin/{*.so,*.r0,*.gc,VBox.sh,VBoxXPCOMIPCD,VBoxNetAdpCtl,VBoxNetDHCP} "${IMAGE}"/"${installdir}"
+    for links in {VBoxHeadless,VBoxManage,VBoxSDL,VirtualBox};
+    do
+        edo mv "${outdir}"/bin/"${links}" "${IMAGE}"/"${installdir}"
+        dosym "${installdir}"/VBox.sh /usr/bin/"${links}"
+    done
+    mv "${outdir}"/bin/VBoxTunctl "${IMAGE}"/"${installdir}"
+    edo dosym "${installdir}"/VBoxTunctl /usr/bin/VBoxTunctl
+
+    if optionq webservice; then
+        mv "${outdir}"/bin/{vboxwebsrv,VBoxSVC} "${IMAGE}"/"${installdir}"
+        edo dosym "${installdir}"/VBox.sh /usr/bin/{vboxwebsrv,VBoxSVC}
+    fi
+
+    # VirtualBox needs to be setuid
+    fperms 4711 "${installdir}"/{VirtualBox,VBoxHeadless,VBoxNetAdpCtl,VBoxSDL}
+
+    insinto /etc/udev/rules.d
+    hereins 10-vboxdrv.rules <<EOF
+KERNEL=="vboxdrv", NAME="vboxdrv", OWNER="root", GROUP="vboxusers", MODE="0660"
+SUBSYSTEM=="usb_device", GROUP="vboxusers", MODE="0664"
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", GROUP="vboxusers", MODE="0664"
+EOF
 }
+
+pkg_postinst() {
+    ewarn "This exheres does not build the kernel modules for VirtualBox, you will have to do this"
+    ewarn "on your own. The source code has been installed to /usr/src/${PNV}"
+
+    if [[ -f /etc/udev/rules.d/60-virtualbox.rules ]]; then
+        ewarn "Old rules file /etc/udev/rules.d/60-virtualbox.rules found."
+        ewarn "You should remove this file."
+    fi
+}
+
