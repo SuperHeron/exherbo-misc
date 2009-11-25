@@ -1,0 +1,73 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ none ] ]
+
+SUMMARY="FontForge - An Outline Font Editor"
+DESCRIPTION="FontForge -- An outline font editor that lets you create your own postscript, truetype, opentype,
+ cid-keyed, multi-master, cff, svg and bitmap (bdf, FON, NFNT) fonts, or edit existing ones. Also
+ lets you convert one format to another. FontForge has support for many macintosh font formats.
+ FontForge's user interface has been localized for: (English), Russian, Japanese, French, Italian,
+ Spanish, Vietnamese, Greek, Simplified & Traditional Chinese, German, Polish, Ukrainian.
+"
+HOMEPAGE="http://fontforge.sourceforge.net"
+DOWNLOADS="mirror://sourceforge/${PN}/${PN}-source/${PN}_full-${PV}.tar.bz2"
+
+LICENCES="BSD-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="X cairo freetype pango python type3"
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+        sys-devel/gettext
+        sys-devel/libtool
+    build+run:
+        dev-libs/libxml2
+        media-libs/giflib
+        media-libs/jpeg
+        media-libs/libpng[>=1.2]
+        media-libs/libuninameslist
+        media-libs/tiff
+        sys-libs/zlib
+        X? (
+            x11-libs/libX11
+            x11-libs/libXi
+            x11-libs/libxkbui
+        )
+        cairo? (
+            media-libs/fontconfig
+            x11-libs/cairo
+        )
+        freetype? ( media-libs/freetype:2 )
+        pango? (
+            x11-libs/libXft
+            x11-libs/pango[X]
+        )
+        python? ( dev-lang/python:=[>=2.3] )
+"
+
+DEFAULT_SRC_PREPARE_PATCHES=( -p1 "${FILES}/${PNV}-configure.patch" )
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--enable-libff'
+    '--with-regular-link'
+    '--without-native-script'
+)
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
+    'cairo'
+    'pango'
+    'python'
+)
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'freetype'
+    'python pyextension'
+    'type3'
+)
+
+src_prepare() {
+    default
+    eautoconf
+}
+
