@@ -24,7 +24,6 @@ DEPENDENCIES="
         dev-util/kBuild
     build+run:
         !app-virtualization/virtualbox-bin
-        app-cdr/cdrkit
         dev-lang/yasm[>=0.5.1]
         dev-libs/libIDL
         dev-libs/libxml2[>=2.6.26]
@@ -38,6 +37,10 @@ DEPENDENCIES="
         sys-libs/zlib[>=1.2.1]
         sys-power/iasl
         x11-libs/libXcursor
+        || (
+            app-cdr/cdrkit
+            app-cdr/cdrtools
+        )
         X?
         (
             media-libs/SDL[>=1.2.7][X]
