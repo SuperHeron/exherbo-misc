@@ -1,0 +1,75 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SCM_REPOSITORY="git://git.samba.org/samba.git"
+SCM_CHECKOUT_TO="samba-4"
+
+require scm-git
+
+SUMMARY="Samba provides seamless file and print services to SMB/CIFS clients, e. g. Windows"
+DESCRIPTION="
+Samba is a free software implementation of the SMB/CIFS networking protocol that
+can be run on many platforms other than Microsoft Windows. Samba uses the TCP/IP
+protocol that is installed on the host. When correctly configured, it allows
+that host to interact with a Microsoft Windows client or server as if it is a Windows
+file and print server. Additionally, it can act as a PDC, a domain member server
+or as a part of an Active Directory.
+"
+HOMEPAGE="http://www.samba.org"
+DOWNLOADS=""
+
+LICENCES="GPL-3"
+SLOT="4"
+PLATFORMS="~amd64"
+MYOPTIONS="caps gnutls heimdal netapi nss popt sqlite talloc threads"
+
+DEPENDENCIES="
+    build:
+        dev-libs/libxslt
+        sys-devel/autoconf:2.5[>=2.53]
+        sys-devel/bison
+    build+run:
+        dev-lang/python:=[>=2.5]
+        sys-apps/acl
+        sys-apps/attr
+        sys-fs/e2fsprogs
+        sys-libs/pam
+        sys-libs/readline
+        caps? ( sys-libs/libcap )
+        gnutls? ( dev-libs/gnutls )
+        heimdal? ( app-crypt/heimdal )
+        nss? ( dev-libs/nss )
+        popt? ( dev-libs/popt )
+        sqlite? ( dev-db/sqlite:3 )
+        talloc? ( dev-libs/talloc )
+"
+
+WORK="${WORK}/source4"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--disable-dso'
+    '--disable-external-libtdb'
+    '--disable-external-libtevent'
+    '--disable-external-libldb'
+    '--enable-fhs'
+    '--enable-socket-wrapper'
+    '--enable-uid-wrapper'
+)
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
+    '!popt included-popt'
+    'sqlite sqlite3'
+    'threads pthreads'
+)
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'heimdal external-heimdal'
+    'gnutls'
+    'netapi'
+    'nss nss-wrapper'
+    'talloc external-libtalloc'
+)
+
+src_prepare() {
+    default
+    edo ./autogen.sh
+}
+
