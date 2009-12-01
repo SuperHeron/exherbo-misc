@@ -24,6 +24,7 @@ DEPENDENCIES="
         sys-devel/gettext[>=0.14.4]
         x11-libs/cairo[>=1.4.6][pdf(+)][svg(+)]
         x11-libs/pango[>=1.17]
+        lua? ( dev-lang/lua[>=5.1] )
         perl? ( dev-lang/perl:=[>=5.8.1] )
         python? ( dev-lang/python:=[>=2.3] )
         ruby? ( dev-lang/ruby:= )
@@ -32,6 +33,8 @@ DEPENDENCIES="
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'cgi rrdcgi'
+    'lua'
+    'lua lua-site-install'
     'perl'
     'perl perl-site-install'
     'python'
