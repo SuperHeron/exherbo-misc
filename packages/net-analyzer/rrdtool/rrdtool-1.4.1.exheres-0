@@ -14,15 +14,15 @@ DOWNLOADS="http://oss.oetiker.ch/rrdtool/pub/${PNV}.tar.gz"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="cgi perl python ruby tcl"
+MYOPTIONS="cgi lua perl python ruby tcl"
 
 DEPENDENCIES="
     build+run:
         dev-libs/libxml2[>=2.6.31]
         dev-util/intltool[>=0.35.0]
         sys-apps/groff
-        sys-devel/gettext
-        x11-libs/cairo[>=1.4.6][pdf][svg]
+        sys-devel/gettext[>=0.14.4]
+        x11-libs/cairo[>=1.4.6][pdf(+)][svg(+)]
         x11-libs/pango[>=1.17]
         perl? ( dev-lang/perl:=[>=5.8.1] )
         python? ( dev-lang/python:=[>=2.3] )
@@ -39,9 +39,4 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'ruby ruby-site-install'
     'tcl'
 )
-
-src_install() {
-    default
-    find "${IMAGE}/usr/share/locale" -type d -empty -delete || die "Couldn't remove empty directories in ${IMAGE}/usr/share/locale"
-}
 
