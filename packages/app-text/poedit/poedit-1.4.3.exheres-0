@@ -1,0 +1,38 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require freedesktop-desktop
+
+SUMMARY="Cross-platform gettext catalogs (.po files) editor"
+DESCRIPTION="
+Poedit is cross-platform gettext catalogs (.po files) editor. It is built with wxWidgets toolkit and
+can run on any platform supported by it (although it was only tested on Unix with GTK+ and Windows).
+It aims to provide more convenient approach to editing catalogs than launching vi and editing the
+file by hand.
+"
+HOMEPAGE="http://www.poedit.net"
+DOWNLOADS="mirror://sourceforge/${PN}/${PV}/${PNV}.tar.gz"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="berkdb debug spell"
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config[>=0.9.0]
+        sys-apps/gawk
+    build+run:
+        berkdb? ( sys-libs/db:=[>=3.1] )
+        spell? ( app-spell/gtkspell:2 )
+        x11-libs/wxGTK:2.8[>=2.8.0]
+"
+
+REMOTE_IDS="sourceforge:${PN}"
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'berkdb transmem'
+    'debug'
+    'spell spellchecking'
+)
+
