@@ -80,7 +80,7 @@ src_configure() {
 
 src_compile() {
     edo source env.sh
-    edo kmk -j${EXJOBS} all
+    edo kmk -j${EXJOBS:-1} all
 }
 
 src_install() {
