@@ -1,0 +1,143 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'openoffice-bin-3.1.1.ebuild' from Gentoo, which is:
+#     Copyright 1999-2009 Gentoo Foundation
+
+require freedesktop-desktop freedesktop-mime
+
+SUMMARY="OpenOffice.org, a full office productivity suite - Binary version"
+DESCRIPTION="
+* Writer: A word processor
+* Calc: A spreadsheet
+* Impress: A presentation program
+* Base: A database management program. Base allows the creation and
+  manipulation of databases, and the building of forms and reports to provide
+  easy access to data for end-users
+* Draw: A vector graphics editor and diagramming tool
+* Math: A tool for creating and editing mathematical formulae
+"
+HOMEPAGE="http://www.openoffice.org"
+
+OO_PN="${PN%%-bin}"
+OO_PNV="${OO_PN}-${PV}"
+OO_LINGUAS=(
+    cs cy da de dgo dz el en_GB en_US es et fr ga gl gu_IN hi_IN it ja
+    ko ku lt mk nb nl nn pa_IN pl pt_BR pt ru sh sr sv tr vi zh_CN zh_TW
+)
+OO_BUILDID="9420"
+URE_PV="${PV/#3.1/1.5}"
+OO_BASIS="ooobasis$(ever range 1-2)"
+
+DOWNLOADS="
+    platform:x86? ( mirror://${OO_PN}/stable/${PV}/OOo_${PV}_LinuxIntel_install_en-US.tar.gz )
+    platform:amd64? ( mirror://${OO_PN}/stable/${PV}/OOo_${PV}_LinuxX86-64_install_wJRE_en-US.tar.gz )
+"
+
+for lang in ${OO_LINGUAS[@]}; do
+    case ${lang} in
+        en_US) ;;
+        zh_*)
+            lang_lower=$(tr '[:upper:]' '[:lower:]' <<< ${lang//_/-})
+            DOWNLOADS+="
+                linguas:${lang}? (
+                    platform:x86? ( mirror://${OO_PN}/localized/${lang_lower}/${PV}/OOo_${PV}_LinuxIntel_langpack_${lang_lower}.tar.gz )
+                    platform:amd64? ( mirror://${OO_PN}/localized/${lang_lower}/${PV}/OOo_${PV}_LinuxX86-64_langpack_${lang_lower}.tar.gz )
+                )
+            "
+            ;;
+        *)
+            DOWNLOADS+="
+                linguas:${lang}? (
+                    platform:x86? ( mirror://${OO_PN}/localized/${lang//_/-}/${PV}/OOo_${PV}_LinuxIntel_langpack_${lang/_/-}.tar.gz )
+                    platform:amd64? ( mirror://${OO_PN}/localized/${lang//_/-}/${PV}/OOo_${PV}_LinuxX86-64_langpack_${lang/_/-}.tar.gz )
+                )
+            "
+            ;;
+    esac
+done
+
+LICENCES="LGPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    gnome java kde
+    linguas: ${OO_LINGUAS[@]} [[ number-selected = at-least-one ]]
+    platform: amd64 x86
+"
+
+DEPENDENCIES="
+    build:
+        app-arch/rpm2targz
+    build+run:
+       !app-office/openoffice
+    run:
+        java? ( virtual/jre:=[>=1.4] )
+"
+
+rpm_unpack() {
+    echo "rpm2tar -O ${1} | tar -xf - --no-same-owner -C ${WORK}"
+    rpm2tar -O "${1}" | tar -xf - --no-same-owner -C "${WORK}" || die "Unpacking RPM failed"
+}
+
+src_unpack() {
+    if optionq platform:amd64; then
+        OO_ARCH="x86_64"
+    elif optionq platform:x86; then
+        OO_ARCH="i586"
+    fi
+    default
+    echo "Creating ${WORK}"
+    edo mkdir -p "${WORK}"
+    einfo "Unpacking RPM files"
+    edo cd "${WORKBASE}/OOO310_m19_native_packed-2_en-US.${OO_BUILDID}/RPMS"
+    for i in base binfilter calc core01 core02 core03 core04 core05 core06 core07 draw \
+    graphicfilter images impress math ooofonts oooimprovement ooolinguistic pyuno testtool writer xsltfilter; do
+        rpm_unpack "${OO_BASIS}-${i}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
+    done
+    for i in base calc draw impress math writer; do
+        rpm_unpack "${OO_BASIS}-en-US-${i}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
+    done
+    rpm_unpack "openoffice.org$(ever range 1)-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
+    rpm_unpack "openoffice.org-ure-${URE_PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
+    rpm_unpack "desktop-integration/openoffice.org$(ever range 1-2)-freedesktop-menus-$(ever range 1-2)-${OO_BUILDID}.noarch.rpm"
+    optionq gnome && rpm_unpack "${OO_BASIS}-gnome-integration-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
+    optionq kde && rpm_unpack "${OO_BASIS}-kde-integration-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
+    optionq java && rpm_unpack "${OO_BASIS}-javafilter-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
+    einfo "Unpacking language pack RPM files"
+    for lang in ${OO_LINGUAS[@]}; do
+        if optionq linguas:${lang}; then
+            case ${lang} in
+                zh_*)
+                    lang=$(tr '[:upper:]' '[:lower:]' <<< ${lang//_/-})
+                    ;;
+                *)
+                    lang="${lang//_/-}"
+                    ;;
+            esac
+            edo cd "${WORKBASE}/OOO310_m19_native_packed-2_${lang}.${OO_BUILDID}/RPMS"
+            rpm_unpack "${OO_BASIS}-${lang}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
+            rpm_unpack "openoffice.org$(ever range 1)-${lang}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
+            for i in base binfilter calc draw help impress math res writer; do
+                rpm_unpack "${OO_BASIS}-${lang}-${i}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
+            done
+        fi
+    done
+}
+
+src_install() {
+    edo cp -rT "${WORK}" "${IMAGE}"
+    # Empty directories
+    edo find "${IMAGE}" -type d -empty -delete
+}
+
+# Update desktop and MIME databases at the same time
+pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+    freedesktop-mime_pkg_postinst
+}
+
+pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+    freedesktop-mime_pkg_postrm
+}
+
