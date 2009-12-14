@@ -45,7 +45,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
 
 src_prepare() {
     # Run shipped autogen.sh instead of autotools_src_prepare
-    ./autogen.sh
+    edo ./autogen.sh
 }
 
 src_install() {
