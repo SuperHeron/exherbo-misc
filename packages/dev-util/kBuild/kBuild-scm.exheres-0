@@ -5,7 +5,7 @@
 
 SCM_REPOSITORY="http://svn.netlabs.org/repos/kbuild"
 
-require scm-svn
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] scm-svn
 
 SUMMARY="kBuild is a makefile framework for writing simple makefiles for complex tasks."
 DESCRIPTION="
@@ -16,14 +16,22 @@ DOWNLOADS=""
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="platform: amd64 x86"
-
-BUGS_TO=""
+MYOPTIONS=""
 
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-glibc-2.10.patch" )
 
+src_prepare() {
+    default
+    edo chmod +x kBuild/env.sh
+    edo cd "${WORK}"/src/kmk
+    AT_M4DIR="config" eautoreconf
+    edo cd "${WORK}"/src/sed
+    AT_M4DIR="config" eautoreconf
+    edo chmod +x configure config/help2man
+}
+
 src_compile() {
-    kBuild/env.sh --full kmk || die "bootstrap failed"
+    kBuild/env.sh --full emake -f bootstrap.gmk AUTORECONF=true || die "bootstrap failed"
 }
 
 src_install() {
