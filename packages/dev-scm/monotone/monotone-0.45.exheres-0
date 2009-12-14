@@ -3,7 +3,7 @@
 
 AT_M4DIR="m4"
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.9 ] ]
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
 
 SUMMARY="monotone: reliable, distributed version control"
 DESCRIPTION="

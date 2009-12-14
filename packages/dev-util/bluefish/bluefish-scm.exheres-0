@@ -4,7 +4,7 @@
 SCM_REPOSITORY="https://bluefish.svn.sourceforge.net/svnroot/bluefish"
 SCM_SUBPATH="${PN}"
 
-require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.8 ] ] freedesktop-desktop freedesktop-mime
+require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] freedesktop-desktop freedesktop-mime
 
 SUMMARY="Bluefish GTK+ web editor"
 DESCRIPTION="

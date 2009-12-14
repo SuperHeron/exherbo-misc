@@ -7,7 +7,7 @@ SCM_REPOSITORY="mtn.pidgin.im"
 SCM_BRANCH="im.pidgin.${PN}"
 SCM_MTN_SEED="http://developer.pidgin.im/static/${PN}.mtn.bz2"
 
-require scm-mtn gnome-2 autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.9 ] ]
+require scm-mtn gnome-2 autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
 
 SUMMARY="A multi-protocol, multi-platform Instant Messaging client."
 DESCRIPTION="
