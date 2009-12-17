@@ -22,11 +22,11 @@ MYOPTIONS="extensions subversion"
 DEPENDENCIES="
     build+run:
         dev-dotnet/mono-addins[>=0.3][gui]
-        dev-lang/mono
+        dev-lang/mono[>=2.4]
         dev-libs/xulrunner
         dev-util/intltool
-        gnome-bindings/gnome-sharp:2[>=2.8.0]
-        gnome-bindings/gtk-sharp:2[>=2.8.0]
+        gnome-bindings/gnome-sharp:2[>=2.12.8]
+        gnome-bindings/gtk-sharp:2[>=2.12.8]
         sys-devel/gettext
         subversion? ( dev-scm/subversion )
 "
