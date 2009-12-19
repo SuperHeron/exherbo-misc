@@ -1,0 +1,70 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require freedesktop-desktop multilib toolchain-funcs
+
+SUMMARY="GKrellM - GNU (or Gtk) Krell Monitors (or Meters)"
+DESCRIPTION="
+GKrellM is a single process stack of system monitors which supports
+applying themes to match its appearance to your window manager, Gtk,
+or any other theme. 
+"
+HOMEPAGE="http://members.dslextreme.com/users/billw/${PN}/${PN}.html"
+DOWNLOADS="http://members.dslextreme.com/users/billw/${PN}/${PNV}.tar.bz2"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    gnutls lm_sensors openssl
+    ( gnutls openssl ) [[ number-selected = at-most-one ]]
+"
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+        sys-devel/gettext
+    build+run:
+        dev-libs/glib:2
+        x11-libs/gtk+:2[>=2.4]
+        gnutls? ( dev-libs/gnutls )
+        lm_sensors? ( sys-apps/lm_sensors )
+        openssl? ( dev-libs/openssl )
+"
+
+REMOTE_IDS="freshmeat:${PN}"
+
+DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-getline-fix.patch" )
+DEFAULT_SRC_INSTALL_PARAMS=(
+    "PKGCONFIGDIR=${IMAGE}/usr/$(get_libdir)/pkgconfig"
+    'PREFIX=/usr'
+    'STRIP='
+)
+
+src_compile() {
+    emake PREFIX=/usr CC="$(tc-getCC)" \
+        without-gnutls="$(optionq !gnutls && echo yes || echo no)" \
+        without-ssl="$(optionq !openssl && echo yes || echo no)" \
+        without-libsensors="$(optionq !lm_sensors && echo yes || echo no)"
+}
+
+src_install() {
+    default
+
+    insinto /usr/share/pixmaps
+    newins src/icon.xpm ${PN}.xpm
+
+    insinto /usr/share/applications
+    hereins ${PN}.desktop <<EOF
+[Desktop Entry]
+Name=GKrellM
+Type=Application
+Comment=${SUMMARY}
+Exec=${PN}
+TryExec=${PN}
+Icon=${PN}
+Categories=System;
+EOF
+
+}
+
