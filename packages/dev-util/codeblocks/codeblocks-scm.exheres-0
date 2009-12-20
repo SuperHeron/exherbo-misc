@@ -27,6 +27,7 @@ BUGS_TO=""
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'contrib-plugins contrib-plugins all' )
 
 src_prepare() {
-    ./update_revision.sh
+    edo chmod +x update_revision.sh
+    edo ./update_revision.sh
     autotools_src_prepare
 }
