@@ -1,0 +1,18 @@
+Source: written by Michael Terry
+Upstream: yes, Bug #344079
+Reason: fix for python-2.6
+diff -Nur -x '*.orig' -x '*~' gdesklets-0.36.1-2ubuntu1/utils/ErrorFormatter.py gdesklets-0.36.1-2ubuntu1.new/utils/ErrorFormatter.py
+--- gdesklets-0.36.1-2ubuntu1/utils/ErrorFormatter.py	2009-03-25 11:53:35.000000000 -0400
++++ gdesklets-0.36.1-2ubuntu1.new/utils/ErrorFormatter.py	2009-05-12 13:38:39.000000000 -0400
+@@ -113,9 +113,9 @@
+ # give us an absolute path.
+ #
+ _old_imp = __import__
+-def _new_imp(name, globs = {}, locls = {}, fromlist = []):
++def _new_imp(*args, **kwargs):
+ 
+-    module = _old_imp(name, globs, locls, fromlist)
++    module = _old_imp(*args, **kwargs)
+     # builtin modules have no "__file__" attribute, so we have to check for it
+     if (module):
+         if (hasattr(module, "__file__")):
