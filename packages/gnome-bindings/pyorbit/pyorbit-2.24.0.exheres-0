@@ -1,0 +1,21 @@
+# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require gnome.org
+
+SUMMARY="Python bindings for ORBit"
+HOMEPAGE="http://www.pygtk.org"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+    build+run:
+        dev-lang/python:=[>=2.4]
+        gnome-platform/ORBit2:2[>=2.12]
+"
+
