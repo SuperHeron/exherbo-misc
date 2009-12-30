@@ -82,14 +82,16 @@ rpm_unpack() {
 src_unpack() {
     if optionq platform:amd64; then
         OO_ARCH="x86_64"
+        OO_ARCH_NB='2'
     elif optionq platform:x86; then
         OO_ARCH="i586"
+        OO_ARCH_NB='1'
     fi
     default
     echo "Creating ${WORK}"
     edo mkdir -p "${WORK}"
     einfo "Unpacking RPM files"
-    edo cd "${WORKBASE}/OOO310_m19_native_packed-2_en-US.${OO_BUILDID}/RPMS"
+    edo cd "${WORKBASE}/OOO310_m19_native_packed-${OO_ARCH_NB}_en-US.${OO_BUILDID}/RPMS"
     for i in base binfilter calc core01 core02 core03 core04 core05 core06 core07 draw \
     graphicfilter images impress math ooofonts oooimprovement ooolinguistic pyuno testtool writer xsltfilter; do
         rpm_unpack "${OO_BASIS}-${i}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
@@ -114,7 +116,7 @@ src_unpack() {
                     lang="${lang//_/-}"
                     ;;
             esac
-            edo cd "${WORKBASE}/OOO310_m19_native_packed-2_${lang}.${OO_BUILDID}/RPMS"
+            edo cd "${WORKBASE}/OOO310_m19_native_packed-${OO_ARCH_NB}_${lang}.${OO_BUILDID}/RPMS"
             rpm_unpack "${OO_BASIS}-${lang}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
             rpm_unpack "openoffice.org$(ever range 1)-${lang}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
             for i in base binfilter calc draw help impress math res writer; do
