@@ -1,7 +1,7 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop
+require freedesktop-desktop sourceforge [ suffix=tar.gz ]
 
 SUMMARY="Cross-platform gettext catalogs (.po files) editor"
 DESCRIPTION="
@@ -10,8 +10,6 @@ can run on any platform supported by it (although it was only tested on Unix wit
 It aims to provide more convenient approach to editing catalogs than launching vi and editing the
 file by hand.
 "
-HOMEPAGE="http://www.poedit.net"
-DOWNLOADS="mirror://sourceforge/${PN}/${PV}/${PNV}.tar.gz"
 
 LICENCES="MIT"
 SLOT="0"
@@ -27,8 +25,6 @@ DEPENDENCIES="
         spell? ( app-spell/gtkspell:2 )
         x11-libs/wxGTK:2.8[>=2.8.0]
 "
-
-REMOTE_IDS="sourceforge:${PN}"
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'berkdb transmem'

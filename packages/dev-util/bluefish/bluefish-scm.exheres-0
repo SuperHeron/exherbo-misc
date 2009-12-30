@@ -4,7 +4,7 @@
 SCM_REPOSITORY="https://bluefish.svn.sourceforge.net/svnroot/bluefish"
 SCM_SUBPATH="${PN}"
 
-require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] freedesktop-desktop freedesktop-mime
+require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] freedesktop-desktop freedesktop-mime sourceforge
 
 SUMMARY="Bluefish GTK+ web editor"
 DESCRIPTION="
@@ -13,7 +13,6 @@ with many options to write websites, scripts and programming code. Bluefish
 supports many programming and markup languages, and it focuses on editing
 dynamic and interactive websites.
 "
-HOMEPAGE="http://bluefish.openoffice.nl"
 DOWNLOADS=""
 
 LICENCES="GPL-2"
@@ -34,8 +33,6 @@ DEPENDENCIES="
         spell? ( app-spell/enchant )
 "
 # Add gnome-extra/gucharmap as post-suggested
-
-REMOTE_IDS="sourceforge:${PN}"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( '--disable-update-databases' )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(

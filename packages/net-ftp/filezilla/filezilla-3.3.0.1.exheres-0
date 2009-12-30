@@ -2,14 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 AT_M4DIR="."
+MY_PNV="FileZilla_${PV}_src"
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ] sourceforge
 
 SUMMARY="FileZilla Client, free FTP client"
 DESCRIPTION="FileZilla Client is a fast and reliable cross-platform FTP, FTPS and SFTP client with lots of useful features and an intuitive graphical user interface."
-HOMEPAGE="http://filezilla-project.org/"
-MY_PNV="FileZilla_${PV}_src"
-DOWNLOADS="mirror://sourceforge/${PN}/${MY_PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -24,7 +22,6 @@ DEPENDENCIES="
         x11-libs/wxGTK:2.8[>=2.8.9]
         dbus? ( sys-apps/dbus[>=1.2] )
 "
-REMOTE_IDS="sourceforge:${PN}"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--disable-manualupdatecheck'

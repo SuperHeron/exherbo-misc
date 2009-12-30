@@ -7,7 +7,7 @@ SCM_REPOSITORY="mtn.pidgin.im"
 SCM_BRANCH="im.pidgin.${PN}"
 SCM_MTN_SEED="http://developer.pidgin.im/static/${PN}.mtn.bz2"
 
-require scm-mtn gnome-2 autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
+require scm-mtn gnome-2 autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] sourceforge
 
 SUMMARY="A multi-protocol, multi-platform Instant Messaging client."
 DESCRIPTION="
@@ -33,7 +33,6 @@ Supported chat networks:
   * Yahoo!
   * Zephyr
 "
-HOMEPAGE="http://pidgin.im/"
 DOWNLOADS=""
 
 LICENCES="GPL-2"
@@ -120,17 +119,15 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'tk'
     'vv'
 )
-
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'gtk x'
 )
-
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     # until we get exheres for these:
     '--disable-meanwhile'
 )
 
-REMOTE_IDS="sourceforge:pidgin freshmeat:pidgin"
+REMOTE_IDS+="freshmeat:pidgin"
 
 BUGS_TO="pioto@exherbo.org"
 

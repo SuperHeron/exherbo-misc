@@ -1,14 +1,14 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require sourceforge [ suffix=tar.gz project=mjpeg ]
+
 SUMMARY="MJPEG tools"
 DESCRIPTION="
 The mjpeg programs are a set of tools that can do recording of
 videos and playback, simple cut-and-paste editing and the MPEG
 compression of audio and video under Linux. 
 "
-HOMEPAGE="http://mjpeg.sourceforge.net"
-DOWNLOADS="mirror://sourceforge/mjpeg/${PNV}.tar.gz"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -28,8 +28,6 @@ DEPENDENCIES="
         png? ( media-libs/libpng )
         quicktime? ( media-libs/libquicktime[>0.9.7] )
 "
-
-REMOTE_IDS="sourceforge:mjpeg"
 
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'dv libdv'
