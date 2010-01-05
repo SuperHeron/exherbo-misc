@@ -46,11 +46,6 @@ src_prepare() {
     edo ./autogen.sh
 }
 
-src_install() {
-    default
-    dosym ${PN}-unstable /usr/bin/${PN}
-}
-
 # Update desktop and MIME databases at the same time
 pkg_postinst() {
     freedesktop-desktop_pkg_postinst
