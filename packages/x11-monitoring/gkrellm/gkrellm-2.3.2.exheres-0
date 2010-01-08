@@ -1,7 +1,7 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop multilib toolchain-funcs
+require freedesktop-desktop multilib
 
 SUMMARY="GKrellM - GNU (or Gtk) Krell Monitors (or Meters)"
 DESCRIPTION="
@@ -42,7 +42,7 @@ DEFAULT_SRC_INSTALL_PARAMS=(
 )
 
 src_compile() {
-    emake PREFIX=/usr CC="$(tc-getCC)" \
+    emake PREFIX=/usr CC="${CC}" \
         without-gnutls="$(optionq !gnutls && echo yes || echo no)" \
         without-ssl="$(optionq !openssl && echo yes || echo no)" \
         without-libsensors="$(optionq !lm_sensors && echo yes || echo no)"
