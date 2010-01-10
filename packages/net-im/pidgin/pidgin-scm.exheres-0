@@ -46,7 +46,6 @@ MYOPTIONS="
     mono
     ncurses [[ description = [ Enable the ncurses 'finch' client ] ]]
     networkmanager
-    nls
     nss [[ description = [ Support for Mozilla's NSS library ] ]]
     perl [[ description = [ Support for plugins written in perl ] ]]
     spell
@@ -72,6 +71,7 @@ DEPENDENCIES="
         dev-lang/perl
         dev-perl/XML-Parser
         dev-util/intltool
+        sys-devel/gettext
         gtk? ( x11-proto/scrnsaverproto )
     build+run:
         dev-libs/glib
@@ -90,7 +90,6 @@ DEPENDENCIES="
         mono? ( dev-lang/mono )
         ncurses? ( sys-libs/ncurses )
         networkmanager? ( net-apps/NetworkManager )
-        nls? ( sys-devel/gettext )
         nss? ( dev-libs/nss )
         perl? ( dev-lang/perl )
         spell? ( app-spell/gtkspell )
@@ -109,7 +108,6 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'mono'
     'ncurses consoleui'
     'networkmanager nm'
-    'nls'
     'nss'
     'perl'
     'spell gtkspell'
@@ -125,6 +123,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     # until we get exheres for these:
     '--disable-meanwhile'
+    '--enable-nls'
 )
 
 REMOTE_IDS+="freshmeat:pidgin"

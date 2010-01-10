@@ -22,11 +22,12 @@ DOWNLOADS="http://monotone.ca/downloads/${PV}/${PNV}.tar.gz"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="ipv6 nls"
+MYOPTIONS="ipv6"
 
 DEPENDENCIES="
     build:
         sys-apps/texinfo
+        sys-devel/gettext
     build+run:
         dev-db/sqlite:3[>=3.3.8]
         dev-lang/lua[>=5.1]
@@ -35,16 +36,15 @@ DEPENDENCIES="
         dev-libs/pcre[>=7.4]
         net-dns/libidn
         sys-libs/zlib[>=1.1.4]
-        nls? ( sys-devel/gettext )
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--enable-nls'
     "--htmldir=/usr/share/doc/${PNV}"
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'ipv6'
-    'nls'
 )
 
 src_install() {

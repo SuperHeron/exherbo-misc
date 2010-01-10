@@ -12,13 +12,13 @@ HOMEPAGE="http://live.gnome.org/Xchat-Gnome"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="dbus ipv6 libnotify mmx nls perl python sound spell ssl tcl"
+MYOPTIONS="dbus ipv6 libnotify mmx perl python sound spell ssl tcl"
 
 DEPENDENCIES="
     build:
         dev-util/pkg-config
         gnome-desktop/gnome-doc-utils
-        nls? ( sys-devel/gettext )
+        sys-devel/gettext
     build+run:
         dev-libs/glib:2
         gnome-platform/GConf:2
@@ -37,8 +37,24 @@ DEPENDENCIES="
         tcl? ( dev-lang/tcl )
 "
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( '--enable-gnome-fe' '--disable-schemas-install' '--disable-scrollkeeper' '--disable-static' )
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'dbus' 'ipv6' 'libnotify notification' 'mmx' 'nls' 'perl' 'python' 'sound canberra' 'ssl openssl' 'tcl' )
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--enable-gnome-fe'
+    '--enable-nls'
+    '--disable-schemas-install'
+    '--disable-scrollkeeper'
+    '--disable-static'
+)
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'dbus'
+    'ipv6'
+    'libnotify notification'
+    'mmx'
+    'perl'
+    'python'
+    'sound canberra'
+    'ssl openssl'
+    'tcl'
+)
 
 DEFAULT_SRC_INSTALL_EXTRA_DOCS=( 'AUTHORS' 'ChangeLog' 'NEWS' )
 
@@ -49,3 +65,4 @@ src_install() {
     insinto /usr/include/xchat-gnome
     doins src/common/xchat-plugin.h || die "doins failed"
 }
+
