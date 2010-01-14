@@ -1,5 +1,8 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010 Timothy Redaelli <timothy@redaelli.eu>
 # Distributed under the terms of the GNU General Public License v2
+
+require flag-o-matic
 
 SUMMARY="Powerful command line driven package management system"
 DESCRIPTION="
@@ -17,8 +20,8 @@ DOWNLOADS="http://rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
 
 LICENCES="|| ( GPL-2 LGPL-2 )"
 SLOT="0"
-PLATFORMS="~amd64"
-MYOPTIONS=""
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS="python"
 
 DEPENDENCIES="
     build+run:
@@ -32,13 +35,16 @@ DEPENDENCIES="
         sys-devel/gettext
         sys-libs/db:=[>=4.5]
         sys-libs/zlib
-"
+        python? ( dev-lang/python )"
+
+
+DEFAULT_SRC_CONFIGURE_PARAMS=( --with-external-db --without-lua )
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'python' )
 
 src_configure() {
-    econf --with-external-db --without-lua \
-        CPPFLAGS="$(pkg-config --cflags-only-I nspr nss) ${CPPFLAGS}" \
-        LDFLAGS="$(pkg-config --libs-only-L nss) ${LDFLAGS}" \
-        LIBS="$(pkg-config --libs-only-l nss)" || die "configure failed"
+    append-cppflags "$(pkg-config --cflags-only-I nspr nss)"
+    append-ldflags "$(pkg-config --libs-only-L nss)"
+    default
 }
 
 src_install() {
