@@ -27,7 +27,7 @@ DEPENDENCIES="
         sys-devel/gettext
     build+run:
         dev-libs/dbus-glib:1
-        sys-auth/PolicyKit[>=0.8]
+        sys-auth/PolicyKit:0[>=0.8]
         sys-libs/libfprint[=scm]
 "
 
