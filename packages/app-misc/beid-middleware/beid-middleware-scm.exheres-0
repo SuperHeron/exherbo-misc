@@ -12,3 +12,5 @@ PLATFORMS="~amd64"
 
 WORK="${WORKBASE}/${PNV}/_src/eidmw"
 
+DEFAULT_SRC_PREPARE_PATCHES=( -p3 "${FILES}/${PN}-3.5.2.5800-fix_paths.patch" )
+
