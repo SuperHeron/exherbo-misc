@@ -35,8 +35,11 @@ REMOTE_IDS="freshmeat:${PN}"
 
 WORK="${WORKBASE}/${MY_PNV}"
 
+DEFAULT_SRC_COMPILE_PARAMS=( LIB_OPT="${CXXFLAGS} -finline-functions" )
+DEFAULT_SRC_INSTALL_EXCLUDE=( "readme.txt" )
+
 src_configure() {
-    ./configure.py \
+    edo ./configure.py \
         --docdir="usr/share/doc" \
         --libdir="usr/$(get_libdir)" \
         --includedir="usr/include" \
@@ -46,11 +49,8 @@ src_configure() {
         $(option_with bzip2) \
         $(option_with gmp gnump) \
         $(option_with openssl) \
-        $(option_with zlib) \
-    || die "configure.py failed"
+        $(option_with zlib)
     # Patch Makefile for installation in /usr/bin
-    sed -i -e 's|/bin|/usr/bin|' Makefile
+    edo sed -i -e 's|/bin|/usr/bin|' Makefile
 }
-
-DEFAULT_SRC_INSTALL_EXCLUDE=( "readme.txt" )
 
