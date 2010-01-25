@@ -1,0 +1,14 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SCM_REPOSITORY="http://eid-mw.googlecode.com/svn/"
+SCM_SUBPATH="eid-mw"
+
+require beid-middleware scm-svn
+
+DOWNLOADS=""
+
+PLATFORMS="~amd64"
+
+WORK="${WORKBASE}/${PNV}/_src/eidmw"
+
