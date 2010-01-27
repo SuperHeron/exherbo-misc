@@ -1,0 +1,57 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require sourceforge
+
+SUMMARY="Free open source MSN Messenger clone"
+DESCRIPTION="
+ aMSN is a free open source MSN Messenger clone, with features such as:
+
+     * Offline Messaging
+     * Voice Clips
+     * Display pictures
+     * Custom emoticons
+     * Multi-language support (around 40 languages currently supported)
+     * Webcam support
+     * Sign in to more than one account at once
+     * Full-speed File transfers
+     * Group support
+     * Normal, and animated emoticons with sounds
+     * Chat logs
+     * Timestamping
+     * Event alarms
+     * Conferencing support
+     * Tabbed chat windows
+"
+HOMEPAGE="http://www.amsn-project.net"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="upnp v4l"
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config[>=0.9.0]
+    build+run:
+        dev-lang/tcl[>=8.4]
+        dev-lang/tk[>=8.4]
+        dev-libs/glib:2[>=2.14]
+        media-libs/gstreamer:0.10[>=0.10.22]
+        media-libs/jpeg
+        media-libs/libpng
+        media-plugins/gst-plugins-base[>=0.10.22]
+        net-im/farsight2:0.10[>=0.0.9]
+        x11-libs/libX11
+        upnp? ( net-libs/gupnp-igd )
+        v4l? ( media-libs/libv4l[>=0.5] )
+"
+#TODO: Add dev-tcl/tls when available to avoid automatic download
+
+REMOTE_IDS+=" freshmeat:${PN} "
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'upnp'
+    'v4l libv4l'
+)
+
