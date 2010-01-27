@@ -1,0 +1,56 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="GUPnP is an object-oriented open source framework
+for creating UPnP devices and control points, written in C
+using GObject and libsoup. The GUPnP API is intended to be
+easy to use, efficient and flexible."
+DESCRIPTION="
+The GUPnP framework consists of the following two libraries:
+
+  * GSSDP implements resource discovery and announcement over SSDP.
+
+  * GUPnP implements the UPnP specification: resource announcement and
+    discovery, description, control, event notification, and presentation
+    (GUPnP includes basic web server functionality through libsoup). GUPnP does
+    not include helpers for construction or control of specific standardized
+    resources (e.g. MediaServer); this is left for higher level libraries
+    utilizing the GUPnP framework.
+
+The GUPnP framework was born out of frustration with libupnp and its mess of
+threads. GUPnP is entirely single-threaded (though asynchronous), integrates
+with the GLib main loop, and provides the same set of features as libupnp while
+hiding most of the UPnP internals through an elegant object-oriented design.
+
+GUPnP is free software released under the GNU LGPL.
+"
+HOMEPAGE="http://gupnp.org/"
+DOWNLOADS="http://gupnp.org/sources/${PN}/${PNV}.tar.gz"
+
+LICENCES="LGPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="doc networkmanager"
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config[>=0.9.0]
+        doc? ( dev-doc/gtk-doc[>=1.0] )
+    build+run:
+        dev-libs/dbus-glib:1[>=0.76]
+        dev-libs/glib:2[>=2.18]
+        dev-libs/libxml2:2.0
+        gnome-desktop/libsoup:2.4[>=2.4.1]
+        net-libs/gssdp[>=0.7]
+        sys-apps/util-linux-ng
+"
+
+REMOTE_IDS="freshmeat:${PN}"
+
+src_configure() {
+    local context_manager='unix'
+    optionq networkmanager && context_manager='network-manager'
+    econf $(option_enable doc gtk-doc) \
+        --with-context-manager=${context_manager} || die 'econf failed'
+}
+

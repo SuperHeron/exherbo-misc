@@ -1,0 +1,29 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="A GObject-based API for handling resource discovery and announcement over SSDP."
+DESCRIPTION="
+"
+HOMEPAGE="http://gupnp.org/"
+DOWNLOADS="http://gupnp.org/sources/${PN}/${PNV}.tar.gz"
+
+LICENCES="LGPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="doc gtk"
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+        doc? ( dev-doc/gtk-doc[>=1.0] )
+    build+run:
+        dev-libs/glib:2[>=2.18]
+        gnome-desktop/libsoup:2.4
+        gtk? ( x11-libs/gtk+:2[>=2.12.0] )
+"
+
+REMOTE_IDS="freshmeat:gupnp"
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc gtk-doc' )
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'gtk' )
+
