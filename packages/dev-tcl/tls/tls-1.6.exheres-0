@@ -1,0 +1,34 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require sourceforge [ pnv="${PN}${PV}-src" suffix="tar.gz" ]
+
+SUMMARY="TLS: OpenSSL Tcl Extension"
+DESCRIPTION="
+TLS is an OpenSSL / RSA-bsafe Tcl extension that provides secure
+connections on top of the Tcl socket mechanism. Within a few lines
+of code, users can query https servers (see the tclhttpd project
+for an https server using TLS). 
+"
+
+LICENCES="BSD-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        dev-lang/tcl[>=8.3.2]
+        dev-libs/openssl
+"
+
+WORK="${WORKBASE}/${PN}${PV}"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=( --hates=docdir --enable-threads )
+
+src_install() {
+    default
+    edo rmdir "${IMAGE}"/usr/bin
+}
+

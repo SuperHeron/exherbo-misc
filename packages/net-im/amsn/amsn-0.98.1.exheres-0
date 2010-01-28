@@ -37,6 +37,7 @@ DEPENDENCIES="
         dev-lang/tcl[>=8.4]
         dev-lang/tk[>=8.4]
         dev-libs/glib:2[>=2.14]
+        dev-tcl/tls[>=1.6]
         media-libs/gstreamer:0.10[>=0.10.22]
         media-libs/jpeg
         media-libs/libpng
@@ -46,7 +47,6 @@ DEPENDENCIES="
         upnp? ( net-libs/gupnp-igd )
         v4l? ( media-libs/libv4l[>=0.5] )
 "
-#TODO: Add dev-tcl/tls when available to avoid automatic download
 
 REMOTE_IDS+=" freshmeat:${PN} "
 
