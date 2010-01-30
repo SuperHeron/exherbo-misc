@@ -14,7 +14,7 @@ DOWNLOADS="http://members.dslextreme.com/users/billw/${PN}/${PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
-PLATFORMS="~amd64"
+PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
     gnutls lm_sensors openssl
     ( gnutls openssl ) [[ number-selected = at-most-one ]]
