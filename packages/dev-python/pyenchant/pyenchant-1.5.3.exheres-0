@@ -1,0 +1,27 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require distutils [ python_dep=2.2 ]
+
+SUMMARY="PyEnchant is a spellchecking library for Python, based on the excellent Enchant library."
+DESCRIPTION="
+PyEnchant is a set of language bindings and some wrapper classes to make
+the excellent Enchant spellchecker available as a Python module.
+The bindings are created using ctypes. It includes all the functionality
+of Enchant with the flexibility of Python and a nice 'Pythonic'
+object-oriented interface. It also aims to provide some higher-level
+functionality than is available in the C API.
+"
+HOMEPAGE="http://www.rfk.id.au/software/pyenchant"
+DOWNLOADS="http://pypi.python.org/packages/source/p/${PN}/${PNV}.tar.gz"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        app-spell/enchant[>=1.4.2]
+"
+
