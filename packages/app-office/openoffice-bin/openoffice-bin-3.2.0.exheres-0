@@ -21,15 +21,19 @@ HOMEPAGE="http://www.openoffice.org"
 OO_PN="${PN%%-bin}"
 OO_PNV="${OO_PN}-${PV}"
 OO_LINGUAS=(
-    cs cy da de dgo dz el en_GB en_US es et fr ga gl gu_IN hi_IN it ja
-    ko ku lt mk nb nl nn pa_IN pl pt_BR pt ru sh sr sv tr vi zh_CN zh_TW
+    ca cs cy da de el en_GB en_US es et fr ga gl gu_IN hi_IN it ja ko ku
+    lt mk nb nl nn pa_IN pl pt pt_BR ru sh sl sr sv tr vi zh_CN zh_TW
 )
-OO_BUILDID="9420"
-URE_PV="${PV/#3.1/1.5}"
-OO_BASIS="ooobasis$(ever range 1-2)"
+OO_PV12="$(ever range 1-2)"
+OO_BUILDPV="$(ever delete_all ${OO_PV12})0"
+OO_BUILDID="9483"
+OO_XDG_BUILDID="9472"
+OO_MID="m12"
+URE_PV="1.6.0"
+OO_BASIS="ooobasis${OO_PV12}"
 
 DOWNLOADS="
-    platform:x86? ( mirror://${OO_PN}/stable/${PV}/OOo_${PV}_LinuxIntel_install_en-US.tar.gz )
+    platform:x86? ( mirror://${OO_PN}/stable/${PV}/OOo_${PV}_LinuxIntel_install__wJRE_en-US.tar.gz )
     platform:amd64? ( mirror://${OO_PN}/stable/${PV}/OOo_${PV}_LinuxX86-64_install_wJRE_en-US.tar.gz )
 "
 
@@ -71,42 +75,50 @@ DEPENDENCIES="
     build+run:
        !app-office/openoffice
     run:
-        java? ( virtual/jre:=[>=1.4] )
+        java? ( virtual/jre:*[>=1.5] )
 "
 
 rpm_unpack() {
+    # Pipes don't work with edo
     echo "rpm2tar -O ${1} | tar -xf - --no-same-owner -C ${WORK}"
     rpm2tar -O "${1}" | tar -xf - --no-same-owner -C "${WORK}" || die "Unpacking RPM failed"
 }
 
 src_unpack() {
     if optionq platform:amd64; then
-        OO_ARCH="x86_64"
-        OO_ARCH_NB='2'
+        OO_ARCH='x86_64'
+        OO_ARCH_NB='1'
     elif optionq platform:x86; then
-        OO_ARCH="i586"
+        OO_ARCH='i586'
         OO_ARCH_NB='1'
     fi
+
     default
+
     echo "Creating ${WORK}"
     edo mkdir -p "${WORK}"
+
     einfo "Unpacking RPM files"
-    edo cd "${WORKBASE}/OOO310_m19_native_packed-${OO_ARCH_NB}_en-US.${OO_BUILDID}/RPMS"
-    for i in base binfilter calc core01 core02 core03 core04 core05 core06 core07 draw \
-    graphicfilter images impress math ooofonts oooimprovement ooolinguistic pyuno testtool writer xsltfilter; do
+    edo cd "${WORKBASE}/OOO${OO_BUILDPV}_${OO_MID}_native_packed-${OO_ARCH_NB}_en-US.${OO_BUILDID}/RPMS"
+    for i in base binfilter calc core01 core02 core03 core04 core05 core06 \
+    core07 draw graphicfilter images impress math ooofonts oooimprovement \
+    ooolinguistic pyuno testtool writer xsltfilter;
+    do
         rpm_unpack "${OO_BASIS}-${i}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
     done
-    for i in base calc draw impress math writer; do
+    for i in base calc draw impress math writer;
+    do
         rpm_unpack "${OO_BASIS}-en-US-${i}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
     done
     rpm_unpack "openoffice.org$(ever range 1)-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
     rpm_unpack "openoffice.org-ure-${URE_PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
-    rpm_unpack "desktop-integration/openoffice.org$(ever range 1-2)-freedesktop-menus-$(ever range 1-2)-${OO_BUILDID}.noarch.rpm"
+    rpm_unpack "desktop-integration/openoffice.org${OO_PV12}-freedesktop-menus-${OO_PV12}-${OO_XDG_BUILDID}.noarch.rpm"
     optionq gnome && rpm_unpack "${OO_BASIS}-gnome-integration-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
     optionq kde && rpm_unpack "${OO_BASIS}-kde-integration-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
     optionq java && rpm_unpack "${OO_BASIS}-javafilter-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
     einfo "Unpacking language pack RPM files"
-    for lang in ${OO_LINGUAS[@]}; do
+    for lang in ${OO_LINGUAS[@]};
+    do
         if optionq linguas:${lang}; then
             case ${lang} in
                 zh_*)
@@ -116,10 +128,11 @@ src_unpack() {
                     lang="${lang//_/-}"
                     ;;
             esac
-            edo cd "${WORKBASE}/OOO310_m19_native_packed-${OO_ARCH_NB}_${lang}.${OO_BUILDID}/RPMS"
+            edo cd "${WORKBASE}/OOO${OO_BUILDPV}_${OO_MID}_native_packed-${OO_ARCH_NB}_${lang}.${OO_BUILDID}/RPMS"
             rpm_unpack "${OO_BASIS}-${lang}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
             rpm_unpack "openoffice.org$(ever range 1)-${lang}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
-            for i in base binfilter calc draw help impress math res writer; do
+            for i in base binfilter calc draw help impress math res writer;
+            do
                 rpm_unpack "${OO_BASIS}-${lang}-${i}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
             done
         fi
