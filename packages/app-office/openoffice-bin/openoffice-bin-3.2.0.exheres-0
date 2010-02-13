@@ -33,7 +33,7 @@ URE_PV="1.6.0"
 OO_BASIS="ooobasis${OO_PV12}"
 
 DOWNLOADS="
-    platform:x86? ( mirror://${OO_PN}/stable/${PV}/OOo_${PV}_LinuxIntel_install__wJRE_en-US.tar.gz )
+    platform:x86? ( mirror://${OO_PN}/stable/${PV}/OOo_${PV}_LinuxIntel_install_wJRE_en-US.tar.gz )
     platform:amd64? ( mirror://${OO_PN}/stable/${PV}/OOo_${PV}_LinuxX86-64_install_wJRE_en-US.tar.gz )
 "
 
