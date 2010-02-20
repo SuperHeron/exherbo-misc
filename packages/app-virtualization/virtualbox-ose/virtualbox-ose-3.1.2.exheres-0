@@ -129,7 +129,7 @@ EOF
     fi
 
     # VirtualBox needs to be setuid
-    fperms 4711 "${installdir}"/{VirtualBox,VBoxHeadless,VBoxNetAdpCtl,VBoxSDL}
+    edo chmod 4711 "${IMAGE}/${installdir}"/{VirtualBox,VBoxHeadless,VBoxNetAdpCtl,VBoxSDL}
 
     insinto /etc/udev/rules.d
     hereins 10-vboxdrv.rules <<EOF

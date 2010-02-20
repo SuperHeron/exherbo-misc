@@ -62,6 +62,6 @@ src_install() {
     newinitd "${FILES}/${PNV}-initd" "${PN}"
     newconfd "${FILES}/${PNV}-confd" "${PN}"
     keepdir "/home/p2p/mldonkey"
-    fowners p2p:users /home/p2p/mldonkey
+    edo chown p2p:users "${IMAGE}"/home/p2p/mldonkey
 }
 
