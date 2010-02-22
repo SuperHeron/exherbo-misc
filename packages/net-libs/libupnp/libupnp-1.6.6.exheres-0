@@ -1,0 +1,20 @@
+# Copyright 2010 Timothy Redaelli <timothy@redaelli.eu>
+# Distributed under the terms of the GNU General Public License v2
+
+require sourceforge [ project=pupnp ]
+
+SUMMARY="A Portable Open Source UPnP Development Kit"
+
+HOMEPAGE="An Portable Open Source UPnP Development Kit"
+
+LICENCES="BSD"
+SLOT="0"
+PLATFORMS="~x86"
+MYOPTIONS="debug"
+
+DEPENDENCIES=""
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( debug )
+
+# FIXME
+RESTRICT="test"
