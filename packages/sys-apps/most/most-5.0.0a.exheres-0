@@ -14,7 +14,7 @@ DOWNLOADS="ftp://space.mit.edu/pub/davis/${PN}/${PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
-PLATFORMS="alpha amd64 arm ~mips ppc sparc x86 ~x86-fbsd"
+PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
