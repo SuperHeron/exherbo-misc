@@ -4,7 +4,11 @@
 #   Copyright 1999-2008 Gentoo Foundation
 
 SUMMARY="a paging program that displays, one windowful at a time, the contents of a file."
-DESCRIPTION="MOST is a powerful paging program for Unix, VMS, MSDOS, and win32 systems. Unlike other well-known paging programs most supports multiple windows and can scroll left and right. Why settle for less?"
+DESCRIPTION="
+MOST is a powerful paging program for Unix, VMS, MSDOS, and win32 systems.
+Unlike other well-known paging programs, most supports multiple windows and can
+scroll left and right. Why settle for less?
+"
 HOMEPAGE="http://www.jedsoft.org/most/"
 DOWNLOADS="ftp://space.mit.edu/pub/davis/${PN}/${PNV}.tar.bz2"
 
