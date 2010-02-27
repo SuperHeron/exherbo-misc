@@ -3,7 +3,7 @@
 
 AT_M4DIR="m4"
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ] googlecode
 
 SUMMARY="distcc: a fast, free distributed C/C++ compiler"
 DESCRIPTION="
@@ -12,8 +12,6 @@ or Objective C++ code across several machines on a network.
 distcc should always generate the same results as a local build,
 is simple to install and use, and is usually much faster than a local compile. 
 "
-HOMEPAGE="http://distcc.org"
-DOWNLOADS="http://${PN}.googlecode.com/files/${PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
