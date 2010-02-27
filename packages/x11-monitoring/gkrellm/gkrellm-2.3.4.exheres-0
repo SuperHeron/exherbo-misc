@@ -37,7 +37,6 @@ REMOTE_IDS="freshmeat:${PN}"
 
 UPSTREAM_CHANGELOG="${BASE_URI}/Changelog"
 
-DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-getline-fix.patch" )
 DEFAULT_SRC_INSTALL_PARAMS=(
     "PKGCONFIGDIR=${IMAGE}/usr/$(get_libdir)/pkgconfig"
     'PREFIX=/usr'
