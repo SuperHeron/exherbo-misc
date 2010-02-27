@@ -22,7 +22,7 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
-        app-spell/enchant[>=1.4.2]
+        app-spell/enchant[>=1.5.0]
 "
 
 REMOTE_IDS="pypi:${PN}"
