@@ -24,3 +24,5 @@ REMOTE_IDS="freshmeat:${PN}"
 
 UPSTREAM_DOCUMENTATION="http://www.nongnu.org/${PN}/manual/${PN}_manual.html"
 
+DEFAULT_SRC_CONFIGURE_PARAMS=( "CXXFLAGS=${CXXFLAGS}" )
+
