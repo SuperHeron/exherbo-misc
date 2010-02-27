@@ -6,20 +6,18 @@ DESCRIPTION="iasl compiles ASL (ACPI Source Language) into AML (ACPI Machine
 Language). This AML is suitable for inclusion as a DSDT in system
 firmware. It also can disassemble AML, for debugging purposes."
 HOMEPAGE="http://www.acpica.org"
-DOWNLOADS="http://www.acpica.org/download/acpica-unix-${PV}.tar.gz"
+DOWNLOADS="${HOMEPAGE}/download/acpica-unix-${PV}.tar.gz"
 
-LICENCES=""
+LICENCES="Intel"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS=""
 
 DEPENDENCIES="
-    build+run:
+    build:
         sys-devel/bison
         sys-devel/flex
 "
-
-BUGS_TO=""
 
 WORK="${WORKBASE}/acpica-unix-${PV}/compiler"
 
