@@ -21,9 +21,12 @@ DOWNLOADS="http://rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
 LICENCES="|| ( GPL-2 LGPL-2 )"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="python"
+MYOPTIONS="acl caps lua python sqlite"
 
 DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+        sys-devel/gettext
     build+run:
         app-arch/bzip2
         app-arch/gzip
@@ -32,19 +35,36 @@ DEPENDENCIES="
         dev-libs/nspr
         dev-libs/nss
         sys-apps/file
-        sys-devel/gettext
         sys-libs/db:=[>=4.5]
         sys-libs/zlib
-        python? ( dev-lang/python )"
+        acl? ( sys-apps/acl )
+        caps? ( sys-libs/libcap )
+        lua? ( dev-lang/lua[>=5.1] )
+        python? ( dev-lang/python:=[>=2.6] )
+        sqlite? ( dev-db/sqlite:3 )
+"
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/wiki/Docs"
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/Releases/${PV}"
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( --with-external-db --without-lua )
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'python' )
+DEFAULT_SRC_CONFIGURE_PARAMS=( --with-external-db )
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'python'
+    'sqlite sqlite3'
+)
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
+    'acl'
+    'caps cap'
+    'lua'
+)
+
+src_prepare() {
+    optionq lua && edo sed -e 's/-llua/-llua5.1/' -i configure
+}
 
 src_configure() {
     append-cppflags "$(pkg-config --cflags-only-I nspr nss)"
+    optionq lua && append-cppflags "$(pkg-config --cflags-only-I lua)"
     append-ldflags "$(pkg-config --libs-only-L nss)"
     default
 }
