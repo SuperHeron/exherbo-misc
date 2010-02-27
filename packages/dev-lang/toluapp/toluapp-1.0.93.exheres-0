@@ -29,6 +29,8 @@ DEPENDENCIES="
         dev-lang/lua
 "
 
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/${MY_PNV}.html"
+
 WORK="${WORKBASE}/${MY_PNV}"
 
 src_prepare() {

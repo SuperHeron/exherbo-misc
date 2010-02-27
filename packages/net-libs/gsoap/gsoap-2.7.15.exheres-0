@@ -21,7 +21,8 @@ DEPENDENCIES="
         zlib? ( sys-libs/zlib )
 "
 
-BUGS_TO=""
+UPSTREAM_CHANGELOG="http://www.cs.fsu.edu/~engelen/changelog.html"
+UPSTREAM_DOCUMENTATION="http://www.cs.fsu.edu/~engelen/soapdoc2.html"
 
 WORK="${WORKBASE}/${PN}-$(ever range 1-2)"
 

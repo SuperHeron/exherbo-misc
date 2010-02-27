@@ -56,7 +56,9 @@ DEPENDENCIES="
         wine? ( app-emulation/wine )
 "
 
-BUGS_TO=""
+UPSTREAM_CHANGELOG="${HOMEPAGE}/wiki/Changelog"
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/manual/UserManual.html"
+UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/News"
 
 WORK="${WORKBASE}/${MY_PNV/-OSE/_OSE}"
 

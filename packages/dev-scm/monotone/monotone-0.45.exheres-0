@@ -17,7 +17,7 @@ It has good internationalization support, runs on Linux, Solaris,
 Mac OS X, Windows, and other unixes, and is licensed under the GNU GPL.
 "
 HOMEPAGE="http://monotone.ca"
-DOWNLOADS="http://monotone.ca/downloads/${PV}/${PNV}.tar.gz"
+DOWNLOADS="${HOMEPAGE}/downloads/${PV}/${PNV}.tar.gz"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -37,6 +37,9 @@ DEPENDENCIES="
         net-dns/libidn
         sys-libs/zlib[>=1.1.4]
 "
+
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/docs/index.html"
+UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/NEWS"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--enable-nls'

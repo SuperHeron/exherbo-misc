@@ -25,3 +25,10 @@ DEPENDENCIES="
         app-spell/enchant[>=1.4.2]
 "
 
+REMOTE_IDS="pypi:${PN}"
+
+UPSTREAM_DOCUMENTATION="
+    ${HOMEPAGE}/tutorial.html [[ description = [ Tutorial ] ]]
+    ${HOMEPAGE}/api/enchant.html [[ description = [ API Doc ] ]]
+"
+

@@ -24,6 +24,9 @@ DEPENDENCIES="
 
 REMOTE_IDS="freshmeat:gupnp"
 
+UPSTREAM_CHANGELOG="http://git.gupnp.org/cgit.cgi?url=${PN}/tree/NEWS&id=${PNV}"
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/docs/${PN}/"
+
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc gtk-doc' )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'gtk' )
 

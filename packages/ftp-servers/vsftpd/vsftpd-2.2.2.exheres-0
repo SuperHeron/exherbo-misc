@@ -26,6 +26,9 @@ DEPENDENCIES="
         xinetd? ( sys-apps/xinetd )
 "
 
+UPSTREAM_CHANGELOG="ftp://vsftpd.beasts.org/users/cevans/untar/${PNV}/Changelog"
+UPSTREAM_DOCUMENTATION="http://vsftpd.beasts.org/vsftpd_conf.html"
+
 DEFAULT_SRC_PREPARE_PATCHES=( ${FILES}/${PNV}-Makefile-destdir.patch )
 
 src_configure() {

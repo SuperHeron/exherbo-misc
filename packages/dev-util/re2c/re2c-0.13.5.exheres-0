@@ -18,3 +18,5 @@ DEPENDENCIES="
         sys-devel/bison
 "
 
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/manual.html"
+

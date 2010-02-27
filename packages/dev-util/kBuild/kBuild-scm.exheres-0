@@ -18,6 +18,11 @@ SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS=""
 
+UPSTREAM_DOCUMENTATION="
+    ${HOMEPAGE}/Documentation [[ description = [ Official documentation ] ]]
+    ${HOMEPAGE}/ContributedDocumentation [[ description = [ Contributed documentation ] ]]
+"
+
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-glibc-2.10.patch" )
 
 src_prepare() {

@@ -78,6 +78,8 @@ DEPENDENCIES="
         java? ( virtual/jre:*[>=1.5] )
 "
 
+UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/news/"
+
 rpm_unpack() {
     # Pipes don't work with edo
     echo "rpm2tar -O ${1} | tar -xf - --no-same-owner -C ${WORK}"

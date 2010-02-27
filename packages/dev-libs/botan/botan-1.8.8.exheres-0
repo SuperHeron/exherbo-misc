@@ -33,6 +33,10 @@ DEPENDENCIES="
 
 REMOTE_IDS="freshmeat:${PN}"
 
+UPSTREAM_CHANGELOG="${HOMEPAGE}/log.html"
+UPSTREAM_DOCUMENTATION="http://files.randombit.net/${PN}/api.pdf"
+UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/news/"
+
 WORK="${WORKBASE}/${MY_PNV}"
 
 DEFAULT_SRC_COMPILE_PARAMS=( LIB_OPT="${CXXFLAGS} -finline-functions" )
