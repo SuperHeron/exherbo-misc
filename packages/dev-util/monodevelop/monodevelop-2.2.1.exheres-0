@@ -11,7 +11,7 @@ applications on Linux. MonoDevelop makes it easy for developers to port
 .NET applications created with Visual Studio to Linux and to maintain
 a single code base for all platforms.
 "
-HOMEPAGE="http://monodevelop.com/"
+HOMEPAGE="http://monodevelop.com"
 DOWNLOADS="http://ftp.novell.com/pub/mono/sources/${PN}/${PNV}.tar.bz2"
 
 LICENCES="GPL-2"
