@@ -15,10 +15,12 @@ PLATFORMS="~amd64 ~x86"
 MYOPTIONS="dbus"
 
 DEPENDENCIES="
+    build:
+        sys-devel/gettext
     build+run:
         dev-libs/gnutls[>=2.8.3]
         net-dns/libidn
-        sys-devel/gettext
+        x11-apps/xdg-utils
         x11-libs/wxGTK:2.8[>=2.8.9]
         dbus? ( sys-apps/dbus[>=1.2] )
 "
