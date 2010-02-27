@@ -3,12 +3,14 @@
 
 require gnome-2
 
+CAMELCASE_PN="GPointingDeviceSettings"
+DL_NUMBER="45812"
 SUMMARY="Trackpad/Touchpad configuration tool for GNOME"
 DESCRIPTION="
 GPointingDeviceSettings is a GUI tool for setting pointing device such as TrackPoint or Touchpad. Each UI can be written as dynamic loadable module, so a third party can add its own UI. 
 "
-HOMEPAGE="http://live.gnome.org/GPointingDeviceSettings"
-DOWNLOADS="mirror://sourceforge.jp/gsynaptics/43803/${PNV}.tar.gz"
+HOMEPAGE="http://live.gnome.org/${CAMELCASE_PN}"
+DOWNLOADS="mirror://sourceforge.jp/gsynaptics/${DL_NUMBER}/${PNV}.tar.gz"
 
 LICENCES="LGPL-3"
 SLOT="0"
@@ -17,15 +19,18 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build:
+        dev-util/intltool[>=0.35.0]
+        sys-devel/gettext
     build+run:
         gnome-platform/GConf:2[>=2.24.0]
         gnome-desktop/gnome-settings-daemon[>=2.24.0]
         x11-libs/gtk+:2[>=2.14.0]
+        x11-libs/libX11[>=1.2.0]
         x11-libs/libXi[>=1.2.0]
         !x11-apps/gsynaptics
 "
 
-BUGS_TO="http://bugzilla.gnome.org/enter_bug.cgi?product=GPointingDeviceSetting$"
+BUGS_TO="http://bugzilla.gnome.org/enter_bug.cgi?product=${CAMELCASE_PN}"
 
 src_install() {
     gnome-2_src_install
