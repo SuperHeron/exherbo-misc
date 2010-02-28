@@ -1,7 +1,7 @@
 # Copyright 2009, 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-export_exlib_phases src_prepare src_configure src_install
+export_exlib_phases src_prepare src_configure src_compile src_install pkg_postinst
 
 require multilib
 
@@ -15,6 +15,7 @@ SLOT="0"
 
 LANGS="de en fr nl"
 MYOPTIONS="
+    firefox [[ description = [ Build firefox extension ] ]]
     ( linguas: ${LANGS} ) [[ number-selected = [ exactly-one ] ]]
     pcsc_drivers: acr38u ccid
 "
@@ -22,22 +23,27 @@ MYOPTIONS="
 DEPENDENCIES="
     build:
         dev-lang/swig[>=1.3.35]
-        virtual/jdk:=[>=1.5.0]
+        firefox? ( app-arch/zip )
     build+run:
         dev-libs/openssl[>=0.9.8g]
         dev-libs/xerces-c[>=2.7.0]
+        virtual/jdk:=[>=1.5.0]
         x11-libs/wxGTK:2.8 [[ note = [ For wxGTK 2.6 compatibility ] ]]
         x11-libs/qt:4[>=4.5.0][qt3support]
     run:
+        sys-apps/pcsc-lite[>=1.4.4]
         pcsc_drivers:acr38u? ( app-crypt/acr38u[>=1.7.10] )
         pcsc_drivers:ccid? ( app-crypt/ccid )
-        sys-apps/pcsc-lite[>=1.4.4]
 "
 
 beid-middleware_src_prepare()
 {
     default
+
     edo chmod +x configure || die "edo failed. old paludis?"
+    edo cp "${FILES}/${PN}-configure_exherbo.sh" configure_exherbo.sh
+    edo chmod +x configure_exherbo.sh
+
     if optionq !linguas:en; then
         for lang in ${LANGS}; do
             if optionq linguas:${lang}; then
@@ -48,35 +54,32 @@ beid-middleware_src_prepare()
             fi
         done
     fi
+
+    if optionq firefox; then
+        edo cd "${WORK}/xpi"
+        # VERSION file has been saved in DOS mode with a trailing CR/LF
+        edo mv VERSION VERSION.orig
+        local version=$(cat VERSION.orig | tr -d '\r\n')
+        echo "${version}" > VERSION
+    fi
 }
 
 beid-middleware_src_configure() {
-    # Not a GNU configure
-    edo ./configure \
-        --lib=-L/usr/$(get_libdir) \
-        --lib+=-L/usr/$(get_libdir)/qt4 \
-        --prefix=${IMAGE}/usr
+    # Perl configure script, not GNU compliant
+    edo ./configure_exherbo.sh
+}
+
+beid-middleware_src_compile() {
+    default
+    if optionq firefox; then
+        edo cd "${WORK}/xpi"
+        edo ./build.sh
+    fi
 }
 
 beid-middleware_src_install() {
-    edo cd "${WORK}/lib"
-    dolib libbeidapplayer.so* \
-          libbeidcardlayer.so* \
-          libbeidcommon.so* \
-          libbeidpkcs11.so* \
-          libbeiddialogsQT.so* \
-          libbeidlib.so* \
-          libbeidlibJava_Wrapper.so*
-    insinto "/usr/$(get_libdir)/siscardplugins"
-    doins libsiscardplugin1__ACS__.so*
-    edo cd "${WORK}/bin"
-    into /usr
-    dobin beidgui \
-          beiddialogsQTsrv \
-          eidmw_de.qm \
-          eidmw_en.qm \
-          eidmw_fr.qm \
-          eidmw_nl.qm
+    emake INSTALL_ROOT="${IMAGE}" install || die "emake install failed"
+
     edo cd "${WORK}/install"
     insinto /usr/share/pixmaps
     doins eid35.png
@@ -86,14 +89,22 @@ beid-middleware_src_install() {
     newins beid.conf.3.5 beidgui.conf
     diropts -m0777
     keepdir /usr/share/beid/crl
+
+    if optionq firefox; then
+        edo cd "${WORK}/xpi"
+        local xpi=$(readlink -f "${WORK}/xpi/builds/belgiumeid-CURRENT.xpi")
+        insinto /usr/share/beid
+        doins "${xpi}"
+    fi
 }
 
-#beid-middleware_pkg_postinst() {
-#    elog "Firefox XPI add-on for registering PKCS#11 library does not yet belong to this package."
-#    elog "XPI file is available at : http://eid-mw.googlecode.com/files/belgiumeid-1.0.6.xpi"
-#    elog "To know how to use your software with beID, visit :"
-#    elog "  * French : http://eid.belgium.be/fr/Informations_legales_et_techniques/Mises_a_jour_des_logiciels/index.jsp"
-#    elog "  * Dutch : http://eid.belgium.be/nl/Achtergrondinfo/Handleidingen_voor_softwareupdates/index.jsp"
-#    elog "Make sure pcscd daemon is running before using your eID card reader."
-#}
+beid-middleware_pkg_postinst() {
+    optionq firefox && elog "Firefox XPI add-on for registering PKCS#11 library has been installed in /usr/share/beid."
+    elog "To know how to use your software with beID, visit :"
+    elog " * French :
+http://eid.belgium.be/fr/Informations_legales_et_techniques/Mises_a_jour_des_logiciels/index.jsp"
+    elog " * Dutch :
+http://eid.belgium.be/nl/Achtergrondinfo/Handleidingen_voor_softwareupdates/index.jsp"
+    elog "Make sure pcscd daemon is running before using your eID card reader."
+}
 
