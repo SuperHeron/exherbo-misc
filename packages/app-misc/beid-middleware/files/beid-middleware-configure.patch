@@ -1,0 +1,17 @@
+Source: written by Pierre Lejeune <superheron@gmail.com>
+Upstream: no(t yet)
+Reason: Add Exherbo support in eid-mw build system
+--- beid-middleware.orig/_src/eidmw/configure	2010-02-03 18:20:55.681687667 +0100
++++ beid-middleware/_src/eidmw/configure	2010-02-27 20:52:15.199398798 +0100
+@@ -68,6 +68,11 @@
+ 		$distribution_version = "2008.0";
+ 		$distro 	      = "gentoo";
+ 	}
++	elsif (-e "/etc/exherbo-release")
++	{
++		$distribution_version = "none";
++		$distro               = "exherbo";
++	}
+ 	else
+ 	{
+ 		## the --include and --lib must be set by the user
