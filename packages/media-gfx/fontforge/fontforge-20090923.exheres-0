@@ -16,7 +16,7 @@ DOWNLOADS="mirror://sourceforge/${PN}/${PN}-source/${PN}_full-${PV}.tar.bz2"
 LICENCES="BSD-3"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="X cairo freetype pango python type3"
+MYOPTIONS="X cairo pango python truetype type3"
 
 DEPENDENCIES="
     build:
@@ -40,12 +40,12 @@ DEPENDENCIES="
             media-libs/fontconfig
             x11-libs/cairo
         )
-        freetype? ( media-libs/freetype:2 )
         pango? (
             x11-libs/libXft
             x11-libs/pango[X]
         )
         python? ( dev-lang/python:=[>=2.3] )
+        truetype? ( media-libs/freetype:2 )
 "
 
 REMOTE_IDS="sourceforge:${PN}"
@@ -66,8 +66,8 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'python'
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'freetype'
     'python pyextension'
+    'truetype'
     'type3'
 )
 
