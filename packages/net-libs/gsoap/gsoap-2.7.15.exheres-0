@@ -11,13 +11,12 @@ DOWNLOADS="mirror://sourceforge/${PN}2/${PNV/-/_}.tar.gz"
 LICENCES="gSOAP-1.3b GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="debug samples ssl zlib"
+MYOPTIONS="debug samples zlib"
 
 DEPENDENCIES="
     build+run:
         sys-devel/bison
         sys-devel/flex
-        ssl? ( dev-libs/openssl[>=0.9.6] )
         zlib? ( sys-libs/zlib )
 "
 
@@ -26,10 +25,11 @@ UPSTREAM_DOCUMENTATION="http://www.cs.fsu.edu/~engelen/soapdoc2.html"
 
 WORK="${WORKBASE}/${PN}-$(ever range 1-2)"
 
+DEFAULT_SRC_CONFIGURE_PARAMS=( '--enable-openssl' )
+
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'debug'
     'samples'
-    'ssl openssl'
 )
 
 DEFAULT_SRC_COMPILE_PARAMS=( -j1 )

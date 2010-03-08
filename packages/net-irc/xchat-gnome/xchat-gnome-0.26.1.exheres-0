@@ -12,7 +12,7 @@ HOMEPAGE="http://live.gnome.org/Xchat-Gnome"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="dbus ipv6 libnotify mmx perl python sound spell ssl tcl"
+MYOPTIONS="dbus ipv6 libnotify mmx perl python sound spell tcl"
 
 DEPENDENCIES="
     build:
@@ -33,13 +33,13 @@ DEPENDENCIES="
         python? ( dev-lang/python:=[>=2.6] )
         sound? ( media-libs/libcanberra[gtk] )
         spell? ( app-spell/enchant )
-        ssl? ( dev-libs/openssl )
         tcl? ( dev-lang/tcl )
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--enable-gnome-fe'
     '--enable-nls'
+    '--enable-ssl'
     '--disable-schemas-install'
     '--disable-scrollkeeper'
     '--disable-static'
@@ -52,7 +52,6 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'perl'
     'python'
     'sound canberra'
-    'ssl openssl'
     'tcl'
 )
 

@@ -11,7 +11,7 @@ DOWNLOADS="ftp://vsftpd.beasts.org/users/cevans/${PNV}.tar.gz"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="pam ssl tcp-wrappers xinetd"
+MYOPTIONS="pam tcp-wrappers xinetd"
 
 DEPENDENCIES="
     build:
@@ -20,7 +20,6 @@ DEPENDENCIES="
         sys-libs/libcap
         user/ftp
         pam? ( sys-libs/pam )
-        ssl? ( dev-libs/openssl )
         tcp-wrappers? ( sys-apps/tcp-wrappers )
     run:
         xinetd? ( sys-apps/xinetd )
@@ -36,7 +35,7 @@ src_configure() {
     ebegin 'Settings build options'
     optionq pam || sed -i -e 's/#define VSF_BUILD_PAM/#undef VSF_BUILD_PAM/' builddefs.h || die 'sed for option pam failed'
     optionq tcp-wrappers && sed -i -e 's/#undef VSF_BUILD_TCPWRAPPERS/#define VSF_BUILD_TCPWRAPPERS/' builddefs.h || die 'sed for option tcp-wrappers failed'
-    optionq ssl && sed -i -e 's/#undef VSF_BUILD_SSL/#define VSF_BUILD_SSL/' builddefs.h || die 'sed for option ssl failed'
+    sed -i -e 's/#undef VSF_BUILD_SSL/#define VSF_BUILD_SSL/' builddefs.h || die 'sed for option ssl failed'
     eend $?
 }
 
