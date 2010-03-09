@@ -33,9 +33,9 @@ DEFAULT_SRC_PREPARE_PATCHES=( ${FILES}/${PNV}-Makefile-destdir.patch )
 src_configure() {
     cd ${WORK}
     ebegin 'Settings build options'
-    optionq pam || sed -i -e 's/#define VSF_BUILD_PAM/#undef VSF_BUILD_PAM/' builddefs.h || die 'sed for option pam failed'
-    optionq tcp-wrappers && sed -i -e 's/#undef VSF_BUILD_TCPWRAPPERS/#define VSF_BUILD_TCPWRAPPERS/' builddefs.h || die 'sed for option tcp-wrappers failed'
-    sed -i -e 's/#undef VSF_BUILD_SSL/#define VSF_BUILD_SSL/' builddefs.h || die 'sed for option ssl failed'
+    optionq pam || edo sed -i -e 's/#define VSF_BUILD_PAM/#undef VSF_BUILD_PAM/' builddefs.h
+    optionq tcp-wrappers && edo sed -i -e 's/#undef VSF_BUILD_TCPWRAPPERS/#define VSF_BUILD_TCPWRAPPERS/' builddefs.h
+    edo sed -i -e 's/#undef VSF_BUILD_SSL/#define VSF_BUILD_SSL/' builddefs.h || die 'sed for option ssl failed'
     eend $?
 }
 
