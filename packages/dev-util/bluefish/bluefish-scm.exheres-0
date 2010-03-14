@@ -48,6 +48,11 @@ src_prepare() {
     edo ./autogen.sh
 }
 
+src_install() {
+    default
+    keepdir /usr/share/bluefish/templates
+}
+
 # Update desktop and MIME databases at the same time
 pkg_postinst() {
     freedesktop-desktop_pkg_postinst
