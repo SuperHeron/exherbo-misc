@@ -24,7 +24,7 @@ WORK="${WORKBASE}/acpica-unix-${PV}/compiler"
 DEFAULT_SRC_PREPARE_PATCHES=( -p2 "${FILES}/${PNV}-parallelmake.patch" )
 
 src_install() {
-    cd ${WORK}
+    edo cd "${WORK}"
     dobin iasl
     dodoc readme.txt
 }

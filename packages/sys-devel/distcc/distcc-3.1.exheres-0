@@ -38,9 +38,7 @@ DEPENDENCIES="
         )
 "
 
-DEFAULT_SRC_PREPARE_PATCHES=(
-    -p0 ${FILES}/${PNV}-src_where_uninitialized.patch
-)
+DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-src_where_uninitialized.patch" )
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--enable-rfc2553'

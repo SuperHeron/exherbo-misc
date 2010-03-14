@@ -22,7 +22,7 @@ DEPENDENCIES="
         sys-libs/slang[>=2.1.3]
 "
 
-DEFAULT_SRC_PREPARE_PATCHES=( ${FILES}/${PNV}-Makefile-strip.patch )
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-Makefile-strip.patch" )
 
 DEFAULT_SRC_INSTALL_PARAMS=( "DOC_DIR=/usr/share/doc/${PNVR}" )
 

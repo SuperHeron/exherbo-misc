@@ -28,10 +28,10 @@ DEPENDENCIES="
 UPSTREAM_CHANGELOG="ftp://vsftpd.beasts.org/users/cevans/untar/${PNV}/Changelog"
 UPSTREAM_DOCUMENTATION="http://vsftpd.beasts.org/vsftpd_conf.html"
 
-DEFAULT_SRC_PREPARE_PATCHES=( ${FILES}/${PNV}-Makefile-destdir.patch )
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-Makefile-destdir.patch" )
 
 src_configure() {
-    cd ${WORK}
+    edo cd "${WORK}"
     ebegin 'Settings build options'
     optionq pam || edo sed -i -e 's/#define VSF_BUILD_PAM/#undef VSF_BUILD_PAM/' builddefs.h
     optionq tcp-wrappers && edo sed -i -e 's/#undef VSF_BUILD_TCPWRAPPERS/#define VSF_BUILD_TCPWRAPPERS/' builddefs.h
@@ -40,12 +40,12 @@ src_configure() {
 }
 
 src_install() {
-    cd ${WORK}
-    mkdir -p "${IMAGE}/usr/sbin"
-    mkdir -p ${IMAGE}/usr/share/man/man{5,8}
+    edo cd "${WORK}"
+    edo mkdir -p "${IMAGE}"/usr/sbin
+    edo mkdir -p "${IMAGE}"/usr/share/man/man{5,8}
     if optionq xinetd; then
-        mkdir -p /etc/xinetd.d
-        sed -i -e 's|/usr/local/sbin/vsftpd|/usr/sbin/vsftpd/' xinetd.d/vsftpd || die 'sed failed'
+        edo mkdir -p /etc/xinetd.d
+        edo sed -i -e 's|/usr/local/sbin/vsftpd|/usr/sbin/vsftpd/' xinetd.d/vsftpd
     fi
     default
     insinto /etc
