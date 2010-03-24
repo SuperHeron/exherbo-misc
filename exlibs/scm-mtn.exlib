@@ -172,7 +172,7 @@ scm-mtn_do_checkout() {
                 ;;
             *.gz)
                 edo gunzip "${download}"
-                download="${download%.gzip}"
+                download="${download%.gz}"
                 ;;
             *.lzma)
                 edo unlzma "${download}"
