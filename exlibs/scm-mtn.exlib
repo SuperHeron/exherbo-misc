@@ -8,7 +8,7 @@ if [[ -z ${SCM_TYPE} ]]; then
 fi
 
 scm-mtn_do_dependencies() {
-    local mtn='dev-scm/monotone[>=0.44]'
+    local mtn='dev-scm/monotone[>=0.37]'
 
     local tunnel=
     if [[ $(scm_get_var REPOSITORY) == ssh://* || $(scm_get_var REPOSITORY) == ssh+ux://* ]]; then
