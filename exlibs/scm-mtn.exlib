@@ -45,10 +45,6 @@ scm-mtn_do_check_vars() {
 
     [[ -n $(scm_get_var SUBPATH) ]] && die "for mtn, $(scm_var_name SUBPATH) must not be set"
 
-    local keys
-    scm_get_array SIGNING_KEYS keys
-    [[ ${#keys[@]} -gt 0 ]] && die "for mtn, $(scm_var_name SIGNING_KEYS) must not be set"
-
     [[ -n $(scm_get_var MTN_SEED)
             && $(scm_get_var MTN_SEED) != http://*
             && $(scm_get_var MTN_SEED) != https://*
