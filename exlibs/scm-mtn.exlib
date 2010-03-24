@@ -73,7 +73,7 @@ scm-mtn_mtn() {
     local cmd=${1}
     shift
     if has ${cmd} automate au db; then
-        cmd="${cmd} ${1}"
+        cmd+=" ${1}"
         shift
     fi
 
@@ -114,7 +114,7 @@ scm-mtn_do_appraise() {
 
     if [[ -n $(scm_get_var TAG) ]]; then
         local sel=t:$(scm-mtn_escape "$(scm_get_var TAG)")
-        [[ -n $(scm_get_var BRANCH) ]] && sel=${sel}/b:"$(scm-mtn_escape "$(scm_get_var BRANCH)")"
+        [[ -n $(scm_get_var BRANCH) ]] && sel+=/b:"$(scm-mtn_escape "$(scm_get_var BRANCH)")"
         local revs=( $(scm-mtn_mtn -q automate select "${sel}") )
         local onbranch=
         [[ -n $(scm_get_var BRANCH) ]] && onbranch=" on branch $(scm_get_var BRANCH)"
@@ -224,7 +224,7 @@ scm-mtn_warn_divergence() {
 scm-mtn_do_revision() {
     if [[ -n $(scm_get_var TAG) ]]; then
         local sel=t:$(scm-mtn_escape "$(scm_get_var TAG)")
-        [[ -n $(scm_get_var BRANCH) ]] && sel=${sel}/b:$(scm-mtn_escape "$(scm_get_var BRANCH)")
+        [[ -n $(scm_get_var BRANCH) ]] && sel+=/b:$(scm-mtn_escape "$(scm_get_var BRANCH)")
         scm-mtn_mtn -q automate select "${sel}"
     elif [[ -n $(scm_get_var REVISION) ]]; then
         scm_get_var REVISION
@@ -240,7 +240,7 @@ scm-mtn_do_unpack() {
     [[ -n $(scm_get_var BRANCH) ]] && args+=( -b "$(scm_get_var BRANCH)" )
     if [[ -n $(scm_get_var TAG) ]]; then
         local sel=t:$(scm-mtn_escape "$(scm_get_var TAG)")
-        [[ -n $(scm_get_var BRANCH) ]] && sel=${sel}/b:$(scm-mtn_escape "$(scm_get_var BRANCH)")
+        [[ -n $(scm_get_var BRANCH) ]] && sel+=/b:$(scm-mtn_escape "$(scm_get_var BRANCH)")
         args+=( -r "${sel}" )
     elif [[ -n $(scm_get_var REVISION) ]]; then
         args+=( -r i:$(scm_get_var REVISION) )
