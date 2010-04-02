@@ -20,10 +20,7 @@ HOMEPAGE="http://www.openoffice.org"
 
 OO_PN="${PN%%-bin}"
 OO_PNV="${OO_PN}-${PV}"
-OO_LINGUAS=(
-    ca cs cy da de el en_GB en_US es et fr ga gl gu_IN hi_IN it ja ko ku
-    lt mk nb nl nn pa_IN pl pt pt_BR ru sh sl sr sv tr vi zh_CN zh_TW
-)
+OO_LINGUAS=( ast ca da en_US es fr gl ja nl pl ru sl tr )
 OO_PV12="$(ever range 1-2)"
 OO_BUILDPV="$(ever delete_all ${OO_PV12})0"
 OO_BUILDID="9483"
