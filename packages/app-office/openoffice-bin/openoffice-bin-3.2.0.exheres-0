@@ -65,7 +65,7 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
     gnome java kde
-    linguas: ${OO_LINGUAS[@]} [[ number-selected = at-least-one ]]
+    ( linguas: ${OO_LINGUAS[@]} ) [[ number-selected = at-least-one ]]
     platform: amd64 x86
 "
 
