@@ -3,11 +3,13 @@
 # Based in part upon 'pidgin-2.5.8.exheres-0', which is:
 #     Copyright 2009 Mike Kelly
 
+AT_M4DIR="m4macros"
+
 SCM_REPOSITORY="mtn.pidgin.im"
 SCM_BRANCH="im.pidgin.${PN}"
 SCM_MTN_SEED="http://developer.pidgin.im/static/${PN}.mtn.bz2"
 
-require scm-mtn gnome-2 autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] sourceforge
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] gnome-2 scm-mtn sourceforge
 
 SUMMARY="A multi-protocol, multi-platform Instant Messaging client."
 DESCRIPTION="
@@ -41,6 +43,7 @@ PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
     avahi [[ description = [ Needed for the Bonjour protocol ] ]]
     dbus
+    gnutls
     gstreamer [[ description = [ Needed for sound in the GTK+ client ] ]]
     gtk [[ description = [ Enable the GTK+ 'pidgin' client ] ]]
     mono
@@ -49,59 +52,60 @@ MYOPTIONS="
     nss [[ description = [ Support for Mozilla's NSS library ] ]]
     perl [[ description = [ Support for plugins written in perl ] ]]
     spell
-    ssl
     startup-notification
     tcl [[ description = [ Support plugins written in tcl/tk ] ]]
     tk
-    vv [[ description = [ Support for Voice and Video support ] ]]
+    vv [[ description = [ Support for Voice and Video ] ]]
 
-    (
-        gtk
-        ncurses
-    ) [[ number-selected = at-least-one ]]
+    ( gnutls nss ) [[ number-selected = at-most-one ]]
+    ( gtk ncurses ) [[ number-selected = at-least-one ]]
 
     gstreamer [[ requires = gtk ]]
-    vv [[ requires = gstreamer ]]
-    tcl [[ requires = tk ]]
     tk [[ requires = tcl ]]
+    vv [[ requires = gstreamer ]]
 "
 
 DEPENDENCIES="
     build:
-        dev-lang/perl
+        dev-lang/perl:=
         dev-perl/XML-Parser
         dev-util/intltool
+        dev-util/pkg-config
         sys-devel/gettext
         gtk? ( x11-proto/scrnsaverproto )
     build+run:
-        dev-libs/glib
-        dev-libs/libxml2
+        dev-libs/glib:2[>=2.12.0]
+        dev-libs/libxml2:2.0[>=2.6.18]
         avahi? ( net-dns/avahi )
-        dbus? ( dev-libs/dbus-glib )
+        dbus? ( dev-libs/dbus-glib:1[>=0.60] )
+        gnutls? ( dev-libs/gnutls )
         gstreamer? (
-            media-libs/gstreamer
-            media-plugins/gst-plugins-good
-            vv? ( net-im/farsight2 )
+            media-libs/gstreamer:0.10[>=0.10.10]
+            media-plugins/gst-plugins-good:0.10
+            vv? ( net-im/farsight2:0.10[>=0.0.9] )
         )
         gtk? (
-            x11-libs/gtk+
+            x11-libs/gtk+:2[>=2.10.0]
             x11-libs/libXScrnSaver
         )
         mono? ( dev-lang/mono )
         ncurses? ( sys-libs/ncurses )
         networkmanager? ( net-apps/NetworkManager )
-        nss? ( dev-libs/nss )
-        perl? ( dev-lang/perl )
-        spell? ( app-spell/gtkspell )
-        ssl? ( dev-libs/gnutls )
+        nss? (
+            dev-libs/nspr
+            dev-libs/nss
+        )
+        perl? ( dev-lang/perl:= )
+        spell? ( app-spell/gtkspell:2[>=2.0.2] )
         startup-notification? ( x11-libs/startup-notification )
-        tcl? ( dev-lang/tcl )
-        tk? ( dev-lang/tk )
+        tcl? ( dev-lang/tcl:= )
+        tk? ( dev-lang/tk:= )
 "
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'avahi'
     'dbus'
+    'gnutls'
     'gstreamer'
     'gtk gtkui'
     'gtk screensaver'
@@ -111,7 +115,6 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'nss'
     'perl'
     'spell gtkspell'
-    'ssl gnutls yes'
     'startup-notification'
     'tcl'
     'tk'
@@ -119,16 +122,19 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
 )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'gtk x'
+    "nss nspr-includes $(pkg-config --variable=includedir nspr)"
+    "nss nspr-libs $(pkg-config --variable=libdir nspr)"
+    "nss nss-includes $(pkg-config --variable=includedir nss)"
+    "nss nss-libs $(pkg-config --variable=libdir nss)"
 )
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     # until we get exheres for these:
     '--disable-meanwhile'
+    '--enable-idn'
     '--enable-nls'
 )
 
 REMOTE_IDS+="freshmeat:pidgin"
-
-BUGS_TO="pioto@exherbo.org"
 
 UPSTREAM_RELEASE_NOTES="http://developer.pidgin.im/wiki/ChangeLog"
 UPSTREAM_DOCUMENTATION="
@@ -137,7 +143,8 @@ UPSTREAM_DOCUMENTATION="
 "
 
 src_prepare() {
-    edo intltoolize --force --copy
+    edo glib-gettextize --copy --force
+    edo intltoolize --automake --copy --force
     autotools_src_prepare
 }
 
