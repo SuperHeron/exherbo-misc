@@ -22,7 +22,7 @@ DEPENDENCIES="
     build+run:
         dev-lang/python:=[>=2.5]
         dev-libs/glib:2[>=2.2.0]
-        gnome-bindings/pygtk:2[>=2.10.0]
+        gnome-bindings/pygtk:2[>=2.12.0]
         gnome-desktop/librsvg:2
         x11-apps/xdg-utils
         spell? (
@@ -33,7 +33,7 @@ DEPENDENCIES="
         media-gfx/graphviz [[ description = [ Enable creation of graphs ] ]]
 "
 
-UPSTREAM_DOCUMENTATION="http://www.gramps-project.org/wiki/index.php?title=Portal:Using_GRAMPS"
+UPSTREAM_DOCUMENTATION="http://www.gramps-project.org/wiki/index.php?title=User_manual"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( --disable-mime-install )
 
