@@ -1,6 +1,11 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+MY_PV="${PV}dev"
+MY_PNV="${PN}-${MY_PV}"
+
+require launchpad [ branch='trunk' ]
+
 SUMMARY="Application Docking Software for Unix-like Systems"
 DESCRIPTION="
 AllTray is a program you can use on Unix-like systems such as GNU/Linux
@@ -9,10 +14,7 @@ have a native tray icon into the system tray/notification area. AllTray works
 with many desktop environments and window managers, including Metacity on
 GNOME, KWin on KDE and OpenBox, both standalone and with GNOME or KDE.
 "
-MY_PV="${PV}dev"
-MY_PNV="${PN}-${MY_PV}"
-HOMEPAGE="http://alltray.trausch.us"
-DOWNLOADS="http://code.launchpad.net/alltray/trunk/${MY_PV}/+download/${MY_PNV}.tar.gz"
+HOMEPAGE+=" http://alltray.trausch.us"
 
 LICENCES="GPL-3"
 SLOT="0"
