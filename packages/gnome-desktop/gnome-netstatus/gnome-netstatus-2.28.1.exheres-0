@@ -16,12 +16,13 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build:
-    build+run:
-        dev-lang/perl[>=5]
+        dev-lang/perl:*[>=5]
         dev-util/intltool[>=0.35.0]
+        dev-util/pkg-config[>=0.9.0]
+        sys-devel/gettext
+    build+run:
         gnome-desktop/gnome-panel[>=2.0.0]
         gnome-platform/GConf:2
-        sys-devel/gettext
         x11-libs/gtk+:2[>=2.16.0]
 "
 
