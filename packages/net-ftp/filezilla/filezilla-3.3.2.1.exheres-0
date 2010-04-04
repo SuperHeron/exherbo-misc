@@ -16,6 +16,7 @@ MYOPTIONS="dbus"
 
 DEPENDENCIES="
     build:
+        dev-util/pkg-config[>=0.9.0]
         sys-devel/gettext
     build+run:
         dev-libs/gnutls[>=2.8.3]
