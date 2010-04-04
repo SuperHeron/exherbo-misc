@@ -1,7 +1,7 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require sourceforge
+require sourceforge [ pnv="${PNV}-src" ]
 
 SUMMARY="Free open source MSN Messenger clone"
 DESCRIPTION="
