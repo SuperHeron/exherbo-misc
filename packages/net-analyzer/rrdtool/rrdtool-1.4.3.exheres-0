@@ -17,11 +17,13 @@ PLATFORMS="~amd64"
 MYOPTIONS="cgi lua perl python ruby tcl"
 
 DEPENDENCIES="
+    build:
+        dev-util/intltool[>=0.35.0]
+        dev-util/pkg-config
+        sys-devel/gettext[>=0.17]
+        sys-apps/groff
     build+run:
         dev-libs/libxml2[>=2.6.31]
-        dev-util/intltool[>=0.35.0]
-        sys-apps/groff
-        sys-devel/gettext[>=0.14.4]
         x11-libs/cairo[>=1.4.6][pdf(+)][svg(+)]
         x11-libs/pango[>=1.17]
         lua? ( dev-lang/lua[>=5.1] )
