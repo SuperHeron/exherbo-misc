@@ -7,12 +7,15 @@ SUMMARY="A family of powerful x86 virtualization products"
 DESCRIPTION="VirtualBox is a powerful x86 virtualization product for enterprise as well as home use. Not only is VirtualBox an extremely feature rich, high performance product for enterprise customers, it is also the only professional solution that is freely available as Open Source Software under the terms of the GNU General Public License (GPL)."
 HOMEPAGE="http://www.virtualbox.org"
 MY_PNV="VirtualBox-${PV}-OSE"
-DOWNLOADS="http://download.virtualbox.org/${PN%-ose}/${PV}/${MY_PNV}.tar.bz2"
+DOWNLOADS="
+    http://download.virtualbox.org/${PN%-ose}/${PV}/${MY_PNV}.tar.bz2
+    additions? ( http://download.virtualbox.org/${PN%-ose}/${PV}/VBoxGuestAdditions_${PV}.iso )
+"
 
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="X alsa dbus opengl pulseaudio python truetype webservice wine
+MYOPTIONS="X additions alsa dbus opengl pulseaudio python truetype webservice wine
     webservice [[ description = [ Build VBoxWebSrv ] ]]
     wine [[ description = [ Build wine support ] ]]
 
@@ -139,6 +142,12 @@ KERNEL=="vboxdrv", NAME="vboxdrv", OWNER="root", GROUP="vboxusers", MODE="0660"
 SUBSYSTEM=="usb_device", GROUP="vboxusers", MODE="0664"
 SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", GROUP="vboxusers", MODE="0664"
 EOF
+
+    # Install guest additions if required
+    if optionq additions; then
+        insinto /usr/"$(get_libdir)"/"${PN}"
+        newins "${FETCHEDDIR}"/VBoxGuestAdditions_"${PV}".iso VBoxGuestAdditions.iso
+    fi
 }
 
 pkg_postinst() {
