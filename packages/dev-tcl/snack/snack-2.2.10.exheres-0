@@ -1,0 +1,80 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require distutils
+
+MY_PNV="${PN}${PV}"
+
+SUMMARY="The Snack Sound Toolkit"
+DESCRIPTION="
+Snack is a sound processing toolkit designed as an extension
+to a scripting language. Snack currently works with the scripting
+languages Tcl/Tk, Python, and Ruby.
+Snack has commands to play, record, process, and visualize sound.
+Snack provides high level sound objects, with flexible storage management,
+and streaming support. It handles most common sound file formats.
+The visualization canvas item types update in real-time and can output
+postscript.
+"
+HOMEPAGE="http://www.speech.kth.se/${PN}"
+DOWNLOADS="${HOMEPAGE}/dist/${MY_PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="alsa ogg python"
+
+DEPENDENCIES="
+    build:
+    build+run:
+        dev-lang/tcl[>=8.0]
+        dev-lang/tk[>=8.0]
+        x11-libs/libX11
+        alsa? ( sys-sound/alsa-lib )
+        ogg? ( 
+            media-libs/libogg
+            media-libs/libvorbis
+        )
+        python? ( dev-lang/python:= )
+"
+
+UPSTREAM_CHANGELOG="${HOMEPAGE}/changes.txt"
+
+WORK="${WORKBASE}/${MY_PNV}/unix"
+WORK_PYTHON="${WORKBASE}/${MY_PNV}/python"
+
+src_prepare() {
+    edo cd "${WORKBASE}/${MY_PNV}"
+    expatch "${FILES}/${PNV}-conflicting-floor.patch"
+    if option python; then
+        edo cd "${WORK_PYTHON}"
+        distutils_src_prepare
+    fi
+}
+
+src_configure() {
+    local myconf=( '--hates=docdir' '--enable-threads' '--disable-stubs' )
+    option alsa && myconf+=( '--enable-alsa' )
+    option ogg && myconf+=(
+        '--with-ogg-include=/usr/include'
+        "--with-ogg-lib=/usr/$(get_libdir)"
+    )
+    econf "${myconf[@]}"
+}
+
+src_compile() {
+    default
+    if option python; then
+        edo cd "${WORK_PYTHON}"
+        distutils_src_compile
+    fi
+}
+
+src_install() {
+    default
+    if option python; then
+        edo cd "${WORK_PYTHON}"
+        distutils_src_install
+    fi
+}
+
