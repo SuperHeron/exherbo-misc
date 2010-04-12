@@ -46,6 +46,8 @@ DEPENDENCIES="
         x11-libs/libX11
         upnp? ( net-libs/gupnp-igd )
         v4l? ( media-libs/libv4l[>=0.5] )
+    recommendation:
+        dev-tcl/snack [[ description = [ For sound support ] ]]
 "
 
 REMOTE_IDS+=" freshmeat:${PN} "
