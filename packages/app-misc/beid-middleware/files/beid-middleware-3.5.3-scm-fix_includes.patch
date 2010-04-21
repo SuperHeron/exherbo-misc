@@ -1,0 +1,33 @@
+Source: written by Pierre Lejeune <superheron@gmail.com>
+Upstream: submitted, see issue 7
+Reason: fix missing c standard library headers
+--- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/common/LogBase.h	2009-06-17 16:11:04.000000000 +0200
++++ beid-middleware-3.5.2-source-5800/_src/eidmw/common/LogBase.h	2009-10-28 21:36:59.681022867 +0100
+@@ -73,6 +73,7 @@
+ 
+ #pragma once
+ 
++#include <cstdarg>
+ #include <memory>
+ #include <string>
+ #include <vector>
+--- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/dialogs/dialogsQTsrv/dlgWndAskPINs.cpp	2009-06-17 16:11:06.000000000 +0200
++++ beid-middleware-3.5.2-source-5800/_src/eidmw/dialogs/dialogsQTsrv/dlgWndAskPINs.cpp	2009-10-28 21:42:18.814052205 +0100
+@@ -18,6 +18,7 @@
+ 
+ **************************************************************************** */
+ 
++#include <cstdio>
+ #include "dlgWndAskPINs.h"
+ #include "../langUtil.h"
+ 
+--- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/dialogs/dialogsQTsrv/dlgWndAskPIN.cpp	2009-06-17 16:11:06.000000000 +0200
++++ beid-middleware-3.5.2-source-5800/_src/eidmw/dialogs/dialogsQTsrv/dlgWndAskPIN.cpp	2009-10-28 21:42:18.814052205 +0100
+@@ -18,6 +18,7 @@
+ 
+ **************************************************************************** */
+ 
++#include <cstdio>
+ #include "dlgWndAskPIN.h"
+ #include "../langUtil.h"
+ 

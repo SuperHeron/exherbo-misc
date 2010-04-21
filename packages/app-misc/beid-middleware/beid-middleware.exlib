@@ -54,14 +54,6 @@ beid-middleware_src_prepare()
             fi
         done
     fi
-
-    if optionq firefox; then
-        edo cd "${WORK}/xpi"
-        # VERSION file has been saved in DOS mode with a trailing CR/LF
-        edo mv VERSION VERSION.orig
-        local version=$(cat VERSION.orig | tr -d '\r\n')
-        echo "${version}" > VERSION
-    fi
 }
 
 beid-middleware_src_configure() {

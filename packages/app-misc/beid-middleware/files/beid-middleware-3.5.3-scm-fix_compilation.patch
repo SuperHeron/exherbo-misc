@@ -1,0 +1,72 @@
+Source: written by Pierre Lejeune <superheron@gmail.com>
+Upstream: submitted, see issue 7
+Reason: fix compilation issues with xerces-c-3 and swig
+--- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/applayer/cryptoFramework.cpp	2009-10-28 22:18:33.531272938 +0100
++++ beid-middleware-3.5.2-source-5800/_src/eidmw/applayer/cryptoFramework.cpp	2009-10-28 22:18:49.614022998 +0100
+@@ -1763,7 +1763,7 @@
+ 	XMLByte *pOut=NULL;
+ 
+ 	//Encode the baIn
+-	pOut=XERCES_CPP_NAMESPACE::Base64::encode((XMLByte *)baIn.GetBytes(),baIn.Size(),&iLenOut);
++	pOut=XERCES_CPP_NAMESPACE::Base64::encode((XMLByte *)baIn.GetBytes(),(size_t)baIn.Size(),(size_t*)&iLenOut);
+ 	if(!pOut)
+ 		return false;
+ 
+@@ -1771,7 +1771,7 @@
+ 	baOut.ClearContents();
+ 	baOut.Append(pOut,iLenOut);
+ 
+-	XERCES_CPP_NAMESPACE::XMLString::release(&pOut);
++	XERCES_CPP_NAMESPACE::XMLString::release((char**)&pOut);
+ 
+ 	//If we don't want linefeed, we have to replace them by space
+ 	if(!bWithLineFeed)
+@@ -1792,7 +1792,7 @@
+ 	pIn[baIn.Size()]=0;
+ 
+ 	//Decode the pIn
+-	pOut=XERCES_CPP_NAMESPACE::Base64::decode((XMLByte *)pIn,&iLenOut);
++	pOut=XERCES_CPP_NAMESPACE::Base64::decode((XMLByte *)pIn,(size_t*)&iLenOut);
+ 	if(!pOut)
+ 	{
+ 		delete[] pIn;
+@@ -1802,7 +1802,7 @@
+ 	//Put the result in baOut
+ 	baOut.ClearContents();
+ 	baOut.Append(pOut,iLenOut);
+-	XERCES_CPP_NAMESPACE::XMLString::release(&pOut);
++	XERCES_CPP_NAMESPACE::XMLString::release((char**)&pOut);
+ 	delete[] pIn;
+ 
+ 	return true;
+--- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/applayer/CRLService.cpp	2009-06-17 16:11:00.000000000 +0200
++++ beid-middleware-3.5.2-source-5800/_src/eidmw/applayer/CRLService.cpp	2009-10-28 22:28:58.876273388 +0100
+@@ -1204,7 +1204,7 @@
+ 	// and check for the lock, otherwise they can do whatever they like ..
+ 	
+ 	if( fcntl(fileno(m_f), F_SETLKW, &m_tFlCache) == -1){  /* set the lock, waiting if necessary */
+-	  printf("APL_CrlDownloadingCache::loadCacheFile file 0x%0x fcntl: %s\n",(unsigned int)m_f,strerror(errno));
++	  printf("APL_CrlDownloadingCache::loadCacheFile file 0x%0x fcntl: %s\n",fileno(m_f),strerror(errno));
+ 	  exit(1);
+ 	}
+ #endif
+--- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/eidlib/eidlib.i	2009-06-17 16:11:08.000000000 +0200
++++ beid-middleware-3.5.2-source-5800/_src/eidmw/eidlib/eidlib.i	2010-01-16 21:07:04.341813800 +0100
+@@ -501,7 +501,7 @@
+ %typemap(out)          const unsigned char* 
+ {
+ 	$result = jenv->NewByteArray(arg1->Size());
+-	jenv->SetByteArrayRegion($result,0,arg1->Size(),(const jbyte*) $1);
++	jenv->SetByteArrayRegion($result,0,arg1->Size(),(jbyte*)$1);
+ }
+ 
+ %typemap(javaout)	const unsigned char* 
+@@ -1031,7 +1031,7 @@
+ 		JavaVM *jvm;
+ 		jenv->GetJavaVM(&jvm);		// recover the JVM pointer
+ 		
+-		SetEventCallback_WrapperCppData* callbackData = new SetEventCallback_WrapperCppData(jvm,(int)arg3);
++		SetEventCallback_WrapperCppData* callbackData = new SetEventCallback_WrapperCppData(jvm,*(int*)arg3);
+ 		WrapperCppDataContainer.push_back(callbackData);
+ 		
+ 		//------------------------------------------------------		
