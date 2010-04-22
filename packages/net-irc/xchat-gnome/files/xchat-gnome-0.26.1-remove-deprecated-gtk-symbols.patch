@@ -1,0 +1,150 @@
+From 9293922f0f69a6cb2b1a44c5b542eced14f84f9c Mon Sep 17 00:00:00 2001
+From: Ritesh Khadgaray <khadgaray@gmail.com>
+Date: Fri, 12 Mar 2010 10:03:58 +0000
+Subject: remove deprecated GTK+ symbols, GTK_WIDGET_VISIBLE and GTK_WIDGET_REALIZED
+
+---
+diff --git a/src/fe-gnome/fe-gnome.c b/src/fe-gnome/fe-gnome.c
+index ee57a26..261b29e 100644
+--- a/src/fe-gnome/fe-gnome.c
++++ b/src/fe-gnome/fe-gnome.c
+@@ -788,7 +788,7 @@ fe_gui_info (session * sess, int info_type)
+ {
+ 	switch (info_type) {
+ 	case 0:
+-		if (!GTK_WIDGET_VISIBLE (GTK_WINDOW (gui.main_window))) {
++		if (!gtk_widget_get_visible (GTK_WIDGET (gui.main_window))) {
+ 			return 2;
+ 		}
+ 		if (gtk_window_is_active (GTK_WINDOW (gui.main_window))) {
+diff --git a/src/fe-gnome/find-bar.c b/src/fe-gnome/find-bar.c
+index a4f4308..d4ef5e9 100644
+--- a/src/fe-gnome/find-bar.c
++++ b/src/fe-gnome/find-bar.c
+@@ -247,7 +247,7 @@ find_bar_close (FindBar *bar)
+ {
+ 	gint position;
+ 
+-	if (!GTK_WIDGET_VISIBLE (bar)) {
++	if (!gtk_widget_get_visible (GTK_WIDGET (bar))) {
+ 		return;
+ 	}
+ 
+diff --git a/src/fe-gnome/text-entry.c b/src/fe-gnome/text-entry.c
+index b7994df..24c192b 100644
+--- a/src/fe-gnome/text-entry.c
++++ b/src/fe-gnome/text-entry.c
+@@ -667,7 +667,7 @@ text_entry_set_current (TextEntry *entry, struct session *sess)
+ 	char *selection = NULL, *text = NULL;
+ 	int start, end;
+ 
+-	g_return_if_fail (GTK_WIDGET_REALIZED (widget));
++	g_return_if_fail (gtk_widget_get_realized (widget));
+ 
+ 	if (sess == priv->current) {
+ 		return;
+diff --git a/src/fe-gnome/userlist-gui.c b/src/fe-gnome/userlist-gui.c
+index 33394e9..c6671df 100644
+--- a/src/fe-gnome/userlist-gui.c
++++ b/src/fe-gnome/userlist-gui.c
+@@ -265,12 +265,12 @@ userlist_gui_show (void)
+ 
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gui.userlist_toggle), TRUE);
+ 
+-	if (!GTK_WIDGET_REALIZED (gui.userlist_window)) {
++	if (!gtk_widget_get_realized (gui.userlist_window)) {
+ 		gtk_widget_realize (gui.userlist_window);
+ 	}
+ 	gtk_widget_size_request (gui.userlist, &request);
+ 
+-	if (GTK_WIDGET_REALIZED (gui.userlist_toggle))
++	if (gtk_widget_get_realized (gui.userlist_toggle))
+ 		anchor_widget = gui.userlist_toggle;
+ 	else
+ 		anchor_widget = gui.main_window;
+diff --git a/src/fe-gnome/xtext.c b/src/fe-gnome/xtext.c
+index 22d8ccb..7f1365a 100644
+--- a/src/fe-gnome/xtext.c
++++ b/src/fe-gnome/xtext.c
+@@ -1086,7 +1086,7 @@ gtk_xtext_size_allocate (GtkWidget * widget, GtkAllocation * allocation)
+ 	xtext->avoid_trans = FALSE;
+ 
+ 	widget->allocation = *allocation;
+-	if (GTK_WIDGET_REALIZED (widget))
++	if (gtk_widget_get_realized (widget))
+ 	{
+ 		xtext->buffer->window_width = allocation->width;
+ 		xtext->buffer->window_height = allocation->height;
+@@ -4109,7 +4109,7 @@ gtk_xtext_set_palette (GtkXText * xtext, GdkColor palette[])
+ 		xtext->palette[i] = palette[i].pixel;
+ 	}
+ 
+-	if (GTK_WIDGET_REALIZED (xtext))
++	if (gtk_widget_get_realized (GTK_WIDGET(xtext)))
+ 	{
+ 		xtext_set_fg (xtext, xtext->fgc, XTEXT_FG);
+ 		xtext_set_bg (xtext, xtext->fgc, XTEXT_BG);
+@@ -4207,7 +4207,7 @@ gtk_xtext_set_font (GtkXText *xtext, char *name)
+ 
+ 	gtk_xtext_fix_indent (xtext->buffer);
+ 
+-	if (GTK_WIDGET_REALIZED (xtext))
++	if (gtk_widget_get_realized (GTK_WIDGET(xtext)))
+ 		gtk_xtext_recalc_widths (xtext->buffer, TRUE);
+ 
+ 	return TRUE;
+@@ -4244,7 +4244,7 @@ gtk_xtext_set_background (GtkXText * xtext, GdkPixmap * pixmap, gboolean trans)
+ 	if (trans)
+ 	{
+ 		xtext->shaded = shaded;
+-		if (GTK_WIDGET_REALIZED (xtext))
++		if (gtk_widget_get_realized (GTK_WIDGET (xtext)))
+ 			gtk_xtext_load_trans (xtext);
+ 		return;
+ 	}
+@@ -4256,14 +4256,14 @@ gtk_xtext_set_background (GtkXText * xtext, GdkPixmap * pixmap, gboolean trans)
+ 	if (pixmap != 0)
+ 	{
+ 		g_object_ref (pixmap);
+-		if (GTK_WIDGET_REALIZED (xtext))
++		if (gtk_widget_get_realized (GTK_WIDGET (xtext)))
+ 		{
+ 			gdk_gc_set_tile (xtext->bgc, pixmap);
+ 			gdk_gc_set_ts_origin (xtext->bgc, 0, 0);
+ 			xtext->ts_x = xtext->ts_y = 0;
+ 			gdk_gc_set_fill (xtext->bgc, GDK_TILED);
+ 		}
+-	} else if (GTK_WIDGET_REALIZED (xtext))
++	} else if (gtk_widget_get_realized (GTK_WIDGET (xtext)))
+ 	{
+ 		g_object_unref (xtext->bgc);
+ 		val.subwindow_mode = GDK_INCLUDE_INFERIORS;
+@@ -4512,7 +4512,7 @@ gtk_xtext_render_page (GtkXText * xtext)
+ 	int subline;
+ 	int startline = xtext->adj->value;
+ 
+-	if(!GTK_WIDGET_REALIZED(xtext))
++	if(!gtk_widget_get_realized (GTK_WIDGET (xtext)))
+ 	  return;
+ 
+ 	if (xtext->buffer->indent < MARGIN)
+@@ -4632,7 +4632,7 @@ gtk_xtext_render_page (GtkXText * xtext)
+ void
+ gtk_xtext_refresh (GtkXText * xtext, int do_trans)
+ {
+-	if (GTK_WIDGET_REALIZED (GTK_WIDGET (xtext)))
++	if (gtk_widget_get_realized (GTK_WIDGET (xtext)))
+ 	{
+ #if defined(USE_XLIB) || defined(WIN32)
+ 		if (xtext->transparent && do_trans)
+@@ -5196,7 +5196,7 @@ gtk_xtext_buffer_show (GtkXText *xtext, xtext_buffer *buf, int render)
+ 		xtext->io_tag = 0;
+ 	}
+ 
+-	if (!GTK_WIDGET_REALIZED (GTK_WIDGET (xtext)))
++	if (!gtk_widget_get_realized (GTK_WIDGET (xtext)))
+ 		gtk_widget_realize (GTK_WIDGET (xtext));
+ 
+ 	gdk_drawable_get_size (GTK_WIDGET (xtext)->window, &w, &h);
+--
+cgit v0.8.3.1

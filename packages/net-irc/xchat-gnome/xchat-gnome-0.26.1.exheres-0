@@ -36,6 +36,8 @@ DEPENDENCIES="
         tcl? ( dev-lang/tcl )
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=( -p1 "${FILES}/${PNV}-remove-deprecated-gtk-symbols.patch" )
+
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--enable-gnome-fe'
     '--enable-nls'
