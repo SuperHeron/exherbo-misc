@@ -5,16 +5,14 @@ require sourceforge [ project=pupnp ]
 
 SUMMARY="A Portable Open Source UPnP Development Kit"
 
-HOMEPAGE="An Portable Open Source UPnP Development Kit"
-
 LICENCES="BSD"
 SLOT="0"
-PLATFORMS="~x86"
+PLATFORMS="~amd64 ~x86"
 MYOPTIONS="debug"
 
 DEPENDENCIES=""
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( debug )
 
-# FIXME
+# FIXME sydbox
 RESTRICT="test"
