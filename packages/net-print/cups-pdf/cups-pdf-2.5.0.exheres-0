@@ -1,0 +1,45 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Virtual PDF printer using CUPS"
+DESCRIPTION="
+This software is designed to produce PDF files in a heterogeneous network
+by providing a PDF printer on the central fileserver.
+"
+HOMEPAGE="http://www.cups-pdf.de"
+DOWNLOADS="${HOMEPAGE}/src/${PN}_${PV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        app-text/ghostscript
+        net-print/cups
+"
+
+REMOTE_IDS="freshmeat:${PN/-/}"
+
+src_compile() {
+    edo cd "${WORK}/src"
+    edo ${CC} ${CFLAGS} -o ${PN} ${PN}.c
+}
+
+src_install() {
+    local uppercase_PN="$(echo ${PN} | tr '[:lower:]' '[:upper:]')"
+
+    exeinto "$(cups-config --serverbin)/backend"
+    exeopts '-m0700'
+    doexe "src/${PN}"
+
+    insinto "$(cups-config --serverroot)"
+    doins "extra/${PN}.conf"
+
+    insinto "$(cups-config --datadir)/model"
+    doins "extra/${uppercase_PN}.ppd"
+
+    emagicdocs
+}
+
