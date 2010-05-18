@@ -1,0 +1,56 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+# Launchpad repo is a delayed mirror
+#SCM_REPOSITORY="http://bazaar.launchpad.net/~a-pignotti/lightspark"
+#SCM_BRANCH="master"
+
+SCM_REPOSITORY="git://github.com/alexp-sssup/lightspark.git"
+
+require cmake launchpad scm-git
+
+SUMMARY="Lightspark, a free flash player implementation"
+DESCRIPTION="
+Lightspark is an open source Adobe Flash implementation, designed from
+the ground up to be efficient on current and (hopefully) future hardware.
+"
+DOWNLOADS=""
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="nsplugin tightspark va
+    tightspark [[ description = [ Builds TightSpark ] ]]
+    va [[ description = [ Builds VA-based decoder ] ]]
+"
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+    build+run:
+        dev-lang/llvm
+        dev-lang/nasm
+        dev-libs/pcre
+        media/ffmpeg
+        media-libs/SDL
+        media-libs/ftgl
+        media-libs/glew
+        net-misc/curl
+        x11-dri/mesa
+        x11-libs/libX11
+        nsplugin? (
+            dev-libs/nspr
+            dev-libs/xulrunner
+            x11-libs/gtk+:2
+            x11-libs/gtkglext )
+        va? (
+            dev-libs/boost[>=1.34.0]
+            x11-libs/libva[opengl(-)] )
+"
+
+src_configure() {
+    ecmake "$(_cmake_option COMPILE TIGHTSPARK)" \
+        "$(_cmake_option COMPILE nsplugin PLUGIN)" \
+        "$(_cmake_option USE va VAAPI)"
+}
+
