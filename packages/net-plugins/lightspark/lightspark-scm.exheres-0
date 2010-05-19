@@ -19,9 +19,8 @@ DOWNLOADS=""
 LICENCES="GPL-3"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="nsplugin tightspark va
+MYOPTIONS="nsplugin tightspark
     tightspark [[ description = [ Builds TightSpark ] ]]
-    va [[ description = [ Builds VA-based decoder ] ]]
 "
 
 DEPENDENCIES="
@@ -43,14 +42,10 @@ DEPENDENCIES="
             dev-libs/xulrunner
             x11-libs/gtk+:2
             x11-libs/gtkglext )
-        va? (
-            dev-libs/boost[>=1.34.0]
-            x11-libs/libva[opengl(-)] )
 "
 
 src_configure() {
     ecmake "$(_cmake_option COMPILE TIGHTSPARK)" \
-        "$(_cmake_option COMPILE nsplugin PLUGIN)" \
-        "$(_cmake_option USE va VAAPI)"
+        "$(_cmake_option COMPILE nsplugin PLUGIN)"
 }
 
