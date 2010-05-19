@@ -7,7 +7,7 @@
 
 SCM_REPOSITORY="git://github.com/alexp-sssup/lightspark.git"
 
-require cmake launchpad scm-git
+require cmake launchpad multilib scm-git
 
 SUMMARY="Lightspark, a free flash player implementation"
 DESCRIPTION="
@@ -46,6 +46,7 @@ DEPENDENCIES="
 
 src_configure() {
     ecmake "$(_cmake_option COMPILE TIGHTSPARK)" \
-        "$(_cmake_option COMPILE nsplugin PLUGIN)"
+        "$(_cmake_option COMPILE nsplugin PLUGIN)" \
+        "$(optionq nsplugin && echo "-DPLUGIN_DIRECTORY:STRING=/usr/$(get_libdir)/mozilla/plugins")"
 }
 
