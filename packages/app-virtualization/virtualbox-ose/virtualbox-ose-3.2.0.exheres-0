@@ -16,8 +16,9 @@ LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="X additions alsa dbus opengl pulseaudio python truetype webservice wine
-    webservice [[ description = [ Build VBoxWebSrv ] ]]
-    wine [[ description = [ Build wine support ] ]]
+    additions [[ description = [ Installs Guest Additions ISO ] ]]
+    webservice [[ description = [ Builds VBoxWebSrv ] ]]
+    wine [[ description = [ Builds wine support ] ]]
 
     ( opengl truetype ) [[ requires = X ]]
 "
@@ -47,7 +48,7 @@ DEPENDENCIES="
         X?
         (
             media-libs/SDL[>=1.2.7][X]
-            x11-libs/qt:4[>=4.4.3]
+            x11-libs/qt:4[>=4.4.3][opengl?]
             opengl? ( x11-dri/mesa x11-libs/libXmu )
             truetype? ( media-libs/SDL_ttf[>=2.0.6] )
         )
