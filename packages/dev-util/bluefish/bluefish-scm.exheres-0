@@ -36,8 +36,6 @@ DEPENDENCIES="
 
 UPSTREAM_DOCUMENTATION="http://bluefish.openoffice.nl/manual/"
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-pl.po.patch" )
-
 DEFAULT_SRC_CONFIGURE_PARAMS=( '--disable-update-databases' )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'python'
