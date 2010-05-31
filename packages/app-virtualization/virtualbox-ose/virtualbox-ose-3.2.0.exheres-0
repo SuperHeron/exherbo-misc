@@ -12,7 +12,7 @@ DOWNLOADS="
     additions? ( http://download.virtualbox.org/${PN%-ose}/${PV}/VBoxGuestAdditions_${PV}.iso )
 "
 
-LICENCES="GPL-2"
+LICENCES="CDDL-1.0 GPL-2 additions? ( PUEL )"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="X additions alsa dbus opengl pulseaudio python truetype webservice wine
@@ -66,6 +66,14 @@ UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/News"
 
 WORK="${WORKBASE}/${MY_PNV/-OSE/_OSE}"
 
+pkg_pretend() {
+    if [[ ! -e '/usr/include/gnu/stubs-32.h' ]]; then
+        ewarn 'You do not have a 32-bit glibc.'
+        ewarn 'Please switch to multilib first.'
+        die 'No /usr/include/gnu/stubs-32.h found.'
+    fi
+}
+
 src_configure() {
     local myconf=
     if optionq X; then
@@ -92,7 +100,7 @@ src_compile() {
 src_install() {
     local installdir= outdir=
     edo source env.sh
-    installdir="/usr/${LIBDIR}/${PN}"
+    installdir="/usr/$(get_libdir)/${PN}"
     outdir="${WORK}/out/${BUILD_TARGET}.${BUILD_TARGET_ARCH}/release"
 
     insinto /etc/vbox
@@ -146,7 +154,7 @@ EOF
 
     # Install guest additions if required
     if optionq additions; then
-        insinto /usr/"$(get_libdir)"/"${PN}"
+        insinto "${installdir}"
         newins "${FETCHEDDIR}"/VBoxGuestAdditions_"${PV}".iso VBoxGuestAdditions.iso
     fi
 }
