@@ -92,6 +92,12 @@ src_configure() {
     edo ./configure --disable-kmods ${myconf}
 }
 
+src_prepare() {
+    # Disable -Werror for gcc-4.5 builds
+    # See http://www.virtualbox.org/ticket/6715
+    echo 'VBOX_WITH_WARNINGS_AS_ERRORS :=' >> "${WORK}/LocalConfig.kmk"
+}
+
 src_compile() {
     edo source env.sh
     edo kmk -j${EXJOBS:-1} all
