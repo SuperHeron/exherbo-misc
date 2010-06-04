@@ -59,7 +59,7 @@ done
 
 LICENCES="LGPL-3"
 SLOT="0"
-PLATFORMS="~amd64"
+PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
     gnome java kde
     ( linguas: ${OO_LINGUAS[@]} ) [[ number-selected = at-least-one ]]
