@@ -16,10 +16,11 @@ the ground up to be efficient on current and (hopefully) future hardware.
 "
 DOWNLOADS=""
 
-LICENCES="GPL-3"
+LICENCES="LGPL-3"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="nsplugin tightspark
+MYOPTIONS="
+    nsplugin
     tightspark [[ description = [ Builds TightSpark ] ]]
 "
 
