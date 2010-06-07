@@ -31,6 +31,7 @@ DEPENDENCIES="
         dev-lang/llvm
         dev-lang/nasm
         dev-libs/pcre
+        fonts/liberation-fonts
         media/ffmpeg
         media-libs/SDL
         media-libs/ftgl
