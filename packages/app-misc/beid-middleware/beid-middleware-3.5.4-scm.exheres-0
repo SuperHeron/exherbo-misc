@@ -21,3 +21,14 @@ DEFAULT_SRC_PREPARE_PATCHES=(
     -p3 "${FILES}/${PNV}-fix_paths.patch"
 )
 
+src_prepare() {
+    beid-middleware_src_prepare
+    if optionq firefox; then
+        edo cd "${WORK}/xpi"
+        # VERSION file has been saved in DOS mode with a trailing CR/LF
+        edo mv VERSION VERSION.orig
+        local version=$(cat VERSION.orig | tr -d '\r\n')
+        echo "${version}" > VERSION
+    fi
+}
+
