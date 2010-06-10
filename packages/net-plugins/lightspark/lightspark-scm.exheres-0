@@ -36,6 +36,7 @@ DEPENDENCIES="
         media-libs/SDL
         media-libs/ftgl
         media-libs/glew
+        media-sound/pulseaudio
         net-misc/curl
         x11-dri/mesa
         x11-libs/libX11
