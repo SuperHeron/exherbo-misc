@@ -21,6 +21,7 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
     nsplugin
+    pulseaudio
     tightspark [[ description = [ Builds TightSpark ] ]]
 "
 
@@ -36,7 +37,6 @@ DEPENDENCIES="
         media-libs/fontconfig
         media-libs/ftgl
         media-libs/glew
-        media-sound/pulseaudio
         net-misc/curl
         x11-dri/mesa
         x11-libs/libX11
@@ -45,11 +45,13 @@ DEPENDENCIES="
             dev-libs/xulrunner
             x11-libs/gtk+:2
             x11-libs/gtkglext )
+        pulseaudio? ( media-sound/pulseaudio )
 "
 
 src_configure() {
     ecmake "$(_cmake_option COMPILE TIGHTSPARK)" \
         "$(_cmake_option COMPILE nsplugin PLUGIN)" \
+        "$(cmake_enable pulseaudio SOUND)" \
         "$(optionq nsplugin && echo "-DPLUGIN_DIRECTORY:STRING=/usr/$(get_libdir)/mozilla/plugins")"
 }
 
