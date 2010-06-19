@@ -5,9 +5,9 @@
 #SCM_REPOSITORY="http://bazaar.launchpad.net/~a-pignotti/lightspark"
 #SCM_BRANCH="master"
 
-SCM_REPOSITORY="git://github.com/alexp-sssup/lightspark.git"
+SCM_REPOSITORY="http://github.com/alexp-sssup/lightspark.git"
 
-require cmake launchpad multilib scm-git
+require cmake launchpad scm-git
 
 SUMMARY="Lightspark, a free flash player implementation"
 DESCRIPTION="
@@ -48,10 +48,9 @@ DEPENDENCIES="
         pulseaudio? ( media-sound/pulseaudio )
 "
 
-src_configure() {
-    ecmake "$(_cmake_option COMPILE TIGHTSPARK)" \
-        "$(_cmake_option COMPILE nsplugin PLUGIN)" \
-        "$(cmake_enable pulseaudio SOUND)" \
-        "$(optionq nsplugin && echo "-DPLUGIN_DIRECTORY:STRING=/usr/$(get_libdir)/mozilla/plugins")"
-}
+CMAKE_SRC_CONFIGURE_OPTION_ENABLES=( 'pulseaudio SOUND' )
+CMAKE_SRC_CONFIGURE_OPTIONS=(
+    'nsplugin COMPILE_PLUGIN'
+    'tightspark COMPILE_TIGHTSPARK'
+)
 
