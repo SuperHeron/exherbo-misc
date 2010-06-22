@@ -33,52 +33,35 @@ OO_BASIS="ooobasis${OO_PV12}"
 
 DOWNLOADS="
     platform:amd64? ( mirror://${OO_PN}/stable/${PV}/OOo_${PV}_Linux_x86-64_install-rpm-wJRE_en-US.tar.gz )
-    platform:x86? ( mirror://${OO_PN}/stable/${PV}/OOo_${PV}_Linux_x86_instal-rpm-wJRE_en-US.tar.gz )
+    platform:x86? ( mirror://${OO_PN}/stable/${PV}/OOo_${PV}_Linux_x86_install-rpm-wJRE_en-US.tar.gz )
 "
 
-for lang in "${OO_LANGS[@]}"; do
-    local linguas="${lang%%:*}" platforms=( ${lang##*:} )
-    local linguas_lower=$(tr '[:upper:]' '[:lower:]' <<< ${linguas//_/-})
-    local amd64_dl_line='' x86_dl_line=''
-    for platform in "${platforms[@]}"; do
-        case "${platform}" in
-            amd64)
-                case "${linguas}" in
-                    en_US) ;;
-                    zh_*)
-                        amd64_dl_line="mirror://${OO_PN}/localized/${linguas_lower}/${PV}/OOo_${PV}_Linux_x86-64_langpack-rpm_${linguas_lower}.tar.gz"
-                    ;;
-                    *)
-                        amd64_dl_line="mirror://${OO_PN}/localized/${linguas//_/-}/${PV}/OOo_${PV}_Linux_x86-64_langpack-rpm_${linguas//_/-}.tar.gz"
-                    ;;
-                esac
-            ;;
-            x86)
-                case "${linguas}" in
-                    en_US) ;;
-                    zh_*)
-                        x86_dl_line="mirror://${OO_PN}/localized/${linguas_lower}/${PV}/OOo_${PV}_Linux_x86_langpack-rpm_${linguas_lower}.tar.gz"
-                    ;;
-                    *)
-                        x86_dl_line="mirror://${OO_PN}/localized/${linguas//_/-}/${PV}/OOo_${PV}_LinuxX86_langpack-rpm_${linguas//_/-}.tar.gz"
-                    ;;
-                esac
-            ;;
-        esac
+set_linguas() {
+    for lang in "${OO_LANGS[@]}"; do
+        local linguas="${lang%%:*}" platforms=( ${lang##*:} )
+        local amd64_dl_line='' x86_dl_line=''
+        if [[ "${linguas}" != 'en_US' ]]; then
+            for platform in "${platforms[@]}"; do
+                [[ "${platform}" == 'amd64' ]] && amd64_dl_line="mirror://${OO_PN}/localized/${linguas//_/-}/${PV}/OOo_${PV}_Linux_x86-64_langpack-rpm_${linguas//_/-}.tar.gz"
+                [[ "${platform}" == 'x86' ]] && x86_dl_line="mirror://${OO_PN}/localized/${linguas//_/-}/${PV}/OOo_${PV}_Linux_x86_langpack-rpm_${linguas//_/-}.tar.gz"
+            done
+        fi
+        OO_LINGUAS+=( ${linguas} )
+        if [[ -n "${amd64_dl_line}" || -n "${x86_dl_line}" ]]; then
+            DOWNLOADS+="
+                linguas:${linguas}? (
+            "
+            [[ -n "${amd64_dl_line}" ]] && DOWNLOADS+="platform:amd64? ( ${amd64_dl_line} )
+            "
+            [[ -n "${x86_dl_line}" ]] && DOWNLOADS+="platform:x86? ( ${x86_dl_line} )
+            "
+            DOWNLOADS+=" )
+            "
+        fi
     done
-    OO_LINGUAS+=( ${linguas} )
-    if [[ -n "${amd64_dl_line}" || -n "${x86_dl_line}" ]]; then
-        DOWNLOADS+="
-            linguas:${linguas}? (
-        "
-        [[ -n "${amd64_dl_line}" ]] && DOWNLOADS+="platform:amd64? ( ${amd64_dl_line} )
-        "
-        [[ -n "${x86_dl_line}" ]] && DOWNLOADS+="platform:x86? ( ${x86_dl_line} )
-        "
-        DOWNLOADS+=" )
-        "
-    fi
-done
+}
+
+set_linguas
 
 LICENCES="LGPL-3"
 SLOT="0"
@@ -153,14 +136,7 @@ src_unpack() {
     einfo "Unpacking language pack RPM files"
     for linguas in "${OO_LINGUAS[@]}"; do
         if optionq linguas:${linguas}; then
-            case ${linguas} in
-                zh_*)
-                    linguas=$(tr '[:upper:]' '[:lower:]' <<< ${linguas//_/-})
-                    ;;
-                *)
-                    linguas="${linguas//_/-}"
-                    ;;
-            esac
+            linguas="${linguas//_/-}"
             edo cd "${WORKBASE}/OOO${OO_BUILDPV}_${OO_MID}_native_packed-${OO_ARCH_NB}_${linguas}.${OO_BUILDID}/RPMS"
             rpm_unpack "${OO_BASIS}-${linguas}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
             rpm_unpack "openoffice.org$(ever range 1)-${linguas}-${PV}-${OO_BUILDID}.${OO_ARCH}.rpm"
