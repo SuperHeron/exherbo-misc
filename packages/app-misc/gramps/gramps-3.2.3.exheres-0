@@ -20,7 +20,7 @@ DEPENDENCIES="
         dev-util/intltool
         sys-devel/gettext
     build+run:
-        dev-lang/python:=[>=2.5]
+        dev-lang/python:=[>=2.5][berkdb]
         dev-libs/glib:2[>=2.2.0]
         gnome-bindings/pygtk:2[>=2.12.0]
         gnome-desktop/librsvg:2
