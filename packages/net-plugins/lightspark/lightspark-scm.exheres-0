@@ -22,6 +22,7 @@ PLATFORMS="~amd64"
 MYOPTIONS="
     nsplugin
     pulseaudio
+    scripts [[ description = [ Installs YouTube-related scripts ] ]]
     tightspark [[ description = [ Builds TightSpark ] ]]
 "
 
@@ -53,4 +54,14 @@ CMAKE_SRC_CONFIGURE_OPTIONS=(
     'nsplugin COMPILE_PLUGIN'
     'tightspark COMPILE_TIGHTSPARK'
 )
+
+src_install() {
+    cmake_src_install
+    emagicdocs
+
+    if optionq scripts; then
+        into '/usr/local/'
+        dobin "${WORK}"/scripts/{urldecode,youtube-args-dumper}.sh
+    fi
+}
 
