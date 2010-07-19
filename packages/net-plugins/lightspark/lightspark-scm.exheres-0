@@ -44,8 +44,7 @@ DEPENDENCIES="
         nsplugin? (
             dev-libs/nspr
             dev-libs/xulrunner
-            x11-libs/gtk+:2
-            x11-libs/gtkglext )
+            x11-libs/gtk+:2 )
         pulseaudio? ( media-sound/pulseaudio )
 "
 
