@@ -10,8 +10,8 @@ Reason: fix compilation issues with xerces-c-3
 -	pOut=XERCES_CPP_NAMESPACE::Base64::encode((XMLByte *)baIn.GetBytes(),baIn.Size(),&iLenOut);
 +	pOut=XERCES_CPP_NAMESPACE::Base64::encode((XMLByte *)baIn.GetBytes(),(size_t)baIn.Size(),(size_t*)&iLenOut);
  
- 	//4000000000 is huge, but just checking in case of the unlickely truncation
- 	if(!pOut || iLenOut > 4000000000)
+ 	//2000000000 is huge, but just checking in case of the unlickely truncation
+ 	if(!pOut || iLenOut > 2000000000)
  		return false;
  
 @@ -1795,7 +1795,7 @@
@@ -20,6 +20,6 @@ Reason: fix compilation issues with xerces-c-3
  	//Decode the pIn
 -	pOut=XERCES_CPP_NAMESPACE::Base64::decode((XMLByte *)pIn,&iLenOut);
 +	pOut=XERCES_CPP_NAMESPACE::Base64::decode((XMLByte *)pIn,(size_t*)&iLenOut);
- 	if(!pOut || iLenOut > 4000000000)
+ 	if(!pOut || iLenOut > 2000000000)
  	{
  		delete[] pIn;
