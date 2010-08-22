@@ -1,23 +1,23 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
-
 SUMMARY="The gSOAP Toolkit for SOAP Web Services and XML-Based Applications"
 DESCRIPTION="A cross-platform open source C and C++ software development toolkit. Generates C/C++ RPC code, XML data bindings, and efficient schema-specific parsers for SOAP Web services and other applications that benefit from an XML interface."
 HOMEPAGE="http://www.cs.fsu.edu/~engelen/soap.html"
-DOWNLOADS="mirror://sourceforge/${PN}2/${PNV/-/_}.tar.gz"
+DOWNLOADS="mirror://sourceforge/${PN}2/${PNV/-/_}.zip"
 
 LICENCES="gSOAP-1.3b GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="debug samples zlib"
+MYOPTIONS="debug samples"
 
 DEPENDENCIES="
+    build:
+        app-arch/unzip
     build+run:
         sys-devel/bison
         sys-devel/flex
-        zlib? ( sys-libs/zlib )
+        sys-libs/zlib
 "
 
 UPSTREAM_CHANGELOG="http://www.cs.fsu.edu/~engelen/changelog.html"
