@@ -21,7 +21,7 @@ DEPENDENCIES="
 
 WORK="${WORKBASE}/acpica-unix-${PV}/compiler"
 
-DEFAULT_SRC_PREPARE_PATCHES=( -p2 "${FILES}/${PNV}-parallelmake.patch" )
+DEFAULT_SRC_COMPILE_PARAMS=( -j1 )
 
 src_install() {
     edo cd "${WORK}"
