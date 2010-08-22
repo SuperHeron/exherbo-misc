@@ -25,7 +25,7 @@ hiding most of the UPnP internals through an elegant object-oriented design.
 GUPnP is free software released under the GNU LGPL.
 "
 HOMEPAGE="http://gupnp.org/"
-DOWNLOADS="http://gupnp.org/sources/${PN}/${PNV}.tar.gz"
+DOWNLOADS="http://gupnp.org/sites/all/files/sources/${PNV}.tar.gz"
 
 LICENCES="LGPL-2"
 SLOT="0"
@@ -41,7 +41,7 @@ DEPENDENCIES="
         dev-libs/glib:2[>=2.18]
         dev-libs/libxml2:2.0
         gnome-desktop/libsoup:2.4[>=2.4.1]
-        net-libs/gssdp[>=0.7]
+        net-libs/gssdp[>=0.7.1]
         sys-apps/util-linux-ng
 "
 
