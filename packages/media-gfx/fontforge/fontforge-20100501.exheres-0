@@ -53,8 +53,6 @@ REMOTE_IDS="sourceforge:${PN}"
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/overview.html"
 
-DEFAULT_SRC_PREPARE_PATCHES=( -p1 "${FILES}/${PNV}-configure.patch" )
-
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--enable-libff'
     '--with-regular-link'
