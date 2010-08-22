@@ -3,13 +3,13 @@
 # Based in part upon 'acr38u-1.7.9-r3.ebuild' from Gentoo, which is:
 #     Copyright 1999-2007 Gentoo Foundation
 
-SUMMARY="ACR38U card reader driver"
+SUMMARY="ACR38 card reader driver"
 DESCRIPTION="Card reader support for Belgian Electronic Identity Card Runtime supplied by the Belgian Federal Government."
-HOMEPAGE="http://www.acs.com.hk/acr38-drivers-manual.php"
+BASE_URI="http://www.acs.com.hk"
+HOMEPAGE="${BASE_URI}/index.php?pid=drivers&id=ACR38"
 
-OLD_DL_FILENAME="ACR38_LINUX_$(ever range 1)00$(ever delete_all $(ever range 2-3))_P"
-DL_FILENAME="ACR38U_driver_Lnx_$(ever delete_all)_P"
-DOWNLOADS="http://www.acs.com.hk/drivers/eng/${DL_FILENAME}.tar.gz"
+DL_FILENAME="ACR38_Driver_Lnx_1000_P"
+DOWNLOADS="${BASE_URI}/drivers/eng/${DL_FILENAME}.zip"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
@@ -17,13 +17,14 @@ PLATFORMS="~amd64 ~x86"
 MYOPTIONS=""
 
 DEPENDENCIES="
+    build:
+        app-arch/unzip
     build+run:
-        sys-apps/pcsc-lite
+        dev-libs/libusb:0.1[>=0.1.12]
+        sys-apps/pcsc-lite[>=1.2.0]
 "
 
 BUGS_TO=""
-
-WORK="${WORKBASE}/${OLD_DL_FILENAME}"
 
 USBDROPDIR=`pkg-config libpcsclite --variable=usbdropdir`
 
@@ -31,3 +32,13 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     "--enable-static=false"
     "--enable-usbdropdir=${IMAGE}${USBDROPDIR:1}"
 )
+
+src_unpack() {
+    default
+    edo cd "${WORKBASE}/${DL_FILENAME}/ACR38 (non-CCID)/"
+    edo tar zxf ACR38_LINUX_100710_P.tar.gz --no-same-owner
+    # Parenthesis in path make build fail
+    edo mkdir "${WORK}"
+    edo mv ACR38_LINUX_100710_P/* "${WORK}"
+}
+
