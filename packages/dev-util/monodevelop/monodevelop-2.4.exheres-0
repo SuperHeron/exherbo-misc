@@ -20,14 +20,15 @@ PLATFORMS="~amd64"
 MYOPTIONS="extensions subversion"
 
 DEPENDENCIES="
-    build+run:
-        dev-dotnet/mono-addins[>=0.3][gui]
-        dev-lang/mono[>=2.4]
-        dev-libs/xulrunner
+    build:
         dev-util/intltool
+        sys-devel/gettext
+    build+run:
+        dev-dotnet/mono-addins[>=0.4][gui]
+        dev-lang/mono[>=2.6.1]
+        dev-libs/xulrunner
         gnome-bindings/gnome-sharp:2[>=2.12.8]
         gnome-bindings/gtk-sharp:2[>=2.12.8]
-        sys-devel/gettext
         subversion? ( dev-scm/subversion )
 "
 
