@@ -5,12 +5,12 @@ SUMMARY="A GObject-based API for handling resource discovery and announcement ov
 DESCRIPTION="
 "
 HOMEPAGE="http://gupnp.org/"
-DOWNLOADS="http://gupnp.org/sources/${PN}/${PNV}.tar.gz"
+DOWNLOADS="http://gupnp.org/sites/all/files/sources/${PNV}.tar.gz"
 
 LICENCES="LGPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="doc gtk"
+MYOPTIONS="doc gtk gobject-introspection"
 
 DEPENDENCIES="
     build:
@@ -19,6 +19,7 @@ DEPENDENCIES="
     build+run:
         dev-libs/glib:2[>=2.18]
         gnome-desktop/libsoup:2.4
+        gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.6.4] )
         gtk? ( x11-libs/gtk+:2[>=2.12.0] )
 "
 
@@ -27,6 +28,9 @@ REMOTE_IDS="freshmeat:gupnp"
 UPSTREAM_CHANGELOG="http://git.gupnp.org/cgit.cgi?url=${PN}/tree/NEWS&id=${PNV}"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/docs/${PN}/"
 
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc gtk-doc' )
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'doc gtk-doc'
+    'gobject-introspection introspection'
+)
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'gtk' )
 
