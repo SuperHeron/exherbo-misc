@@ -10,7 +10,7 @@ DESCRIPTION="
 "
 HOMEPAGE="http://www.linuxnet.com/middle.html"
 
-DL_NUMBER="3082"
+DL_NUMBER="3337"
 MY_PNV="${PN}-${PV/_/-}"
 DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${MY_PNV}.tar.bz2"
 
@@ -22,7 +22,7 @@ MYOPTIONS="
     static
     usb
 
-    ( usb hal ) [[ number-selected = exactly-one ]]
+    ( hal usb ) [[ number-selected = exactly-one ]]
 "
 
 DEPENDENCIES="
@@ -52,4 +52,7 @@ src_install() {
 
     newinitd "${FILES}/pcscd-initd" pcscd
     newconfd "${FILES}/pcscd-confd" pcscd
+
+    keepdir "/usr/$(get_libdir)/readers/usb"
+    keepdir "/etc/reader.conf.d"
 }
