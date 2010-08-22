@@ -24,6 +24,7 @@ DEPENDENCIES="
         sys-apps/groff
     build+run:
         dev-libs/libxml2[>=2.6.31]
+        dev-libs/glib[>=2.12.12]
         x11-libs/cairo[>=1.4.6][pdf(+)][svg(+)]
         x11-libs/pango[>=1.17]
         lua? ( dev-lang/lua[>=5.1] )
@@ -45,5 +46,6 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'ruby'
     'ruby ruby-site-install'
     'tcl'
+    'tcl tcl-site'
 )
 
