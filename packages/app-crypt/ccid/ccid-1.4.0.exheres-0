@@ -5,7 +5,7 @@ SUMMARY="CCID free software driver"
 DESCRIPTION="This package provides the source code for a generic USB CCID  (Chip/Smart Card Interface Devices) driver and  ICCD (Integrated Circuit(s) Card Devices)."
 HOMEPAGE="http://pcsclite.alioth.debian.org/ccid.html"
 
-DL_NUMBER="3080"
+DL_NUMBER="3333"
 DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${PNV}.tar.bz2"
 
 LICENCES="LGPL-2.1"
@@ -15,9 +15,9 @@ MYOPTIONS="serial usb"
 
 DEPENDENCIES="
     build+run:
-        sys-apps/pcsc-lite
+        sys-apps/pcsc-lite[>=1.6.2]
         sys-fs/udev
-        usb? ( dev-libs/libusb:0.1 )
+        usb? ( dev-libs/libusb:1 )
 "
 
 BUGS_TO=""
