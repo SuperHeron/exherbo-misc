@@ -32,7 +32,7 @@ DEPENDENCIES="
         x11-libs/qt:4[>=4.5.0][qt3support][X]
     run:
         sys-apps/pcsc-lite[>=1.4.4]
-        pcsc_drivers:acr38u? ( app-crypt/acr38u[>=1.7.10] )
+        pcsc_drivers:acr38u? ( app-crypt/acr38u[>=1.0.7.5] )
         pcsc_drivers:ccid? ( app-crypt/ccid )
 "
 
