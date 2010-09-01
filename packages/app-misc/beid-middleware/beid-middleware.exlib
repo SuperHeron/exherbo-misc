@@ -88,6 +88,10 @@ beid-middleware_src_install() {
         insinto /usr/share/beid
         doins "${xpi}"
     fi
+
+    # Needed for GUI
+    dodir /usr/local/$(get_libdir)/beidqt
+    dosym /usr/$(get_libdir)/qt4/plugins /usr/local/$(get_libdir)/beidqt/plugins
 }
 
 beid-middleware_pkg_postinst() {
