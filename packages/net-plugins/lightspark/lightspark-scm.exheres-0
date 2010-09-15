@@ -5,7 +5,7 @@
 #SCM_REPOSITORY="http://bazaar.launchpad.net/~a-pignotti/lightspark"
 #SCM_BRANCH="master"
 
-SCM_REPOSITORY="http://github.com/alexp-sssup/lightspark.git"
+SCM_REPOSITORY="git://github.com/lightspark/lightspark.git"
 
 require cmake launchpad scm-git
 
