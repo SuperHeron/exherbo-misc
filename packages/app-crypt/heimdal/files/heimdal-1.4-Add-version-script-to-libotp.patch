@@ -1,0 +1,48 @@
+Source: http://repo.or.cz/w/heimdal.git/commitdiff/e3044663df2cfcafd5bf4e2ea6f2a1ba1503d8ea
+Upstream: yes
+Reason: Add missing version-script.map to libotp
+
+From e3044663df2cfcafd5bf4e2ea6f2a1ba1503d8ea Mon Sep 17 00:00:00 2001
+From: Love Hornquist Astrand <lha@h5l.org>
+Date: Mon, 7 Dec 2009 21:15:29 -0800
+Subject: [PATCH] add version script to libotp
+
+---
+ lib/otp/version-script.map |   25 ++++++++++++++++++++++++
+ 1 files changed, 25 insertions(+), 0 deletions(-)
+ create mode 100644 lib/otp/version-script.map
+
+diff --git a/lib/otp/version-script.map b/lib/otp/version-script.map
+new file mode 100644
+index 0000000..c6acbfd
+--- /dev/null
++++ b/lib/otp/version-script.map
+@@ -0,0 +1,25 @@
++HEIMDAL_OTP_1.0 {
++	global:
++		otp_challenge;
++		otp_checksum;
++		otp_db_close;
++		otp_db_open;
++		otp_delete;
++		otp_error;
++		otp_find_alg;
++		otp_get;
++		otp_parse;
++		otp_parse_altdict;
++		otp_parse_hex;
++		otp_parse_stddict;
++		otp_print_hex;
++		otp_print_hex_extended;
++		otp_print_stddict;
++		otp_print_stddict_extended;
++		otp_put;
++		otp_simple_get;
++		otp_verify_user;
++		otp_verify_user_1;
++	local:
++		*;
++};
+-- 
+1.6.5.GIT
+

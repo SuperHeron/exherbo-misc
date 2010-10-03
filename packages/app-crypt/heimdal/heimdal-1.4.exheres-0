@@ -1,0 +1,106 @@
+# Copyright 2009, 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Swedish implementation of Kerberos 5"
+DESCRIPTION="
+Heimdal is an implementation of Kerberos 5 (and some more stuff) largely written in Sweden.
+"
+HOMEPAGE="http://www.h5l.org/"
+DOWNLOADS="http://www.h5l.org/dist/src/${PNV}.tar.gz"
+
+LICENCES="BSD-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    X
+    afs [[ description = [ Add support for Andrew's File System ] ]]
+    berkdb
+    ipv6
+    kcm [[ description = [ Kerberos Credentials Manager ] ]]
+    ldap
+    otp [[ description = [ Add support for One-Time Password ] ]]
+    threads
+"
+
+DEPENDENCIES="
+    build:
+        sys-apps/gawk
+        sys-devel/bison
+        sys-devel/flex
+    build+run:
+        dev-db/sqlite:3
+        sys-fs/e2fsprogs
+        sys-libs/libcap
+        sys-libs/ncurses
+        sys-libs/readline
+        X? ( x11-libs/libX11 )
+        afs? ( net-fs/openafs )
+        berkdb? ( sys-libs/db:4.6 )
+        !berkdb? ( sys-libs/gdbm )
+        ldap? ( net-directory/openldap )
+"
+
+#RESTRICT="test" # Needs some sydbox stuff
+
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-Add-version-script-to-libotp.patch" )
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--with-openssl=/usr'
+    '--with-readline=/usr'
+    '--with-sqlite3=/usr'
+)
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
+    'X x'
+    'ipv6'
+    'ldap openldap /usr'
+)
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'afs afs-support'
+    'berkdb berkeley-db'
+    'kcm'
+    'ldap hdb-openldap-module'
+    'otp'
+    'threads pthread-support'
+)
+
+DEFAULT_SRC_COMPILE_PARAMS=( '-j1' )
+
+DEFAULT_SRC_INSTALL_PARAMS=( 'INSTALL_CATPAGES=no' )
+
+src_install() {
+    default
+
+    # Do some renames to avoid several collisions
+    for i in rcp rsh telnet ftp su login pagsh kf; do
+        edo mv "${IMAGE}"/usr/share/man/man1/{,k}${i}.1
+        edo mv "${IMAGE}"/usr/bin/{,k}${i}
+    done
+    for i in ftpusers login.access; do
+        edo mv "${IMAGE}"/usr/share/man/man5/{,k}${i}.5
+    done
+    for i in telnetd ftpd rshd popper; do
+        edo mv "${IMAGE}"/usr/share/man/man8/{,k}${i}.8
+        edo mv "${IMAGE}"/usr/libexec/{,k}${i}
+    done
+
+    # Do some removals to avoid several collisions with dev-libs/openssl manpages
+    for i in DES_{cbc_cksum,cfb64_encrypt,ecb3_encrypt,ecb_encrypt,ede3_cbc_encrypt,is_weak_key} \
+             DES_{key_sched,pcbc_encrypt,random_key,set_key,set_key_checked,set_key_unchecked} \
+             DES_{set_odd_parity,string_to_key} \
+             DH_{compute_key,free,generate_key,get_default_method,get_ex_data,new,new_method} \
+             DH_{set_default_method,set_method,set_ex_data,size} \
+             EVP_{BytesToKey,CIPHER_CTX_block_size,CIPHER_CTX_cipher,CIPHER_CTX_cleanup,CIPHER_CTX_ctrl} \
+             EVP_{CIPHER_CTX_flags,CIPHER_CTX_get_app_data,CIPHER_CTX_init,CIPHER_CTX_iv_length} \
+             EVP_{CIPHER_CTX_key_length,CIPHER_CTX_mode,CIPHER_CTX_set_app_data,CIPHER_CTX_set_key_length} \
+             EVP_{CIPHER_block_size,CIPHER_iv_length,CIPHER_key_length,CipherFinal_ex,CipherInit_ex} \
+             EVP_{CipherUpdate,DigestFinal_ex,DigestInit_ex,DigestUpdate,MD_CTX_block_size,MD_CTX_cleanup} \
+             EVP_{MD_CTX_create,MD_CTX_destroy,MD_CTX_init,MD_CTX_md,MD_CTX_size,MD_block_size,MD_size} \
+             EVP_{get_cipherbyname,md2,md5,md_null,sha,sha1} OpenSSL_add_all_algorithms \
+             RAND_{add,bytes,cleanup,file_name,get_rand_method,load_file,pseudo_bytes,seed,set_rand_method} \
+             RAND_{status,write_file} RSA_{free,get_method,new,new_method,set_method}; do
+        edo rm "${IMAGE}"/usr/share/man/man3/${i}.3
+    done
+
+    optionq afs && edo rm "${IMAGE}"/usr/bin/kpasswd
+}
+
