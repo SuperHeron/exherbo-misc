@@ -1,0 +1,43 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require sourceforge
+
+SUMMARY="eAccelerator is a further development of the mmcache PHP accelerator and encoder."
+DESCRIPTION="
+eAccelerator is a free open-source PHP accelerator & optimizer. It increases the performance of PHP
+scripts by caching them in their compiled state, so that the overhead of compiling is almost
+completely eliminated. It also optimizes scripts to speed up their execution. eAccelerator typically
+reduces server load and increases the speed of your PHP code by 1-10 times.
+"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-lang/php[>=5.1][apache]
+    suggestion:
+        dev-util/re2c[>=0.13.4] [[ description = [ To generate PHP parsers ] ]]
+"
+
+REMOTE_IDS="freshmeat:${PN}"
+
+src_prepare() {
+    edo phpize
+}
+
+DEFAULT_SRC_INSTALL_PARAMS=( "INSTALL_ROOT=${IMAGE}" )
+
+src_install() {
+    default
+
+    diropts -m0777
+    keepdir /tmp/"${PN}"
+
+    insinto /etc/php
+    doins "${WORK}"/"${PN}".ini
+}
+
