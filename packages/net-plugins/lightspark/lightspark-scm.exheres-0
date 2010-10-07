@@ -20,18 +20,25 @@ LICENCES="LGPL-3"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
+    curl
     nsplugin
+    openal
     pulseaudio
     scripts [[ description = [ Installs YouTube-related scripts ] ]]
     tightspark [[ description = [ Builds TightSpark ] ]]
+    ( openal pulseaudio ) [[ number-selected = at-most-one ]]
 "
+# TODO: add alsa audio backend when available
 
 DEPENDENCIES="
     build:
         dev-util/pkg-config
+        sys-devel/gettext
     build+run:
+        dev-cpp/libxml++[>=2.6]
         dev-lang/llvm
         dev-lang/nasm
+        dev-libs/boost[>=1.43.0]
         dev-libs/pcre
         media/ffmpeg
         media-libs/SDL
@@ -39,24 +46,31 @@ DEPENDENCIES="
         media-libs/ftgl
         media-libs/glew
         net-misc/curl
+        net-plugins/gnash [[ description = [ Needed by \"fallback\" mode ] ]]
         x11-dri/mesa
         x11-libs/libX11
+        curl? ( net-misc/curl )
         nsplugin? (
             dev-libs/nspr
             dev-libs/xulrunner
             x11-libs/gtk+:2 )
+        openal? ( media-libs/openal )
         pulseaudio? ( media-sound/pulseaudio )
 "
 
-CMAKE_SRC_CONFIGURE_OPTION_ENABLES=( 'pulseaudio SOUND' )
-CMAKE_SRC_CONFIGURE_OPTIONS=(
-    'nsplugin COMPILE_PLUGIN'
-    'tightspark COMPILE_TIGHTSPARK'
-)
+RESTRICT="test" # requires Adobe Flex SDK (especially mxmlc)
+
+src_configure() {
+    local audio_backend=()
+    optionq openal && audio_backend+=( 'openal' )
+    optionq pulseaudio && audio_backend+=( 'pulse' )
+    ecmake $(cmake_enable CURL) $(cmake_option nsplugin COMPILE_PLUGIN) \
+           $(cmake_option tightspark COMPILE_TIGHTSPARK) \
+           -DAUDIO_BACKEND:STRING="${audio_backend[@]}"
+}
 
 src_install() {
     cmake_src_install
-    emagicdocs
 
     if optionq scripts; then
         into '/usr/local/'
