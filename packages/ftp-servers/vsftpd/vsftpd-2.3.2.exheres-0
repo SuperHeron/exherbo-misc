@@ -11,7 +11,7 @@ DOWNLOADS="ftp://vsftpd.beasts.org/users/cevans/${PNV}.tar.gz"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="pam tcp-wrappers xinetd"
+MYOPTIONS="baselayout pam tcp-wrappers xinetd"
 
 DEPENDENCIES="
     build:
@@ -50,8 +50,10 @@ src_install() {
     default
     insinto /etc
     doins "${PN}".conf
-    newinitd "${FILES}/${PNV}-initd" "${PN}"
-    newconfd "${FILES}/${PNV}-confd" "${PN}"
+    if option baselayout ; then
+        newinitd "${FILES}/${PNV}-initd" "${PN}"
+        newconfd "${FILES}/${PNV}-confd" "${PN}"
+    fi
     keepdir '/usr/share/empty'
 }
 
