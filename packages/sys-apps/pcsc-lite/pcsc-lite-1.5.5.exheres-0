@@ -18,6 +18,7 @@ LICENCES="as-is"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
+    baselayout
     hal
     static
     usb
@@ -50,6 +51,8 @@ src_install() {
 
     dodoc AUTHORS DRIVERS HELP README SECURITY ChangeLog
 
-    newinitd "${FILES}/pcscd-initd" pcscd
-    newconfd "${FILES}/pcscd-confd" pcscd
+    if option baselayout ; then
+        newinitd "${FILES}/pcscd-initd" pcscd
+        newconfd "${FILES}/pcscd-confd" pcscd
+    fi
 }
