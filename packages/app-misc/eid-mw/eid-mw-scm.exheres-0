@@ -2,30 +2,28 @@
 # Distributed under the terms of the GNU General Public License v2
 
 SCM_REPOSITORY="http://${PN}.googlecode.com/svn/"
-SCM_SUBPATH="${PN}"
 SCM_CHECKOUT_TO="${PNV}"
 
-require eid-mw scm-svn
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] eid-mw-common scm-svn
 
 DOWNLOADS=""
 
 PLATFORMS="~amd64"
 
-WORK="${WORKBASE}/${PNV}/_src/eidmw"
+MYOPTIONS="firefox pcsc_drivers: acr38u ccid"
 
-DEFAULT_SRC_PREPARE_PATCHES=(
-    -p3 "${FILES}/${PN}-configure.patch"
-    -p3 "${FILES}/${PNV}-fix_paths.patch"
-)
+DEPENDENCIES="
+    build+run:
+        x11-libs/gtk+:2[>=2.10]
+        firefox? ( app-arch/zip )
+    run:
+        sys-apps/pcsc-lite[>=1.4.4]
+        pcsc_drivers:acr38u? ( app-crypt/acr38u[>=1.0.7.5] )
+        pcsc_drivers:ccid? ( app-crypt/ccid )
+"
 
-src_prepare() {
-    eid-mw_src_prepare
-    if optionq firefox; then
-        edo cd "${WORK}/xpi"
-        # VERSION file has been saved in DOS mode with a trailing CR/LF
-        edo mv VERSION VERSION.orig
-        local version=$(cat VERSION.orig | tr -d '\r\n')
-        echo "${version}" > VERSION
-    fi
+src_compile() {
+    default
+    optionq firefox && emake xpipackage
 }
 

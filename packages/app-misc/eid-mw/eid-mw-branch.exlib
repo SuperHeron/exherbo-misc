@@ -3,15 +3,7 @@
 
 export_exlib_phases src_prepare src_configure src_compile src_install pkg_postinst
 
-require multilib
-
-SUMMARY="Belgian eID middleware"
-DESCRIPTION="The eID Middleware software offers components for using the Belgian eID on your computer.
-"
-HOMEPAGE="http://eid.belgium.be"
-
-LICENCES="LGPL-3"
-SLOT="0"
+require eid-mw-common multilib
 
 LANGS="de en fr nl"
 MYOPTIONS="
@@ -36,7 +28,7 @@ DEPENDENCIES="
         pcsc_drivers:ccid? ( app-crypt/ccid )
 "
 
-eid-mw_src_prepare()
+eid-mw-branch_src_prepare()
 {
     default
 
@@ -56,12 +48,12 @@ eid-mw_src_prepare()
     fi
 }
 
-eid-mw_src_configure() {
+eid-mw-branch_src_configure() {
     # Perl configure script, not GNU compliant
     edo ./configure_exherbo.sh
 }
 
-eid-mw_src_compile() {
+eid-mw-branch_src_compile() {
     default
     if optionq firefox; then
         edo cd "${WORK}/xpi"
@@ -69,7 +61,7 @@ eid-mw_src_compile() {
     fi
 }
 
-eid-mw_src_install() {
+eid-mw-branch_src_install() {
     emake INSTALL_ROOT="${IMAGE}" install || die "emake install failed"
 
     edo cd "${WORK}/install"
@@ -94,7 +86,7 @@ eid-mw_src_install() {
     dosym /usr/$(get_libdir)/qt4/plugins /usr/local/$(get_libdir)/beidqt/plugins
 }
 
-eid-mw_pkg_postinst() {
+eid-mw-branch_pkg_postinst() {
     optionq firefox && elog "Firefox XPI add-on for registering PKCS#11 library has been installed in /usr/share/beid."
     elog "To know how to use your software with beID, visit :"
     elog " * French :
