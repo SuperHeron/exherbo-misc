@@ -16,7 +16,7 @@ is simple to install and use, and is usually much faster than a local compile.
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="avahi gnome gtk
+MYOPTIONS="avahi baselayout gnome gtk
     gnome [[ requires = [ gtk ] ]]
 "
 
@@ -54,7 +54,9 @@ src_install() {
     default
     keepdir /var/run/distccd
     edo chown distcc:distcc "${IMAGE}"/var/run/distccd
-    newinitd "${FILES}/${PNV}-initd" distccd
-    newconfd "${FILES}/${PNV}-confd" distccd
+    if option baselayout ; then
+        newinitd "${FILES}/${PNV}-initd" distccd
+        newconfd "${FILES}/${PNV}-confd" distccd
+    fi
 }
 
