@@ -12,7 +12,7 @@ LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 MY_P2P_NETWORKS="bittorrent directconnect donkey donkeysui fasttrack filetp gnutella gnutella2"
-MYOPTIONS="bzip2 doc gd gui magic threads
+MYOPTIONS="baselayout bzip2 doc gd gui magic threads
 
     magic [[ description = [ Enable use of libmagic ] ]]
 
@@ -62,8 +62,10 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
 src_install() {
     default
     optionq doc && dodoc -r docs || die 'install docs failed'
-    newinitd "${FILES}/${PNV}-initd" "${PN}"
-    newconfd "${FILES}/${PNV}-confd" "${PN}"
+    if option baselayout ; then
+        newinitd "${FILES}/${PNV}-initd" "${PN}"
+        newconfd "${FILES}/${PNV}-confd" "${PN}"
+    fi
     keepdir "/home/p2p/mldonkey"
     edo chown p2p:users "${IMAGE}"/home/p2p/mldonkey
 }
