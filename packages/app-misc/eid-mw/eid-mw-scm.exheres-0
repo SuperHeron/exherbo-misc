@@ -1,11 +1,11 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-SCM_REPOSITORY="http://eid-mw.googlecode.com/svn/"
-SCM_SUBPATH="eid-mw"
+SCM_REPOSITORY="http://${PN}.googlecode.com/svn/"
+SCM_SUBPATH="${PN}"
 SCM_CHECKOUT_TO="${PNV}"
 
-require beid-middleware scm-svn
+require eid-mw scm-svn
 
 DOWNLOADS=""
 
@@ -19,7 +19,7 @@ DEFAULT_SRC_PREPARE_PATCHES=(
 )
 
 src_prepare() {
-    beid-middleware_src_prepare
+    eid-mw_src_prepare
     if optionq firefox; then
         edo cd "${WORK}/xpi"
         # VERSION file has been saved in DOS mode with a trailing CR/LF

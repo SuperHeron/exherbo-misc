@@ -36,7 +36,7 @@ DEPENDENCIES="
         pcsc_drivers:ccid? ( app-crypt/ccid )
 "
 
-beid-middleware_src_prepare()
+eid-mw_src_prepare()
 {
     default
 
@@ -56,12 +56,12 @@ beid-middleware_src_prepare()
     fi
 }
 
-beid-middleware_src_configure() {
+eid-mw_src_configure() {
     # Perl configure script, not GNU compliant
     edo ./configure_exherbo.sh
 }
 
-beid-middleware_src_compile() {
+eid-mw_src_compile() {
     default
     if optionq firefox; then
         edo cd "${WORK}/xpi"
@@ -69,7 +69,7 @@ beid-middleware_src_compile() {
     fi
 }
 
-beid-middleware_src_install() {
+eid-mw_src_install() {
     emake INSTALL_ROOT="${IMAGE}" install || die "emake install failed"
 
     edo cd "${WORK}/install"
@@ -94,7 +94,7 @@ beid-middleware_src_install() {
     dosym /usr/$(get_libdir)/qt4/plugins /usr/local/$(get_libdir)/beidqt/plugins
 }
 
-beid-middleware_pkg_postinst() {
+eid-mw_pkg_postinst() {
     optionq firefox && elog "Firefox XPI add-on for registering PKCS#11 library has been installed in /usr/share/beid."
     elog "To know how to use your software with beID, visit :"
     elog " * French :

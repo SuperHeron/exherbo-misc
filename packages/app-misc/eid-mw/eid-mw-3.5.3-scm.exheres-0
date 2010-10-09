@@ -1,12 +1,12 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-SCM_REPOSITORY="http://eid-mw.googlecode.com/svn/"
+SCM_REPOSITORY="http://${PN}.googlecode.com/svn/"
 SCM_BRANCH="$(ever replace_all _ $(ever range 1-3))"
-SCM_SUBPATH="eid-mw"
+SCM_SUBPATH="${PN}"
 SCM_CHECKOUT_TO="${PN}-$(ever range 1-3)"
 
-require beid-middleware scm-svn
+require eid-mw scm-svn
 
 DOWNLOADS=""
 
