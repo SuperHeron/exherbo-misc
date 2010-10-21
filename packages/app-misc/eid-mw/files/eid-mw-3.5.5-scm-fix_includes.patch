@@ -1,0 +1,24 @@
+Source: written by Pierre Lejeune <superheron@gmail.com>
+Upstream: submitted, see issue 7
+Reason: fix missing c standard library headers
+--- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/common/LogBase.h	2009-06-17 16:11:04.000000000 +0200
++++ beid-middleware-3.5.2-source-5800/_src/eidmw/common/LogBase.h	2009-10-28 21:36:59.681022867 +0100
+@@ -73,6 +73,7 @@
+ 
+ #pragma once
+ 
++#include <cstdarg>
+ #include <memory>
+ #include <string>
+ #include <vector>
+--- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/common/Thread.h	2010-06-08 22:01:01.250896883 +0200
++++ beid-middleware-3.5.2-source-5800/_src/eidmw/common/Thread.h	2010-06-09 20:48:04.659850705 +0200
+@@ -41,6 +41,8 @@
+ #define CRYPT_ERROR -1
+ #endif
+ 
++#include <stdint.h>
++
+ #include "ThreadDefines.h"
+ 
+ #ifdef WIN32
