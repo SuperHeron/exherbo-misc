@@ -1,10 +1,7 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-SCM_REPOSITORY="https://bluefish.svn.sourceforge.net/svnroot/bluefish"
-SCM_SUBPATH="${PN}"
-
-require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] freedesktop-desktop freedesktop-mime sourceforge
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] freedesktop-desktop freedesktop-mime sourceforge
 
 SUMMARY="Bluefish GTK+ web editor"
 DESCRIPTION="
@@ -13,12 +10,12 @@ with many options to write websites, scripts and programming code. Bluefish
 supports many programming and markup languages, and it focuses on editing
 dynamic and interactive websites.
 "
-DOWNLOADS=""
 
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="python spell"
+MYOPTIONS="charmap [[ description = [ Builds charmap plugin ] ]]
+           python spell"
 
 DEPENDENCIES="
     build:
@@ -27,32 +24,36 @@ DEPENDENCIES="
     build+run:
         dev-libs/libxml2
         dev-libs/pcre
+        gnome-desktop/gvfs
         x11-libs/gtk+:2[>=2.12]
         x11-libs/pango
+        charmap? ( gnome-extra/gucharmap[>=2.20] )
         python? ( dev-lang/python:= )
         spell? ( app-spell/enchant )
 "
-# Add gnome-extra/gucharmap as post-suggested
 
 UPSTREAM_DOCUMENTATION="http://bluefish.openoffice.nl/manual/"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( '--disable-update-databases' )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'charmap'
     'python'
     'spell spell-check'
 )
 
 src_prepare() {
-    default
-    # Run shipped autogen.sh instead of autotools_src_prepare
-    edo chmod +x autogen.sh
-    edo ./autogen.sh
+    edo intltoolize --copy --force --automake
+    for po_dir in src/plugin_*/po ; do
+        edo cp po/Makefile.in.in "${po_dir}"
+    done
+    expatch -p0 "${FILES}"/"${PNV}"-gucharmap-automagic.patch
+    autotools_src_prepare
 }
 
-src_install() {
-    default
-    keepdir /usr/share/bluefish/templates
-}
+#src_install() {
+#    default
+#    keepdir /usr/share/bluefish/templates
+#}
 
 # Update desktop and MIME databases at the same time
 pkg_postinst() {
