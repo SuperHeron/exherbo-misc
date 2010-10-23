@@ -23,9 +23,8 @@ MYOPTIONS="baselayout bzip2 doc gd gui magic threads
     gnutella2 [[ description = [ Enable gnutella2 support ] ]]
 "
 DEPENDENCIES="
-    build:
     build+run:
-        dev-lang/ocaml[>=3.10.2][threads(+)?]
+        dev-lang/ocaml[>=3.12.0][threads(+)?]
         user/p2p
         sys-libs/zlib
         bzip2? ( app-arch/bzip2 )
@@ -39,10 +38,7 @@ REMOTE_IDS+="freshmeat:${PN}"
 UPSTREAM_CHANGELOG="http://cvs.savannah.gnu.org/viewvc/${PN}/${PN}/distrib/ChangeLog?view=markup"
 UPSTREAM_DOCUMENTATION="http://mldonkey.sourceforge.net/Quickstart_guide"
 
-DEFAULT_SRC_PREPARE_PATCHES=( -p0 ${FILES}/${PNV}-ocaml-detection.patch )
-
-DEFAULT_SRC_CONFIGURE_PARAMS=( --disable-force-ocaml --enable-iconv )
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( )
+DEFAULT_SRC_CONFIGURE_PARAMS=( --disable-force-ocaml --enable-option-checking --enable-iconv )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'bzip2'
     'gd'
