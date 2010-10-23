@@ -23,10 +23,8 @@ DEPENDENCIES="
     build+run:
         gnome-desktop/gnome-panel[>=2.0.0]
         gnome-platform/GConf:2
-        x11-libs/gtk+:2[>=2.16.0]
+        x11-libs/gtk+:2[>=2.20.0]
 "
-
-DEFAULT_SRC_PREPARE_PATCHES=( -p1 ${FILES}/${PNV}-list-interfaces.patch )
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--disable-deprecations'
