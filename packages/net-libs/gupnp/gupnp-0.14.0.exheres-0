@@ -30,7 +30,7 @@ DOWNLOADS="http://gupnp.org/sites/all/files/sources/${PNV}.tar.gz"
 LICENCES="LGPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="doc networkmanager"
+MYOPTIONS="doc gobject-introspection networkmanager"
 
 DEPENDENCIES="
     build:
@@ -43,6 +43,7 @@ DEPENDENCIES="
         gnome-desktop/libsoup:2.4[>=2.4.1]
         net-libs/gssdp[>=0.7.1]
         sys-apps/util-linux-ng
+        gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.6.4] )
 "
 
 REMOTE_IDS="freshmeat:${PN}"
@@ -54,6 +55,7 @@ src_configure() {
     local context_manager='unix'
     optionq networkmanager && context_manager='network-manager'
     econf $(option_enable doc gtk-doc) \
-        --with-context-manager=${context_manager} || die 'econf failed'
+          $(option_enable gobject-introspection introspection) \
+          --with-context-manager=${context_manager} || die 'econf failed'
 }
 
