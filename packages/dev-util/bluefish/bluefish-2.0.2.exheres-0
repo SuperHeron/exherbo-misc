@@ -34,6 +34,8 @@ DEPENDENCIES="
 
 UPSTREAM_DOCUMENTATION="http://bluefish.openoffice.nl/manual/"
 
+DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}"/"${PNV}"-gucharmap-automagic.patch )
+
 DEFAULT_SRC_CONFIGURE_PARAMS=( '--disable-update-databases' )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'charmap'
@@ -46,14 +48,8 @@ src_prepare() {
     for po_dir in src/plugin_*/po ; do
         edo cp po/Makefile.in.in "${po_dir}"
     done
-    expatch -p0 "${FILES}"/"${PNV}"-gucharmap-automagic.patch
     autotools_src_prepare
 }
-
-#src_install() {
-#    default
-#    keepdir /usr/share/bluefish/templates
-#}
 
 # Update desktop and MIME databases at the same time
 pkg_postinst() {
