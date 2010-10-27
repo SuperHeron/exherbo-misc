@@ -1,0 +1,147 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'openoffice-bin-3.2.1.exheres-0' from Exherbo, which is:
+#     Copyright 2009, 2010 Pierre Lejeune
+
+require freedesktop-desktop freedesktop-mime
+
+SUMMARY="LibreOffice, a full office productivity suite - Binary version"
+DESCRIPTION="
+LibreOffice is a productivity suite that is compatible with other major office suites, and available
+on a variety of platforms. It is free software and therefore free to download, use and distribute.
+"
+HOMEPAGE="http://www.documentfoundation.org/download"
+
+LO_PN_SHORT="LibO"
+LO_PN_LONG="${PN%-bin}"
+LO_PV="$(ever range 1-3)"
+LO_PNV="${LO_PN_SHORT}_$(ever replace 3 _)"
+LO_LINGUAS=( 'af' 'ar' 'as_IN' 'be_BY' 'bg' 'bn_BD' 'bn_IN' 'bn' 'bo' 'br' 'brx' 'bs' 'ca' 'cs' 'cy'
+             'da' 'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fa' 'fi' 'fr'
+             'ga''gd' 'gl' 'gu_IN' 'gu' 'he' 'hi' 'hr' 'hu' 'is' 'it' 'ja' 'ka' 'kid' 'kk' 'km' 'kn'
+             'ko' 'kok' 'ks' 'ku' 'ky' 'lo' 'lt' 'mai' 'mk' 'ml_IN' 'mn' 'mni' 'mr_IN' 'ms' 'my'
+             'nb' 'ne' 'nl' 'nn' 'nr' 'ns' 'oc' 'om' 'or_IN' 'pa_IN' 'pap' 'pl' 'ps' 'pt_BR' 'pt'
+             'ro' 'ru' 'rw' 'sa_IN' 'sat' 'sc' 'sd' 'sh' 'si' 'sk' 'sl' 'sr' 'ss' 'st' 'sv' 'sw_TZ'
+             'sw' 'ta_IN' 'te_IN' 'tg' 'th' 'ti_ER' 'tn' 'tr' 'ts' 'ug' 'uk' 'ur_IN' 'uz' 've' 'vi'
+             'xh' 'zh_CN' 'zh_TW' 'zu' )
+LO_PV12="$(ever range 1-2)"
+LO_BUILDID="1"
+LO_XDG_BUILDID="${LO_BUILDID}"
+URE_PV="1.7.0"
+LO_BASIS="libobasis${LO_PV12}"
+
+DOWNLOADS_ROOT="http://download.documentfoundation.org/${LO_PN_LONG}/testing/${PV}/rpm"
+DOWNLOADS="
+    platform:amd64? ( ${DOWNLOADS_ROOT}/x86_64/${LO_PNV}_Linux_x86-64_install-rpm_en-US.tar.gz )
+    platform:x86? ( ${DOWNLOADS_ROOT}/x86/${LO_PNV}_Linux_x86_install-rpm_en-US.tar.gz )
+"
+
+set_linguas() {
+    for linguas in "${LO_LINGUAS[@]}"; do
+        local amd64_dl_line='' x86_dl_line=''
+        if [[ "${linguas}" != 'en_US' ]]; then
+            amd64_dl_line="${DOWNLOADS_ROOT}/x86_64/${LO_PNV}_Linux_x86-64_langpack-rpm_${linguas//_/-}.tar.gz"
+            x86_dl_line="${DOWNLOADS_ROOT}/x86/${LO_PNV}_Linux_x86_langpack-rpm_${linguas//_/-}.tar.gz"
+        fi
+        if [[ -n "${amd64_dl_line}" || -n "${x86_dl_line}" ]]; then
+            DOWNLOADS+="
+                linguas:${linguas}? (
+                    platform:amd64? ( ${amd64_dl_line} )
+                    platform:x86? ( ${x86_dl_line} )
+                ) "
+        fi
+    done
+}
+
+set_linguas
+
+LICENCES="LGPL-3"
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS="
+    extensions gnome java kde
+    ( linguas: ${LO_LINGUAS[@]} [[ number-selected = at-least-one ]] )
+    platform: amd64 x86
+"
+
+DEPENDENCIES="
+    build:
+        app-arch/rpm2targz
+    build+run:
+       !app-office/openoffice
+       !app-office/openoffice-bin
+    run:
+        java? ( virtual/jre:*[>=1.5] )
+"
+
+UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/news/"
+
+rpm_unpack() {
+    # Pipes don't work with edo
+    echo "rpm2tar -O ${1} | tar -xf - --no-same-owner -C ${WORK}"
+    rpm2tar -O "${1}" | tar -xf - --no-same-owner -C "${WORK}" || die "Unpacking RPM failed"
+}
+
+src_unpack() {
+    if optionq platform:amd64; then
+        LO_ARCH='x86_64'
+    elif optionq platform:x86; then
+        LO_ARCH='i586'
+    fi
+
+    default
+    echo "Creating ${WORK}"
+    edo mkdir -p "${WORK}"
+
+    einfo "Unpacking RPM files"
+    edo cd "${WORKBASE}/en-US/RPMS"
+    for appl in base binfilter calc core{01,02,03,04,05,06,07} \
+    draw graphicfilter images impress math ogltrans ooofonts \
+    ooolinguistic pyuno testtool writer xsltfilter; do
+        rpm_unpack "${LO_BASIS}-${appl}-${LO_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    done
+    rpm_unpack "${LO_PN_LONG}$(ever range 1)-${LO_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    for appl in base calc draw impress math writer; do
+        rpm_unpack "${LO_PN_LONG}$(ever range 1)-${appl}-${LO_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    done
+    rpm_unpack "${LO_PN_LONG}-ure-${URE_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    rpm_unpack "desktop-integration/${LO_PN_LONG}${LO_PV12}-freedesktop-menus-${LO_PV12}-${LO_XDG_BUILDID}.noarch.rpm"
+    if optionq extensions; then
+        for appl in mediawiki-publisher pdf-import presentation-minimizer presenter-screen report-builder; do
+            rpm_unpack "${LO_BASIS}-extension-${appl}-${LO_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+        done
+    fi
+    optionq gnome && rpm_unpack "${LO_BASIS}-gnome-integration-${LO_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    optionq kde && rpm_unpack "${LO_BASIS}-kde-integration-${LO_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    optionq java && rpm_unpack "${LO_BASIS}-javafilter-${LO_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    einfo "Unpacking language pack RPM files"
+    for linguas in "${LO_LINGUAS[@]}"; do
+        if optionq linguas:${linguas}; then
+            linguas="${linguas//_/-}"
+            edo cd "${WORKBASE}/${linguas}/RPMS"
+            rpm_unpack "${LO_PN_LONG}$(ever range 1)-${linguas}-${LO_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+            rpm_unpack "${LO_BASIS}-${linguas}-${LO_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+            for appl in base binfilter calc draw help impress math res writer; do
+                rpm_unpack "${LO_BASIS}-${linguas}-${appl}-${LO_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+            done
+        fi
+    done
+}
+
+src_install() {
+    edo cp -rT "${WORK}" "${IMAGE}"
+    # Empty directories
+    edo find "${IMAGE}" -type d -empty -delete
+}
+
+# Update desktop and MIME databases at the same time
+pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+    freedesktop-mime_pkg_postinst
+}
+
+pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+    freedesktop-mime_pkg_postrm
+}
+
