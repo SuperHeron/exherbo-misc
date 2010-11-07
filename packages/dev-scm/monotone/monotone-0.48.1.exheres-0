@@ -42,6 +42,8 @@ DEPENDENCIES="
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/docs/index.html"
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/NEWS"
 
+DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-sqlite-3.7.patch" )
+
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--enable-nls'
     "--htmldir=/usr/share/doc/${PNV}"

@@ -1,0 +1,61 @@
+Source: written by Timothy Brownawell and Thomas Keller
+Upstream: yes, Bug #96
+Reason: fix compatibility with sqlite-3.7
+#
+# SQLite 3.7 and later does no longer place a journal file
+# in the same directory when no write action is happening
+# (which is not because there is no migration to do), thus
+# this specific test is pointless from this version on.
+#
+# patch "tests/fail_cleanly_on_unreadable_db/__driver__.lua"
+#  from [1ec557d1aef9eac9ee53a22d07f4ba0f3456da5e]
+#    to [8875c78a070bef87904bb840ed3cffa0acba4399]
+#
+============================================================
+--- tests/fail_cleanly_on_unreadable_db/__driver__.lua	1ec557d1aef9eac9ee53a22d07f4ba0f3456da5e
++++ tests/fail_cleanly_on_unreadable_db/__driver__.lua	8875c78a070bef87904bb840ed3cffa0acba4399
+@@ -48,7 +48,6 @@ check(mtn("--db=subdir/foo.db", "db", "v
+ check(mtn("--db=subdir/foo.db", "ls", "branches"), 0, false, false)
+ check(mtn("--db=subdir/foo.db", "db", "info"), 0, false, false)
+ check(mtn("--db=subdir/foo.db", "db", "version"), 0, false, false)
+-check(mtn("--db=subdir/foo.db", "db", "migrate"), 1, false, false)
+ check(mtn("--db=subdir/bar.db", "db", "load"), 1, false, false)
+ check(mtn("--db=subdir/baz.db", "db", "init"), 1, false, false)
+ check({"chmod", "a+w", "subdir"})
+#
+# SQLite 3.7.3 and later does consistently return a NULL pointer
+# for empty or NULL blobs, just as documented. We've just been
+# lucky enough in the past to always get back an empty string
+# before...
+#
+# patch "database.cc"
+#  from [0afa3ff4bd9c9ee3bc62b10bcf6295a9f5388d64]
+#    to [8bfff559a0894259fe3668294bd3906ae837129b]
+#
+============================================================
+--- database.cc	0afa3ff4bd9c9ee3bc62b10bcf6295a9f5388d64
++++ database.cc	8bfff559a0894259fe3668294bd3906ae837129b
+@@ -1489,12 +1489,19 @@ database_impl::fetch(results & res,
+       vector<string> row;
+       for (int col = 0; col < ncol; col++)
+         {
++          // We never store NULLs, so we should never see one.
++          int const datatype = sqlite3_column_type(i->second.stmt(), col);
++          E(datatype != SQLITE_NULL, origin::database,
++            F("null result in query: %s") % query.sql_cmd);
+           const char * value = (const char*)sqlite3_column_blob(i->second.stmt(), col);
+           int bytes = sqlite3_column_bytes(i->second.stmt(), col);
+-          E(value, origin::database,
+-            F("null result in query: %s") % query.sql_cmd);
+-          row.push_back(string(value, value + bytes));
+-          //L(FL("row %d col %d value='%s'") % nrow % col % value);
++          if (value) {
++            row.push_back(string(value, value + bytes));
++          } else {
++            // sqlite3_column_blob() returns null for zero-length
++            I(bytes == 0);
++            row.push_back(string());
++          }
+         }
+       res.push_back(row);
+     }
