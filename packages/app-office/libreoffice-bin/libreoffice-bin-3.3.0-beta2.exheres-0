@@ -71,6 +71,7 @@ DEPENDENCIES="
        !app-office/openoffice
        !app-office/openoffice-bin
     run:
+        x11-libs/libXinerama
         java? ( virtual/jre:*[>=1.5] )
 "
 
