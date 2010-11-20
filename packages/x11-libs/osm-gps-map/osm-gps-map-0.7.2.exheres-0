@@ -1,0 +1,36 @@
+# Copyright 2010 Dan Callaghan <djc@djc.id.au>
+# Distributed under the terms of the GNU General Public License v2
+
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
+
+SUMMARY="GTK+ widget for displaying OpenStreetMap files"
+HOMEPAGE="http://nzjrs.github.com/osm-gps-map/"
+DOWNLOADS="http://www.johnstowers.co.nz/files/${PN}/${PNV}.tar.gz"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS="gobject-introspection"
+
+DEPENDENCIES="
+    build+run:
+        gnome-desktop/libsoup:2.4
+        x11-libs/gtk+:2
+        x11-libs/cairo
+        gobject-introspection? ( gnome-desktop/gobject-introspection )
+"
+
+BUGS_TO="djc@djc.id.au"
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( "gobject-introspection introspection" )
+
+src_prepare() {
+    sed -i \
+        -e "/osm_gps_mapdocdir =/cosm_gps_mapdocdir = \${datadir}/doc/${PNV}" \
+        Makefile.am
+    eautomake
+}
+
+src_install() {
+    emake -j1 DESTDIR="${IMAGE}" install
+}
