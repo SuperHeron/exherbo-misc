@@ -12,9 +12,10 @@ LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 MY_P2P_NETWORKS="bittorrent directconnect donkey donkeysui fasttrack filetp gnutella gnutella2"
-MYOPTIONS="baselayout bzip2 doc gd gui magic threads
+MYOPTIONS="baselayout bzip2 doc gd gui magic threads upnp-natpmp
 
     magic [[ description = [ Enable use of libmagic ] ]]
+    upnp-natpmp [[ description = [ Enable use of libminiupnpc and libnatpmp for port-forwarding ] ]]
 
     p2p_networks: ${MY_P2P_NETWORKS}
 
@@ -31,6 +32,8 @@ DEPENDENCIES="
         gd? ( media-libs/gd[>=2.0.14][jpeg][png] )
         gui? ( dev-ocaml/lablgtk[>=2.10.1][svg] )
         magic? ( sys-apps/file )
+        upnp-natpmp? ( net-libs/libnatpmp[>=20100202]
+                       net-libs/miniupnpc[>=1.4.20100609] )
 "
 
 REMOTE_IDS+="freshmeat:${PN}"
@@ -45,6 +48,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'gui gui newgui2'
     'magic'
     'threads pthread'
+    'upnp-natpmp'
     'p2p_networks:bittorrent'
     'p2p_networks:directconnect'
     'p2p_networks:donkey'
@@ -62,7 +66,7 @@ src_install() {
         newinitd "${FILES}/${PNV}-initd" "${PN}"
         newconfd "${FILES}/${PNV}-confd" "${PN}"
     fi
-    keepdir "/home/p2p/mldonkey"
+    keepdir '/home/p2p/mldonkey'
     edo chown p2p:users "${IMAGE}"/home/p2p/mldonkey
 }
 
