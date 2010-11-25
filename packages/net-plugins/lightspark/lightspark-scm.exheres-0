@@ -35,7 +35,7 @@ DEPENDENCIES="
         dev-util/pkg-config
         sys-devel/gettext
     build+run:
-        dev-cpp/libxml++[>=2.6]
+        dev-cpp/libxml++[>=2.33.1]
         dev-lang/llvm
         dev-lang/nasm
         dev-libs/boost[>=1.43.0]
