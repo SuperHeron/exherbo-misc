@@ -1,0 +1,46 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require distutils
+
+SUMMARY="Character encoding auto-detection in Python 2 and 3"
+DESCRIPTION="
+
+"
+HOMEPAGE="http://chardet.feedparser.org/"
+DOWNLOADS="${HOMEPAGE}/download/python2-${PNV}.tgz
+           ${HOMEPAGE}/download/python3-${PNV}.tgz"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="doc"
+
+DEPENDENCIES="
+    build+run:
+        dev-lang/python:=
+"
+
+WORK="${WORKBASE}"
+
+get_WORK() {
+    local python_abi="$(python_get_abi)"
+    echo -n "${WORKBASE}/python$(ever range 1 ${python_abi})-${PNV}"
+}
+
+src_prepare() {
+    edo cd "$(get_WORK)"
+    distutils_src_prepare
+}
+
+src_compile() {
+    edo cd "$(get_WORK)"
+    distutils_src_compile
+}
+
+src_install() {
+    edo cd "$(get_WORK)"
+    distutils_src_install
+    optionq doc && dodoc -r docs
+}
+
