@@ -46,7 +46,6 @@ DEPENDENCIES="
         media-libs/ftgl
         media-libs/glew
         net-misc/curl
-        net-plugins/gnash [[ description = [ Needed by \"fallback\" mode ] ]]
         x11-dri/mesa
         x11-libs/libX11
         curl? ( net-misc/curl )
@@ -56,6 +55,8 @@ DEPENDENCIES="
             x11-libs/gtk+:2 )
         openal? ( media-libs/openal )
         pulseaudio? ( media-sound/pulseaudio )
+    recommendation:
+        net-plugins/gnash [[ description = [ Used for playing older SWF clips ] ]]
 "
 
 RESTRICT="test" # requires Adobe Flex SDK (especially mxmlc)
