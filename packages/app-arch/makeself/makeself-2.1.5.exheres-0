@@ -1,0 +1,32 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Make self-extractable archives on Unix"
+DESCRIPTION="
+makeself.sh is a small shell script that generates a self-extractable tar.gz archive from a
+directory. The resulting file appears as a shell script (many of those have a .run suffix), and can
+be launched as is. The archive will then uncompress itself to a temporary directory and an optional
+arbitrary command will be executed (for example an installation script). Makeself archives also include
+checksums for integrity self-validation (CRC and/or MD5 checksums).
+"
+HOMEPAGE="http://www.megastep.org/${PN}"
+DOWNLOADS="${HOMEPAGE}/${PNV}.run"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+src_unpack() {
+    edo mkdir "${WORK}"
+    edo sh "${FETCHEDDIR}/${PNV}.run" --target "${WORK}"
+}
+
+src_install() {
+    default
+    newbin "${PN}".sh "${PN}"
+    dobin "${PN}-header.sh"
+    doman "${PN}".1
+    dodoc "${PN}".lsm
+}
+
