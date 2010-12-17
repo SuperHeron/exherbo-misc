@@ -32,7 +32,7 @@ DEPENDENCIES="
         sys-devel/gettext
     build+run:
         dev-cpp/libxml++[>=2.33.1]
-        dev-lang/llvm
+        dev-lang/llvm[>=2.7]
         dev-lang/nasm
         dev-libs/boost[>=1.43.0]
         dev-libs/pcre
@@ -55,6 +55,8 @@ DEPENDENCIES="
 "
 
 RESTRICT="test" # requires Adobe Flex SDK (especially mxmlc)
+
+DEFAULT_SRC_PREPARE_PATCHES=( -p1 "${FILES}/${PN}-llvm-2.8-gcc-4.5.patch" )
 
 CMAKE_SRC_CONFIGURE_OPTION_ENABLES=( 'CURL' )
 CMAKE_SRC_CONFIGURE_OPTIONS=(

@@ -1,0 +1,14 @@
+Source: written by chithanh@gentoo.org, from Gentoo Bug #348552
+Upstream: no
+Reason: Fix compilation with llvm-2.8 and gcc-4.5
+diff -ur a/scripting/abc.h b/scripting/abc.h
+--- a/scripting/abc.h	2010-12-08 17:55:46.000000000 +0100
++++ b/scripting/abc.h	2010-12-12 21:49:56.549000030 +0100
+@@ -19,6 +19,7 @@
+ 
+ #ifndef _ABC_H
+ #define _ABC_H
++#define alignof _alignof
+ 
+ #include "compat.h"
+ #include <llvm/Module.h>
