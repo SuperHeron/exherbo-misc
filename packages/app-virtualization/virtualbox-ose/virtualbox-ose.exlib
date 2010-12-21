@@ -7,7 +7,7 @@ SUMMARY="A family of powerful x86 virtualization products"
 DESCRIPTION="VirtualBox is a powerful x86 virtualization product for enterprise as well as home use. Not only is VirtualBox an extremely feature rich, high performance product for enterprise customers, it is also the only professional solution that is freely available as Open Source Software under the terms of the GNU General Public License (GPL)."
 HOMEPAGE="http://www.virtualbox.org"
 MY_PV="${PV/-beta/_BETA}"
-MY_PNV="VirtualBox-${MY_PV}-OSE"
+MY_PNV="VirtualBox-${MY_PV}"
 UNPACK_PNV="VirtualBox-$(ever range 1-3)_OSE"
 DOWNLOADS="
     http://download.virtualbox.org/${PN%-ose}/${MY_PV}/${MY_PNV}.tar.bz2
