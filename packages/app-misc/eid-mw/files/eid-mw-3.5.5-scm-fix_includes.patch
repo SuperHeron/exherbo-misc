@@ -22,3 +22,13 @@ Reason: fix missing c standard library headers
  #include "ThreadDefines.h"
  
  #ifdef WIN32
+--- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/common/Config.cpp	2010-12-21 13:47:32.319494838 +0100
++++ beid-middleware-3.5.2-source-5800/_src/eidmw/common/Config.cpp	2010-12-21 13:56:41.046149505 +0100
+@@ -20,6 +20,7 @@
+ #include <iostream>
+ #include <stdlib.h>
+ #include <limits.h>
++#include <sys/stat.h>
+ 
+ #include "Config.h"
+ #include "Util.h"
