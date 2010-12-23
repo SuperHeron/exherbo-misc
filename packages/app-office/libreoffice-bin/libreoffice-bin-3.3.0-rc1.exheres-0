@@ -55,7 +55,8 @@ LICENCES="LGPL-3"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
-    extensions gnome java kde
+    extensions [[ description = [ Installs bundled extensions ] ]]
+    gnome java kde
     ( linguas: ${LO_LINGUAS[@]} [[ number-selected = at-least-one ]] )
     platform: amd64 x86
 "
