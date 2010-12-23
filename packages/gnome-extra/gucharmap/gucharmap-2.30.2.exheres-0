@@ -3,5 +3,5 @@
 
 require gucharmap
 
-PLATFORMS="~amd64"
+PLATFORMS="~amd64 ~x86"
 
