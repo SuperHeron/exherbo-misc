@@ -22,7 +22,7 @@ OO_PN="${PN%%-bin}"
 OO_PNV="${OO_PN}-${PV}"
 OO_LANGS=( 'ast:amd64 x86' 'ca:amd64 x86' 'da:amd64 x86' 'en_GB:amd64 x86' 'en_US:amd64 x86'
            'es:amd64 x86' 'fr:amd64 x86' 'gl:amd64 x86' 'ja:x86' 'nl:x86' 'pl:amd64 x86'
-           'ru:amd64 x86' 'sl:amd64 x86' )
+           'ru:amd64 x86' 'si:amd64 x86' 'sl:amd64 x86' )
 OO_PV12="$(ever range 1-2)"
 OO_BUILDPV="$(ever delete_all ${OO_PV12})0"
 OO_BUILDID="9502"
