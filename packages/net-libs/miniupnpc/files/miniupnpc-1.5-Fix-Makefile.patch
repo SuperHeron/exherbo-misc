@@ -3,7 +3,7 @@ Upstream: no
 Reason: Various fixes in Makefile
 --- Makefile.orig	2010-04-07 12:03:49.000000000 +0200
 +++ Makefile	2010-11-23 21:57:34.661127516 +0100
-@@ -80,7 +80,7 @@
+@@ -81,7 +81,7 @@
  # install directories
  INSTALLPREFIX ?= $(PREFIX)/usr
  INSTALLDIRINC = $(INSTALLPREFIX)/include/miniupnpc
@@ -12,23 +12,23 @@ Reason: Various fixes in Makefile
  INSTALLDIRBIN = $(INSTALLPREFIX)/bin
  
  FILESTOINSTALL = $(LIBRARY) $(EXECUTABLES)
-@@ -141,16 +141,16 @@
+@@ -148,16 +148,16 @@
  
  $(SHAREDLIBRARY):	$(LIBOBJS)
  ifeq ($(OS), Darwin)
--	$(CC) -dynamiclib -Wl,-install_name,$(SONAME) -o $@ $^ 
+-	$(CC) -dynamiclib $(LDFLAGS) -Wl,-install_name,$(SONAME) -o $@ $^ 
 +	$(CC) $(CFLAGS) $(LDFLAGS) -dynamiclib -Wl,-install_name,$(SONAME) -o $@ $^ 
  else
--	$(CC) -shared -Wl,-soname,$(SONAME) -o $@ $^
+-	$(CC) -shared $(LDFLAGS) -Wl,-soname,$(SONAME) -o $@ $^
 +	$(CC) $(CFLAGS) $(LDFLAGS) -shared -Wl,-soname,$(SONAME) -o $@ $^
  endif
  
  upnpc-static:	upnpc.o $(LIBRARY) $(LDLIBS)
--	$(CC) -o $@ $^
+-	$(CC) $(LDFLAGS) -o $@ $^
 +	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
  
  upnpc-shared:	upnpc.o $(SHAREDLIBRARY) $(LDLIBS)
--	$(CC) -o $@ $^
+-	$(CC) $(LDFLAGS) -o $@ $^
 +	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
  
  testminixml:	$(TESTMINIXMLOBJS)
