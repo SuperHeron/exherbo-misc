@@ -32,7 +32,7 @@ DEPENDENCIES="
         gd? ( media-libs/gd[>=2.0.14][jpeg][png] )
         gui? ( dev-ocaml/lablgtk[>=2.10.1][svg] )
         magic? ( sys-apps/file )
-        upnp-natpmp? ( net-libs/libnatpmp[>=20100202]
+        upnp-natpmp? ( net-libs/libnatpmp[>=20100202&<20110103]
                        net-libs/miniupnpc[>=1.4.20100609] )
 "
 
