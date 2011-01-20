@@ -1,0 +1,61 @@
+Source: written by Pierre Lejeune, for Exherbo
+Upstream: no
+Reason: Various fixes in Makefile
+--- Makefile.orig	2010-02-02 19:39:52.000000000 +0100
++++ Makefile	2010-11-23 21:49:19.117704483 +0100
+@@ -5,13 +5,12 @@
+ # http://miniupnp.free.fr/libnatpmp.html
+ 
+ OS = $(shell uname -s)
+-CC = gcc
+ INSTALL = install
+ 
+ # APIVERSION is used in soname
+ APIVERSION = 0
+ LDFLAGS = --no-undefined
+-CFLAGS = -O -fPIC -Wall -DENABLE_STRNATPMPERR
++CFLAGS += -O -fPIC -Wall -DENABLE_STRNATPMPERR
+ 
+ LIBOBJS = natpmp.o getgateway.o
+ 
+@@ -33,7 +32,7 @@
+ 
+ INSTALLPREFIX ?= $(PREFIX)/usr
+ INSTALLDIRINC = $(INSTALLPREFIX)/include
+-INSTALLDIRLIB = $(INSTALLPREFIX)/lib
++INSTALLDIRLIB = $(INSTALLPREFIX)/$(LIBDIR)
+ INSTALLDIRBIN = $(INSTALLPREFIX)/bin
+ 
+ .PHONY:	all clean depend install cleaninstall installpythonmodule
+@@ -61,6 +61,7 @@
+ 	$(INSTALL) -d $(INSTALLDIRLIB)
+ 	$(INSTALL) -m 644 $(STATICLIB) $(INSTALLDIRLIB)
+ 	$(INSTALL) -m 644 $(SHAREDLIB) $(INSTALLDIRLIB)/$(SONAME)
++	$(INSTALL) -d $(INSTALLDIRBIN)
+ 	$(INSTALL) -m 755 natpmpc-shared $(INSTALLDIRBIN)/natpmpc
+ 	ln -s -f $(SONAME) $(INSTALLDIRLIB)/$(SHAREDLIB)
+ 
+@@ -73,19 +73,19 @@
+ testgetgateway:	testgetgateway.o getgateway.o
+ 
+ natpmpc-static:	natpmpc.o $(STATICLIB)
+-	$(CC) -o $@ $^
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+ 
+ natpmpc-shared:	natpmpc.o $(SHAREDLIB)
+-	$(CC) -o $@ $^
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+ 
+ $(STATICLIB):	$(LIBOBJS)
+ 	$(AR) crs $@ $?
+ 
+ $(SHAREDLIB):	$(LIBOBJS)
+ ifeq ($(OS), Darwin)
+-	$(CC) -dynamiclib -Wl,-install_name,$(SONAME) -o $@ $^
++	$(CC) $(CFLAGS) $(LDFLAGS) -dynamiclib -Wl,-install_name,$(SONAME) -o $@ $^
+ else
+-	$(CC) -shared -Wl,-soname,$(SONAME) -o $@ $^
++	$(CC) $(CFLAGS) $(LDFLAGS) -shared -Wl,-soname,$(SONAME) -o $@ $^
+ endif
+ 
+ # DO NOT DELETE
