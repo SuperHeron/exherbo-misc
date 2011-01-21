@@ -7,7 +7,7 @@ Reason: fix compilation issues with xerces-c-3
  	XMLByte *pOut=NULL;
  
  	//Encode the baIn
--	pOut=XERCES_CPP_NAMESPACE::Base64::encode((XMLByte *)baIn.GetBytes(),baIn.Size(),&iLenOut);
+-	pOut=XERCES_CPP_NAMESPACE::Base64::encode((XMLByte *)baIn.GetBytes(),baIn.Size(),&iLenOut );
 +	pOut=XERCES_CPP_NAMESPACE::Base64::encode((XMLByte *)baIn.GetBytes(),(size_t)baIn.Size(),(size_t*)&iLenOut);
  
  	//2000000000 is huge, but just checking in case of the unlickely truncation
