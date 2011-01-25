@@ -10,11 +10,12 @@ DESCRIPTION="
 LibreOffice is a productivity suite that is compatible with other major office suites, and available
 on a variety of platforms. It is free software and therefore free to download, use and distribute.
 "
-HOMEPAGE="http://www.documentfoundation.org/download"
+HOMEPAGE="http://www.libreoffice.org"
 
+LO_RELEASE="$([[ -z "$(ever range 4-)" ]] && echo -n 'stable' || echo -n 'testing')"
 LO_PN_SHORT="LibO"
 LO_PN_LONG="${PN%-bin}"
-LO_PNV="${LO_PN_SHORT}_$(ever delete 3)"
+LO_PNV="${LO_PN_SHORT}_$(ever delete 3)$([[ ${LO_RELEASE} == 'stable' ]] && echo -n 'rc4')"
 LO_LINGUAS=( 'af' 'ar' 'as' 'ast' 'be_BY' 'bg' 'bn' 'bo' 'br' 'brx' 'bs' 'ca_XV' 'ca' 'cs' 'cy' 'da'
              'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fa' 'fi' 'fr' 'ga'
              'gd' 'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja' 'ka' 'kk' 'km' 'kn' 'ko' 'kok'
@@ -26,7 +27,7 @@ LO_BUILDID="6"
 URE_PV="1.7.0"
 LO_BASIS="libobasis$(ever range 1-2)"
 
-DOWNLOADS_ROOT="http://download.documentfoundation.org/${LO_PN_LONG}/testing/${PV}/rpm"
+DOWNLOADS_ROOT="http://download.documentfoundation.org/${LO_PN_LONG}/${LO_RELEASE}/${PV}/rpm"
 DOWNLOADS="
     platform:amd64? ( ${DOWNLOADS_ROOT}/x86_64/${LO_PNV}_Linux_x86-64_install-rpm_en-US.tar.gz )
     platform:x86? ( ${DOWNLOADS_ROOT}/x86/${LO_PNV}_Linux_x86_install-rpm_en-US.tar.gz )
