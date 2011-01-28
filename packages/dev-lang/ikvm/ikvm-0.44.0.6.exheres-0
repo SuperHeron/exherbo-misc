@@ -1,7 +1,7 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require multilib sourceforge [ pnv=${PN}src-${PV} suffix=zip ]
+require mono multilib sourceforge [ pnv=${PN}src-${PV} suffix=zip ]
 
 SUMMARY="IKVM.NET is a Java Virtual Machine (JVM) for the .NET and Mono runtimes."
 DESCRIPTION="
@@ -16,8 +16,8 @@ HOMEPAGE="http://www.${PN}.net"
 
 OPENJDK6_BUILD="b18"
 SHARPZIPLIB_PV="0860"
-DOWNLOADS+=" mirror://sourceforge/${PN}/openjdk6-${OPENJDK6_BUILD}-stripped.zip
-             mirror://sourceforge/sharpdevelop/SharpZipLib_${SHARPZIPLIB_PV}_Bin.zip"
+DOWNLOADS="http://www.frijters.net/${PN}src-${PV}.zip
+           mirror://sourceforge/${PN}/openjdk6-${OPENJDK6_BUILD}-stripped.zip"
 
 LICENCES="ZLIB"
 SLOT="0"
@@ -33,13 +33,14 @@ DEPENDENCIES="
 "
 
 src_prepare() {
-    edo mkdir "${WORK}"/bin
-    edo cp "${WORKBASE}"/net-20/ICSharpCode.SharpZipLib.dll "${WORK}"/bin
+    # Use ICSharpCode.SharpZipLib from the GAC
+    edo sed -i -e 's:../bin/ICSharpCode.SharpZipLib.dll:ICSharpCode.SharpZipLib.dll:' \
+        ikvmc/ikvmc.build ikvmstub/ikvmstub.build
 }
 
 src_compile() {
-    edo nant clean
-    edo nant
+    edo nant -t:mono-2.0 clean
+    edo nant -t:mono-2.0
 }
 
 src_install() {
