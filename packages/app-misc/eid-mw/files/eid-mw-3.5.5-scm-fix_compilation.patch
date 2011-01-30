@@ -50,3 +50,14 @@ Reason: fix compilation issues with xerces-c-3
  #ifndef SCARD_READERSTATEA
  #define SCARD_READERSTATEA SCARD_READERSTATE_A
  #endif
+--- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/xpi/build.sh	2010-10-21 20:57:51.145376220 +0200
++++ beid-middleware-3.5.2-source-5800/_src/eidmw/xpi/build.sh	2011-01-30 01:20:21.370378461 +0100
+@@ -42,7 +42,7 @@
+ # create build dir
+ mkdir ${BUILD_DIR}
+ # copy files in build dir
+-cp -r $EXT_NAME/* ${BUILD_DIR}
++cp -r src/* ${BUILD_DIR}
+ # remove svn files
+ find ${BUILD_DIR} -path "*.svn" -type d -print0 | xargs -0 /bin/rm -rf
+
