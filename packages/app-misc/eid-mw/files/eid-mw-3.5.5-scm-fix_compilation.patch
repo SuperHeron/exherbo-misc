@@ -50,14 +50,3 @@ Reason: fix compilation issues with xerces-c-3
  #ifndef SCARD_READERSTATEA
  #define SCARD_READERSTATEA SCARD_READERSTATE_A
  #endif
---- beid-middleware-3.5.2-source-5800.orig/_src/eidmw/cardlayer/PCSC.cpp	2011-01-09 18:52:50.385829913 +0100
-+++ beid-middleware-3.5.2-source-5800/_src/eidmw/cardlayer/PCSC.cpp	2011-01-13 19:18:59.506751595 +0100
-@@ -404,7 +404,7 @@
- 	for (i = 0; (i < 10) && (lRet != SCARD_S_SUCCESS); i++)
- 	{
- 		if (i != 0)
--			Sleep(1000);
-+			CThread::SleepMillisecs(1000);
- 
- 		lRet = SCardReconnect(hCard, SCARD_SHARE_SHARED, SCARD_PROTOCOL_T0, SCARD_RESET_CARD, &ap);
- 		if ( lRet != SCARD_S_SUCCESS )
