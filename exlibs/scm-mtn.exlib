@@ -44,6 +44,7 @@ scm-mtn_do_check_vars() {
         && die "for mtn, $(scm_var_name REVISION) must be a 40-character lowercase hexadecimal SHA-1 sum"
 
     [[ -n $(scm_get_var SUBPATH) ]] && die "for mtn, $(scm_var_name SUBPATH) must not be set"
+    [[ -n $(scm_get_var EXTERNAL_REFS) ]] && die "for mtn, $(scm_var_name EXTERNAL_REFS) must not be set"
 
     [[ -n $(scm_get_var MTN_SEED)
             && $(scm_get_var MTN_SEED) != http://*
