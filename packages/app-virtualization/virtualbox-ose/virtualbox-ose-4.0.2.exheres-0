@@ -3,5 +3,5 @@
 
 require virtualbox-ose
 
-PLATFORMS="-*"
+PLATFORMS=""
 
