@@ -42,7 +42,7 @@ DEPENDENCIES="
         dev-libs/libxml2:2.0
         gnome-desktop/libsoup:2.4[>=2.4.1]
         net-libs/gssdp[>=0.7.1]
-        sys-apps/util-linux-ng
+        sys-apps/util-linux
         gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.6.4] )
 "
 
