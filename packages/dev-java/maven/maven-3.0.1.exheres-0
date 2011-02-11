@@ -35,15 +35,15 @@ ANT_SRC_COMPILE_PARAMS=( "${COMMON_PHASES_PARAMS[@]}" )
 ANT_SRC_TEST_PARAMS=( "${COMMON_PHASES_PARAMS[@]}" 'run-its' )
 
 src_prepare() {
-    sydboxcmd 'sandunbox/net'
+    esandbox disable_net
     ant_src_prepare
-    sydboxcmd 'sandbox/net'
+    esandbox enable_net
 }
 
 src_compile() {
-    sydboxcmd 'sandunbox/net'
+    esandbox disable_net
     ant_src_compile
-    sydboxcmd 'sandbox/net'
+    esandbox enable_net
 }
 
 src_install() {
