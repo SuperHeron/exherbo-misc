@@ -17,19 +17,11 @@ DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${MY_PNV}.tar.bz2"
 LICENCES="as-is"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="
-    baselayout
-    hal
-    static
-    usb
-
-    ( hal usb ) [[ number-selected = exactly-one ]]
-"
+MYOPTIONS="baselayout static usb"
 
 DEPENDENCIES="
     build+run:
         usb? ( dev-libs/libusb:0.1 )
-        hal? ( sys-apps/hal )
 "
 
 BUGS_TO=""
@@ -37,11 +29,11 @@ BUGS_TO=""
 WORK="${WORKBASE}/${MY_PNV}"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--disable-libhal'
     "--enable-usbdropdir=/usr/$(get_libdir)/readers/usb"
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'hal libhal'
     'static'
     'usb libusb'
 )
