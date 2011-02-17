@@ -79,7 +79,7 @@ scm-mtn_mtn() {
     fi
 
     ${echo} mtn "${global[@]}" ${cmd} "${@}"
-    mtn "${global[@]}" ${cmd} "${@}" || scm_die_unless_nonfatal "mtn ${cmd} failed"
+    mtn "${global[@]}" ${cmd} "${@}" || die_unless_nonfatal "mtn ${cmd} failed"
 }
 
 scm-mtn_get_var() {
