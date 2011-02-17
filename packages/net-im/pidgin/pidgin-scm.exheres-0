@@ -5,11 +5,15 @@
 
 AT_M4DIR="m4macros"
 
+SCM_NO_AUTOMATIC_FINALISE=1
+
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] gnome-2 scm-mtn sourceforge
+
 SCM_REPOSITORY="mtn.pidgin.im"
 SCM_BRANCH="im.pidgin.${PN}"
 SCM_MTN_SEED="http://developer.pidgin.im/static/${PN}.mtn.bz2"
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] gnome-2 scm-mtn sourceforge
+scm_finalise
 
 SUMMARY="A multi-protocol, multi-platform Instant Messaging client."
 DESCRIPTION="
