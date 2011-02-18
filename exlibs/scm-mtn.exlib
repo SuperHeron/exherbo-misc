@@ -8,7 +8,7 @@ if [[ -z ${SCM_TYPE} ]]; then
 fi
 
 scm-mtn_do_dependencies() {
-    local mtn='dev-scm/monotone[>=0.37]'
+    local mtn='dev-scm/monotone[>=0.99.1]'
 
     local tunnel=
     if [[ $(scm_get_var REPOSITORY) == ssh://* || $(scm_get_var REPOSITORY) == ssh+ux://* ]]; then
@@ -73,7 +73,7 @@ scm-mtn_mtn() {
 
     local cmd=${1}
     shift
-    if has ${cmd} automate au db; then
+    if has ${cmd} automate au db local; then
         cmd+=" ${1}"
         shift
     fi
@@ -203,14 +203,13 @@ scm-mtn_do_update() {
     old_origin="${old_origin#mtn://}"
     if [[ ${old_origin} != $(scm_get_var REPOSITORY) ]]; then
         scm-mtn_mtn -q automate branches | while read -r; do
-            scm-mtn_mtn db kill_branch_certs_locally "${REPLY}"
+            scm-mtn_mtn local kill_certs b:"${REPLY}" branch
         done
         scm-mtn_mtn -q automate tags | {
-            sed -n -e '1{/^ *format_version \+"1" *$/!q1}' \
-                -e '/^ *tag \+/{s/^ *tag \+"\(.*\)"$/\1/;s/\\"/"/g;s/\\\\/\\/g;p}' \
+            sed -n -e '/^ *tag \+/{s/^ *tag \+"\(.*\)"$/\1/;s/\\"/"/g;s/\\\\/\\/g;p}' \
                 || die "could not parse mtn automate tags output"
         } | while read -r; do
-            scm-mtn_mtn db kill_tag_locally "${REPLY}"
+            scm-mtn_mtn local kill_certs t:"${REPLY}" tag
         done
     fi
 
