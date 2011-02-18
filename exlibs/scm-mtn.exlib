@@ -107,6 +107,7 @@ scm-mtn_do_appraise() {
     fi
 
     local origin=$(scm-mtn_get_var database default-server)
+    origin="${origin#mtn://}"
     [[ -n ${origin} ]] || die "could not determine origin server for ${dir}"
     if [[ ${origin} != $(scm_get_var REPOSITORY) ]]; then
         echo "${dir} is a clone of ${origin}, but wanted $(scm_get_var REPOSITORY)"
@@ -199,6 +200,7 @@ scm-mtn_do_update() {
     [[ ${schema} == *migrat* ]] && scm-mtn_mtn db migrate
 
     local old_origin=$(scm-mtn_get_var database default-server)
+    old_origin="${old_origin#mtn://}"
     if [[ ${old_origin} != $(scm_get_var REPOSITORY) ]]; then
         scm-mtn_mtn -q automate branches | while read -r; do
             scm-mtn_mtn db kill_branch_certs_locally "${REPLY}"
