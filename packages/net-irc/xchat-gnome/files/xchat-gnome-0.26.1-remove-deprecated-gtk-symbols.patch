@@ -66,6 +66,15 @@ diff --git a/src/fe-gnome/xtext.c b/src/fe-gnome/xtext.c
 index 22d8ccb..7f1365a 100644
 --- a/src/fe-gnome/xtext.c
 +++ b/src/fe-gnome/xtext.c
+@@ -963,7 +963,7 @@ gtk_xtext_realize (GtkWidget * widget)
+ 	GdkColor col;
+ 	GdkColormap *cmap;
+ 
+-	GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
++	gtk_widget_set_realized (widget, TRUE);
+ 	xtext = GTK_XTEXT (widget);
+ 	
+ 	attributes.x = widget->allocation.x;
 @@ -1086,7 +1086,7 @@ gtk_xtext_size_allocate (GtkWidget * widget, GtkAllocation * allocation)
  	xtext->avoid_trans = FALSE;
  
