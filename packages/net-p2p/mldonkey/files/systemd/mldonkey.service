@@ -1,0 +1,12 @@
+[Unit]
+Description=MLDonkey
+After=network.target
+
+[Service]
+User=p2p
+Group=users
+EnvironmentFile=/etc/conf.d/mldonkey.conf
+ExecStart=/usr/bin/mlnet $MLDONKEY_OPTS
+
+[Install]
+WantedBy=multi-user.target

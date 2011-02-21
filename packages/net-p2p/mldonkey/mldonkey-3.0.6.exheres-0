@@ -1,7 +1,7 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require sourceforge
+require sourceforge systemd-service [ systemd_files=[ mldonkey.service ] ]
 
 SUMMARY="MLDonkey - the Open Source eDonkey client"
 DESCRIPTION="
@@ -12,28 +12,35 @@ LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 MY_P2P_NETWORKS="bittorrent directconnect donkey donkeysui fasttrack filetp gnutella gnutella2"
-MYOPTIONS="baselayout bzip2 doc gd gui magic threads upnp-natpmp
+MYOPTIONS="baselayout doc gd magic threads upnp-natpmp
 
+    gui [[ description = [ Build GTK+-based client interface ] ]]
     magic [[ description = [ Enable use of libmagic ] ]]
     upnp-natpmp [[ description = [ Enable use of libminiupnpc and libnatpmp for port-forwarding ] ]]
 
     p2p_networks: ${MY_P2P_NETWORKS}
 
+    bittorrent [[ description = [ Enable Bittorrent protocol support ] ]]
+    directconnect [[ description = [ Enable DirectConnect (DC) protocol support ] ]]
+    donkey [[ description = [ Enable eDonkey (ed2k) protocol support ] ]]
+    donkeysui [[ description = [ Enable eMule SecureUserIdent
+            anti-leeching protection protocol support for eDonkey network ] ]]
     fasttrack [[ description = [ Enable fasttrack support ] ]]
-    gnutella  [[ description = [ Enable gnutella support ] ]]
-    gnutella2 [[ description = [ Enable gnutella2 support ] ]]
+    filetp [[ description = [ Enable support for HTTP and FTP downloads ] ]]
+    gnutella [[ description = [ Enable gnutella support (unmaintained) ] ]]
+    gnutella2 [[ description = [ Enable gnutella2 support (unmaintained) ] ]]
 "
 DEPENDENCIES="
     build+run:
-        dev-lang/ocaml[>=3.12.0][threads(+)?]
-        user/p2p
+        app-arch/bzip2
+        dev-lang/ocaml[>=3.12.0][ocamlopt][threads(+)?]
         sys-libs/zlib
-        bzip2? ( app-arch/bzip2 )
+        user/p2p
         gd? ( media-libs/gd[>=2.0.14][jpeg][png] )
         gui? ( dev-ocaml/lablgtk[>=2.10.1][svg] )
         magic? ( sys-apps/file )
         upnp-natpmp? ( net-libs/libnatpmp[>=20100202&<20110103]
-                       net-libs/miniupnpc[>=1.4.20100609] )
+            net-libs/miniupnpc[>=1.4.20100609] )
 "
 
 REMOTE_IDS+="freshmeat:${PN}"
@@ -43,7 +50,6 @@ UPSTREAM_DOCUMENTATION="http://mldonkey.sourceforge.net/Quickstart_guide"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( --disable-force-ocaml --enable-option-checking --enable-iconv )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'bzip2'
     'gd'
     'gui gui newgui2'
     'magic'
@@ -61,11 +67,19 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
 
 src_install() {
     default
-    optionq doc && dodoc -r docs || die 'install docs failed'
+    option doc && dodoc -r docs
+
     if option baselayout ; then
         newinitd "${FILES}/${PNV}-initd" "${PN}"
         newconfd "${FILES}/${PNV}-confd" "${PN}"
     fi
+
+    if option systemd ; then
+        insinto /etc/conf.d
+        doins "${FILES}"/systemd/mldonkey.conf
+        install_systemd_files
+    fi
+
     keepdir '/home/p2p/mldonkey'
     edo chown p2p:users "${IMAGE}"/home/p2p/mldonkey
 }
