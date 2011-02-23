@@ -1,4 +1,4 @@
-# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010, 2011 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 # Based in part upon 'openoffice-bin-3.2.1.exheres-0' from Exherbo, which is:
 #     Copyright 2009, 2010 Pierre Lejeune
@@ -12,23 +12,23 @@ on a variety of platforms. It is free software and therefore free to download, u
 "
 HOMEPAGE="http://www.libreoffice.org"
 
-LO_RELEASE="$([[ -z "$(ever range 4-)" ]] && echo -n 'stable' || echo -n 'testing')"
+LO_RC_RELEASE="rc2"
 LO_PN_SHORT="LibO"
 LO_PN_LONG="${PN%-bin}"
 LO_PNV_DOWNLOADS="${LO_PN_SHORT}_$(ever delete 3)"
-LO_PNV="${LO_PNV_DOWNLOADS}$([[ ${LO_RELEASE} == 'stable' ]] && echo -n 'rc4')"
+LO_PNV="${LO_PNV_DOWNLOADS}${LO_RC_RELEASE}"
 LO_LINGUAS=( 'af' 'ar' 'as' 'ast' 'be_BY' 'bg' 'bn' 'bo' 'br' 'brx' 'bs' 'ca_XV' 'ca' 'cs' 'cy' 'da'
              'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fa' 'fi' 'fr' 'ga'
-             'gd' 'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja' 'ka' 'kk' 'km' 'kn' 'ko' 'kok'
-             'ks' 'ku' 'ky' 'lo' 'lt' 'lv' 'mai' 'mk' 'ml' 'mn' 'mni' 'mr' 'ms' 'my' 'nb' 'ne' 'nl'
-             'nn' 'nr' 'ns' 'oc' 'om' 'or' 'pa_IN' 'pap' 'pl' 'ps' 'pt_BR' 'pt' 'ro' 'ru' 'rw'
-             'sa_IN' 'sat' 'sd' 'sh' 'si' 'sk' 'sl' 'sq' 'sr' 'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te'
-             'tg' 'th' 'ti' 'tn' 'tr' 'ts' 'ug' 'uk' 'ur' 'uz' 've' 'vi' 'xh' 'zh_CN' 'zh_TW' 'zu' )
-LO_BUILDID="6"
+             'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja' 'ka' 'kk' 'km' 'kn' 'ko' 'kok' 'ks'
+             'ku' 'lo' 'lt' 'lv' 'mai' 'mk' 'ml' 'mn' 'mni' 'mr' 'my' 'nb' 'ne' 'nl' 'nn' 'nr' 'ns'
+             'oc' 'om' 'or' 'pa_IN' 'pl' 'pt_BR' 'pt' 'ro' 'ru' 'rw' 'sa_IN' 'sat' 'sd' 'sh' 'si'
+             'sk' 'sl' 'sq' 'sr' 'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te' 'tg' 'th' 'tn' 'tr' 'ts' 'ug' 'uk'
+             'uz' 've' 'vi' 'xh' 'zh_CN' 'zh_TW' 'zu' )
+LO_BUILDID="8"
 URE_PV="1.7.0"
 LO_BASIS="libobasis$(ever range 1-2)"
 
-DOWNLOADS_ROOT="http://download.documentfoundation.org/${LO_PN_LONG}/${LO_RELEASE}/${PV}/rpm"
+DOWNLOADS_ROOT="http://download.documentfoundation.org/${LO_PN_LONG}/stable/${PV}/rpm"
 DOWNLOADS="
     platform:amd64? ( ${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_install-rpm_en-US.tar.gz )
     platform:x86? ( ${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_install-rpm_en-US.tar.gz )
@@ -64,7 +64,10 @@ SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
     extensions [[ description = [ Installs bundled extensions ] ]]
-    gnome java help [[ description = [ Installs help package ] ]] kde
+    gnome
+    java
+    help [[ description = [ Installs help package ] ]]
+    kde
     ( linguas: ${LO_LINGUAS[@]} [[ number-selected = at-least-one ]] )
     platform: amd64 x86
 "
@@ -80,7 +83,7 @@ DEPENDENCIES="
         java? ( virtual/jre:*[>=1.5] )
 "
 
-UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/news/"
+UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/download/release-notes/"
 
 rpm_unpack() {
     # Pipes don't work with edo
