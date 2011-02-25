@@ -37,7 +37,7 @@ src_configure() {
     ebegin 'Settings build options'
     optionq pam || edo sed -i -e 's/#define VSF_BUILD_PAM/#undef VSF_BUILD_PAM/' builddefs.h
     optionq tcp-wrappers && edo sed -i -e 's/#undef VSF_BUILD_TCPWRAPPERS/#define VSF_BUILD_TCPWRAPPERS/' builddefs.h
-    edo sed -i -e 's/#undef VSF_BUILD_SSL/#define VSF_BUILD_SSL/' builddefs.h || die 'sed for option ssl failed'
+    edo sed -i -e 's/#undef VSF_BUILD_SSL/#define VSF_BUILD_SSL/' builddefs.h
     eend $?
 }
 
