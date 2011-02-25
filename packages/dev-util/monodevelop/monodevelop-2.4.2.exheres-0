@@ -38,7 +38,7 @@ UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/Download/MonoDevelop_${PV}_Released"
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--disable-update-mimedb'
     '--disable-update-desktopdb'
-    '--enable-versioncontrol'
+    '--enable-gnomeplatform'
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'extensions monoextensions'
