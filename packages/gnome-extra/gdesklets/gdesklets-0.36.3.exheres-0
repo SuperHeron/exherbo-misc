@@ -1,11 +1,10 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
 require freedesktop-desktop freedesktop-mime
 
-MY_PN="gDesklets"
-
-SUMMARY="${MY_PN} - GNOME Desktop Applets"
+SUMMARY="gDesklets - GNOME Desktop Applets"
 DESCRIPTION="
 gDesklets is a system for bringing mini programs (desklets),
 such as weather forecasts, news tickers, system information displays,
@@ -16,8 +15,8 @@ you whenever you need them, just one key-press away. The system is not
 restricted to one desktop environment, but currently works on most of
 the modern Unix desktops (including GNOME, KDE, Xfce).
 "
-HOMEPAGE="http://www.gdesklets.de"
-DOWNLOADS="http://www.gdesklets.de/files/${PNV}.tar.gz"
+HOMEPAGE="http://gdesklets.de"
+DOWNLOADS="http://gdesklets.de/files/${PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -38,9 +37,7 @@ DEPENDENCIES="
         gnome-desktop/librsvg:2[>=2.8.0]
 "
 
-WORK="${WORKBASE}/${MY_PN}-${PV}"
-
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-python-2.6.patch" )
+DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-.in-files.patch" )
 
 pkg_postinst() {
     freedesktop-desktop_pkg_postinst
