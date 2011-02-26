@@ -1,3 +1,6 @@
+Source: written by Pierre Lejeune <superheron@gmail.com> for Exherbo
+Upstream: no
+Reason: Do not strip
 --- most-5.0.0a.orig/src/Makefile.in	2009-10-19 21:30:14.814375472 +0200
 +++ most-5.0.0a/src/Makefile.in	2009-10-19 21:39:21.699394399 +0200
 @@ -83,7 +83,7 @@
