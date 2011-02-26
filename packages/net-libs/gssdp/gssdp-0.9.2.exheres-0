@@ -17,8 +17,8 @@ DEPENDENCIES="
         dev-util/pkg-config
         doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
-        dev-libs/glib:2[>=2.18]
-        gnome-desktop/libsoup:2.4
+        dev-libs/glib:2[>=2.22]
+        gnome-desktop/libsoup:2.4[>=2.26.1]
         gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.6.4] )
         gtk? ( x11-libs/gtk+:2[>=2.12.0] )
 "
