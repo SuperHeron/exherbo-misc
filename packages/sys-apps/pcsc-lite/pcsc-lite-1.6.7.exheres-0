@@ -10,9 +10,8 @@ DESCRIPTION="
 "
 HOMEPAGE="http://www.linuxnet.com/middle.html"
 
-DL_NUMBER="3337"
-MY_PNV="${PN}-${PV/_/-}"
-DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${MY_PNV}.tar.bz2"
+DL_NUMBER="3516"
+DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${PNV}.tar.bz2"
 
 LICENCES="as-is"
 SLOT="0"
@@ -21,15 +20,14 @@ MYOPTIONS="baselayout static usb"
 
 DEPENDENCIES="
     build+run:
-        usb? ( dev-libs/libusb:0.1 )
+        usb? ( dev-libs/libusb:1 )
 "
 
 BUGS_TO=""
 
-WORK="${WORKBASE}/${MY_PNV}"
-
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--disable-libhal'
+    '--disable-serial'
     "--enable-usbdropdir=/usr/$(get_libdir)/readers/usb"
 )
 
