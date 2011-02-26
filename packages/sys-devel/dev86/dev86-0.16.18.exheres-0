@@ -10,21 +10,11 @@ DOWNLOADS="http://www.debath.co.uk/${PN}/${MY_PNV}.tar.gz"
 LICENCES="GPL-2 LGPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="platform: amd64 x86"
 
-DEPENDENCIES="
-"
-
-BUGS_TO=""
+DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-no-strip.patch"
+                              -p1 "${FILES}/${PNV}-linux86-copt.patch" )
 
 DEFAULT_SRC_COMPILE_PARAMS=( -j1 DIST="${IMAGE}" )
-
-src_prepare() {
-    if optionq platform:amd64; then
-        expatch -p1 "${FILES}/${PNV}-disable-elksemu.patch"
-    fi
-    expatch -p0 "${FILES}/${PNV}-no-strip.patch"
-}
 
 src_install() {
     emake -j1 install-all DIST="${IMAGE}"
