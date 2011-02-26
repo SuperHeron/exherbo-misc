@@ -11,7 +11,7 @@ implementation of the protocol for the client side. It is based on non-blocking 
 calls of the API are asynchronous. It is therefore very easy to integrate the NAT-PMP code into any
 event driven code.
 "
-HOMEPAGE="http://miniupnp.tuxfamily.org"
+HOMEPAGE="http://miniupnp.tuxfamily.org/${PN}.html"
 DOWNLOADS="${HOMEPAGE}/files/${PNV}.tar.gz"
 
 LICENCES="BSD-3"
