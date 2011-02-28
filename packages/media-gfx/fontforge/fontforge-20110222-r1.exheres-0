@@ -16,7 +16,8 @@ DOWNLOADS="mirror://sourceforge/${PN}/${PN}-source/${PN}_full-${PV}.tar.bz2"
 LICENCES="BSD-3"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="X cairo pango python truetype type3"
+MYOPTIONS="X cairo native-script pango python truetype type3
+           native-script [[ description = [ include a legacy fontforge scripting interpreter  ] ]]"
 
 DEPENDENCIES="
     build:
@@ -56,10 +57,10 @@ UPSTREAM_DOCUMENTATION="${HOMEPAGE}/overview.html"
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--enable-libff'
     '--with-regular-link'
-    '--without-native-script'
 )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'cairo'
+    'native-script'
     'pango'
     'python'
 )
