@@ -1,10 +1,12 @@
+# Copyright 2010, 2011 Johannes Nixdorf <mixi@user-helfen-usern.de>
+# Distributed under the terms of the GNU General Public License v2
+
 [Unit]
 Description=vsftpd ftp server
 After=network.target
 
 [Service]
-Type=simple
-ExecStart=/usr/sbin/vsftpd
+ExecStart=/usr/sbin/vsftpd /etc/vsftpd.conf -obackground=NO
 
 [Install]
 WantedBy=multi-user.target
