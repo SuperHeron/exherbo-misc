@@ -1,0 +1,10 @@
+# Copyright 2011 Vasiliy G Tolstov <v.tolstov@selfip.ru>
+# Distributed under the terms of the GNU General Public License v2
+
+[Unit]
+Description=vsftpd ftp server Per-Connection server
+After=network.target
+
+[Service]
+ExecStart=-/usr/sbin/vsftpd /etc/vsftpd.conf -obackground=NO -olisten=NO
+StandardInput=socket

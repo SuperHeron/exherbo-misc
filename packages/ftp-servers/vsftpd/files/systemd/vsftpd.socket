@@ -1,0 +1,13 @@
+# Copyright 2011 Vasiliy G Tolstov <v.tolstov@selfip.ru>
+# Distributed under the terms of the GNU General Public License v2
+
+[Unit]
+Description=vsftpd ftp server activation socket
+Conflicts=vsftpd.service
+
+[Socket]
+ListenStream=21
+Accept=yes
+
+[Install]
+WantedBy=sockets.target
