@@ -3,19 +3,18 @@
 # Based in part upon 'libfprint-9999.ebuild' from Gentoo, which is:
 #     Copyright 1999-2006 Gentoo Foundation
 
-SCM_REPOSITORY="git://github.com/dsd/libfprint.git"
+SCM_REPOSITORY="git://anongit.freedesktop.org/libfprint/${PN}"
 
-require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
+require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
 
 SUMMARY="Fprint library"
 DESCRIPTION="Library for fingerprint readers from Fprint project."
 HOMEPAGE="http://www.reactivated.net/fprint/wiki/Libfprint"
-DOWNLOADS=""
 
 LICENCES="LGPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MY_FPRINT_DRIVERS="upekts upektc upeksonly vcom5s uru4000 fdu2000 aes1610 aes2501 aes4000"
+MY_FPRINT_DRIVERS="aes1610 aes2501 aes4000 fdu2000 upeksonly upektc upekts uru4000 vcom5s"
 MYOPTIONS="
     debug
     examples
@@ -25,21 +24,25 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build+run:
-        media-gfx/ImageMagick
-        dev-libs/libusb:1
-        dev-libs/openssl
-        dev-libs/glib:2"
-
-BUGS_TO=""
+        dev-libs/glib:2
+        dev-libs/libusb:1[>=0.9.1]
+        dev-libs/nss
+        x11_examples? ( x11-libs/libXv )
+        fprint_drivers:aes4000? (
+            || ( x11-libs/gdk-pixbuf:2 media-gfx/ImageMagick )
+        )
+"
 
 src_configure() {
-    local with_drivers
+    local with_drivers=()
     for driver in ${MY_FPRINT_DRIVERS}; do
-        if optionq fprint_drivers:${driver}; then
-            with_drivers="${with_drivers},${driver}"
-        fi
+        optionq fprint_drivers:${driver} && with_drivers+=( ${driver} )
     done
-    econf --with-drivers=${with_drivers:1} \
+    local save_ifs="${IFS}"
+    IFS=","
+    with_drivers="${with_drivers[*]}"
+    IFS="${save_ifs}"
+    econf --with-drivers=${with_drivers} \
         $(option_enable debug) \
         $(option_enable examples examples-build) \
         $(option_enable x11_examples x11-examples-build)
