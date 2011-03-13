@@ -5,7 +5,7 @@
 
 AT_M4DIR="m4macros"
 
-SCM_REPOSITORY="mtn.pidgin.im"
+SCM_REPOSITORY="mtn://mtn.pidgin.im"
 SCM_BRANCH="im.pidgin.${PN}"
 SCM_MTN_SEED="http://developer.pidgin.im/static/${PN}.mtn.bz2"
 
