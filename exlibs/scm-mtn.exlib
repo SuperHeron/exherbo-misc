@@ -8,7 +8,7 @@ if [[ -z ${SCM_TYPE} ]]; then
 fi
 
 scm-mtn_do_dependencies() {
-    local mtn='dev-scm/monotone[>=0.99.1]'
+    local mtn='dev-scm/monotone[>=0.99]'
 
     local tunnel=
     if [[ $(scm_get_var REPOSITORY) == ssh://* || $(scm_get_var REPOSITORY) == ssh+ux://* ]]; then
@@ -55,8 +55,10 @@ scm-mtn_do_check_vars() {
     local repo=$(scm_get_var REPOSITORY)
     if [[ ${repo} == file://* ]]; then
         scm_set_var REPOSITORY file://"$(scm_trim_slashes -trailing "${repo#file://}")"
-    elif [[ ${repo} == ssh://* || ${repo} == ssh+ux://* ]]; then
+    elif [[ ${repo} == mtn://* || ${repo} == ssh://* || ${repo} == ssh+ux://* ]]; then
         scm_modify_var REPOSITORY scm_trim_slashes -scheme -trailing
+    else
+        die "$(scm_var_name REPOSITORY) should be a mtn://, ssh://, ssh+ux:// or file:// URI"
     fi
 }
 
@@ -65,9 +67,9 @@ scm-mtn_mtn() {
     local global=( --db="${dir}/${dir##*/}.mtn" --ignore-suspend-certs )
 
     local echo=echo
-    if [[ ${1} == -q ]]; then
+    if has ${1} -q --quiet; then
+        [[ ${1} == -q ]] && echo=:
         shift
-        echo=:
         global+=( --quiet )
     fi
 
@@ -107,7 +109,6 @@ scm-mtn_do_appraise() {
     fi
 
     local origin=$(scm-mtn_get_var database default-server)
-    origin="${origin#mtn://}"
     [[ -n ${origin} ]] || die "could not determine origin server for ${dir}"
     if [[ ${origin} != $(scm_get_var REPOSITORY) ]]; then
         echo "${dir} is a clone of ${origin}, but wanted $(scm_get_var REPOSITORY)"
@@ -139,16 +140,16 @@ scm-mtn_do_appraise() {
 }
 
 scm-mtn_escape() {
-    sed -e 's,[\\*?{}/],\\&,g' <<<"${1}"
+    sed -e 's,[\\*?{}/();],\\&,g' <<<"${1}"
 }
 
 scm-mtn_pull() {
     local branch=$(scm_get_var BRANCH)
     if [[ -n ${branch} ]]; then
-        scm-mtn_mtn pull --set-default "$(scm_get_var REPOSITORY)" "$(scm-mtn_escape "${branch}")"
+        scm-mtn_mtn pull --set-default "$(scm_get_var REPOSITORY)?$(scm-mtn_escape "${branch}")"
         scm_set_array FETCHED_BRANCHES "${branch}"
     else
-        scm-mtn_mtn pull --set-default "$(scm_get_var REPOSITORY)" "*"
+        scm-mtn_mtn pull --set-default "$(scm_get_var REPOSITORY)?*"
     fi
 }
 
@@ -200,17 +201,10 @@ scm-mtn_do_update() {
     [[ ${schema} == *migrat* ]] && scm-mtn_mtn db migrate
 
     local old_origin=$(scm-mtn_get_var database default-server)
-    old_origin="${old_origin#mtn://}"
     if [[ ${old_origin} != $(scm_get_var REPOSITORY) ]]; then
-        scm-mtn_mtn -q automate branches | while read -r; do
-            scm-mtn_mtn local kill_certs b:"${REPLY}" branch
-        done
-        scm-mtn_mtn -q automate tags | {
-            sed -n -e '/^ *tag \+/{s/^ *tag \+"\(.*\)"$/\1/;s/\\"/"/g;s/\\\\/\\/g;p}' \
-                || die "could not parse mtn automate tags output"
-        } | while read -r; do
-            scm-mtn_mtn local kill_certs t:"${REPLY}" tag
-        done
+        # --quiet to avoid selector expansion printing every match
+        scm-mtn_mtn --quiet local kill_certs b:\* branch
+        scm-mtn_mtn --quiet local kill_certs t:\* tag
     fi
 
     scm-mtn_pull
