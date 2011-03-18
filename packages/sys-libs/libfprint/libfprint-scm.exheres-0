@@ -14,7 +14,7 @@ HOMEPAGE="http://www.reactivated.net/fprint/wiki/Libfprint"
 LICENCES="LGPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MY_FPRINT_DRIVERS="aes1610 aes2501 aes4000 fdu2000 upeksonly upektc upekts uru4000 vcom5s"
+MY_FPRINT_DRIVERS="aes1610 aes2501 aes4000 fdu2000 upeke2 upeksonly upektc upekts uru4000 vcom5s"
 MYOPTIONS="
     debug
     examples
