@@ -17,14 +17,14 @@ LO_PN_SHORT="LibO"
 LO_PN_LONG="${PN%-bin}"
 LO_PNV_DOWNLOADS="${LO_PN_SHORT}_$(ever delete 3)"
 LO_PNV="${LO_PNV_DOWNLOADS}${LO_RC_RELEASE}"
-LO_LINGUAS=( 'af' 'ar' 'as' 'ast' 'be_BY' 'bg' 'bn' 'bo' 'br' 'brx' 'bs' 'ca_XV' 'ca' 'cs' 'cy' 'da'
+LO_LINGUAS=( 'af' 'ar' 'as' 'ast' 'be_BY' 'bg' 'bn' 'bo' 'br' 'brx' 'bs' 'ca' 'ca_XV' 'cs' 'cy' 'da'
              'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fa' 'fi' 'fr' 'ga'
              'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja' 'ka' 'kk' 'km' 'kn' 'ko' 'kok' 'ks'
              'ku' 'lo' 'lt' 'lv' 'mai' 'mk' 'ml' 'mn' 'mni' 'mr' 'my' 'nb' 'ne' 'nl' 'nn' 'nr' 'ns'
-             'oc' 'om' 'or' 'pa_IN' 'pl' 'pt_BR' 'pt' 'ro' 'ru' 'rw' 'sa_IN' 'sat' 'sd' 'sh' 'si'
+             'oc' 'om' 'or' 'pa_IN' 'pl' 'pt' 'pt_BR' 'ro' 'ru' 'rw' 'sa_IN' 'sat' 'sd' 'sh' 'si'
              'sk' 'sl' 'sq' 'sr' 'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te' 'tg' 'th' 'tn' 'tr' 'ts' 'ug' 'uk'
              'uz' 've' 'vi' 'xh' 'zh_CN' 'zh_TW' 'zu' )
-LO_BUILDID="8"
+LO_BUILDID="202"
 URE_PV="1.7.0"
 LO_BASIS="libobasis$(ever range 1-2)"
 
@@ -92,10 +92,10 @@ rpm_unpack() {
 }
 
 src_unpack() {
-    if optionq platform:amd64; then
+    if option platform:amd64; then
         LO_ARCH='x86_64'
         LO_ARCH_DIR='x86-64'
-    elif optionq platform:x86; then
+    elif option platform:x86; then
         LO_ARCH='i586'
         LO_ARCH_DIR='x86'
     fi
