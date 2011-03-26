@@ -10,20 +10,33 @@ DOWNLOADS=""
 
 PLATFORMS="~amd64"
 
-MYOPTIONS="firefox pcsc_drivers: acr38u ccid"
+MYOPTIONS="
+    firefox [[ description = [ Builds XPI extension for Firefox ] ]]
+    gtk
+    pcsc_drivers: acr38u ccid
+"
 
 DEPENDENCIES="
-    build+run:
-        x11-libs/gtk+:2[>=2.10]
+    build:
         firefox? ( app-arch/zip )
-    run:
+    build+run:
         sys-apps/pcsc-lite[>=1.4.4]
+        gtk? ( x11-libs/gtk+:2[>=2.10] )
+    run:
         pcsc_drivers:acr38u? ( app-crypt/acr38u[>=1.0.7.5] )
         pcsc_drivers:ccid? ( app-crypt/ccid )
 "
 
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'gtk dialogs' )
+
 src_compile() {
     default
     optionq firefox && emake xpipackage
+}
+
+src_install() {
+    default
+    # No binaries yet
+    edo rmdir "${IMAGE}"/usr/bin
 }
 
