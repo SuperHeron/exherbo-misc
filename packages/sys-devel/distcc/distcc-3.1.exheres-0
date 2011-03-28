@@ -53,11 +53,11 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
 src_install() {
     default
 
-    dodir /usr/libexec/distccd/
-    insinto /usr/libexec/distccd/
+    dodir /usr/libexec/distcc
+    insinto /usr/libexec/distcc
     local f
     for f in {${CHOST}-,}{gcc,g++,c++}; do
-        dosym /usr/bin/distccd /usr/libexec/distccd/${f}
+        dosym /usr/bin/distcc /usr/libexec/distcc/${f}
     done
 
     keepdir /var/run/distccd
