@@ -22,14 +22,16 @@ DEPENDENCIES="
         dev-util/intltool
         sys-devel/gettext
     build+run:
-        dev-libs/libxml2
+        dev-libs/glib:2[>=2.16]
+        dev-libs/libxml2:2.0
         dev-libs/pcre
         gnome-desktop/gvfs
+        x11-libs/gdk-pixbuf:2.0
         x11-libs/gtk+:2[>=2.12]
         x11-libs/pango
         charmap? ( gnome-extra/gucharmap[>=2.20] )
         python? ( dev-lang/python:= )
-        spell? ( app-spell/enchant )
+        spell? ( app-spell/enchant[>=1.4] )
 "
 
 UPSTREAM_DOCUMENTATION="http://bluefish.openoffice.nl/manual/"
