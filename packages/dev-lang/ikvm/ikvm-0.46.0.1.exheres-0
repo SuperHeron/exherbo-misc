@@ -14,7 +14,7 @@ It includes the following components:
 "
 HOMEPAGE="http://www.${PN}.net"
 
-OPENJDK6_BUILD="b18"
+OPENJDK6_BUILD="b22"
 SHARPZIPLIB_PV="0860"
 DOWNLOADS="http://www.frijters.net/${PN}src-${PV}.zip
            mirror://sourceforge/${PN}/openjdk6-${OPENJDK6_BUILD}-stripped.zip"
