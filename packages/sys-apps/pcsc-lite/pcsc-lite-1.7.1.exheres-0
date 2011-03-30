@@ -10,30 +10,29 @@ DESCRIPTION="
 "
 HOMEPAGE="http://www.linuxnet.com/middle.html"
 
-DL_NUMBER="3516"
+DL_NUMBER="3531"
 DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${PNV}.tar.bz2"
 
 LICENCES="as-is"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="baselayout static usb"
+MYOPTIONS="baselayout static"
 
 DEPENDENCIES="
     build+run:
-        usb? ( dev-libs/libusb:1 )
+        sys-fs/udev
 "
 
 BUGS_TO=""
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--disable-libhal'
+    '--disable-libusb'
     '--disable-serial'
-    "--enable-usbdropdir=/usr/$(get_libdir)/readers/usb"
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'static'
-    'usb libusb'
 )
 
 src_install() {
@@ -46,6 +45,5 @@ src_install() {
         newconfd "${FILES}/pcscd-confd" pcscd
     fi
 
-    keepdir "/usr/$(get_libdir)/readers/usb"
     keepdir "/etc/reader.conf.d"
 }
