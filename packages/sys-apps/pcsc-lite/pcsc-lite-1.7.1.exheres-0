@@ -13,7 +13,7 @@ HOMEPAGE="http://www.linuxnet.com/middle.html"
 DL_NUMBER="3531"
 DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${PNV}.tar.bz2"
 
-LICENCES="as-is"
+LICENCES="BSD-3"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS="baselayout static"
@@ -26,7 +26,6 @@ DEPENDENCIES="
 BUGS_TO=""
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    '--disable-libhal'
     '--disable-libusb'
     '--disable-serial'
 )
@@ -45,5 +44,6 @@ src_install() {
         newconfd "${FILES}/pcscd-confd" pcscd
     fi
 
+    keepdir "/usr/$(get_libdir)/pcsc/drivers"
     keepdir "/etc/reader.conf.d"
 }
