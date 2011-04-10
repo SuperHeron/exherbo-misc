@@ -9,7 +9,7 @@ HOMEPAGE="http://live.gnome.org/Gucharmap"
 
 LICENCES="GPL-2"
 SLOT="0"
-MYOPTIONS="cjk doc gobject-introspection gtk3
+MYOPTIONS="cjk gtk-doc gobject-introspection gtk3
            python [[ requires = [ -gtk3 ] ]]"
 
 DEPENDENCIES="
@@ -17,15 +17,15 @@ DEPENDENCIES="
         dev-util/intltool[>=0.40.0]
         dev-util/pkg-config[>=0.9.0]
         sys-devel/gettext
-        doc? (
+        gtk-doc? (
             dev-doc/gtk-doc[>=1.0]
             gnome-desktop/gnome-doc-utils[>=0.9.0]
         )
     build+run:
         dev-libs/glib:2[>=2.16.3]
         gnome-platform/GConf:2
-        gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.6] )
-        gtk3? ( x11-libs/gtk+:3[>=2.90.0] )
+        gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.9.0] )
+        gtk3? ( x11-libs/gtk+:3[>=3.0.0] )
         !gtk3? ( x11-libs/gtk+:2[>=2.14.0] )
         python? (
             dev-lang/python:=[>=2.4]
@@ -38,7 +38,7 @@ src_configure() {
     option gtk3 && gtk_version=3.0
     econf --with-gtk="${gtk_version}" \
         $(option_enable cjk unihan) \
-        $(option_enable doc gtk-doc) \
+        $(option_enable gtk-doc) \
         $(option_enable gobject-introspection introspection) \
         $(option_enable python python-bindings)
 }
