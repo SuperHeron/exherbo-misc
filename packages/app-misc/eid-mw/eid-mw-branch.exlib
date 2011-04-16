@@ -3,7 +3,7 @@
 
 export_exlib_phases src_prepare src_configure src_compile src_install pkg_postinst
 
-require eid-mw-common multilib
+require eid-mw-common
 
 LANGS="de en fr nl"
 MYOPTIONS="
@@ -82,8 +82,8 @@ eid-mw-branch_src_install() {
     fi
 
     # Needed for GUI
-    dodir /usr/local/$(get_libdir)/beidqt
-    dosym /usr/$(get_libdir)/qt4/plugins /usr/local/$(get_libdir)/beidqt/plugins
+    dodir /usr/local/${LIBDIR}/beidqt
+    dosym /usr/${LIBDIR}/qt4/plugins /usr/local/${LIBDIR}/beidqt/plugins
 }
 
 eid-mw-branch_pkg_postinst() {

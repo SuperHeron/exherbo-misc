@@ -1,8 +1,6 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require multilib
-
 SUMMARY="Botan, a C++ crypto library"
 DESCRIPTION="
 Botan is a BSD-licensed crypto library written in C++.
@@ -41,7 +39,7 @@ DEFAULT_SRC_INSTALL_EXCLUDE=( "readme.txt" )
 src_configure() {
     edo ./configure.py \
         --docdir="usr/share/doc" \
-        --libdir="usr/$(get_libdir)" \
+        --libdir="usr/${LIBDIR}" \
         --includedir="usr/include" \
         --enable-shared \
         --makefile-style="unix" \

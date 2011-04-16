@@ -1,7 +1,7 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop multilib
+require freedesktop-desktop
 
 BASE_URI="http://members.dslextreme.com/users/billw/${PN}"
 SUMMARY="GKrellM - GNU (or Gtk) Krell Monitors (or Meters)"
@@ -34,7 +34,7 @@ REMOTE_IDS="freshmeat:${PN}"
 UPSTREAM_CHANGELOG="${BASE_URI}/Changelog"
 
 DEFAULT_SRC_INSTALL_PARAMS=(
-    "PKGCONFIGDIR=${IMAGE}/usr/$(get_libdir)/pkgconfig"
+    "PKGCONFIGDIR=${IMAGE}/usr/${LIBDIR}/pkgconfig"
     'PREFIX=/usr'
     'STRIP='
 )

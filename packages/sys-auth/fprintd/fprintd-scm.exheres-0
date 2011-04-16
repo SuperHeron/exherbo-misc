@@ -5,8 +5,7 @@
 
 SCM_REPOSITORY="git://anongit.freedesktop.org/libfprint/${PN}"
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
-require multilib scm-git
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] scm-git
 
 SUMMARY="Fprint D-Bus daemon"
 DESCRIPTION="Daemon to offer libfprint functionality over D-Bus
@@ -31,8 +30,8 @@ DEPENDENCIES="
         sys-libs/pam
 "
 
-# Install pam module to /LIBDIR/security, not /usr/LIBDIR/security
-DEFAULT_SRC_CONFIGURE_PARAMS=( --libdir=/$(get_libdir) )
+# Install pam module to /${LIBDIR}/security, not /usr/${LIBDIR}/security
+DEFAULT_SRC_CONFIGURE_PARAMS=( --libdir=/"${LIBDIR}" )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'doc gtk-doc'

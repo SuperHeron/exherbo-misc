@@ -3,8 +3,6 @@
 # Based in part upon 'pcsc-lite-1.5.3.ebuild' from Gentoo, which is:
 #     Copyright 1999-2009 Gentoo Foundation
 
-require multilib
-
 SUMMARY="PC/SC Architecture smartcard middleware library"
 DESCRIPTION="
 "
@@ -44,6 +42,6 @@ src_install() {
         newconfd "${FILES}/pcscd-confd" pcscd
     fi
 
-    keepdir "/usr/$(get_libdir)/pcsc/drivers"
+    keepdir "/usr/${LIBDIR}/pcsc/drivers"
     keepdir "/etc/reader.conf.d"
 }

@@ -57,7 +57,7 @@ src_configure() {
     option alsa && myconf+=( '--enable-alsa' )
     option ogg && myconf+=(
         '--with-ogg-include=/usr/include'
-        "--with-ogg-lib=/usr/$(get_libdir)"
+        "--with-ogg-lib=/usr/${LIBDIR}"
     )
     econf "${myconf[@]}"
 }

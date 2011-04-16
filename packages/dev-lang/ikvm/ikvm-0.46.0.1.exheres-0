@@ -1,7 +1,7 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require mono multilib sourceforge [ pnv=${PN}src-${PV} suffix=zip ]
+require mono sourceforge [ pnv=${PN}src-${PV} suffix=zip ]
 
 SUMMARY="IKVM.NET is a Java Virtual Machine (JVM) for the .NET and Mono runtimes."
 DESCRIPTION="
@@ -44,12 +44,12 @@ src_compile() {
 }
 
 src_install() {
-    insinto "/usr/$(get_libdir)/${PN}"
+    insinto "/usr/${LIBDIR}/${PN}"
     doins -r "${WORK}/bin"
 
     dodir '/usr/bin'
     for bin in ikvm{,c,stub}; do
-        dosym "/usr/$(get_libdir)/${PN}/bin/${bin}.exe" "/usr/bin/${bin}"
+        dosym "/usr/${LIBDIR}/${PN}/bin/${bin}.exe" "/usr/bin/${bin}"
     done
 }
 
