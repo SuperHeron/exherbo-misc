@@ -1,4 +1,4 @@
-# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2011 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 # Launchpad repo is a delayed mirror
@@ -7,7 +7,7 @@
 
 SCM_REPOSITORY="git://github.com/lightspark/lightspark.git"
 
-require cmake launchpad scm-git
+require cmake launchpad scm-git freedesktop-desktop
 
 SUMMARY="Lightspark, a free flash player implementation"
 DESCRIPTION="
@@ -21,7 +21,10 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
     curl
+    ffmpeg
     nsplugin
+    pulseaudio
+    rtmp [[ description = [ Adds support for Real Time Messaging Protocol ] ]]
     scripts [[ description = [ Installs YouTube-related scripts ] ]]
     tightspark [[ description = [ Builds TightSpark ] ]]
 "
@@ -31,25 +34,29 @@ DEPENDENCIES="
         dev-util/pkg-config
         sys-devel/gettext
     build+run:
-        dev-cpp/libxml++[>=2.33.1]
+        dev-cpp/libxml++:2.6[>=2.33.1]
         dev-lang/llvm[>=2.7]
         dev-lang/nasm
         dev-libs/boost[>=1.43.0]
+        dev-libs/libpthread-stubs
         dev-libs/pcre
-        media/ffmpeg
         media-libs/SDL
         media-libs/fontconfig
+        media-libs/freetype
         media-libs/ftgl
         media-libs/glew
         media-sound/pulseaudio
         net-misc/curl
         x11-dri/mesa
+        x11-libs/cairo
         x11-libs/libX11
         curl? ( net-misc/curl )
+        ffmpeg? ( media/ffmpeg )
         nsplugin? (
             dev-libs/nspr
             dev-libs/xulrunner
             x11-libs/gtk+:2 )
+        rtmp? ( media-video/rtmpdump )
     recommendation:
         net-plugins/gnash [[ description = [ Used for playing older SWF clips ] ]]
 "
@@ -58,7 +65,12 @@ RESTRICT="test" # requires Adobe Flex SDK (especially mxmlc)
 
 DEFAULT_SRC_PREPARE_PATCHES=( -p1 "${FILES}/${PN}-llvm-2.8-gcc-4.5.patch" )
 
-CMAKE_SRC_CONFIGURE_OPTION_ENABLES=( 'CURL' )
+CMAKE_SRC_CONFIGURE_PARAMS=( '-DAUDIO_BACKEND:STRING=pulse' )
+CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
+    'CURL'
+    'ffmpeg LIBAVCODEC'
+    'RTMP'
+)
 CMAKE_SRC_CONFIGURE_OPTIONS=(
     'nsplugin COMPILE_PLUGIN'
     'tightspark COMPILE_TIGHTSPARK'
@@ -69,7 +81,7 @@ src_install() {
 
     if optionq scripts; then
         into '/usr/local/'
-        dobin "${WORK}"/scripts/{urldecode,youtube-args-dumper}.sh
+        dobin "${WORK}"/scripts/{play-youtube,urldecode,youtube-args-dumper,youtube-get-player}.sh
     fi
 }
 
