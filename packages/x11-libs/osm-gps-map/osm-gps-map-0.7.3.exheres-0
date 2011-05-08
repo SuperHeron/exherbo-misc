@@ -10,19 +10,21 @@ DOWNLOADS="http://www.johnstowers.co.nz/files/${PN}/${PNV}.tar.gz"
 LICENCES="GPL-3"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="gobject-introspection"
+# gobject-introspection still broken
+#MYOPTIONS="gobject-introspection"
 
 DEPENDENCIES="
     build+run:
         gnome-desktop/libsoup:2.4
         x11-libs/gtk+:2
         x11-libs/cairo
-        gobject-introspection? ( gnome-desktop/gobject-introspection )
 "
+        #gobject-introspection? ( gnome-desktop/gobject-introspection )
 
 BUGS_TO="djc@djc.id.au"
 
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( "gobject-introspection introspection" )
+DEFAULT_SRC_CONFIGURE_PARAMS=( "--disable-introspection" )
+#DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( "gobject-introspection introspection" )
 
 src_prepare() {
     sed -i \
