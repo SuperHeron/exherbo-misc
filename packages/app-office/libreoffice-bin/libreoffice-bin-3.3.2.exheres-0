@@ -68,7 +68,7 @@ MYOPTIONS="
     java
     help [[ description = [ Installs help package ] ]]
     kde
-    ( linguas: ${LO_LINGUAS[@]} [[ number-selected = at-least-one ]] )
+    ( linguas: ${LO_LINGUAS[@]} ) [[ number-selected = at-least-one ]]
     platform: amd64 x86
 "
 
