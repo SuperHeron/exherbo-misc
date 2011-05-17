@@ -45,6 +45,7 @@ DEPENDENCIES="
         media-libs/freetype
         media-libs/ftgl
         media-libs/glew
+        media-libs/jpeg
         media-sound/pulseaudio
         net-misc/curl
         x11-dri/mesa
