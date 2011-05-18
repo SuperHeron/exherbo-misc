@@ -82,7 +82,7 @@ src_install() {
 
     if optionq scripts; then
         into '/usr/local/'
-        dobin "${WORK}"/scripts/{play-youtube,urldecode,youtube-args-dumper,youtube-get-player}.sh
+        dobin "${WORK}"/tools/{play-youtube,urldecode,youtube-args-dumper,youtube-get-player}.sh
     fi
 }
 
