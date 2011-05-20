@@ -1,6 +1,8 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require systemd-service
+
 SUMMARY="A system to store and display time-series data"
 DESCRIPTION="
 RRDtool is the OpenSource industry standard, high performance
@@ -22,6 +24,10 @@ DEPENDENCIES="
         dev-util/pkg-config
         sys-devel/gettext[>=0.17]
         sys-apps/groff
+    run:
+        user/rrdtool
+        group/rrdtool
+
     build+run:
         dev-libs/libxml2[>=2.6.31]
         dev-libs/glib[>=2.12.12]
@@ -49,3 +55,11 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'tcl tcl-site'
 )
 
+src_install() {
+    default
+
+    keepdir /var/{lib,run}/${PN}
+    edo chown ${PN}:${PN} "${IMAGE}"/var/{lib,run}/${PN}
+
+    install_systemd_files
+}

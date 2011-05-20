@@ -1,0 +1,15 @@
+# Copyright 2011 Nathan McSween <nwmcsween@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+[Unit]
+Description=RRDCache daemon
+
+[Service]
+Type=forking
+User=rrdtool
+Group=rrdtool
+ExecStart=/usr/bin/rrdcached -s rrdtool -l unix:/var/run/rrdtool/rrdcached.sock -z 10 -b /var/lib/rrdtool -p /var/run/rrdtool/rrdcached.pid -B
+PIDFile=/var/run/rrdtool/rrdcached.pid
+
+[Install]
+WantedBy=multi-user.target
