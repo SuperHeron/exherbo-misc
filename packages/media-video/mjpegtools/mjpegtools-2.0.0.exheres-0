@@ -16,8 +16,6 @@ PLATFORMS="~amd64"
 MYOPTIONS="dv png quicktime"
 
 DEPENDENCIES="
-    build:
-        sys-kernel/linux-headers
     build+run:
         media-libs/jpeg[>=6b]
         media-libs/SDL[>=1.1.3]
@@ -29,6 +27,8 @@ DEPENDENCIES="
         quicktime? ( media-libs/libquicktime[>0.9.7] )
 "
 
+DEFAULT_SRC_CONFIGURE_PARAMS=( '--without-v4l' )
+
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'dv libdv'
     'png libpng'
@@ -36,9 +36,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
 )
 
 src_prepare() {
-    # Strip ARCHCFLAGS to avoid silly warnings
-    sed -i -e '/ARCHFLAGS=/s:=.*:=:' configure
-    # Glibc 2.10 compatibility
-    expatch "${FILES}/${PNV}-glibc-2.10.patch"
+    # Strip ARCHFLAGS to avoid silly warnings
+    edo sed -i -e '/ARCHFLAGS=/s:=.*:=:' configure
 }
 
