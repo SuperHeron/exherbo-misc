@@ -18,6 +18,7 @@ DEPENDENCIES="
         doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
         dev-libs/glib:2[>=2.16]
+        gnome-desktop/gobject-introspection:1[>=0.10.0]
         net-libs/gupnp[>=0.13.2]
         python? (
             dev-lang/python:=
