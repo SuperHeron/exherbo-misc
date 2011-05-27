@@ -21,7 +21,7 @@ DEPENDENCIES="
 
 WORK="${WORKBASE}/acpica-unix-${PV}/compiler"
 
-DEFAULT_SRC_COMPILE_PARAMS=( -j1 )
+DEFAULT_SRC_PREPARE_PATCHES=( -p2 "${FILES}/${PNV}-fix-const-in-aslcompilererror.patch" )
 
 src_install() {
     edo cd "${WORK}"
