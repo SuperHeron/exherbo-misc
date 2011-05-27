@@ -3,33 +3,41 @@
 # Based in part upon 'pcsc-lite-1.5.3.ebuild' from Gentoo, which is:
 #     Copyright 1999-2009 Gentoo Foundation
 
+require systemd-service
+
 SUMMARY="PC/SC Architecture smartcard middleware library"
 DESCRIPTION="
 "
 HOMEPAGE="http://www.linuxnet.com/middle.html"
 
-DL_NUMBER="3531"
+DL_NUMBER="3533"
 DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${PNV}.tar.bz2"
 
 LICENCES="BSD-3"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="baselayout static"
+MYOPTIONS="
+    baselayout
+    libusb [[ description = [ Use libusb support instead of udev ] ]]
+    static
+"
 
 DEPENDENCIES="
     build+run:
-        sys-fs/udev
+        libusb? ( dev-libs/libusb:1 )
+        !libusb? ( sys-fs/udev )
+    run:
+        group/pcscd
+        user/pcscd
 "
 
-BUGS_TO=""
+DEFAULT_SRC_PREPARE_PATCHES=( -p2 "${FILES}/${PNV}-fix-disable-usb.patch" )
 
-DEFAULT_SRC_CONFIGURE_PARAMS=(
-    '--disable-libusb'
-    '--disable-serial'
-)
-
+DEFAULT_SRC_CONFIGURE_PARAMS=( '--disable-serial' )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'static'
+    'libusb'
+    '!libusb libudev'
 )
 
 src_install() {
@@ -42,6 +50,10 @@ src_install() {
         newconfd "${FILES}/pcscd-confd" pcscd
     fi
 
-    keepdir "/usr/${LIBDIR}/pcsc/drivers"
-    keepdir "/etc/reader.conf.d"
+    install_systemd_files
+
+    keepdir /usr/"${LIBDIR}"/pcsc/drivers
+    keepdir /etc/reader.conf.d
+    keepdir /var/run/pcscd
+    edo chown pcscd:pcscd "${IMAGE}"/var/run/pcscd
 }

@@ -1,0 +1,11 @@
+[Unit]
+Description=pcscd smart card reader daemon
+
+[Service]
+User=pcscd
+Group=pcscd
+ExecStart=/usr/sbin/pcscd -f
+StandardOutput=syslog
+
+[Install]
+WantedBy=multi-user.target

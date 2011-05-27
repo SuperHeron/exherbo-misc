@@ -7,12 +7,12 @@ start() {
 	# pcscd won't start if these exist
 	rm -f /var/run/pcscd.{comm,pub}
 	ebegin "Starting pcscd"
-	/usr/sbin/pcscd ${PCSCD_OPTS}
+	start-stop-daemon --start --exec /usr/sbin/pcscd --pidfile /var/run/pcscd/pcscd.pid --chuid pcscd:pcscd -- ${PCSCD_OPTS}
 	eend $?
 }
 
 stop() {
 	ebegin "Stopping pcscd"
-	start-stop-daemon --stop --quiet --exec /usr/sbin/pcscd
+	start-stop-daemon --stop --quiet --exec /usr/sbin/pcscd --pidfile /var/run/pcscd/pcscd.pid
 	eend $?
 }
