@@ -13,20 +13,20 @@ on a variety of platforms. It is free software and therefore free to download, u
 HOMEPAGE="http://www.libreoffice.org"
 
 LO_RC_RELEASE="rc2"
+LO_BUILDID="12"
+
+LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibO"
 LO_PN_LONG="${PN%-bin}"
 LO_PNV_DOWNLOADS="${LO_PN_SHORT}_$(ever delete 3)"
 LO_PNV="${LO_PNV_DOWNLOADS}${LO_RC_RELEASE}"
-LO_LINGUAS=( 'af' 'ar' 'as' 'ast' 'be_BY' 'bg' 'bn' 'bo' 'br' 'brx' 'bs' 'ca' 'ca_XV' 'cs' 'cy' 'da'
+LO_LINGUAS=( 'af' 'ar' 'as' 'ast' 'be' 'bg' 'bn' 'bo' 'br' 'brx' 'bs' 'ca' 'ca_XV' 'cs' 'cy' 'da'
              'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fa' 'fi' 'fr' 'ga'
              'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja' 'ka' 'kk' 'km' 'kn' 'ko' 'kok' 'ks'
-             'ku' 'lo' 'lt' 'lv' 'mai' 'mk' 'ml' 'mn' 'mni' 'mr' 'my' 'nb' 'ne' 'nl' 'nn' 'nr' 'ns'
+             'ku' 'lo' 'lt' 'lv' 'mai' 'mk' 'ml' 'mn' 'mni' 'mr' 'my' 'nb' 'ne' 'nl' 'nn' 'nr' 'nso'
              'oc' 'om' 'or' 'pa_IN' 'pl' 'pt' 'pt_BR' 'ro' 'ru' 'rw' 'sa_IN' 'sat' 'sd' 'sh' 'si'
              'sk' 'sl' 'sq' 'sr' 'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te' 'tg' 'th' 'tn' 'tr' 'ts' 'ug' 'uk'
              'uz' 've' 'vi' 'xh' 'zh_CN' 'zh_TW' 'zu' )
-LO_BUILDID="202"
-URE_PV="1.7.0"
-LO_BASIS="libobasis$(ever range 1-2)"
 
 DOWNLOADS_ROOT="http://download.documentfoundation.org/${LO_PN_LONG}/stable/${PV}/rpm"
 DOWNLOADS="
@@ -107,18 +107,18 @@ src_unpack() {
     echo "Unpacking RPM files"
     edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_install-rpm_en-US/RPMS"
     for appl in base binfilter calc core{01,02,03,04,05,06,07} \
-    draw graphicfilter images impress math ogltrans ooofonts \
-    ooolinguistic pyuno testtool writer xsltfilter; do
+                draw graphicfilter images impress math ogltrans ooofonts \
+                ooolinguistic pyuno testtool writer xsltfilter; do
         rpm_unpack "${LO_BASIS}-${appl}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
     done
-    rpm_unpack "${LO_PN_LONG}$(ever range 1)-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
-    for appl in base calc draw impress math writer; do
-        rpm_unpack "${LO_PN_LONG}$(ever range 1)-${appl}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+    rpm_unpack "${LO_PN_LONG}$(ever range 1-2)-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+    for appl in base calc draw impress math ure writer; do
+        rpm_unpack "${LO_PN_LONG}$(ever range 1-2)-${appl}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
     done
-    rpm_unpack "${LO_PN_LONG}$(ever range 1)-ure-${URE_PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     rpm_unpack "desktop-integration/${LO_PN_LONG}$(ever range 1-2)-freedesktop-menus-$(ever range 1-2)-${LO_BUILDID}.noarch.rpm"
     if optionq extensions; then
-        for appl in mediawiki-publisher nlpsolver pdf-import presentation-minimizer presenter-screen report-builder; do
+        for appl in {beanshell,javascript,python}-script-provider mediawiki-publisher nlpsolver \
+                    pdf-import presentation-minimizer presenter-screen report-builder; do
             rpm_unpack "${LO_BASIS}-extension-${appl}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
         done
     fi
@@ -135,11 +135,11 @@ src_unpack() {
                 * ) edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_langpack-rpm_${linguas}/RPMS"
                 ;;
             esac
-            rpm_unpack "${LO_PN_LONG}$(ever range 1)-${linguas}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+            rpm_unpack "${LO_PN_LONG}$(ever range 1-2)-${linguas}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
             if [[ "${linguas}" == 'de' ]]; then
-                rpm_unpack "${LO_PN_LONG}$(ever range 1)-dict-de-DE-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+                rpm_unpack "${LO_PN_LONG}$(ever range 1-2)-dict-de-DE-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
             elif [[ "${linguas}" != 'fi' ]]; then # No dict in the Finnish langpack
-                rpm_unpack "${LO_PN_LONG}$(ever range 1)-dict-${linguas%%-*}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+                rpm_unpack "${LO_PN_LONG}$(ever range 1-2)-dict-${linguas%%-*}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
             fi
             rpm_unpack "${LO_BASIS}-${linguas}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
             for appl in base binfilter calc math res writer; do
