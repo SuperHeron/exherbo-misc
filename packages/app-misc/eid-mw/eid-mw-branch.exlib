@@ -21,7 +21,7 @@ DEPENDENCIES="
         dev-libs/xerces-c[>=2.7.0]
         virtual/jdk:=[>=1.5.0]
         x11-libs/wxGTK:2.8 [[ note = [ For wxGTK 2.6 compatibility ] ]]
-        x11-libs/qt:4[>=4.5.0][qt3support][X]
+        x11-libs/qt:4[>=4.5.0][qt3support][X(+)]
     run:
         sys-apps/pcsc-lite[>=1.4.4]
         pcsc_drivers:acr38u? ( app-crypt/acr38u[>=1.0.7.5] )
