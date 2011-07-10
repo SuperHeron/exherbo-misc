@@ -1,6 +1,8 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require bash-completion
+
 SUMMARY="monotone: reliable, distributed version control"
 DESCRIPTION="
 monotone is a free distributed version control system.
@@ -53,5 +55,8 @@ src_install() {
 #    edo cd "${IMAGE}/usr/share/doc"
 #    edo mv "${PN}"/* "${PNV}"
 #    edo rmdir "${PN}"
+    dobashcompletion "${IMAGE}"/etc/bash_completion.d/"${PN}".bash_completion "${PN}"
+    edo rm "${IMAGE}"/etc/bash_completion.d/"${PN}".bash_completion
+    edo rmdir "${IMAGE}"/etc{/bash_completion.d,}
 }
 
