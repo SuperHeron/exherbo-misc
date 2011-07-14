@@ -1,14 +1,14 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require systemd-service
+require systemd-service checksums [ sha1=[ ${PNV}.tar.gz=b774cc6b4c50e20f4fe9ca7f6aa74169ce7fe5ea ] ]
 
 SUMMARY="very secure FTP daemon"
 DESCRIPTION="
 vsftpd is a GPL licensed FTP server for UNIX systems, including Linux. It is secure and extremely fast. It is stable.
 "
-HOMEPAGE="http://vsftpd.beasts.org"
-DOWNLOADS="ftp://vsftpd.beasts.org/users/cevans/${PNV}.tar.gz"
+HOMEPAGE="https://security.appspot.com/${PN}.html"
+DOWNLOADS="https://security.appspot.com/downloads/${PNV}.tar.gz"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -16,7 +16,6 @@ PLATFORMS="~amd64 ~x86"
 MYOPTIONS="baselayout tcp-wrappers xinetd"
 
 DEPENDENCIES="
-    build:
     build+run:
         group/ftp
         sys-libs/libcap
@@ -27,8 +26,8 @@ DEPENDENCIES="
         xinetd? ( sys-apps/xinetd )
 "
 
-UPSTREAM_CHANGELOG="ftp://vsftpd.beasts.org/users/cevans/untar/${PNV}/Changelog"
-UPSTREAM_DOCUMENTATION="http://vsftpd.beasts.org/vsftpd_conf.html"
+UPSTREAM_CHANGELOG="https://security.appspot.com/${PN}/Changelog"
+UPSTREAM_DOCUMENTATION="https://security.appspot.com/${PN}/${PN}_conf.html"
 
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-Makefile-destdir.patch" )
 
