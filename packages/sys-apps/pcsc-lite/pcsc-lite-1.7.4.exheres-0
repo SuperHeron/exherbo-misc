@@ -10,7 +10,7 @@ DESCRIPTION="
 "
 HOMEPAGE="http://www.linuxnet.com/middle.html"
 
-DL_NUMBER="3533"
+DL_NUMBER="3598"
 DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${PNV}.tar.bz2"
 
 LICENCES="BSD-3"
@@ -30,8 +30,6 @@ DEPENDENCIES="
         group/pcscd
         user/pcscd
 "
-
-DEFAULT_SRC_PREPARE_PATCHES=( -p2 "${FILES}/${PNV}-fix-disable-usb.patch" )
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( '--disable-serial' )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
