@@ -1,0 +1,33 @@
+Source: written by Michal Šebeň <mseben at gmail.com>
+Upstream: yes, VBox-Dev mailing  list, Message #4368
+http://vbox.innotek.de/pipermail/vbox-dev/2011-July/004368.html
+Reason: Disable vboxpci.ko build when passing --disable-kmods to configure
+
+Index: src/VBox/HostDrivers/VBoxPci/Makefile.kmk
+===================================================================
+--- src/VBox/HostDrivers/VBoxPci/Makefile.kmk.orig
++++ src/VBox/HostDrivers/VBoxPci/Makefile.kmk
+@@ -1,7 +1,7 @@
+ SUB_DEPTH = ../../../..
+ include $(KBUILD_PATH)/subheader.kmk
+ 
+-ifeq (1,1)
++ifdef VBOX_WITH_VBOXDRV
+ 
+ if1of ($(KBUILD_TARGET), linux)
+ 
+@@ -25,6 +25,7 @@ VBoxPci_LIBS            += \
+ 
+ endif
+ 
++endif
+ 
+ ifeq ($(KBUILD_TARGET),linux)
+ 
+@@ -73,6 +74,5 @@ $$(VBoxPci-sh_0_OUTDIR)/build_in_tmp: \
+ 	$(QUIET)chmod 0755 $@
+ endif
+ 
+-endif
+ 
+ include $(KBUILD_PATH)/subfooter.kmk
