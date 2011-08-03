@@ -211,7 +211,7 @@ WORK="${WORKBASE}/${MY_PNV}"
 M2_REPOSITORY="${PALUDIS_TMPDIR}/.m2/repository"
 
 emvn() {
-    edo mvn --batch-mode \
+    edo mvn --batch-mode --offline \
             "-D${PN}.home=${IMAGE}/usr/share/${MY_PNV}" \
             "-D${PN}.repo.local=${M2_REPOSITORY}" "${@}"
 }
