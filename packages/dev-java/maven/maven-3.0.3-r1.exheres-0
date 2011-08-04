@@ -208,7 +208,7 @@ UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/docs/${PV}/release-notes.html"
 
 WORK="${WORKBASE}/${MY_PNV}"
 
-M2_REPOSITORY="${PALUDIS_TMPDIR}/.m2/repository"
+M2_REPOSITORY="${WORKBASE}/repository"
 
 emvn() {
     edo mvn --batch-mode --offline \
@@ -227,13 +227,6 @@ pkg_pretend() {
             ewarn "Make sure you put \"EXTRA_WGET=--user-agent=NoSuchBrowser/1.0\""
             ewarn "or something similar in your bashrc to avoid download problems."
         fi
-    fi
-}
-
-pkg_setup() {
-    if ! option bootstrap ; then
-        # Do some cleaning before filling Maven temporary repository
-        [[ -e "${PALUDIS_TMPDIR}"/.m2 ]] && edo rm -fr "${PALUDIS_TMPDIR}"/.m2
     fi
 }
 
@@ -287,8 +280,6 @@ src_install() {
         emvn -Dmaven.test.skip=true install
         dodir /usr/share
         edo tar zxf "${WORK}"/"${MY_PN}"/target/"${MY_PNV}"-bin.tar.gz --no-same-owner -C "${IMAGE}"/usr/share
-        # Do some cleaning
-        edo rm -fr "${PALUDIS_TMPDIR}"/.m2
     fi
     dodir /usr/bin
     dosym /usr{/share/"${MY_PNV}",}/bin/mvn
