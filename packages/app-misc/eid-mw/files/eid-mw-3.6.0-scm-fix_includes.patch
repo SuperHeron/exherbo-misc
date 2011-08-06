@@ -11,3 +11,14 @@ Reason: fix missing c standard library headers
  
  #include "Config.h"
  #include "Util.h"
+--- eid-mw-3.6.0-scm/_src/eidmw/pkcs11/cal.cpp	2011-07-18 20:45:08.221041224 +0200
++++ eid-mw-3.6.0-scm/_src/eidmw/pkcs11/cal.cpp	2011-08-06 15:29:51.489415014 +0200
+@@ -27,7 +27,7 @@
+ #include "cal.h"
+ #include "log.h"
+ #include "cert.h"
+-#include "tlvbuffer.h"
++#include "TLVBuffer.h"
+ 
+ 
+ #ifndef WIN32
