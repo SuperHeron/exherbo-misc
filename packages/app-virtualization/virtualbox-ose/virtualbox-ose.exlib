@@ -36,6 +36,7 @@ DEPENDENCIES="
         dev-libs/libxslt[>=1.1.17]
         dev-libs/openssl[>=0.9.8]
         group/usb
+        group/vboxusers
         media-libs/libpng[>=1.2.5]
         net-misc/curl[>=7.16.1]
         sys-devel/dev86
@@ -166,8 +167,8 @@ EOF
 
     insinto /etc/udev/rules.d
     hereins 10-vboxdrv.rules <<EOF
-KERNEL=="vboxdrv", NAME="vboxdrv", OWNER="root", GROUP="usb", MODE="0660"
-KERNEL=="vboxnetctl", NAME="vboxnetctl", OWNER="root", GROUP="usb", MODE="0660"
+KERNEL=="vboxdrv", NAME="vboxdrv", OWNER="root", GROUP="vboxusers", MODE="0660"
+KERNEL=="vboxnetctl", NAME="vboxnetctl", OWNER="root", GROUP="vboxusers", MODE="0660"
 SUBSYSTEM=="usb_device", ACTION=="add", RUN+="/opt/${MY_PN}/VBoxCreateUSBNode.sh \$major \$minor \$attr{bDeviceClass} usb"
 SUBSYSTEM=="usb", ACTION=="add", ENV{DEVTYPE}=="usb_device", RUN+="/opt/${MY_PN}/VBoxCreateUSBNode.sh \$major \$minor \$attr{bDeviceClass} usb"
 SUBSYSTEM=="usb_device", ACTION=="remove", RUN+="/opt/${MY_PN}/VBoxCreateUSBNode.sh --remove \$major \$minor"
