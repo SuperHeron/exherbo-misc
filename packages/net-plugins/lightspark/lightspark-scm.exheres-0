@@ -23,7 +23,6 @@ MYOPTIONS="
     curl
     ffmpeg
     nsplugin
-    pulseaudio
     rtmp [[ description = [ Adds support for Real Time Messaging Protocol ] ]]
     scripts [[ description = [ Installs YouTube-related scripts ] ]]
     tightspark [[ description = [ Builds TightSpark ] ]]
@@ -35,28 +34,23 @@ DEPENDENCIES="
         sys-devel/gettext
     build+run:
         dev-cpp/libxml++:2.6[>=2.33.1]
-        dev-lang/llvm[>=2.7]
+        dev-lang/llvm[>=2.8]
         dev-lang/nasm
         dev-libs/boost[>=1.43.0]
-        dev-libs/libpthread-stubs
         dev-libs/pcre
-        media-libs/SDL
-        media-libs/fontconfig
         media-libs/freetype
-        media-libs/ftgl
         media-libs/glew
         media-libs/jpeg
         media-sound/pulseaudio
-        net-misc/curl
         x11-dri/mesa
         x11-libs/cairo
+        x11-libs/gtk+:2
         x11-libs/libX11
+        x11-libs/pango
         curl? ( net-misc/curl )
         ffmpeg? ( media/ffmpeg )
-        nsplugin? (
-            dev-libs/nspr
-            dev-libs/xulrunner
-            x11-libs/gtk+:2 )
+        nsplugin? ( dev-libs/nspr
+                    dev-libs/xulrunner[>=1.9.2] )
         rtmp? ( media-video/rtmpdump )
     recommendation:
         net-plugins/gnash [[ description = [ Used for playing older SWF clips ] ]]
@@ -66,7 +60,6 @@ RESTRICT="test" # requires Adobe Flex SDK (especially mxmlc)
 
 DEFAULT_SRC_PREPARE_PATCHES=( -p1 "${FILES}/${PN}-llvm-2.8-gcc-4.5.patch" )
 
-CMAKE_SRC_CONFIGURE_PARAMS=( '-DAUDIO_BACKEND:STRING=pulse' )
 CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
     'CURL'
     'ffmpeg LIBAVCODEC'
