@@ -1,5 +1,7 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2011 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
+
+require python [ python_dep="2.4&<3.0" ]
 
 SUMMARY="Botan, a C++ crypto library"
 DESCRIPTION="
@@ -17,11 +19,17 @@ DOWNLOADS="http://files.randombit.net/${PN}/${MY_PNV}.tbz"
 LICENCES="BSD-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="gmp"
+MYOPTIONS="
+    boost [[ description = [ Builds Boost.Python wrapper ] ]]
+    doc
+    gmp
+"
 
 DEPENDENCIES="
+    build:
+        doc? ( dev-python/Sphinx )
     build+run:
-        dev-lang/python:=[>=2.4&<3.0]
+        boost? ( dev-libs/boost )
         gmp? ( dev-libs/gmp[>=4.1] )
 "
 
@@ -38,16 +46,22 @@ DEFAULT_SRC_INSTALL_EXCLUDE=( "readme.txt" )
 
 src_configure() {
     edo ./configure.py \
+        --distribution-info="Exherbo" \
         --docdir="usr/share/doc" \
         --libdir="usr/${LIBDIR}" \
         --includedir="usr/include" \
+        --prefix="/usr" \
         --enable-shared \
         --makefile-style="unix" \
         --with-bzip2 \
-        --with-zlib \
         --with-openssl \
+        --with-zlib \
+        --with-python-version="$(python_get_abi)" \
         --with-tr1-implementation="system" \
-        $(option_with gmp gnump) \
+        --without-doxygen \
+        $(option_with boost boost-python) \
+        $(option_with doc sphinx) \
+        $(option_with gmp gnump)
     # Sed Makefile for installation in /usr/bin
     edo sed -i -e 's|/bin|/usr/bin|' Makefile
 }
