@@ -30,21 +30,26 @@ DOWNLOADS="http://gupnp.org/sites/all/files/sources/${PNV}.tar.gz"
 LICENCES="LGPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="doc gobject-introspection networkmanager"
+MYOPTIONS="gobject-introspection gtk-doc networkmanager"
 
+# TODO: automagic check for conic with unix context manager
 DEPENDENCIES="
     build:
         dev-util/pkg-config[>=0.9.0]
-        doc? ( dev-doc/gtk-doc[>=1.0] )
+        gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.6.4] )
+        gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
         dev-libs/dbus-glib:1[>=0.76]
-        dev-libs/glib:2[>=2.26]
+        dev-libs/glib:2[>=2.24]
         dev-libs/libxml2:2.0
         gnome-desktop/libsoup:2.4[>=2.28.2]
-        net-libs/gssdp[>=0.9.2]
+        net-libs/gssdp[>=0.9.2][gobject-introspection?]
         sys-apps/util-linux
-        gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.6.4] )
+        networkmanager? ( dev-libs/glib:2[>=2.26] )
+    run:
+        networkmanager? ( net-apps/NetworkManager )
 "
+
 
 REMOTE_IDS="freshmeat:${PN}"
 
@@ -54,8 +59,8 @@ UPSTREAM_DOCUMENTATION="${HOMEPAGE}/docs/${PN}/"
 src_configure() {
     local context_manager='unix'
     optionq networkmanager && context_manager='network-manager'
-    econf $(option_enable doc gtk-doc) \
+    econf $(option_enable gtk-doc) \
           $(option_enable gobject-introspection introspection) \
-          --with-context-manager=${context_manager} || die 'econf failed'
+          --with-context-manager=${context_manager}
 }
 
