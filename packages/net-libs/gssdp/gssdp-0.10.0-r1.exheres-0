@@ -10,16 +10,16 @@ DOWNLOADS="http://gupnp.org/sites/all/files/sources/${PNV}.tar.gz"
 LICENCES="LGPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="doc gtk gobject-introspection"
+MYOPTIONS="gobject-introspection gtk gtk-doc"
 
 DEPENDENCIES="
     build:
         dev-util/pkg-config
-        doc? ( dev-doc/gtk-doc[>=1.0] )
+        gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.6.4] )
+        gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
         dev-libs/glib:2[>=2.22]
         gnome-desktop/libsoup:2.4[>=2.26.1]
-        gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.6.4] )
         gtk? ( x11-libs/gtk+:2[>=2.12.0] )
 "
 
@@ -29,8 +29,8 @@ UPSTREAM_CHANGELOG="http://git.gupnp.org/cgit.cgi?url=${PN}/tree/NEWS&id=${PNV}"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/docs/${PN}/"
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'doc gtk-doc'
     'gobject-introspection introspection'
+    'gtk-doc'
 )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'gtk' )
 
