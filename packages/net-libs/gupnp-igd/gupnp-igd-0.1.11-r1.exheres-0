@@ -10,28 +10,31 @@ DOWNLOADS="http://gupnp.org/sites/all/files/sources/${PNV}.tar.gz"
 LICENCES="LGPL-2.1"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="doc python"
+MYOPTIONS="gobject-introspection gtk-doc python"
 
 DEPENDENCIES="
     build:
         dev-util/pkg-config[>=0.9.0]
-        doc? ( dev-doc/gtk-doc[>=1.0] )
+        gobject-introspection? ( gnome-desktop/gobject-introspection )
+        gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
         dev-libs/glib:2[>=2.16]
         gnome-desktop/gobject-introspection:1[>=0.10.0]
-        net-libs/gupnp[>=0.13.2]
+        net-libs/gupnp[>=0.13.2][gobject-introspection?]
         python? (
             dev-lang/python:=
-            gnome-bindings/pygobject:2[>=2.16.0]
+            gnome-bindings/pygobject:2[>=2.16.0][gobject-introspection?]
         )
 "
 
+RESTRICT="test" # needs network access
 REMOTE_IDS="freshmeat:gupnp"
 
 UPSTREAM_CHANGELOG="http://git.gupnp.org/cgit.cgi?url=${PN}/tree/NEWS&id=${PV}"
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'doc gtk-doc'
+    'gobject-introspection introspection'
+    'gtk-doc'
     'python'
 )
 
