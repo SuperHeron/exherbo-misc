@@ -1,0 +1,103 @@
+# Copyright 2011 Quentin "Sardem FF7" Glidic <sardemff7.pub@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require pam systemd-service
+
+
+SLOT="0"
+
+DOWNLOADS="http://people.ubuntu.com/~robert-ancell/lightdm/releases/${PNV}.tar.gz"
+
+HOMEPAGE="http://www.freedesktop.org/wiki/Software/LightDM"
+
+LICENCES="GPL-3 LGPL-3"
+
+SUMMARY="A cross-desktop display manager"
+DESCRIPTION="
+LightDM is a cross-desktop display manager that aims is to be the standard display manager for the
+X.org X server. The motivation for this project is there have been many new display managers written
+since XDM (often based on the XDM source). The main difference between these projects is in the GUIs
+(e.g. different toolkits) and performance - this could be better accomplished with a common display
+manager that allows these differences.
+
+Key features are:
+- A well-defined greeter API allowing multiple GUIs
+- Support for all display manager use cases, with plugins where appropriate
+- Low code complexity
+- Fast performance
+"
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+        sys-devel/gettext
+
+    build+run:
+        group/${PN}
+        user/${PN}
+
+        dev-libs/glib:2[>=2.26]
+        sys-libs/pam
+        x11-libs/gtk+:3
+        x11-libs/libxcb
+        x11-libs/libXdmcp
+
+        glib? (
+            x11-libs/libX11
+            x11-libs/libxklavier
+        )
+        gobject-introspection? ( dev-libs/gobject-introspection )
+        qt4? (
+            x11-libs/qt-core:4
+            x11-libs/qt-dbus:4
+            x11-libs/qt-gui:4
+        )
+
+    suggestion:
+        x11-server/xorg-server [[ description = [ Requires an X server ] ]]
+"
+
+MYOPTIONS="
+    gobject-introspection
+
+    glib [[ description = [ Enables client gobject libraries ] ]]
+    qt4  [[ description = [ Enables client Qt libraries and Qt greeter ] ]]
+"
+
+REMOTE_IDS="launchpad:${PN}"
+
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--enable-nls'
+    '--disable-static'
+)
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'glib liblightdm_gobject'
+    'gobject-introspection introspection'
+    'qt4 liblightdm_qt'
+)
+
+src_install() {
+    default
+
+    insinto /usr/share/lightdm
+    doins "${FILES}"/session
+    edo chmod +x "${IMAGE}"/usr/share/lightdm/session
+
+    edo sed -i \
+        -e '/^#session-wrapper/s|=lightdm-session|=/usr/share/lightdm/session|' \
+        -e '/^#session-wrapper/s|^#||' \
+        "${IMAGE}"/etc/lightdm/lightdm.conf
+
+    keepdir /var/cache/${PN}
+    keepdir /var/log/${PN}
+
+    keepdir /var/lib/${PN}
+    edo chmod g+w "${IMAGE}"/var/lib/${PN}
+    edo chown ${PN}:${PN} "${IMAGE}"/var/lib/${PN}
+
+    install_systemd_files
+
+    pamd_mimic_system lightdm auth account password session
+}
