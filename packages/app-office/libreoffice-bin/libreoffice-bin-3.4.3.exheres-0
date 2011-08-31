@@ -12,8 +12,8 @@ on a variety of platforms. It is free software and therefore free to download, u
 "
 HOMEPAGE="http://www.libreoffice.org"
 
-LO_RC_RELEASE="rc3"
-LO_BUILDID="203"
+LO_RC_RELEASE="rc2"
+LO_BUILDID="302"
 
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibO"
