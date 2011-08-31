@@ -37,7 +37,7 @@ DEPENDENCIES="
         sys-libs/zlib
         user/p2p
         gd? ( media-libs/gd[>=2.0.14][jpeg][png] )
-        gui? ( dev-ocaml/lablgtk[>=2.10.1][svg] )
+        gui? ( dev-ocaml/lablgtk[>=2.14.2][svg] )
         magic? ( sys-apps/file )
         upnp-natpmp? ( net-libs/libnatpmp[>=20100202&<20110103]
             net-libs/miniupnpc[>=1.4.20100609&<1.5.20110215] )
@@ -64,6 +64,10 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'p2p_networks:gnutella'
     'p2p_networks:gnutella2'
 )
+
+pkg_setup() {
+    exdirectory --allow /home
+}
 
 src_install() {
     default
