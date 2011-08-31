@@ -45,7 +45,7 @@ src_install() {
     edo mkdir -p "${IMAGE}"/usr/share/man/man{5,8}
     if optionq xinetd; then
         edo mkdir -p /etc/xinetd.d
-        edo sed -i -e "s|/usr/local/sbin/${PN}|/usr/sbin/${PN}/" xinetd.d/"${PN}"
+        edo sed -i -e "s|/usr/local/sbin/${PN}|/usr/sbin/${PN}/|" xinetd.d/"${PN}"
     fi
     default
     insinto /etc/pam.d
