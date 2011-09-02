@@ -1,6 +1,8 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require gnome.org
+
 SUMMARY="GUPnP is an object-oriented open source framework
 for creating UPnP devices and control points, written in C
 using GObject and libsoup. The GUPnP API is intended to be
@@ -25,10 +27,9 @@ hiding most of the UPnP internals through an elegant object-oriented design.
 GUPnP is free software released under the GNU LGPL.
 "
 HOMEPAGE="http://gupnp.org/"
-DOWNLOADS="http://gupnp.org/sites/all/files/sources/${PNV}.tar.gz"
 
 LICENCES="LGPL-2"
-SLOT="0"
+SLOT="1.0"
 PLATFORMS="~amd64"
 MYOPTIONS="gobject-introspection gtk-doc networkmanager"
 
@@ -36,16 +37,14 @@ MYOPTIONS="gobject-introspection gtk-doc networkmanager"
 DEPENDENCIES="
     build:
         dev-util/pkg-config[>=0.9.0]
-        gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.6.4] )
+        gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.6.4] )
         gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
-        dev-libs/dbus-glib:1[>=0.76]
-        dev-libs/glib:2[>=2.24]
+        dev-libs/glib:2[>=2.26]
         dev-libs/libxml2:2.0
         gnome-desktop/libsoup:2.4[>=2.28.2]
-        net-libs/gssdp[>=0.9.2][gobject-introspection?]
+        net-libs/gssdp:1.0[>=0.11.2][gobject-introspection?]
         sys-apps/util-linux
-        networkmanager? ( dev-libs/glib:2[>=2.26] )
     run:
         networkmanager? ( net-apps/NetworkManager )
 "
@@ -53,11 +52,11 @@ DEPENDENCIES="
 
 REMOTE_IDS="freshmeat:${PN}"
 
-UPSTREAM_CHANGELOG="http://git.gupnp.org/cgit.cgi?url=${PN}/tree/NEWS&id=${PNV}"
-UPSTREAM_DOCUMENTATION="${HOMEPAGE}/docs/${PN}/"
+UPSTREAM_RELEASE_NOTES="http://ftp.gnome.org/pub/GNOME/sources/${PN}/$(ever range 1-2)/${PNV}.news"
+UPSTREAM_DOCUMENTATION="http://developer.gnome.org/${PN}/$(ever range 1-2)"
 
 src_configure() {
-    local context_manager='unix'
+    local context_manager='linux'
     optionq networkmanager && context_manager='network-manager'
     econf $(option_enable gtk-doc) \
           $(option_enable gobject-introspection introspection) \
