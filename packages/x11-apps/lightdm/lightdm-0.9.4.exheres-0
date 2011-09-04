@@ -3,4 +3,4 @@
 
 require lightdm
 
-PLATFORMS="~amd64 ~x86"
+PLATFORMS="~amd64"
