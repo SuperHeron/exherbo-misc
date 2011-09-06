@@ -44,7 +44,7 @@ DEPENDENCIES="
         media-plugins/gst-plugins-base[>=0.10.22]
         net-im/farsight2:0.10[>=0.0.9]
         x11-libs/libX11
-        upnp? ( net-libs/gupnp-igd )
+        upnp? ( net-libs/gupnp-igd:1.0 )
         v4l? ( media-libs/v4l-utils[>=0.5] )
     recommendation:
         dev-tcl/snack [[ description = [ For sound support ] ]]
