@@ -37,6 +37,7 @@ DEPENDENCIES="
         user/${PN}
 
         dev-libs/glib:2[>=2.26]
+        sys-apps/accountsservice
         sys-libs/pam
         x11-libs/gtk+:3
         x11-libs/libxcb
