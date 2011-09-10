@@ -63,9 +63,9 @@ REMOTE_IDS="launchpad:${PN}"
 
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    '--enable-nls'
-    '--disable-static'
-    '--disable-liblightdm-qt'
+    --enable-nls
+    --disable-static
+    --disable-liblightdm-qt
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
@@ -80,6 +80,7 @@ src_install() {
     doins "${FILES}"/session
     edo chmod +x "${IMAGE}"/usr/share/lightdm/session
 
+    # Use the provided session wrapper (from xdm)
     edo sed -i \
         -e '/^#session-wrapper/s|=lightdm-session|=/usr/share/lightdm/session|' \
         -e '/^#session-wrapper/s|^#||' \
