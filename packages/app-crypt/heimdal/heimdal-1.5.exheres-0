@@ -30,7 +30,7 @@ DEPENDENCIES="
     build+run:
         dev-db/sqlite:3
         sys-fs/e2fsprogs
-        sys-libs/libcap
+        sys-libs/libcap-ng[>=0.4.0]
         sys-libs/ncurses
         sys-libs/readline
         X? ( x11-libs/libX11 )
@@ -42,28 +42,26 @@ DEPENDENCIES="
 
 #RESTRICT="test" # Needs some sydbox stuff
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-Add-version-script-to-libotp.patch" )
-
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    '--with-openssl=/usr'
+    '--with-capng'
     '--with-readline=/usr'
     '--with-sqlite3=/usr'
+    '--without-openssl' # for hcrypto
 )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'X x'
+    'berkdb berkeley-db'
     'ipv6'
     'ldap openldap /usr'
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'afs afs-support'
-    'berkdb berkeley-db'
+    '!berkdb ndbm-db'
     'kcm'
     'ldap hdb-openldap-module'
     'otp'
     'threads pthread-support'
 )
-
-DEFAULT_SRC_COMPILE_PARAMS=( '-j1' )
 
 DEFAULT_SRC_INSTALL_PARAMS=( 'INSTALL_CATPAGES=no' )
 
