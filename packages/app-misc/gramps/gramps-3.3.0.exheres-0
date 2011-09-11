@@ -1,7 +1,7 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop freedesktop-mime sourceforge [ suffix=tar.gz ]
+require freedesktop-desktop freedesktop-mime sourceforge [ pnv="Stable/${PV}/${PNV}-1" suffix=tar.gz ]
 
 SUMMARY="Genealogical Research and Analysis Management Programming System"
 DESCRIPTION="
@@ -13,24 +13,26 @@ created, developed and governed by genealogists.
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="spell"
+MYOPTIONS=""
 
 DEPENDENCIES="
     build:
         dev-util/intltool
         sys-devel/gettext
     build+run:
-        dev-lang/python:=[>=2.5][berkdb]
+        dev-lang/python:=[>=2.6][berkdb]
         dev-libs/glib:2[>=2.2.0]
         gnome-bindings/pygtk:2[>=2.12.0]
         gnome-desktop/librsvg:2
         x11-apps/xdg-utils
-        spell? (
+    recommendation:
+        dev-python/pyexiv2 [[ description = [ Enable management of Exif metadata ] ]]
+        media-gfx/graphviz [[ description = [ Enable creation of graphs ] ]]
+        (
             dev-python/pyenchant
             gnome-bindings/gnome-python-extras[gtkspell]
-        )
-    recommendation:
-        media-gfx/graphviz [[ description = [ Enable creation of graphs ] ]]
+        ) [[ *description = [ Enable use spell checking ] ]]
+        x11-libs/osm-gps-map [[ description = [ Used to show OpenStreetMaps in Geographic view ] ]]
 "
 
 UPSTREAM_DOCUMENTATION="http://www.gramps-project.org/wiki/index.php?title=User_manual"
