@@ -6,7 +6,7 @@ DISTCCD_OPTS=""
 DISTCCD_EXEC="/usr/bin/distccd"
 
 # this is where distccd will store its pid file
-DISTCCD_PIDFILE="/var/run/distccd/distccd.pid"
+DISTCCD_PIDFILE="/run/distccd/distccd.pid"
 
 # set this option to run distccd with extra parameters
 # Default port is 3632.  For most people the default is okay.

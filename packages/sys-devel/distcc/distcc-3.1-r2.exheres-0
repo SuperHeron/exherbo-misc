@@ -50,6 +50,10 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     gtk
 )
 
+pkg_setup() {
+    exdirectory --allow /run
+}
+
 src_install() {
     default
 
@@ -60,8 +64,8 @@ src_install() {
         dosym /usr/bin/distcc /usr/libexec/distcc/${f}
     done
 
-    keepdir /var/run/distccd
-    edo chown distcc:distcc "${IMAGE}"/var/run/distccd
+    keepdir /run/distccd
+    edo chown distcc:distcc "${IMAGE}"/run/distccd
     if option baselayout ; then
         newinitd "${FILES}/${PNV}-initd" distccd
         newconfd "${FILES}/${PNV}-confd" distccd
