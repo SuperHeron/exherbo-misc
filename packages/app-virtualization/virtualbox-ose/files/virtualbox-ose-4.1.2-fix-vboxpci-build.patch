@@ -7,27 +7,20 @@ Index: src/VBox/HostDrivers/VBoxPci/Makefile.kmk
 ===================================================================
 --- src/VBox/HostDrivers/VBoxPci/Makefile.kmk.orig
 +++ src/VBox/HostDrivers/VBoxPci/Makefile.kmk
-@@ -1,7 +1,7 @@
+@@ -18,6 +18,7 @@
  SUB_DEPTH = ../../../..
  include $(KBUILD_PATH)/subheader.kmk
- 
--ifeq (1,1)
-+ifdef VBOX_WITH_VBOXDRV
- 
  if1of ($(KBUILD_TARGET), linux)
++ ifdef VBOX_WITH_VBOXDRV
  
-@@ -25,6 +25,7 @@ VBoxPci_LIBS            += \
+  #
+  # The driver.
+@@ -83,6 +84,7 @@
+ 	$(QUIET)$(SED) -e "s;_VERSION_;${VBOX_VERSION_STRING};g; s;_MODULE_;vboxpci;g; s;_BUILDTYPE_;${KBUILD_TYPE};g" --output $@ $<
+ 	$(QUIET)$(CHMOD) 0755 $@
  
- endif
- 
-+endif
- 
- ifeq ($(KBUILD_TARGET),linux)
- 
-@@ -73,6 +74,5 @@ $$(VBoxPci-sh_0_OUTDIR)/build_in_tmp: \
- 	$(QUIET)chmod 0755 $@
- endif
- 
--endif
- 
++ endif # VBOX_WITH_VBOXDRV
+ endif # Supported platform.
  include $(KBUILD_PATH)/subfooter.kmk
+ 
+

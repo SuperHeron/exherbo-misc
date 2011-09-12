@@ -82,6 +82,10 @@ pkg_pretend() {
     fi
 }
 
+pkg_setup() {
+    exdirectory --allow /opt
+}
+
 src_prepare() {
     default
     # Disable -Werror for gcc-4.5 builds
