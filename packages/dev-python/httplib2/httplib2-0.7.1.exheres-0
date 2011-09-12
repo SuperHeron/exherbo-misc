@@ -42,10 +42,5 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
-DEPENDENCIES="
-    build:
-    build+run:
-"
-
 REMOTE_IDS="pypi:${PN}"
 
