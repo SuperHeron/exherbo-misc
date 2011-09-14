@@ -14,9 +14,10 @@ MYOPTIONS="debug gnutls samples"
 DEPENDENCIES="
     build:
         app-arch/unzip
-    build+run:
+        sys-apps/gawk
         sys-devel/bison
         sys-devel/flex
+    build+run:
         sys-libs/zlib
         gnutls? ( dev-libs/gnutls )
 "
