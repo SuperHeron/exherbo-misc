@@ -1,9 +1,9 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require distutils [ has_lib=false ]
+require distutils
 
-SUMMARY="a lightweight NAT Portmapping Protocol library for POSIX systems"
+SUMMARY="A lightweight NAT Portmapping Protocol library for POSIX systems"
 DESCRIPTION="
 NAT-PMP (NAT Port Mapping protocol) provides a way to do NAT traversal. It is implemented in Apple
 products (Airport extreme). libnatpmp is an attempt to make a portable and fully compliant

@@ -12,7 +12,7 @@ Reason: Various fixes in Makefile
  
  # APIVERSION is used in soname
  APIVERSION = 1
- LDFLAGS = --no-undefined
+ #LDFLAGS = -Wl,--no-undefined
 -CFLAGS = -O -fPIC -Wall -DENABLE_STRNATPMPERR
 +CFLAGS += -O -fPIC -Wall -DENABLE_STRNATPMPERR
  
@@ -31,11 +31,11 @@ Reason: Various fixes in Makefile
  testgetgateway:	testgetgateway.o getgateway.o
  
  natpmpc-static:	natpmpc.o $(STATICLIB)
--	$(CC) -o $@ $^
+-	$(CC) $(LDFLAGS) -o $@ $^
 +	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
  
  natpmpc-shared:	natpmpc.o $(SHAREDLIB)
--	$(CC) -o $@ $^
+-	$(CC) $(LDFLAGS) -o $@ $^
 +	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
  
  $(STATICLIB):	$(LIBOBJS)
