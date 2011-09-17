@@ -19,7 +19,6 @@ DEFAULT_SRC_PREPARE_PATCHES=(
     -p3 "${FILES}/${PNV}-fix_compilation.patch"
     -p3 "${FILES}/${PNV}-fix_includes.patch"
     -p3 "${FILES}/${PNV}-fix_paths.patch"
-    -p3 "${FILES}/${PNV}-fix-xpi-name.patch"
 )
 
 src_prepare() {
