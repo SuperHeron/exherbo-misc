@@ -49,8 +49,6 @@ DEPENDENCIES="
         x11-libs/pango
         curl? ( net-misc/curl )
         ffmpeg? ( media/ffmpeg )
-        nsplugin? ( dev-libs/nspr
-                    dev-libs/xulrunner[>=1.9.2] )
         rtmp? ( media-video/rtmpdump )
     recommendation:
         net-plugins/gnash [[ description = [ Used for playing older SWF clips ] ]]
