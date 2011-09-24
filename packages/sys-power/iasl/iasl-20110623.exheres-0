@@ -19,12 +19,18 @@ DEPENDENCIES="
         sys-devel/flex
 "
 
-WORK="${WORKBASE}/acpica-unix-${PV}/compiler"
+WORK="${WORKBASE}/acpica-unix-${PV}"
 
+DEFAULT_SRC_PREPARE_PATCHES=( -p1 "${FILES}"/${PNV}-remove-unused-variables.patch )
 DEFAULT_SRC_COMPILE_PARAMS=( -j1 )
 
+src_compile() {
+    edo cd "${WORK}"/compiler
+    default
+}
+
 src_install() {
-    edo cd "${WORK}"
+    edo cd "${WORK}"/compiler
     dobin iasl
     dodoc readme.txt
 }
