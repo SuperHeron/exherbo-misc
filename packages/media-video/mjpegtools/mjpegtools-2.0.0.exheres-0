@@ -12,7 +12,7 @@ compression of audio and video under Linux.
 
 LICENCES="GPL-2"
 SLOT="0"
-PLATFORMS="~amd64"
+PLATFORMS="~amd64 ~x86"
 MYOPTIONS="dv png quicktime"
 
 DEPENDENCIES="
