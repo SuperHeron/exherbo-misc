@@ -65,6 +65,7 @@ REMOTE_IDS="launchpad:${PN}"
 
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --localstatedir=/var
     --enable-nls
     --disable-static
     --disable-liblightdm-qt
@@ -84,6 +85,8 @@ src_install() {
 
     # Use the provided session wrapper (from xdm)
     edo sed -i \
+        -e '/^#run-directory/s|=/var/run|=/run|' \
+        -e '/^#run-directory/s|^#||' \
         -e '/^#session-wrapper/s|=lightdm-session|=/usr/share/lightdm/session|' \
         -e '/^#session-wrapper/s|^#||' \
         "${IMAGE}"/etc/lightdm/lightdm.conf
