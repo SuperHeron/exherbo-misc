@@ -3,14 +3,7 @@
 
 require pam systemd-service
 
-
-SLOT="0"
-
 DOWNLOADS="http://people.ubuntu.com/~robert-ancell/lightdm/releases/${PNV}.tar.gz"
-
-HOMEPAGE="http://www.freedesktop.org/wiki/Software/LightDM"
-
-LICENCES="GPL-3 LGPL-3"
 
 SUMMARY="A cross-desktop display manager"
 DESCRIPTION="
@@ -26,43 +19,40 @@ Key features are:
 - Low code complexity
 - Fast performance
 "
+HOMEPAGE="http://www.freedesktop.org/wiki/Software/LightDM"
+
+LICENCES="GPL-3 LGPL-3"
+SLOT="0"
+
+MYOPTIONS="
+    gobject-introspection
+    glib [[ description = [ Enables client gobject libraries ] ]]
+"
 
 DEPENDENCIES="
     build:
         dev-util/pkg-config
         sys-devel/gettext
-
     build+run:
         group/${PN}
         user/${PN}
-
         dev-libs/glib:2[>=2.26]
         sys-libs/pam
         x11-libs/gtk+:3
         x11-libs/libxcb
         x11-libs/libXdmcp
-
         glib? (
             x11-libs/libX11
             x11-libs/libxklavier
         )
         gobject-introspection? ( dev-libs/gobject-introspection )
-
     run:
         sys-apps/accountsservice
-
     suggestion:
         x11-server/xorg-server [[ description = [ Requires an X server ] ]]
 "
 
-MYOPTIONS="
-    gobject-introspection
-
-    glib [[ description = [ Enables client gobject libraries ] ]]
-"
-
 REMOTE_IDS="launchpad:${PN}"
-
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --localstatedir=/var
