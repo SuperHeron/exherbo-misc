@@ -4,3 +4,7 @@
 require lightdm
 
 PLATFORMS="~amd64"
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+        "${FILES}"/ligthdm-session-test.diff
+)

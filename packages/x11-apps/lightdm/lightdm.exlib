@@ -77,6 +77,8 @@ src_install() {
     edo sed -i \
         -e '/^#run-directory/s|=/var/run|=/run|' \
         -e '/^#run-directory/s|^#||' \
+        -e '/^#greeter-session/s|=example-gtk-gnome|=lightdm-gtk-greeter|' \
+        -e '/^#greeter-session/s|^#||' \
         -e '/^#session-wrapper/s|=lightdm-session|=/usr/share/lightdm/session|' \
         -e '/^#session-wrapper/s|^#||' \
         "${IMAGE}"/etc/lightdm/lightdm.conf
