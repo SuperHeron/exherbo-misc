@@ -43,6 +43,12 @@ src_prepare() {
     autotools_src_prepare
 }
 
+src_install() {
+    default
+
+    keepdir /var/lib/fprint
+}
+
 pkg_postinst() {
     elog "To enable fingerprint login add:"
     elog "    auth      sufficient      pam_fprintd.so"
