@@ -5,14 +5,16 @@
 
 start() {
 	# pcscd won't start if these exist
-	rm -f /var/run/pcscd.{comm,pub}
+	rm -f /run/pcscd.{comm,pub}
+	mkdir -p /run/pcscd
+	chown pcscd:pcscd /run/pcscd
 	ebegin "Starting pcscd"
-	start-stop-daemon --start --exec /usr/sbin/pcscd --pidfile /var/run/pcscd/pcscd.pid --chuid pcscd:pcscd -- ${PCSCD_OPTS}
+	start-stop-daemon --start --exec /usr/sbin/pcscd --pidfile /run/pcscd/pcscd.pid --chuid pcscd:pcscd -- ${PCSCD_OPTS}
 	eend $?
 }
 
 stop() {
 	ebegin "Stopping pcscd"
-	start-stop-daemon --stop --quiet --exec /usr/sbin/pcscd --pidfile /var/run/pcscd/pcscd.pid
+	start-stop-daemon --stop --quiet --exec /usr/sbin/pcscd --pidfile /run/pcscd/pcscd.pid
 	eend $?
 }

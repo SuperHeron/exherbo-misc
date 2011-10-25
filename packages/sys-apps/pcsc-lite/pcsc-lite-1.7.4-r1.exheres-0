@@ -31,7 +31,10 @@ DEPENDENCIES="
         user/pcscd
 "
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( '--disable-serial' )
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--disable-serial'
+    '--enable-ipcdir=/run/pcsd'
+)
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'static'
     'libusb'
@@ -52,6 +55,10 @@ src_install() {
 
     keepdir /usr/"${LIBDIR}"/pcsc/drivers
     keepdir /etc/reader.conf.d
-    keepdir /var/run/pcscd
-    edo chown pcscd:pcscd "${IMAGE}"/var/run/pcscd
+    if option systemd; then
+        insinto /"${LIBDIR}"/tmpfiles.d
+        hereins ${PN}.conf <<EOF
+d /run/pcscd 0755 pcscd pcscd
+EOF
+    fi
 }
