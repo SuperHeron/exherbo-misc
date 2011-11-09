@@ -13,7 +13,7 @@ on a variety of platforms. It is free software and therefore free to download, u
 HOMEPAGE="http://www.libreoffice.org"
 
 LO_RC_RELEASE="rc2"
-LO_BUILDID="302"
+LO_BUILDID="402"
 
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibO"
@@ -22,11 +22,11 @@ LO_PNV_DOWNLOADS="${LO_PN_SHORT}_$(ever delete 3)"
 LO_PNV="${LO_PNV_DOWNLOADS}${LO_RC_RELEASE}"
 LO_LINGUAS=( 'af' 'ar' 'as' 'ast' 'be' 'bg' 'bn' 'bo' 'br' 'brx' 'bs' 'ca' 'ca_XV' 'cs' 'cy' 'da'
              'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fa' 'fi' 'fr' 'ga'
-             'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja' 'ka' 'kk' 'km' 'kn' 'ko' 'kok' 'ks'
-             'ku' 'lo' 'lt' 'lv' 'mai' 'mk' 'ml' 'mn' 'mni' 'mr' 'my' 'nb' 'ne' 'nl' 'nn' 'nr' 'nso'
-             'oc' 'om' 'or' 'pa_IN' 'pl' 'pt' 'pt_BR' 'ro' 'ru' 'rw' 'sa_IN' 'sat' 'sd' 'sh' 'si'
-             'sk' 'sl' 'sq' 'sr' 'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te' 'tg' 'th' 'tn' 'tr' 'ts' 'ug' 'uk'
-             'uz' 've' 'vi' 'xh' 'zh_CN' 'zh_TW' 'zu' )
+             'gd' 'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja' 'ka' 'kk' 'km' 'kn' 'ko' 'kok'
+             'ks' 'ku' 'lo' 'lt' 'lv' 'mai' 'mk' 'ml' 'mn' 'mni' 'mr' 'my' 'nb' 'ne' 'nl' 'nn' 'nr'
+             'nso' 'oc' 'om' 'or' 'pa_IN' 'pl' 'pt' 'pt_BR' 'ro' 'ru' 'rw' 'sa_IN' 'sat' 'sd' 'sh'
+             'si' 'sk' 'sl' 'sq' 'sr' 'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te' 'tg' 'th' 'tn' 'tr' 'ts' 'ug'
+             'uk' 'uz' 've' 'vi' 'xh' 'zh_CN' 'zh_TW' 'zu' )
 
 DOWNLOADS_ROOT="http://download.documentfoundation.org/${LO_PN_LONG}/stable/${PV}/rpm"
 DOWNLOADS="
