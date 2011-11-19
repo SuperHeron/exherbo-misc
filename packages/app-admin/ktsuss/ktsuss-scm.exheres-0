@@ -1,14 +1,14 @@
 # Copyright 2011 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-SCM_REPOSITORY="git://github.com/nomius/${PN}.git"
+SCM_REPOSITORY="http://ktsuss.googlecode.com/svn"
 
-require scm-git googlecode autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
+require scm-svn googlecode autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
 
 SUMMARY="Graphical su wrapper written in GTK+ 2"
 DESCRIPTION="
 ktsuss stands for 'keep the su simple, stupid', and as the name says, is a graphical version of su
-written in C and GTK+ 2. The idea of the project is to remain simple and bug free. 
+written in C and GTK+ 2. The idea of the project is to remain simple and bug free.
 "
 
 LICENCES="BSD-3"
