@@ -6,7 +6,7 @@ DESCRIPTION="This package provides the source code for a generic USB CCID (Chip/
 Devices) driver and ICCD (Integrated Circuit(s) Card Devices)."
 HOMEPAGE="http://pcsclite.alioth.debian.org/ccid.html"
 
-DL_NUMBER="3579"
+DL_NUMBER="3672"
 DOWNLOADS="http://alioth.debian.org/frs/download.php/${DL_NUMBER}/${PNV}.tar.bz2"
 
 LICENCES="LGPL-2.1"
