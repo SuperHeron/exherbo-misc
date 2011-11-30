@@ -1,7 +1,7 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop freedesktop-mime sourceforge [ pnv="Stable/${PV}/${PNV}-1" suffix=tar.gz ]
+require freedesktop-desktop freedesktop-mime sourceforge [ pnv="Stable/${PV}/${PNV}" suffix=tar.gz ]
 
 SUMMARY="Genealogical Research and Analysis Management Programming System"
 DESCRIPTION="
