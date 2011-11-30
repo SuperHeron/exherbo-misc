@@ -14,11 +14,14 @@ written in C and GTK+ 2. The idea of the project is to remain simple and bug fre
 LICENCES="BSD-3"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS=""
+MYOPTIONS="sudo [[ description = [ Use the sudo backend instead of the su one ] ]]"
 
 DEPENDENCIES="
     build+run:
         dev-libs/glib:2[>=2.2]
         x11-libs/gtk+:2[>=2.2]
+        sudo? ( app-admin/sudo )
 "
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( sudo )
 
