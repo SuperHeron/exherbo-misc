@@ -10,11 +10,13 @@ with many options to write websites, scripts and programming code. Bluefish
 supports many programming and markup languages, and it focuses on editing
 dynamic and interactive websites.
 "
+DOWNLOADS="http://www.bennewitz.com/${PN}/stable/source/${PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="charmap [[ description = [ Builds charmap plugin ] ]]
+           gtk2 [[ description = [ Forces use of GTK+-2 interface instead of GTK+-3 ] ]]
            python spell"
 
 DEPENDENCIES="
@@ -27,10 +29,16 @@ DEPENDENCIES="
         dev-libs/pcre
         gnome-desktop/gvfs
         x11-libs/gdk-pixbuf:2.0
-        x11-libs/gtk+:2[>=2.12]
         x11-libs/pango
-        charmap? ( gnome-extra/gucharmap[>=2.20] )
-        python? ( dev-lang/python:= )
+        gtk2? (
+            x11-libs/gtk+:2[>=2.12]
+            charmap? ( gnome-extra/gucharmap[>=2.20][-gtk3] )
+        )
+        !gtk2? (
+            x11-libs/gtk+:3
+            charmap? ( gnome-extra/gucharmap[>=2.90][gtk3] )
+        )
+        python? ( dev-lang/python:=[>=2.2] )
         spell? ( app-spell/enchant[>=1.4] )
 "
 
@@ -44,6 +52,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'python'
     'spell spell-check'
 )
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'gtk2' )
 
 src_prepare() {
     edo intltoolize --copy --force --automake
