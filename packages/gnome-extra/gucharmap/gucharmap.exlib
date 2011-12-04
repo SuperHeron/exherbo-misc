@@ -7,7 +7,6 @@ SUMMARY="GNOME Character Map"
 DESCRIPTION="Gucharmap is the GNOME Character Map, based on the Unicode Character Database."
 HOMEPAGE="http://live.gnome.org/Gucharmap"
 
-LICENCES="GPL-2"
 SLOT="0"
 MYOPTIONS="cjk gtk-doc gobject-introspection gtk3"
 if ! ever at_least 3.0.0; then
@@ -44,7 +43,7 @@ fi
 
 src_configure() {
     local enable_python=
-    ever at_least 3.0.0 || python="$(option_enable python python-bindings)"
+    ever at_least 3.0.0 || enable_python="$(option_enable python python-bindings)"
     local gtk_version=2.0
     option gtk3 && gtk_version=3.0
     econf --with-gtk="${gtk_version}" \

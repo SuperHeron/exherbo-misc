@@ -4,4 +4,5 @@
 require gucharmap
 
 PLATFORMS="~amd64 ~x86"
+LICENCES="GPL-2"
 
