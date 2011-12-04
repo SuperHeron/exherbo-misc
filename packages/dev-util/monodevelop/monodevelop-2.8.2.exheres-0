@@ -14,7 +14,7 @@ a single code base for all platforms.
 HOMEPAGE="http://monodevelop.com"
 DOWNLOADS="http://download.mono-project.com/sources/${PN}/${PNV}.tar.bz2"
 
-LICENCES="GPL-2"
+LICENCES="LGPL-2.1"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="extensions git subversion"
