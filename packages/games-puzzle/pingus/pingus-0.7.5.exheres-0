@@ -1,7 +1,7 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require scons
+require scons googlecode
 
 SUMMARY="Free Lemmings-like game"
 DESCRIPTION="
@@ -9,10 +9,9 @@ Pingus is a free Lemmings-like game covered under the GNU GPL. It features
 currently 22 playable levels and runs under a wide variety of operating
 systems (Linux, Windows, etc.) 
 "
-HOMEPAGE="http://${PN}.seul.org"
-DOWNLOADS="${HOMEPAGE}/files/${PNV}.tar.bz2"
+HOMEPAGE+=" http://${PN}.seul.org"
 
-LICENCES="GPL-2"
+LICENCES="GPL-3"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
@@ -24,19 +23,16 @@ DEPENDENCIES="
         media-libs/SDL
         media-libs/SDL_image
         media-libs/SDL_mixer
-        x11-libs/libXi
 "
 
-src_configure() {
-    escons configure with_xinput=True CC="${CC}" CXX="${CXX}" CCFLAGS="${CFLAGS}"
-}
+src_configure() { :; }
 
 src_compile() {
-    escons --jobs ${EXJOBS:-1}
+    escons --jobs ${EXJOBS:-1} CC="${CC}" CXX="${CXX}" CCFLAGS="${CFLAGS}" with_linuxevdev=True
 }
 
 src_install() {
-    edo ./install.sh "${IMAGE}"/usr
+    emake install PREFIX=/usr DESTDIR="${IMAGE}"
     emagicdocs
 }
 
