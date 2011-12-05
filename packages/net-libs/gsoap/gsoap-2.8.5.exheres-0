@@ -1,15 +1,17 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
+
 SUMMARY="The gSOAP Toolkit for SOAP Web Services and XML-Based Applications"
 DESCRIPTION="A cross-platform open source C and C++ software development toolkit. Generates C/C++ RPC code, XML data bindings, and efficient schema-specific parsers for SOAP Web services and other applications that benefit from an XML interface."
 HOMEPAGE="http://www.cs.fsu.edu/~engelen/soap.html"
-DOWNLOADS="mirror://sourceforge/${PN}2/${PNV/-/_}.zip"
+DOWNLOADS="mirror://sourceforge/${PN}$(ever major)/${PNV/-/_}.zip"
 
 LICENCES="gSOAP-1.3b GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="debug gnutls samples"
+MYOPTIONS="debug gnutls ipv6 samples"
 
 DEPENDENCIES="
     build:
@@ -27,13 +29,12 @@ UPSTREAM_DOCUMENTATION="http://www.cs.fsu.edu/~engelen/soapdoc2.html"
 
 WORK="${WORKBASE}/${PN}-$(ever range 1-2)"
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( '--enable-openssl' )
-
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-fix-autotools.patch" )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'debug'
     'gnutls'
+    'ipv6'
     'samples'
 )
-
 DEFAULT_SRC_COMPILE_PARAMS=( -j1 )
 
