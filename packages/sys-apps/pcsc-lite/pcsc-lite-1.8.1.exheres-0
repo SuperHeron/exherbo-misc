@@ -3,14 +3,12 @@
 # Based in part upon 'pcsc-lite-1.5.3.ebuild' from Gentoo, which is:
 #     Copyright 1999-2009 Gentoo Foundation
 
-require systemd-service
-
 SUMMARY="PC/SC Architecture smartcard middleware library"
 DESCRIPTION="
 "
 HOMEPAGE="http://www.linuxnet.com/middle.html"
 
-DL_NUMBER="3598"
+DL_NUMBER="3687"
 DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${PNV}.tar.bz2"
 
 LICENCES="BSD-3"
@@ -20,9 +18,13 @@ MYOPTIONS="
     baselayout
     libusb [[ description = [ Use libusb support instead of udev ] ]]
     static
+    systemd
 "
 
 DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+        sys-devel/flex
     build+run:
         libusb? ( dev-libs/libusb:1 )
         !libusb? ( sys-fs/udev )
@@ -40,6 +42,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'libusb'
     '!libusb libudev'
 )
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( "systemd systemdsystemunitdir /${LIBDIR}/systemd/system" )
 
 src_install() {
     default
@@ -51,10 +54,9 @@ src_install() {
         newconfd "${FILES}/pcscd-confd" pcscd
     fi
 
-    install_systemd_files
-
     keepdir /usr/"${LIBDIR}"/pcsc/drivers
     keepdir /etc/reader.conf.d
+
     if option systemd; then
         insinto /"${LIBDIR}"/tmpfiles.d
         hereins ${PN}.conf <<EOF
