@@ -3,13 +3,11 @@
 # Based in part upon 'pcsc-lite-1.5.3.ebuild' from Gentoo, which is:
 #     Copyright 1999-2009 Gentoo Foundation
 
-SUMMARY="PC/SC Architecture smartcard middleware library"
-DESCRIPTION="
-"
-HOMEPAGE="http://www.linuxnet.com/middle.html"
+require alioth-debian [ project=pcsclite dl_number=3687 ]
 
-DL_NUMBER="3687"
-DOWNLOADS="http://alioth.debian.org/download.php/${DL_NUMBER}/${PNV}.tar.bz2"
+SUMMARY="PC/SC Architecture smartcard middleware library"
+DESCRIPTION="Middleware to access a smart card using SCard API (PC/SC)."
+HOMEPAGE="${HOMEPAGE}/pcsclite.html"
 
 LICENCES="BSD-3"
 SLOT="0"

@@ -1,13 +1,12 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require alioth-debian [ project=pcsclite dl_number=3672 ]
+
 SUMMARY="CCID free software driver"
 DESCRIPTION="This package provides the source code for a generic USB CCID (Chip/Smart Card Interface
 Devices) driver and ICCD (Integrated Circuit(s) Card Devices)."
-HOMEPAGE="http://pcsclite.alioth.debian.org/ccid.html"
-
-DL_NUMBER="3672"
-DOWNLOADS="http://alioth.debian.org/frs/download.php/${DL_NUMBER}/${PNV}.tar.bz2"
+HOMEPAGE="${HOMEPAGE}/ccid.html"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
