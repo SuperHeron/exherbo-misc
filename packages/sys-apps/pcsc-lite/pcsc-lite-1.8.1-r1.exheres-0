@@ -33,7 +33,7 @@ DEPENDENCIES="
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--disable-serial'
-    '--enable-ipcdir=/run/pcsd'
+    '--enable-ipcdir=/run/pcscd'
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'static'
