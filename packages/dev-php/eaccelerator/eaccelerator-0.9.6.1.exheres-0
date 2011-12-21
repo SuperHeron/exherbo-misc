@@ -25,6 +25,10 @@ DEPENDENCIES="
 
 REMOTE_IDS="freshmeat:${PN}"
 
+pkg_setup() {
+    exdirectory --allow /tmp
+}
+
 src_prepare() {
     edo phpize
 }
