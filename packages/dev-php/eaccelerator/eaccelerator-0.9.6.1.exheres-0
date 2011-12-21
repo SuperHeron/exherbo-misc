@@ -34,9 +34,6 @@ DEFAULT_SRC_INSTALL_PARAMS=( "INSTALL_ROOT=${IMAGE}" )
 src_install() {
     default
 
-    diropts -m0777
-    keepdir /tmp/"${PN}"
-
     insinto /etc/php
     doins "${WORK}"/"${PN}".ini
 }
