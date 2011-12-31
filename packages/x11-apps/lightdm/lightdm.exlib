@@ -1,6 +1,8 @@
 # Copyright 2011 Quentin "Sardem FF7" Glidic <sardemff7+exherbo@sardemff7.net>
 # Distributed under the terms of the GNU General Public License v2
 
+export_exlib_phases src_install
+
 require pam systemd-service
 
 DOWNLOADS="http://people.ubuntu.com/~robert-ancell/lightdm/releases/${PNV}.tar.gz"
@@ -66,7 +68,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'gobject-introspection introspection'
 )
 
-src_install() {
+lightdm_src_install() {
     default
 
     insinto /usr/share/lightdm
