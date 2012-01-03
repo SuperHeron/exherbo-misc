@@ -27,7 +27,6 @@ LICENCES="GPL-3 LGPL-3"
 SLOT="0"
 
 MYOPTIONS="
-    gobject-introspection
     glib [[ description = [ Enables client gobject libraries ] ]]
 "
 
@@ -47,7 +46,6 @@ DEPENDENCIES="
             x11-libs/libX11
             x11-libs/libxklavier
         )
-        gobject-introspection? ( dev-libs/gobject-introspection )
     run:
         sys-apps/accountsservice
     suggestion:
@@ -59,13 +57,13 @@ REMOTE_IDS="launchpad:${PN}"
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --localstatedir=/var
     --enable-nls
+    --disable-introspection
     --disable-static
     --disable-liblightdm-qt
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'glib liblightdm_gobject'
-    'gobject-introspection introspection'
 )
 
 lightdm_src_install() {
