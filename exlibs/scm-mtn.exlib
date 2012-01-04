@@ -80,7 +80,7 @@ scm-mtn_mtn() {
         shift
     fi
 
-    ${echo} mtn "${global[@]}" ${cmd} "${@}"
+    ${echo} mtn "${global[@]}" ${cmd} "${@}" >&2
     mtn "${global[@]}" ${cmd} "${@}" || die_unless_nonfatal "mtn ${cmd} failed"
 }
 
