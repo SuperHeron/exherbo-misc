@@ -1,4 +1,4 @@
-# Copyright 2010, 2011 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 # Based in part upon 'openoffice-bin-3.2.1.exheres-0' from Exherbo, which is:
 #     Copyright 2009, 2010 Pierre Lejeune
@@ -13,7 +13,7 @@ on a variety of platforms. It is free software and therefore free to download, u
 HOMEPAGE="http://www.libreoffice.org"
 
 LO_RC_RELEASE="rc2"
-LO_BUILDID="402"
+LO_BUILDID="502"
 
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibO"
@@ -76,6 +76,7 @@ DEPENDENCIES="
     build:
         app-arch/rpm2targz
     build+run:
+       !app-office/libreoffice
        !app-office/openoffice
        !app-office/openoffice-bin
     run:
