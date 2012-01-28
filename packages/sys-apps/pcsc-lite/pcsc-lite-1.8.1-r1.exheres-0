@@ -3,7 +3,7 @@
 # Based in part upon 'pcsc-lite-1.5.3.ebuild' from Gentoo, which is:
 #     Copyright 1999-2009 Gentoo Foundation
 
-require systemd-service alioth-debian [ project=pcsclite dl_number=3687 ]
+require systemd-service alioth-debian [ project=pcsclite dl_number=3687 ] easy-multibuild
 
 SUMMARY="PC/SC Architecture smartcard middleware library"
 DESCRIPTION="Middleware to access a smart card using SCard API (PC/SC)."
@@ -17,6 +17,7 @@ MYOPTIONS="
     libusb [[ description = [ Use libusb support instead of udev ] ]]
     static
     systemd
+    multibuild_c: 32 64
 "
 
 DEPENDENCIES="
@@ -24,8 +25,8 @@ DEPENDENCIES="
         dev-util/pkg-config
         sys-devel/flex
     build+run:
-        libusb? ( dev-libs/libusb:1 )
-        !libusb? ( sys-fs/udev )
+        libusb? ( dev-libs/libusb:1[multibuild_c:*(?)?] )
+        !libusb? ( sys-fs/udev[multibuild_c:*(-)?] )
     run:
         group/pcscd
         user/pcscd
@@ -42,8 +43,13 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
 )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( "systemd systemdsystemunitdir ${SYSTEMDSYSTEMUNITDIR}" )
 
-src_install() {
+install_one_multibuild() {
     default
+    keepdir /usr/"${LIBDIR}"/pcsc/drivers
+}
+
+src_install() {
+    easy-multibuild_src_install
 
     dodoc AUTHORS DRIVERS HELP README SECURITY ChangeLog
 
@@ -52,7 +58,6 @@ src_install() {
         newconfd "${FILES}/pcscd-confd" pcscd
     fi
 
-    keepdir /usr/"${LIBDIR}"/pcsc/drivers
     keepdir /etc/reader.conf.d
 
     if option systemd; then
