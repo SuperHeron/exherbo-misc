@@ -34,6 +34,7 @@ DEPENDENCIES="
     build+run:
         app-arch/bzip2
         dev-lang/ocaml[>=3.12.0][ocamlopt][threads(+)?]
+        group/p2p
         sys-libs/zlib
         user/p2p
         gd? ( media-libs/gd[>=2.0.14][jpeg][png] )
@@ -66,7 +67,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
 )
 
 pkg_setup() {
-    exdirectory --allow /home
+    exdirectory --allow /srv
 }
 
 src_install() {
@@ -84,7 +85,7 @@ src_install() {
         install_systemd_files
     fi
 
-    keepdir '/home/p2p/mldonkey'
-    edo chown p2p:users "${IMAGE}"/home/p2p/mldonkey
+    keepdir '/srv/p2p/mldonkey'
+    edo chown p2p:p2p "${IMAGE}"/srv/p2p/mldonkey
 }
 

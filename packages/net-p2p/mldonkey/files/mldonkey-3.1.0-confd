@@ -9,7 +9,7 @@
 USER="p2p"
 
 # mldonkey's working dir (must be existing)
-MLDONKEY_DIR="/home/p2p/mldonkey"
+MLDONKEY_DIR="/srv/p2p/mldonkey"
 
 # logfile (/dev/null for nowhere)
 LOG="/var/log/mldonkey.log"
