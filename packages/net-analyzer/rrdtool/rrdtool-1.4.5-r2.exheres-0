@@ -58,8 +58,14 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
 src_install() {
     default
 
-    keepdir /var/{lib,run}/${PN}
-    edo chown ${PN}:${PN} "${IMAGE}"/var/{lib,run}/${PN}
+    keepdir /var/lib/${PN}
+    edo chown ${PN}:${PN} "${IMAGE}"/var/lib/${PN}
 
     install_systemd_files
+    if option systemd; then
+        insinto /${LIBDIR}/tmpfiles.d
+        hereins ${PN}.conf <<EOF
+d /run/${PN} 0755 ${PN} ${PN}
+EOF
+    fi
 }
