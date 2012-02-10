@@ -62,6 +62,7 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --disable-introspection
     --disable-static
     --disable-liblightdm-qt
+    --disable-tests
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
