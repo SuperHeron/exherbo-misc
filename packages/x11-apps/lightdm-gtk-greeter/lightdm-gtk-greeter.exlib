@@ -1,0 +1,32 @@
+# Copyright 2012 Quentin "Sardem FF7" Glidic <sardemff7+exherbo@sardemff7.net>
+# Distributed under the terms of the GNU General Public License v2
+
+DOWNLOADS="http://launchpad.net/${PN}/trunk/${PV}/+download/${PNV}.tar.gz"
+
+SUMMARY="Reference GTK+ greeter for LightDM"
+HOMEPAGE="https://launchpad.net/lightdm-gtk-greeter"
+
+LICENCES="GPL-3"
+SLOT="0"
+
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+        sys-devel/gettext
+    build+run:
+        dev-libs/glib:2
+        x11-apps/lightdm[glib]
+        x11-libs/gtk+:3
+        x11-libs/libX11
+        !x11-apps/lightdm[<1.1.2] [[
+            description = [ ${PN} was provided by lightdm before 1.1.2 ]
+        ]]
+"
+
+REMOTE_IDS="launchpad:${PN}"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --enable-nls
+)
