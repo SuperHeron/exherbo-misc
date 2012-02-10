@@ -30,6 +30,8 @@ MYOPTIONS="
     glib [[ description = [ Enables client gobject libraries ] ]]
 "
 
+RESTRICT="test" # requires dbus
+
 DEPENDENCIES="
     build:
         dev-util/pkg-config
