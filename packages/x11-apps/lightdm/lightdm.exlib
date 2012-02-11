@@ -27,7 +27,7 @@ LICENCES="GPL-3 LGPL-3"
 SLOT="0"
 
 MYOPTIONS="
-    glib [[ description = [ Enables client gobject libraries ] ]]
+    gobject [[ description = [ Enables client gobject libraries ] ]]
 "
 
 RESTRICT="test" # requires dbus
@@ -44,7 +44,7 @@ DEPENDENCIES="
         x11-libs/gtk+:3
         x11-libs/libxcb
         x11-libs/libXdmcp
-        glib? (
+        gobject? (
             x11-libs/libX11
             x11-libs/libxklavier
         )
@@ -66,7 +66,7 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'glib liblightdm_gobject'
+    'gobject liblightdm_gobject'
 )
 
 lightdm_src_install() {
