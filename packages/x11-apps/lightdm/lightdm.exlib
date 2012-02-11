@@ -41,7 +41,6 @@ DEPENDENCIES="
         user/${PN}
         dev-libs/glib:2[>=2.26]
         sys-libs/pam
-        x11-libs/gtk+:3
         x11-libs/libxcb
         x11-libs/libXdmcp
         gobject? (
@@ -58,7 +57,6 @@ REMOTE_IDS="launchpad:${PN}"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --localstatedir=/var
-    --enable-nls
     --disable-introspection
     --disable-static
     --disable-liblightdm-qt
