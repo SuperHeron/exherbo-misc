@@ -9,7 +9,7 @@ systems. The goal is to work on any reasonably modern Unix with
 sockets.
 "
 HOMEPAGE="http://www.kernel.org/pub/software/network/tftp/"
-DOWNLOADS="mirror://kernel/software/network/tftp/${PNV}.tar.bz2"
+DOWNLOADS="mirror://kernel/software/network/tftp/${PN}/${PNV}.tar.bz2"
 
 LICENCES="BSD-3"
 SLOT="0"
