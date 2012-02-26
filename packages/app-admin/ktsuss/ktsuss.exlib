@@ -1,0 +1,24 @@
+# Copyright 2011-2012 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require googlecode [ suffix=tar.gz ]
+
+SUMMARY="Graphical su wrapper written in GTK+ 2"
+DESCRIPTION="
+ktsuss stands for 'keep the su simple, stupid', and as the name says, is a graphical version of su
+written in C and GTK+ 2. The idea of the project is to remain simple and bug free.
+"
+
+LICENCES="BSD-3"
+SLOT="0"
+MYOPTIONS="sudo [[ description = [ Use the sudo backend instead of the su one ] ]]"
+
+DEPENDENCIES="
+    build+run:
+        dev-libs/glib:2[>=2.2]
+        x11-libs/gtk+:2[>=2.2]
+        sudo? ( app-admin/sudo )
+"
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( sudo )
+
