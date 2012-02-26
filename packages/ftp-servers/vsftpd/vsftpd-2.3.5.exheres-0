@@ -1,7 +1,7 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require systemd-service checksums [ sha1=[ ${PNV}.tar.gz=b774cc6b4c50e20f4fe9ca7f6aa74169ce7fe5ea ] ]
+require systemd-service checksums [ sha1=[ ${PNV}.tar.gz=f15b39ba6d68c953ab3c3e613e6ddc2a26493755 ] ]
 
 SUMMARY="very secure FTP daemon"
 DESCRIPTION="
