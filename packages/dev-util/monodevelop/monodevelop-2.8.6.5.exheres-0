@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop freedesktop-mime gtk-icon-cache mono
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
 
 SUMMARY="Integrated Development Environment for .NET"
 DESCRIPTION="
@@ -37,6 +38,7 @@ DEPENDENCIES="
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/Documentation"
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/Download/Release_Notes/Release_Notes_for_MonoDevelop_${PV}"
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-fix-libdir.patch" )
 DEFAULT_SRC_COMPILE_PARAMS=( '-j1' )
 
 src_configure() {

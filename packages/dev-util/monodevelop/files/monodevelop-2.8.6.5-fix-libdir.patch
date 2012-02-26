@@ -1,0 +1,37 @@
+Source: written by Pierre Lejeune, for Exherbo
+Upstream: submitted, https://bugzilla.xamarin.com/show_bug.cgi?id=3650
+Reason: Take libdir configure arg into account
+
+--- a/configure.in	2012-02-17 04:30:14.000000000 +0100
++++ b/configure.in	2012-02-26 18:40:00.088558419 +0100
+@@ -250,7 +250,7 @@
+ AC_SUBST(CSC_FLAGS)
+ 
+ 
+-MD_DIR='$(prefix)/lib/monodevelop'
++MD_DIR='$(libdir)/monodevelop'
+ MD_ASSEMBLY_DIR="$MD_DIR/bin"
+ MD_ADDIN_DIR="$MD_DIR/AddIns"
+ 
+--- a/Makefile.am	2012-02-17 04:30:14.000000000 +0100
++++ b/Makefile.am	2012-02-26 18:41:40.253870156 +0100
+@@ -40,7 +40,7 @@
+ 
+ pkgconfig_in_files = monodevelop.pc.in monodevelop-core-addins.pc.in
+ 
+-pkgconfigdir= $(prefix)/lib/pkgconfig
++pkgconfigdir= $(libdir)/pkgconfig
+ pkgconfig_DATA = $(pkgconfig_in_files:.pc.in=.pc)
+ 
+ if ENABLE_UPDATE_MIMEDB
+--- a/Makefile.in	2012-02-17 04:30:24.000000000 +0100
++++ b/Makefile.in	2012-02-26 18:43:47.087471380 +0100
+@@ -269,7 +269,7 @@
+ xdgmimedir = $(datadir)/mime/packages
+ xdgmime_DATA = monodevelop.xml
+ pkgconfig_in_files = monodevelop.pc.in monodevelop-core-addins.pc.in
+-pkgconfigdir = $(prefix)/lib/pkgconfig
++pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = $(pkgconfig_in_files:.pc.in=.pc)
+ PACKAGES = \
+ 	build/bin/MonoDevelop.Core.Gui.addin.xml \
