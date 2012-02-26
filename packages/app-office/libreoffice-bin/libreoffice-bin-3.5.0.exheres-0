@@ -146,12 +146,8 @@ src_unpack() {
                 ;;
             esac
             rpm_unpack "${LO_PN_LONG}$(ever range 1-2)-${linguas}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
-            if [[ "${linguas}" == 'de' ]]; then
-                rpm_unpack "${LO_PN_LONG}$(ever range 1-2)-dict-de-DE-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
-            else
-                dictrpm="${LO_PN_LONG}$(ever range 1-2)-dict-${linguas%%-*}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
-                [[ -e "${dictrpm}" ]] && rpm_unpack "${dictrpm}"
-            fi
+            dictrpm="${LO_PN_LONG}$(ever range 1-2)-dict-${linguas%%-*}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+            [[ -e "${dictrpm}" ]] && rpm_unpack "${dictrpm}"
             rpm_unpack "${LO_BASIS}-${linguas}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
             for appl in base calc math res writer; do
                 rpm_unpack "${LO_BASIS}-${linguas}-${appl}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
