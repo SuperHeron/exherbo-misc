@@ -1,4 +1,4 @@
-# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require scons googlecode
@@ -22,7 +22,7 @@ DEPENDENCIES="
         media-libs/libpng
         media-libs/SDL
         media-libs/SDL_image
-        media-libs/SDL_mixer
+        media-libs/SDL_mixer[mikmod]
 "
 
 src_configure() { :; }
