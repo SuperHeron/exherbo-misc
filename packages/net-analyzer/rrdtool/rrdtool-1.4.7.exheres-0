@@ -63,7 +63,7 @@ src_install() {
 
     install_systemd_files
     if option systemd; then
-        insinto /${LIBDIR}/tmpfiles.d
+        insinto /usr/${LIBDIR}/tmpfiles.d
         hereins ${PN}.conf <<EOF
 d /run/${PN} 0755 ${PN} ${PN}
 EOF
