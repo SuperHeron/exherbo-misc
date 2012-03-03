@@ -1,7 +1,7 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require gnome.org
+require gnome.org [ suffix=.tar.xz ]
 
 SUMMARY="A GObject-based API for handling resource discovery and announcement over SSDP."
 DESCRIPTION="
@@ -15,6 +15,7 @@ MYOPTIONS="gobject-introspection gtk gtk-doc"
 
 DEPENDENCIES="
     build:
+        app-arch/xz
         dev-util/pkg-config
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.6.7] )
         gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
