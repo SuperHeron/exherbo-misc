@@ -1,13 +1,15 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+MY_PV="${PV/_}"
+
 SUMMARY="Virtual PDF printer using CUPS"
 DESCRIPTION="
 This software is designed to produce PDF files in a heterogeneous network
 by providing a PDF printer on the central fileserver.
 "
 HOMEPAGE="http://www.cups-pdf.de"
-DOWNLOADS="${HOMEPAGE}/src/${PN}_${PV}.tar.gz"
+DOWNLOADS="${HOMEPAGE}/src/${PN}_${MY_PV}.tar.gz"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -22,23 +24,26 @@ DEPENDENCIES="
 
 REMOTE_IDS="freshmeat:${PN/-/}"
 
+WORK="${WORKBASE}/${PN}-${MY_PV}/src"
+
 src_compile() {
-    edo cd "${WORK}/src"
-    edo ${CC} ${CFLAGS} -o ${PN} ${PN}.c
+    edo ${CC} ${CFLAGS} $(cups-config --libs) -o ${PN} ${PN}.c
 }
 
 src_install() {
     local uppercase_PN="$(echo ${PN} | tr '[:lower:]' '[:upper:]')"
 
-    exeinto "$(cups-config --serverbin)/backend"
+    exeinto "$(cups-config --serverbin)"/backend
     exeopts '-m0700'
-    doexe "src/${PN}"
+    doexe "${PN}"
+
+    edo cd ../extra
 
     insinto "$(cups-config --serverroot)"
-    doins "extra/${PN}.conf"
+    doins "${PN}".conf
 
-    insinto "$(cups-config --datadir)/model"
-    doins "extra/${uppercase_PN}.ppd"
+    insinto "$(cups-config --datadir)"/model
+    doins "${uppercase_PN}"_{no,}opt.ppd
 
     emagicdocs
 }
