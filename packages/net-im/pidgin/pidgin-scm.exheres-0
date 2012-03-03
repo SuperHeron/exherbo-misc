@@ -144,9 +144,22 @@ UPSTREAM_DOCUMENTATION="
 "
 
 src_prepare() {
+    _elibtoolize
     edo glib-gettextize --copy --force
     edo intltoolize --automake --copy --force
     autotools_src_prepare
+}
+
+src_install() {
+    default
+    if option perl; then
+        local archname="$(perl -V:archname)" archlib
+        archname="${archname#archname=\'}"
+        archlib="lib/perl5/${archname%\';}"
+        edo cd "${IMAGE}"/usr
+        edo rm "${archlib}"/perllocal.pod
+        edo rmdir -p "${archlib}"
+    fi
 }
 
 pkg_preinst() {
