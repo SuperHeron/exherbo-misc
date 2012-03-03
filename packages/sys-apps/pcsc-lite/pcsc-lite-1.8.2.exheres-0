@@ -3,7 +3,7 @@
 # Based in part upon 'pcsc-lite-1.5.3.ebuild' from Gentoo, which is:
 #     Copyright 1999-2009 Gentoo Foundation
 
-require systemd-service alioth-debian [ project=pcsclite dl_number=3687 ] easy-multibuild
+require systemd-service alioth-debian [ project=pcsclite dl_number=3695 ] easy-multibuild
 
 SUMMARY="PC/SC Architecture smartcard middleware library"
 DESCRIPTION="Middleware to access a smart card using SCard API (PC/SC)."
@@ -16,7 +16,6 @@ MYOPTIONS="
     baselayout
     libusb [[ description = [ Use libusb support instead of udev ] ]]
     static
-    systemd
     multibuild_c: 32 64
 "
 
@@ -25,7 +24,7 @@ DEPENDENCIES="
         dev-util/pkg-config
         sys-devel/flex
     build+run:
-        libusb? ( dev-libs/libusb:1[multibuild_c:*(?)?] )
+        libusb? ( dev-libs/libusb:1[multibuild_c:*(-)?] )
         !libusb? ( sys-fs/udev[multibuild_c:*(-)?] )
     run:
         group/pcscd
@@ -61,7 +60,7 @@ src_install() {
     keepdir /etc/reader.conf.d
 
     if option systemd; then
-        insinto /"${LIBDIR}"/tmpfiles.d
+        insinto /usr/"${LIBDIR}"/tmpfiles.d
         hereins ${PN}.conf <<EOF
 d /run/pcscd 0755 pcscd pcscd
 EOF
