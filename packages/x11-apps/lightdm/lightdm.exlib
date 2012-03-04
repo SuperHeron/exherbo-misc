@@ -49,8 +49,14 @@ DEPENDENCIES="
         )
     run:
         sys-apps/accountsservice
+    recommendation:
+        x11-apps/lightdm-gtk-greeter [[
+            description = [ Default greeter ]
+        ]]
     suggestion:
-        x11-server/xorg-server [[ description = [ Requires an X server ] ]]
+        x11-server/xorg-server [[
+            description = [ Requires an X server ]
+        ]]
 "
 
 REMOTE_IDS="launchpad:${PN}"
