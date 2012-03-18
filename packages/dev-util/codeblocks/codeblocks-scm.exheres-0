@@ -18,8 +18,12 @@ MYOPTIONS="
 "
 
 DEPENDENCIES="
+    build:
+        dev-util/pkg-config
     build+run:
-        x11-libs/wxGTK:2.8
+        app-admin/gamin
+        app-spell/hunspell
+        x11-libs/wxGTK:2.8[>=2.8.8]
 "
 
 BUGS_TO=""
