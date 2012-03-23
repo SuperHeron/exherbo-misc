@@ -14,7 +14,9 @@ PLATFORMS="~amd64 ~x86"
 DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-no-strip.patch"
                               -p1 "${FILES}/${PNV}-linux86-copt.patch" )
 
-DEFAULT_SRC_COMPILE_PARAMS=( -j1 DIST="${IMAGE}" )
+DEFAULT_SRC_COMPILE_PARAMS=( -j1 DIST="${IMAGE}"
+                             LIBDIR="/usr/${LIBDIR}/bcc"
+                             INCLDIR="/usr/${LIBDIR}/bcc" )
 
 src_install() {
     emake -j1 install-all DIST="${IMAGE}"
