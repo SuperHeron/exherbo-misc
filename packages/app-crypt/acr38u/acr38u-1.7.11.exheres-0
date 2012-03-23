@@ -3,6 +3,8 @@
 # Based in part upon 'acr38u-1.7.9-r3.ebuild' from Gentoo, which is:
 #     Copyright 1999-2007 Gentoo Foundation
 
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
+
 SUMMARY="ACR38 card reader driver"
 DESCRIPTION="Card reader support for Belgian Electronic Identity Card Runtime supplied by the Belgian Federal Government."
 BASE_URI="http://www.acs.com.hk"
@@ -26,8 +28,9 @@ DEPENDENCIES="
 
 USBDROPDIR=`pkg-config libpcsclite --variable=usbdropdir`
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-fix-pcdir.patch" )
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    "--enable-static=false"
+    '--enable-static=false'
     "--enable-usbdropdir=${IMAGE}${USBDROPDIR:1}"
 )
 
