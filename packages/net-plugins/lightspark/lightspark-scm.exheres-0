@@ -39,6 +39,7 @@ DEPENDENCIES="
         media-libs/freetype
         media-libs/glew
         media-libs/jpeg
+        media-libs/libpng
         media-sound/pulseaudio
         x11-dri/mesa
         x11-libs/cairo
