@@ -1,12 +1,15 @@
 # Copyright 2012 Quentin "Sardem FF7" Glidic <sardemff7+exherbo@sardemff7.net>
 # Distributed under the terms of the GNU General Public License v2
 
-myexparam branch=$(ever range 1-2)
+if (( $(ever range 2) % 2 )); then
+    branch=$(ever range 1).$(( $(ever range 2) + 1 ))
+else
+    branch=$(ever range 1-2)
+fi
+
+require launchpad [ branch=${branch} ] pam systemd-service
 
 export_exlib_phases src_install
-
-require launchpad [ branch=$(exparam branch) ] pam systemd-service
-
 
 SUMMARY="A cross-desktop display manager"
 DESCRIPTION="
