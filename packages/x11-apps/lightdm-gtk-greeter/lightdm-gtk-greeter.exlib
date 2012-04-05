@@ -20,9 +20,6 @@ DEPENDENCIES="
         x11-apps/lightdm[gobject]
         x11-libs/gtk+:3
         x11-libs/libX11
-        !x11-apps/lightdm[<1.1.2] [[
-            description = [ ${PN} was provided by lightdm before 1.1.2 ]
-        ]]
 "
 
 REMOTE_IDS="launchpad:${PN}"
