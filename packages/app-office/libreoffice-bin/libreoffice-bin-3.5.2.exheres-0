@@ -3,7 +3,7 @@
 # Based in part upon 'openoffice-bin-3.2.1.exheres-0' from Exherbo, which is:
 #     Copyright 2009, 2010 Pierre Lejeune
 
-require freedesktop-desktop freedesktop-mime
+require freedesktop-desktop freedesktop-mime gtk-icon-cache
 
 SUMMARY="LibreOffice, a full office productivity suite - Binary version"
 DESCRIPTION="
@@ -13,14 +13,14 @@ on a variety of platforms. It is free software and therefore free to download, u
 HOMEPAGE="http://www.libreoffice.org"
 
 LO_RC_RELEASE="rc2"
-LO_BUILDID="102"
+LO_BUILDID="202"
 
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibO"
 LO_PN_LONG="${PN%-bin}"
 LO_PNV_DOWNLOADS="${LO_PN_SHORT}_$(ever delete 3)"
 LO_PNV="${LO_PNV_DOWNLOADS}${LO_RC_RELEASE}"
-LIBPNG12_PV="1.2.48"
+LIBPNG12_PV="1.2.49"
 LIBPNG12_WORK="${WORKBASE}/libpng-${LIBPNG12_PV}"
 LO_LINGUAS=( 'af' 'ar' 'as' 'ast' 'be' 'bg' 'bn' 'bo' 'br' 'brx' 'bs' 'ca' 'ca_XV' 'cs' 'cy' 'da'
              'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fa' 'fi' 'fr' 'ga'
@@ -177,18 +177,18 @@ src_install() {
     for i in libpng12.so*; do
         doins "${i}"
     done
-    # Empty directories
     edo find "${IMAGE}" -type d -empty -delete
 }
 
-# Update desktop and MIME databases at the same time
 pkg_postinst() {
     freedesktop-desktop_pkg_postinst
     freedesktop-mime_pkg_postinst
+    gtk-icon-cache_pkg_postinst
 }
 
 pkg_postrm() {
     freedesktop-desktop_pkg_postrm
     freedesktop-mime_pkg_postrm
+    gtk-icon-cache_pkg_postrm
 }
 
