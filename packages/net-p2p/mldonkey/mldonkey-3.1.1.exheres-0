@@ -32,16 +32,14 @@ MYOPTIONS="baselayout doc gd magic threads upnp-natpmp
 "
 DEPENDENCIES="
     build+run:
-        app-arch/bzip2
         dev-lang/ocaml[>=3.12.0][ocamlopt][threads(+)?]
         group/p2p
-        sys-libs/zlib
         user/p2p
         gd? ( media-libs/gd[>=2.0.14][jpeg][png] )
         gui? ( dev-ocaml/lablgtk[>=2.14.2][svg] )
         magic? ( sys-apps/file )
         upnp-natpmp? ( net-libs/libnatpmp[>=20100202&<20110103]
-            net-libs/miniupnpc[>=1.4.20100609&<1.5.20110215] )
+                       net-libs/miniupnpc[>=1.4.20100609&<1.5.20110215] )
 "
 
 REMOTE_IDS+="freshmeat:${PN}"
@@ -75,8 +73,8 @@ src_install() {
     option doc && dodoc -r docs
 
     if option baselayout ; then
-        newinitd "${FILES}/${PNV}-initd" "${PN}"
-        newconfd "${FILES}/${PNV}-confd" "${PN}"
+        newinitd "${FILES}/${PN}-initd" "${PN}"
+        newconfd "${FILES}/${PN}-confd" "${PN}"
     fi
 
     if option systemd ; then
