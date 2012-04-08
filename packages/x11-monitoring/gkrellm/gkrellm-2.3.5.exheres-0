@@ -33,6 +33,8 @@ REMOTE_IDS="freshmeat:${PN}"
 
 UPSTREAM_CHANGELOG="${BASE_URI}/Changelog"
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-gmodule.patch" )
+
 DEFAULT_SRC_INSTALL_PARAMS=(
     "PKGCONFIGDIR=${IMAGE}/usr/${LIBDIR}/pkgconfig"
     'PREFIX=/usr'
