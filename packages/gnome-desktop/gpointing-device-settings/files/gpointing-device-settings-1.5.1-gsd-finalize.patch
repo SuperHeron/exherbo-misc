@@ -1,0 +1,18 @@
+Source: written by Vincent Untz
+Upstream: submitted, Gnome Bug #668252
+Reason: fix build with newer gnome-settings-daemon
+
+--- a/modules/gnome-settings-daemon-plugins/gsd-pointing-device-plugin.c	2010-01-29 04:28:56.000000000 -0600
++++ b/modules/gnome-settings-daemon-plugins/gsd-pointing-device-plugin.c	2012-01-09 10:29:50.627672437 -0600
+@@ -158,6 +158,11 @@
+     plugin_class->activate = activate;
+     plugin_class->deactivate = deactivate;
+ }
++
++static void
++gsd_mouse_extension_plugin_class_finalize(GsdMouseExtensionPluginClass *klass)
++{
++}
+ /*
+ vi:ts=4:nowrap:ai:expandtab:sw=4
+ */

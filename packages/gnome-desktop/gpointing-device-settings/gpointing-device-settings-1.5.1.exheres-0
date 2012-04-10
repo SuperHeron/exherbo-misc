@@ -32,7 +32,8 @@ DEPENDENCIES="
 
 BUGS_TO="http://bugzilla.gnome.org/enter_bug.cgi?product=${CAMELCASE_PN}"
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-gtk-2.22.patch" )
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-gtk-2.22.patch"
+                              "${FILES}/${PNV}-gsd-finalize.patch" )
 
 src_install() {
     gnome-2_src_install
