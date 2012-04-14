@@ -18,7 +18,7 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
-        dev-lang/php[>=5.1][apache]
+        dev-lang/php[>=5.1]
     suggestion:
         dev-util/re2c[>=0.13.4] [[ description = [ To generate PHP parsers ] ]]
 "
