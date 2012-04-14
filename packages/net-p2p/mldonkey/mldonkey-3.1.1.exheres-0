@@ -35,7 +35,7 @@ DEPENDENCIES="
         dev-lang/ocaml[>=3.12.0][ocamlopt][threads(+)?]
         group/p2p
         user/p2p
-        gd? ( media-libs/gd[>=2.0.14][jpeg][png] )
+        gd? ( media-libs/gd[>=2.0.14][jpeg(+)][png(+)] )
         gui? ( dev-ocaml/lablgtk[>=2.14.2][svg] )
         magic? ( sys-apps/file )
         upnp-natpmp? ( net-libs/libnatpmp[>=20100202&<20110103]
