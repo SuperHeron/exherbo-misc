@@ -34,9 +34,3 @@ src_compile() {
     optionq firefox && emake xpipackage
 }
 
-src_install() {
-    default
-    # No binaries yet
-    edo rmdir "${IMAGE}"/usr/bin
-}
-
