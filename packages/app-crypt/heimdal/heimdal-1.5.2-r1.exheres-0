@@ -93,7 +93,7 @@ src_install() {
              EVP_{CIPHER_block_size,CIPHER_iv_length,CIPHER_key_length,CipherFinal_ex,CipherInit_ex} \
              EVP_{CipherUpdate,DigestFinal_ex,DigestInit_ex,DigestUpdate,MD_CTX_block_size,MD_CTX_cleanup} \
              EVP_{MD_CTX_create,MD_CTX_destroy,MD_CTX_init,MD_CTX_md,MD_CTX_size,MD_block_size,MD_size} \
-             EVP_{get_cipherbyname,md2,md5,md_null,sha,sha1} OpenSSL_add_all_algorithms \
+             EVP_{get_cipherbyname,md2,md5,md_null,sha,sha1,sha256,sha384,sha512} OpenSSL_add_all_algorithms \
              RAND_{add,bytes,cleanup,file_name,get_rand_method,load_file,pseudo_bytes,seed,set_rand_method} \
              RAND_{status,write_file} RSA_{free,get_method,new,new_method,set_method}; do
         edo rm "${IMAGE}"/usr/share/man/man3/${i}.3
