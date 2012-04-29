@@ -7,7 +7,7 @@ Mod_Mono is an Apache 2.0/2.2 module that provides ASP.NET support for the web's
 Apache.
 "
 HOMEPAGE="http://www.mono-project.com/${PN}"
-DOWNLOADS="http://ftp.novell.com/pub/mono/sources/${PN}/${PNV}.tar.bz2"
+DOWNLOADS="http://download.mono-project.com/sources/${PN}/${PNV}.tar.bz2"
 
 LICENCES=""
 SLOT="0"
