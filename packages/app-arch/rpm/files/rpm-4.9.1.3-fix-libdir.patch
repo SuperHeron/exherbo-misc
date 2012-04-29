@@ -1,0 +1,109 @@
+Source: written by Pierre Lejeune, for Exherbo
+Upstream: no
+Reason: Respect LIBDIR
+
+--- a/Makefile.in	2012-04-03 15:54:30.000000000 +0200
++++ b/Makefile.in	2012-04-30 00:10:25.671489711 +0200
+@@ -462,10 +462,10 @@
+ DISTCHECK_CONFIGURE_FLAGS = --with-external-db
+ 
+ # Internal binaries
+-rpmlibexecdir = $(prefix)/lib/rpm
++rpmlibexecdir = $(libdir)/rpm
+ 
+ # Host independent config files
+-rpmconfigdir = $(prefix)/lib/rpm
++rpmconfigdir = $(libdir)/rpm
+ CLEANFILES = rpmrc.tmp rpmrc macros platform.tmp platform rpm.pc.tmp \
+ 	rpm.pc rpmpopt-@VERSION@.tmp rpmpopt-@VERSION@ \
+ 	include/rpm/argv.h include/rpm/rpmio.h include/rpm/rpmurl.h \
+--- a/fileattrs/Makefile.in	2012-04-03 15:54:29.000000000 +0200
++++ b/fileattrs/Makefile.in	2012-04-30 00:17:38.867626186 +0200
+@@ -302,10 +302,10 @@
+ top_srcdir = @top_srcdir@
+ 
+ # Internal binaries
+-rpmlibexecdir = $(prefix)/lib/rpm
++rpmlibexecdir = $(libdir)/rpm
+ 
+ # Host independent config files
+-rpmconfigdir = $(prefix)/lib/rpm
++rpmconfigdir = $(libdir)/rpm
+ fattrsdir = $(rpmconfigdir)/fileattrs
+ fattrs_DATA = \
+ 	desktop.attr elf.attr font.attr libtool.attr perl.attr perllib.attr \
+--- a/lib/Makefile.in	2012-04-03 15:54:29.000000000 +0200
++++ b/lib/Makefile.in	2012-04-30 00:18:45.385957370 +0200
+@@ -456,10 +456,10 @@
+ top_srcdir = @top_srcdir@
+ 
+ # Internal binaries
+-rpmlibexecdir = $(prefix)/lib/rpm
++rpmlibexecdir = $(libdir)/rpm
+ 
+ # Host independent config files
+-rpmconfigdir = $(prefix)/lib/rpm
++rpmconfigdir = $(libdir)/rpm
+ AM_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir) \
+ 	-I$(top_builddir)/include/ @WITH_NSS_INCLUDE@ \
+ 	@WITH_POPT_INCLUDE@ -I$(top_srcdir)/misc \
+--- a/plugins/Makefile.in	2012-04-03 15:54:30.000000000 +0200
++++ b/plugins/Makefile.in	2012-04-30 00:19:34.908714618 +0200
+@@ -325,10 +325,10 @@
+ top_srcdir = @top_srcdir@
+ 
+ # Internal binaries
+-rpmlibexecdir = $(prefix)/lib/rpm
++rpmlibexecdir = $(libdir)/rpm
+ 
+ # Host independent config files
+-rpmconfigdir = $(prefix)/lib/rpm
++rpmconfigdir = $(libdir)/rpm
+ AM_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir) \
+ 	-I$(top_builddir)/include/ -I$(top_srcdir)/misc \
+ 	-DLOCALEDIR="\"$(localedir)\"" \
+--- a/scripts/Makefile.in	2012-04-03 15:54:30.000000000 +0200
++++ b/scripts/Makefile.in	2012-04-30 00:20:27.543393463 +0200
+@@ -305,10 +305,10 @@
+ top_srcdir = @top_srcdir@
+ 
+ # Internal binaries
+-rpmlibexecdir = $(prefix)/lib/rpm
++rpmlibexecdir = $(libdir)/rpm
+ 
+ # Host independent config files
+-rpmconfigdir = $(prefix)/lib/rpm
++rpmconfigdir = $(libdir)/rpm
+ CLEANFILES = 
+ EXTRA_DIST = \
+ 	brp-compress brp-python-bytecompile brp-java-gcjcompile \
+--- a/sign/Makefile.in	2012-04-03 15:54:30.000000000 +0200
++++ b/sign/Makefile.in	2012-04-30 00:21:05.850431750 +0200
+@@ -324,10 +324,10 @@
+ top_srcdir = @top_srcdir@
+ 
+ # Internal binaries
+-rpmlibexecdir = $(prefix)/lib/rpm
++rpmlibexecdir = $(libdir)/rpm
+ 
+ # Host independent config files
+-rpmconfigdir = $(prefix)/lib/rpm
++rpmconfigdir = $(libdir)/rpm
+ AM_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir) \
+ 	-I$(top_builddir)/include/ @WITH_NSS_INCLUDE@ \
+ 	@WITH_POPT_INCLUDE@ -I$(top_srcdir)/misc
+--- a/tests/Makefile.in	2012-04-03 15:54:30.000000000 +0200
++++ b/tests/Makefile.in	2012-04-30 00:21:40.406564070 +0200
+@@ -276,10 +276,10 @@
+ top_srcdir = @top_srcdir@
+ 
+ # Internal binaries
+-rpmlibexecdir = $(prefix)/lib/rpm
++rpmlibexecdir = $(libdir)/rpm
+ 
+ # Host independent config files
+-rpmconfigdir = $(prefix)/lib/rpm
++rpmconfigdir = $(libdir)/rpm
+ EXTRA_DIST = local.at $(TESTSUITE) $(TESTSUITE_AT) \
+ 	data/SPECS/hello.spec data/SPECS/foo.spec \
+ 	data/SPECS/versiontest.spec data/SPECS/conflicttest.spec \
