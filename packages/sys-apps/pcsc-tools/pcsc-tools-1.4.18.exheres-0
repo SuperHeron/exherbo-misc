@@ -1,0 +1,26 @@
+# Copyright 2012 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Some tools to be used with smart cards and PC/SC"
+DESCRIPTION="
+These tools are used to test a PC/SC driver, card or reader or send commands in a friendly
+environment (text or graphical user interface).
+"
+HOMEPAGE="http://ludovic.rousseau.free.fr/softwares/${PN}/"
+DOWNLOADS="${HOMEPAGE}/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        sys-apps/pcsc-lite
+    run:
+        dev-perl/pcsc-perl
+        dev-perl/Gtk2-Perl
+"
+
+DEFAULT_SRC_INSTALL_PARAMS=( DESTDIR="${IMAGE}/usr" )
+
