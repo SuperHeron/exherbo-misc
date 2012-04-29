@@ -1,0 +1,15 @@
+Source: written by Pierre Lejeune, from Exherbo
+Upstream: no
+Reason: Replace special character causing javac to fail
+
+--- a/openjdk/sun/print/Win32PrintService.java	2011-07-29 21:01:46.000000000 +0200
++++ b/openjdk/sun/print/Win32PrintService.java	2012-04-30 01:03:03.736620171 +0200
+@@ -119,7 +119,7 @@
+         Chromaticity.class
+     };
+ 
+-    // conversion from 1/100 Inch (.NET) to µm (Java)
++    // conversion from 1/100 Inch (.NET) to um (Java)
+     private static final int INCH100_TO_MYM = 254;
+     private static final int  MATCH_DIFF = 500; // 0.5 mm
+     
