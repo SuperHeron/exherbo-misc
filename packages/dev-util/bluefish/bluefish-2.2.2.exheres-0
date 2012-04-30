@@ -1,7 +1,8 @@
 # Copyright 2009 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] freedesktop-desktop freedesktop-mime sourceforge
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] freedesktop-desktop
+require freedesktop-mime sourceforge gtk-icon-cache
 
 SUMMARY="Bluefish GTK+ web editor"
 DESCRIPTION="
@@ -36,16 +37,16 @@ DEPENDENCIES="
             charmap? ( gnome-extra/gucharmap[>=2.20][-gtk3] )
         )
         !gtk2? (
-            x11-libs/gtk+:3
+            x11-libs/gtk+:3[>=3.2.2]
             charmap? ( gnome-extra/gucharmap[>=2.90][gtk3] )
         )
-        python? ( dev-lang/python:=[>=2.2] )
+        python? ( dev-lang/python:=[>=2.4] )
         spell? ( app-spell/enchant[>=1.4] )
 "
 
 UPSTREAM_DOCUMENTATION="http://bluefish.openoffice.nl/manual/"
 
-DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}"/"${PNV}"-gucharmap-automagic.patch )
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/"${PNV}"-gucharmap-automagic.patch )
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( '--disable-update-databases' )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
@@ -67,10 +68,12 @@ src_prepare() {
 pkg_postinst() {
     freedesktop-desktop_pkg_postinst
     freedesktop-mime_pkg_postinst
+    gtk-icon-cache_pkg_postinst
 }
 
 pkg_postrm() {
     freedesktop-desktop_pkg_postrm
     freedesktop-mime_pkg_postrm
+    gtk-icon-cache_pkg_postrm
 }
 
