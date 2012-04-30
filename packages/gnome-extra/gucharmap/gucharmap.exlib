@@ -8,12 +8,7 @@ DESCRIPTION="Gucharmap is the GNOME Character Map, based on the Unicode Characte
 HOMEPAGE="http://live.gnome.org/Gucharmap"
 
 SLOT="0"
-MYOPTIONS="cjk gtk-doc gobject-introspection gtk3"
-if ! ever at_least 3.0.0; then
-    MYOPTIONS+="
-        python [[ requires = [ -gtk3 ] ]]
-    "
-fi
+MYOPTIONS="cjk gtk-doc gobject-introspection"
 
 DEPENDENCIES="
     build:
@@ -27,13 +22,19 @@ DEPENDENCIES="
     build+run:
         dev-libs/glib:2[>=2.16.3]
         gnome-platform/GConf:2
-        gobject-introspection? ( gnome-desktop/gobject-introspection[>=0.9.0] )
-        gtk3? ( x11-libs/gtk+:3[>=3.0.0] )
-        !gtk3? ( x11-libs/gtk+:2[>=2.14.0] )
+        gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.9.0] )
 "
-if ! ever at_least 3.0.0; then
+if ever at_least 3.0.0; then
     DEPENDENCIES+="
         build+run:
+            x11-libs/gtk+:3[>=3.0.0]
+    "
+else
+    MYOPTIONS+=" gtk3 python"
+    DEPENDENCIES+="
+        build+run:
+            gtk3? ( x11-libs/gtk+:3[>=3.0.0] )
+            !gtk3? ( x11-libs/gtk+:2[>=2.14.0] )
             python? (
                 dev-lang/python:=[>=2.4]
                 gnome-bindings/pygtk:2[>=2.7.1]
@@ -44,8 +45,8 @@ fi
 src_configure() {
     local enable_python=
     ever at_least 3.0.0 || enable_python="$(option_enable python python-bindings)"
-    local gtk_version=2.0
-    option gtk3 && gtk_version=3.0
+    local gtk_version=3.0
+    ! ever at_least 3.0.0 && option !gtk3 && gtk_version=2.0
     econf --with-gtk="${gtk_version}" \
         $(option_enable cjk unihan) \
         $(option_enable gtk-doc) \
