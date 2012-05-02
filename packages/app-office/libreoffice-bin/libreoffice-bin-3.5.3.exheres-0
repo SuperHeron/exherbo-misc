@@ -13,11 +13,11 @@ on a variety of platforms. It is free software and therefore free to download, u
 HOMEPAGE="http://www.libreoffice.org"
 
 LO_RC_RELEASE="rc2"
-LO_BUILDID="202"
-
+LO_BUILDID="2"
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibO"
 LO_PN_LONG="${PN%-bin}"
+LO_PNV_LONG="${LO_PN_LONG}$(ever range 1-2)"
 LO_PNV_DOWNLOADS="${LO_PN_SHORT}_$(ever delete 3)"
 LO_PNV="${LO_PNV_DOWNLOADS}${LO_RC_RELEASE}"
 LIBPNG12_PV="1.2.49"
@@ -35,6 +35,7 @@ DOWNLOADS="
     platform:amd64? ( ${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_install-rpm_en-US.tar.gz )
     platform:x86? ( ${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_install-rpm_en-US.tar.gz )
     mirror://sourceforge/libpng/libpng-${LIBPNG12_PV}.tar.xz [[ note = [ LibO-${PV} is linked against libpng-1.2 ] ]]
+    branding? ( http://dev.exherbo.org/~philantrop/distfiles/${LO_PN_LONG}-exherbo-branding-$(ever range 1-2).tar.xz )
 "
 
 set_linguas() {
@@ -66,6 +67,7 @@ LICENCES="LGPL-3"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
+    branding [[ description = [ Use exherbo flavoured branding in the splash screen ] ]]
     extensions [[ description = [ Installs bundled extensions ] ]]
     gnome
     java
@@ -119,22 +121,22 @@ src_unpack() {
     for appl in base binfilter calc core{01,02,03,04,05,06,07} draw graphicfilter images impress \
                 math ogltrans onlineupdate ooofonts ooolinguistic postgresql-sdbc pyuno writer \
                 xsltfilter; do
-        rpm_unpack "${LO_BASIS}-${appl}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+        rpm_unpack "${LO_BASIS}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     done
-    rpm_unpack "${LO_PN_LONG}$(ever range 1-2)-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+    rpm_unpack "${LO_PNV_LONG}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     for appl in base calc draw impress math stdlibs ure writer; do
-        rpm_unpack "${LO_PN_LONG}$(ever range 1-2)-${appl}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+        rpm_unpack "${LO_PNV_LONG}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     done
-    rpm_unpack "desktop-integration/${LO_PN_LONG}$(ever range 1-2)-freedesktop-menus-$(ever range 1-2)-${LO_BUILDID}.noarch.rpm"
+    rpm_unpack "desktop-integration/${LO_PNV_LONG}-freedesktop-menus-${PV}-${LO_BUILDID}.noarch.rpm"
     if optionq extensions; then
         for appl in {beanshell,javascript,python}-script-provider mediawiki-publisher nlpsolver \
                     pdf-import presentation-minimizer presenter-screen report-builder; do
-            rpm_unpack "${LO_BASIS}-extension-${appl}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+            rpm_unpack "${LO_BASIS}-extension-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
         done
     fi
-    optionq gnome && rpm_unpack "${LO_BASIS}-gnome-integration-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
-    optionq kde && rpm_unpack "${LO_BASIS}-kde-integration-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
-    optionq java && rpm_unpack "${LO_BASIS}-javafilter-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+    optionq gnome && rpm_unpack "${LO_BASIS}-gnome-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    optionq kde && rpm_unpack "${LO_BASIS}-kde-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    optionq java && rpm_unpack "${LO_BASIS}-javafilter-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     echo "Unpacking language pack RPM files"
     for linguas in "${LO_LINGUAS[@]}"; do
         if optionq linguas:${linguas}; then
@@ -145,16 +147,16 @@ src_unpack() {
                 * ) edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_langpack-rpm_${linguas}/RPMS"
                 ;;
             esac
-            rpm_unpack "${LO_PN_LONG}$(ever range 1-2)-${linguas}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
-            dictrpm="${LO_PN_LONG}$(ever range 1-2)-dict-${linguas%%-*}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+            rpm_unpack "${LO_PNV_LONG}-${linguas}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+            dictrpm="${LO_PNV_LONG}-dict-${linguas%%-*}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
             [[ -e "${dictrpm}" ]] && rpm_unpack "${dictrpm}"
-            rpm_unpack "${LO_BASIS}-${linguas}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+            rpm_unpack "${LO_BASIS}-${linguas}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
             for appl in base calc math res writer; do
-                rpm_unpack "${LO_BASIS}-${linguas}-${appl}-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+                rpm_unpack "${LO_BASIS}-${linguas}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
             done
             if optionq help; then
                 edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_helppack-rpm_${linguas}/RPMS"
-                rpm_unpack "${LO_BASIS}-${linguas}-help-$(ever range 1-3)-${LO_BUILDID}.${LO_ARCH}.rpm"
+                rpm_unpack "${LO_BASIS}-${linguas}-help-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
             fi
         fi
     done
@@ -173,11 +175,22 @@ src_compile() {
 src_install() {
     edo cp -rT "${WORK}" "${IMAGE}"
     edo cd "${LIBPNG12_WORK}"/.libs
-    insinto /opt/"${LO_PN_LONG}$(ever range 1-2)"/program
+    insinto /opt/"${LO_PNV_LONG}"/program
     for i in libpng12.so*; do
         doins "${i}"
     done
+    edo cd "${IMAGE}"/usr/bin
+    edo ln -s "${LO_PN_LONG}"{$(ever range 1-2),}
     edo find "${IMAGE}" -type d -empty -delete
+    if option branding; then
+        edo cd "${WORKBASE}/${LO_PN_LONG}-exherbo-branding-$(ever range 1-2)"
+        insinto /opt/"${LO_PNV_LONG}"/program
+        newins exherbo-about.png about.png
+        newins exherbo-splash.png intro.png
+        insinto /opt/"${LO_PNV_LONG}"/program/shell
+        newins exherbo-startcenter.png backing_right.png
+        newins exherbo-startcenter.png backing_rtl_right.png
+    fi
 }
 
 pkg_postinst() {
