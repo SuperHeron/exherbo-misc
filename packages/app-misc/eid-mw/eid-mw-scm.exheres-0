@@ -27,8 +27,6 @@ DEPENDENCIES="
         pcsc_drivers:ccid? ( app-crypt/ccid )
 "
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-fix-pkcs11-log-level.patch" )
-
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'gtk dialogs' )
 
 src_compile() {
