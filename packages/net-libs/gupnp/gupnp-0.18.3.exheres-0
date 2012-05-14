@@ -31,7 +31,11 @@ HOMEPAGE="http://gupnp.org/"
 LICENCES="LGPL-2"
 SLOT="1.0"
 PLATFORMS="~amd64"
-MYOPTIONS="gobject-introspection gtk-doc networkmanager"
+MYOPTIONS="gobject-introspection gtk-doc networkmanager
+    connman [[ description = [ Connectivity support via connman ] ]]
+
+    ( connman networkmanager ) [[ number-selected = at-most-one ]]
+"
 
 # TODO: automagic check for conic with unix context manager
 DEPENDENCIES="
@@ -39,11 +43,12 @@ DEPENDENCIES="
         dev-util/pkg-config[>=0.9.0]
         gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
-        dev-libs/glib:2[>=2.26]
+        dev-libs/glib:2[>=2.28] [[ note = [ for connman, oldest ist 2.28 ] ]]
         dev-libs/libxml2:2.0
         gnome-desktop/libsoup:2.4[>=2.28.2][gobject-introspection?]
         net-libs/gssdp:1.0[>=0.11.2][gobject-introspection?]
         sys-apps/util-linux
+        connman? ( net-misc/connman[>=0.80] )
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.6.4] )
     run:
         networkmanager? ( net-apps/NetworkManager )
@@ -59,6 +64,7 @@ UPSTREAM_DOCUMENTATION="http://developer.gnome.org/${PN}/$(ever range 1-2)"
 src_configure() {
     local context_manager='linux'
     optionq networkmanager && context_manager='network-manager'
+    optionq connman && context_manager='connman'
     econf $(option_enable gtk-doc) \
           $(option_enable gobject-introspection introspection) \
           --with-context-manager=${context_manager}
