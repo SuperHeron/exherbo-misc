@@ -1,0 +1,40 @@
+# Copyright 2011 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require launchpad [ branch='trunk' ] python [ python_dep='2.2' ]
+
+SUMMARY="A streaming protocol for test results"
+DESCRIPTION="
+Subunit is a streaming protocol for test results. The protocol is human
+readable and easily generated and parsed. By design all the components of 
+the protocol conceptually fit into the xUnit TestCase->TestResult interaction.
+
+Subunit comes with command line filters to process a subunit stream and
+language bindings for python, C, C++ and shell. Bindings are easy to write
+for other languages.
+"
+
+LICENCES="Apache-2.0 BSD-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-cpp/cppunit
+        dev-lang/perl:=
+        dev-libs/check
+"
+
+src_install() {
+    default
+    python_bytecompile
+
+    # Workaround perl bug
+    if [[ "${LIBDIR}" != 'lib' ]]; then
+        edo cd "${IMAGE}"/usr
+        edo mv lib/* "${LIBDIR}"
+        edo rmdir lib
+    fi
+}
+
