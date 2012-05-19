@@ -1,0 +1,24 @@
+# Copyright 2011 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require waf [ waf_executable="$(ever is_scm && echo '../../' || echo './')buildtools/bin/waf" ]
+
+DEPENDENCIES="
+    build:
+        app-text/docbook-xml-dtd:4.2
+        app-text/docbook-xsl-stylesheets
+        dev-libs/libxslt
+"
+
+WAF_SRC_CONFIGURE_PARAMS=(
+        --bundled-libraries=NONE \
+        --disable-rpath \
+        --mandir=/usr/share/man \
+        --infodir=/usr/share/info \
+        --docdir=/usr/share/doc/${PNVR} \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --disable-dependency-tracking \
+        ${WAFSAMBA_SRC_CONFIGURE_PARAMS[@]}
+)
+
