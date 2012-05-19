@@ -1,0 +1,15 @@
+# Copyright 2010-2011 Wulf C. Krueger <philantrop@exherbo.org>
+# Distributed under the terms of the GNU General Public License v2
+
+[Unit]
+Description=winbindd server
+Before=samba.target
+
+[Service]
+Environment=TMP=""
+Environment=TMPDIR=""
+ExecStart=/usr/sbin/winbindd -F
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

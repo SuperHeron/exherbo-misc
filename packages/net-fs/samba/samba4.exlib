@@ -1,0 +1,98 @@
+# Copyright 2011 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require wafsamba systemd-service
+
+export_exlib_phases src_install
+
+SUMMARY="Samba provides seamless file and print services to SMB/CIFS clients, e. g. Windows"
+DESCRIPTION="
+Samba is a free software implementation of the SMB/CIFS networking protocol that
+can be run on many platforms other than Microsoft Windows. Samba uses the TCP/IP
+protocol that is installed on the host. When correctly configured, it allows
+that host to interact with a Microsoft Windows client or server as if it is a Windows
+file and print server. Additionally, it can act as a PDC, a domain member server
+or as a part of an Active Directory.
+"
+HOMEPAGE="http://www.samba.org"
+
+LICENCES="GPL-3"
+SLOT="4"
+MYOPTIONS="acl aio avahi cluster cups gnutls iconv ldap syslog"
+
+DEPENDENCIES="
+    build:
+        dev-lang/perl:*
+    build+run:
+        app-crypt/heimdal[>=1.5]
+        dev-db/ldb[>=1.1.0]
+        dev-db/tdb[>=1.2.9]
+        dev-libs/iniparser
+        dev-libs/libgcrypt
+        dev-libs/libgpg-error
+        dev-libs/popt
+        dev-libs/talloc[>=2.0.5]
+        dev-libs/tevent[>=0.9.11]
+        dev-util/subunit
+        net-libs/cyrus-sasl
+        sys-libs/pam
+        acl? ( sys-apps/acl
+               sys-apps/attr )
+        aio? ( dev-libs/libaio )
+        avahi? ( net-dns/avahi )
+        cluster? ( dev-libs/ctdb )
+        cups? ( net-print/cups )
+        gnutls? ( dev-libs/gnutls )
+        iconv? ( text-libs/libiconv )
+        ldap? ( net-directory/openldap )
+        syslog? ( virtual/syslog )
+"
+
+WAF_SRC_CONFIGURE_PARAMS+=(
+    '--disable-tdb2'
+    '--enable-fhs'
+    '--nopyc'
+    '--nopyo'
+    '--with-iconv'
+    '--with-lockdir=/run/lock/samba'
+    "--with-modulesdir=/usr/${LIBDIR}/samba"
+    '--with-pam'
+    '--with-pam_smbpass'
+    '--with-piddir=/run/samba'
+    "--with-privatedir=/usr/${LIBDIR}/samba/private"
+    '--with-sockets-dir=/run/samba'
+)
+
+WAF_SRC_CONFIGURE_OPTION_ENABLES=(
+    'cups'
+    'gnutls'
+)
+WAF_SRC_CONFIGURE_OPTION_WITHS=(
+    'acl acl-support'
+    'aio aio-support'
+    'cluster cluster-support'
+    'iconv'
+    'ldap'
+)
+
+samba4_src_install() {
+    waf_src_install
+    python_bytecompile
+
+    install_systemd_files
+    if option systemd; then
+        insinto /usr/${LIBDIR}/tmpfiles.d
+        hereins ${PN}.conf <<EOF
+d /run/samba 0755 root root -
+EOF
+    fi
+
+    keepdir /var/{cache,lib,log}/samba
+    edo rmdir "${IMAGE}"/run/{lock/{samba,},{samba,}}
+
+    keepdir /usr/"${LIBDIR}"/samba/private/smbd.tmp/messaging
+
+    insinto /etc/"${PN}"
+    doins "${WORK}"/examples/smb.conf.default
+}
+

@@ -1,0 +1,11 @@
+--- a/nsswitch/winbind_krb5_locator.c.orig	2011-03-31 19:49:05.000000000 +0200
++++ b/nsswitch/winbind_krb5_locator.c	2011-05-10 22:20:32.762966472 +0200
+@@ -27,7 +27,7 @@
+ #if defined(HAVE_KRB5) && defined(HAVE_KRB5_LOCATE_PLUGIN_H)
+ 
+ #if HAVE_COM_ERR_H
+-#include <com_err.h>
++#include <et/com_err.h>
+ #endif
+ 
+ #include <krb5.h>
