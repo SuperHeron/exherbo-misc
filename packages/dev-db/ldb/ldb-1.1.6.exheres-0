@@ -1,0 +1,35 @@
+# Copyright 2011 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require wafsamba
+
+SUMMARY="LDAP-like embedded database"
+DESCRIPTION="
+ldb is a LDAP-like embedded database. It is not at all LDAP standards compliant, so if you want a
+standards compliant database then please see the excellent OpenLDAP project.
+
+What ldb does is provide a fast database with an LDAP-like API designed to be used within an
+application. In some ways it can be seen as a intermediate solution between key-value pair databases
+and a real LDAP database.
+
+ldb is the database engine used in Samba4. 
+"
+HOMEPAGE="http://${PN}.samba.org"
+DOWNLOADS="mirror://samba/../${PN}/${PNV}.tar.gz"
+
+LICENCES="LGPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-libs/popt
+        dev-libs/talloc[>=2.0.7]
+        dev-libs/tevent[>=0.9.14]
+    recommendation:
+        net-directory/openldap [[ description = [ ldb can use OpenLDAP as a backend ] ]]
+"
+
+WAF_SRC_CONFIGURE_PARAMS+=( "--with-modulesdir=/usr/${LIBDIR}" '--disable-tdb2' )
+
