@@ -103,5 +103,6 @@ lightdm_src_install() {
 
     install_systemd_files
 
-    pamd_mimic_system lightdm auth account password session
+    pamd_mimic_system lightdm local-login auth account password session
 }
+
