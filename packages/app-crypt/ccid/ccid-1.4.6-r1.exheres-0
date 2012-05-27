@@ -18,7 +18,7 @@ DEPENDENCIES="
         sys-apps/pcsc-lite[>=1.8.3]
         usb? ( dev-libs/libusb:1 )
     run:
-        sys-fs/udev
+        || ( sys-apps/systemd sys-fs/udev )
 "
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
