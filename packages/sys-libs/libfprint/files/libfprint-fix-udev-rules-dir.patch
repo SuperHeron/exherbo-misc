@@ -1,0 +1,42 @@
+Upstream: Submitted, https://bugs.freedesktop.org/show_bug.cgi?id=50426
+
+From 37e7334549efa5e23c53ab3d233f68b20502354f Mon Sep 17 00:00:00 2001
+From: Benedikt Morbach <benedikt.morbach@googlemail.com>
+Date: Mon, 28 May 2012 14:13:03 +0200
+Subject: [PATCH] update udev rules dir location again
+
+Instead of hardcoding whatever the new fashion is every few months, which might
+even differ between distributions, just put the rules where udev says we should.
+---
+ configure.ac          |    2 ++
+ libfprint/Makefile.am |    1 -
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index f5c26f9..1d57e4e 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -129,6 +129,8 @@ AC_SUBST(GLIB_LIBS)
+ imagemagick_found=no
+ gdkpixbuf_found=no
+ 
++AC_SUBST([udev_rulesdir], [$($PKG_CONFIG --variable=udevdir udev)/rules.d])
++
+ if test "$require_imaging" = "yes"; then
+ 	PKG_CHECK_MODULES(IMAGING, gthread-2.0 gdk-pixbuf-2.0, [gdkpixbuf_found=yes], [gdkpixbuf_found=no])
+ 	if test "$gdkpixbuf_found" != "yes"; then
+diff --git a/libfprint/Makefile.am b/libfprint/Makefile.am
+index 656a2f4..7953526 100644
+--- a/libfprint/Makefile.am
++++ b/libfprint/Makefile.am
+@@ -79,7 +79,6 @@ fprint_list_udev_rules_CFLAGS = -fvisibility=hidden -I$(srcdir)/nbis/include $(L
+ fprint_list_udev_rules_LDADD = $(builddir)/libfprint.la
+ 
+ udev_rules_DATA = 60-fprint-autosuspend.rules
+-udev_rulesdir = $(libdir)/udev/rules.d/
+ 
+ $(udev_rules_DATA): fprint-list-udev-rules
+ 	$(builddir)/fprint-list-udev-rules > $@
+-- 
+1.7.10.3
+

@@ -33,6 +33,8 @@ DEPENDENCIES="
         )
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/${PN}-fix-udev-rules-dir.patch )
+
 src_configure() {
     local with_drivers=()
     for driver in ${MY_FPRINT_DRIVERS}; do
