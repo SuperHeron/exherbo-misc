@@ -2,8 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 SCM_REPOSITORY="http://svn.berlios.de/svnroot/repos/codeblocks"
+SCM_SECONDARY_REPOSITORIES="FortranProject"
+SCM_FortranProject_REPOSITORY="http://fortranproject.googlecode.com/svn"
+SCM_EXTERNAL_REFS="src/plugins/contrib/FortranProject:FortranProject"
 
-require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
+require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 1.11 1.12 ] ]
 
 SUMMARY="Code::Blocks C/C++ IDE"
 DESCRIPTION="Code::Blocks free C/C++ IDE"
