@@ -8,9 +8,8 @@ SCM_REPOSITORY="git://anongit.freedesktop.org/libfprint/${PN}"
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] scm-git
 
 SUMMARY="Fprint D-Bus daemon"
-DESCRIPTION="Daemon to offer libfprint functionality over D-Bus
-"
-HOMEPAGE="http://www.reactivated.net/fprint/wiki/Fprintd"
+DESCRIPTION="Daemon to offer libfprint functionality over D-Bus"
+HOMEPAGE="http://www.freedesktop.org/wiki/Software/fprint/${PN}"
 
 LICENCES="GPL-2"
 SLOT="0"

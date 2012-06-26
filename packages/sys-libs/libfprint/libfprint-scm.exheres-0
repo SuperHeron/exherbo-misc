@@ -9,7 +9,7 @@ require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11
 
 SUMMARY="Fprint library"
 DESCRIPTION="Library for fingerprint readers from Fprint project."
-HOMEPAGE="http://www.reactivated.net/fprint/wiki/Libfprint"
+HOMEPAGE="http://www.freedesktop.org/wiki/Software/fprint/${PN}"
 
 LICENCES="LGPL-2"
 SLOT="0"
