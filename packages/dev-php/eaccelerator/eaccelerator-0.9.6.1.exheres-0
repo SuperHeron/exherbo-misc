@@ -10,6 +10,7 @@ scripts by caching them in their compiled state, so that the overhead of compili
 completely eliminated. It also optimizes scripts to speed up their execution. eAccelerator typically
 reduces server load and increases the speed of your PHP code by 1-10 times.
 "
+HOMEPAGE="https://eaccelerator.net"
 
 LICENCES="GPL-2"
 SLOT="0"
