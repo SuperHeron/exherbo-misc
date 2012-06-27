@@ -1,7 +1,7 @@
 # Copyright 2009-2011 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require python [ python_dep="2.4&<3.0" ]
+require python [ python_dep="2.6" ]
 
 SUMMARY="Botan, a C++ crypto library"
 DESCRIPTION="
