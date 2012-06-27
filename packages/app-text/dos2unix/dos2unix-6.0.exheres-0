@@ -11,11 +11,19 @@ Convert text files with DOS or Mac line endings to Unix line endings and vice ve
 LICENCES="BSD-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
+MYOPTIONS="pdf [[ description = [ Installs man pages in PDF using GhostScript ] ]]"
 
 DEPENDENCIES="
     build:
+        dev-lang/perl:*
         sys-devel/gettext
+        pdf? ( app-text/ghostscript )
 "
 
 REMOTE_IDS+="freshmeat:${PN}"
+
+src_compile() {
+    default
+    option pdf && emake pdf
+}
 
