@@ -1,7 +1,7 @@
 # Copyright 2010 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 1.12 ] ]
 require sourceforge [ pnv="${PNV}-src" ]
 
 SUMMARY="Free open source MSN Messenger clone"
@@ -43,17 +43,16 @@ DEPENDENCIES="
         media-libs/jpeg
         media-libs/libpng
         media-plugins/gst-plugins-base[>=0.10.22]
-        net-im/farsight2:0.10[>=0.0.9]
+        || ( net-im/farstream:0.1[>=0.1] net-im/farsight2:0.10[>=0.0.9] )
         x11-libs/libX11
         upnp? ( net-libs/gupnp-igd:1.0 )
-        v4l? ( media-libs/v4l-utils[>=0.5] )
+        v4l? ( media-libs/v4l-utils[>=0.5.0] )
     recommendation:
         dev-tcl/snack [[ description = [ For sound support ] ]]
 "
 
 REMOTE_IDS+=" freshmeat:${PN} "
 
-DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-v4l2.patch" )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'upnp'
     'v4l libv4l'
