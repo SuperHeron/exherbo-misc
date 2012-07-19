@@ -7,7 +7,7 @@ SUMMARY="MJPEG tools"
 DESCRIPTION="
 The mjpeg programs are a set of tools that can do recording of
 videos and playback, simple cut-and-paste editing and the MPEG
-compression of audio and video under Linux. 
+compression of audio and video under Linux.
 "
 
 LICENCES="GPL-2"
@@ -27,6 +27,8 @@ DEPENDENCIES="
         quicktime? ( media-libs/libquicktime[>0.9.7] )
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/${PNV}-gcc4.7.patch )
+
 DEFAULT_SRC_CONFIGURE_PARAMS=( '--without-v4l' )
 
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
@@ -36,6 +38,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
 )
 
 src_prepare() {
+    default
     # Strip ARCHFLAGS to avoid silly warnings
     edo sed -i -e '/ARCHFLAGS=/s:=.*:=:' configure
 }

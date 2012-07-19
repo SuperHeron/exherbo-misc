@@ -1,0 +1,14 @@
+Source: http://mjpeg.cvs.sourceforge.net/viewvc/mjpeg/mjpeg_play/y4mdenoise/MotionSearcher.hh?r1=1.13&r2=1.14
+Upstream: yes
+Reason: build with new gcc
+--- a/y4mdenoise/MotionSearcher.hh	2010/07/25 20:06:56	1.13
++++ b/y4mdenoise/MotionSearcher.hh	2012/04/10 17:50:16	1.14
+@@ -2196,7 +2196,7 @@
+ 	{
+ 		// This region is too small to be bothered with.
+ 		// Just get rid of it.
+-		DeleteRegion (a_pRegion);
++		this->DeleteRegion (a_pRegion);
+ 	}
+ 	else
+ 	{
