@@ -25,7 +25,7 @@ DEPENDENCIES="
         dev-lang/perl:*
     build+run:
         app-crypt/heimdal[>=1.5]
-        dev-db/ldb[>=1.1.0]
+        dev-db/ldb[>=1.1.8]
         dev-db/ntdb[>=0.9]
         dev-db/tdb[>=1.2.9]
         dev-libs/iniparser
