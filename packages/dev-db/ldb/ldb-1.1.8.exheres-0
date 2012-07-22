@@ -31,5 +31,5 @@ DEPENDENCIES="
         net-directory/openldap [[ description = [ ldb can use OpenLDAP as a backend ] ]]
 "
 
-WAF_SRC_CONFIGURE_PARAMS+=( "--with-modulesdir=/usr/${LIBDIR}" '--disable-tdb2' )
+WAF_SRC_CONFIGURE_PARAMS+=( "--with-modulesdir=/usr/${LIBDIR}" )
 
