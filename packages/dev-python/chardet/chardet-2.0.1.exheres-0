@@ -7,9 +7,9 @@ SUMMARY="Character encoding auto-detection in Python 2 and 3"
 DESCRIPTION="
 
 "
-HOMEPAGE="http://chardet.feedparser.org/"
-DOWNLOADS="${HOMEPAGE}/download/python2-${PNV}.tgz
-           ${HOMEPAGE}/download/python3-${PNV}.tgz"
+HOMEPAGE="https://bitbucket.org/puzzlet/chardet"
+DOWNLOADS="${HOMEPAGE}/src/c865915a2826/download/python2-${PNV}.tgz
+           ${HOMEPAGE}/src/c865915a2826/download/python3-${PNV}.tgz"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
