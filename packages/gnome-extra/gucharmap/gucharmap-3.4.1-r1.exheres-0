@@ -1,0 +1,18 @@
+# Copyright 2010-2012 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require gucharmap gsettings gnome.org [ suffix='.tar.xz' ]
+
+PLATFORMS="~amd64 ~x86"
+LICENCES="GPL-3"
+
+pkg_postinst() {
+    gucharmap_pkg_postinst
+    gsettings_pkg_postinst
+}
+
+pkg_postrm() {
+    gucharmap_pkg_postrm
+    gsettings_pkg_postrm
+}
+

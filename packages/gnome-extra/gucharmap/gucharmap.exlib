@@ -1,7 +1,9 @@
-# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop gnome-2
+require freedesktop-desktop gtk-icon-cache
+
+export_exlib_phases src_configure pkg_postinst pkg_postrm
 
 SUMMARY="GNOME Character Map"
 DESCRIPTION="Gucharmap is the GNOME Character Map, based on the Unicode Character Database."
@@ -21,7 +23,6 @@ DEPENDENCIES="
         )
     build+run:
         dev-libs/glib:2[>=2.16.3]
-        gnome-platform/GConf:2
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.9.0] )
 "
 if ever at_least 3.0.0; then
@@ -33,6 +34,7 @@ else
     MYOPTIONS+=" gtk3 python"
     DEPENDENCIES+="
         build+run:
+            gnome-platform/GConf:2
             gtk3? ( x11-libs/gtk+:3[>=3.0.0] )
             !gtk3? ( x11-libs/gtk+:2[>=2.14.0] )
             python? (
@@ -42,7 +44,7 @@ else
     "
 fi
 
-src_configure() {
+gucharmap_src_configure() {
     local enable_python=
     ever at_least 3.0.0 || enable_python="$(option_enable python python-bindings)"
     local gtk_version=3.0
@@ -54,13 +56,13 @@ src_configure() {
         ${enable_python}
 }
 
-pkg_postinst() {
+gucharmap_pkg_postinst() {
     freedesktop-desktop_pkg_postinst
-    gnome-2_pkg_postinst
+    gtk-icon-cache_pkg_postinst
 }
 
-pkg_postrm() {
+gucharmap_pkg_postrm() {
     freedesktop-desktop_pkg_postrm
-    gnome-2_pkg_postrm
+    gtk-icon-cache_pkg_postrm
 }
 
