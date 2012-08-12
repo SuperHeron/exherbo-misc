@@ -29,7 +29,7 @@ LO_LINGUAS=( 'af' 'ar' 'as' 'ast' 'be' 'bg' 'bn' 'bo' 'br' 'brx' 'bs' 'ca' 'ca_X
              'sh' 'si' 'sk' 'sl' 'sq' 'sr' 'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te' 'tg' 'th' 'tn' 'tr' 'ts'
              'tt' 'ug' 'uk' 'uz' 've' 'vi' 'xh' 'zh_CN' 'zh_TW' 'zu' )
 
-DOWNLOADS_ROOT="http://download.documentfoundation.org/${LO_PN_LONG}/stable/${PV}/rpm"
+DOWNLOADS_ROOT="http://download.documentfoundation.org/${LO_PN_LONG}/stable/$(ever range 1-3)/rpm"
 DOWNLOADS="
     platform:amd64? ( ${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_install-rpm_en-US.tar.gz )
     platform:x86? ( ${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_install-rpm_en-US.tar.gz )
