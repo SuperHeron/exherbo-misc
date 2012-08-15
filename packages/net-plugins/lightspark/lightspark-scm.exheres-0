@@ -55,8 +55,6 @@ DEPENDENCIES="
 
 RESTRICT="test" # requires Adobe Flex SDK (especially mxmlc)
 
-DEFAULT_SRC_PREPARE_PATCHES=( -p1 "${FILES}/${PN}-llvm-2.8-gcc-4.5.patch" )
-
 CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
     'CURL'
     'ffmpeg LIBAVCODEC'
