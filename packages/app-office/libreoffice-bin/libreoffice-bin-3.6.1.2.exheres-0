@@ -12,7 +12,7 @@ on a variety of platforms. It is free software and therefore free to download, u
 "
 HOMEPAGE="http://www.libreoffice.org"
 
-LO_BUILDID="104"
+LO_BUILDID="2"
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibO"
 LO_PN_LONG="${PN%-bin}"
@@ -34,8 +34,8 @@ DOWNLOADS="
     platform:amd64? ( ${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_install-rpm_en-US.tar.gz )
     platform:x86? ( ${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_install-rpm_en-US.tar.gz )
     mirror://sourceforge/libpng/libpng-${LIBPNG12_PV}.tar.xz [[ note = [ LibO-${PV} is linked against libpng-1.2 ] ]]
+    branding? ( http://dev.exherbo.org/~moben/distfiles/${LO_PN_LONG}-exherbo-branding-$(ever range 1-2).tar.xz )
 "
-#    branding? ( http://dev.exherbo.org/~philantrop/distfiles/${LO_PN_LONG}-exherbo-branding-$(ever range 1-2).tar.xz )
 
 set_linguas() {
     for linguas in "${LO_LINGUAS[@]}"; do
@@ -66,6 +66,7 @@ LICENCES="LGPL-3"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
+    branding [[ description = [ Use exherbo flavoured branding in the splash screen ] ]]
     extensions [[ description = [ Installs bundled extensions ] ]]
     gnome
     java
@@ -74,8 +75,6 @@ MYOPTIONS="
     ( linguas: ${LO_LINGUAS[@]} ) [[ number-selected = at-least-one ]]
     platform: amd64 x86
 "
-# Commented out because there are new splash, start and about screens in 3.6 => new branding
-#    branding [[ description = [ Use exherbo flavoured branding in the splash screen ] ]]
 
 DEPENDENCIES="
     build:
@@ -182,15 +181,16 @@ src_install() {
     edo cd "${IMAGE}"/usr/bin
     edo ln -s "${LO_PN_LONG}"{$(ever range 1-2),}
     edo find "${IMAGE}" -type d -empty -delete
-#    if option branding; then
-#        edo cd "${WORKBASE}/${LO_PN_LONG}-exherbo-branding-$(ever range 1-2)"
-#        insinto /opt/"${LO_PNV_LONG}"/program
-#        newins exherbo-about.png about.png
-#        newins exherbo-splash.png intro.png
-#        insinto /opt/"${LO_PNV_LONG}"/program/shell
-#        newins exherbo-startcenter.png backing_right.png
-#        newins exherbo-startcenter.png backing_rtl_right.png
-#    fi
+    if option branding; then
+        edo cd "${WORKBASE}/${LO_PN_LONG}-exherbo-branding-$(ever range 1-2)"
+        insinto /opt/"${LO_PNV_LONG}"/program
+        doins flat_logo.svg
+        doins intro.png
+        insinto /opt/"${LO_PNV_LONG}"/program/shell
+        for i in left rtl_left right rtl_right space; do
+            doins backing_${i}.png
+        done
+    fi
 }
 
 pkg_postinst() {
