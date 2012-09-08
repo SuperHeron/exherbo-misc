@@ -25,7 +25,7 @@ DEPENDENCIES="
         sys-devel/flex
     build+run:
         libusb? ( dev-libs/libusb:1[multibuild_c:*(-)?] )
-        !libusb? ( || ( sys-apps/systemd[multibuild_c:*(-)?] sys-fs/udev[multibuild_c:*(-)?] ) )
+        !libusb? ( sys-apps/systemd[multibuild_c:*(-)?] )
     run:
         group/pcscd
         user/pcscd
