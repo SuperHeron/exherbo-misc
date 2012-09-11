@@ -104,6 +104,7 @@ lightdm_src_install() {
 
     install_systemd_files
 
+    ever at_least 1.3.3 && edo rm "${IMAGE}"/etc/pam.d/${PN}
     pamd_mimic_system lightdm local-login auth account password session
 }
 
