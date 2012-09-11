@@ -38,6 +38,7 @@ RESTRICT="test" # requires dbus
 
 DEPENDENCIES="
     build:
+        dev-util/intltool
         dev-util/pkg-config
         sys-devel/gettext
     build+run:
