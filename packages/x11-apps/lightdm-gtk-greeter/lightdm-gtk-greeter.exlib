@@ -1,7 +1,13 @@
 # Copyright 2012 Quentin "Sardem FF7" Glidic <sardemff7+exherbo@sardemff7.net>
 # Distributed under the terms of the GNU General Public License v2
 
-DOWNLOADS="http://launchpad.net/${PN}/trunk/${PV}/+download/${PNV}.tar.gz"
+if (( $(ever range 2) % 2 )); then
+    branch=$(ever range 1).$(( $(ever range 2) + 1 ))
+else
+    branch=$(ever range 1-2)
+fi
+
+require launchpad [ branch=${branch} ]
 
 SUMMARY="Reference GTK+ greeter for LightDM"
 HOMEPAGE="https://launchpad.net/lightdm-gtk-greeter"
