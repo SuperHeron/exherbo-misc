@@ -16,5 +16,3 @@ MYOPTIONS=""
 
 WORK="${WORKBASE}/${PNV}/lib/${PN}"
 
-DEFAULT_SRC_PREPARE_PATCHES=( -p3 "${FILES}/${PNV}-python.patch" )
-
