@@ -1,0 +1,352 @@
+# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require java
+
+MY_PN="apache-${PN}"
+MY_PNV="${MY_PN}-${PV}"
+
+ARTIFACTS=(
+    'antlr:antlr:2.7.7:jar pom'
+    'asm:asm:3.1:jar pom'
+    'asm:asm-all:3.1:pom jar'
+    'asm:asm-parent:3.1:pom'
+    'classworlds:classworlds:1.1-alpha-2 1.1:pom'
+    'com/google:google:1:pom'
+    'com/google/code/maven-scm-provider-svnjava:maven-scm-provider-svnjava:1.13:jar pom'
+    'com/google/collections:google-collections:1.0:jar pom'
+    'com/jcraft:jsch:0.1.44-1:jar pom'
+    'com/thoughtworks/qdox:qdox:1.9.2:jar pom'
+    'commons-cli:commons-cli:1.0 1.2:jar pom'
+    'commons-codec:commons-codec:1.3:jar pom'
+    'commons-collections:commons-collections:3.1 3.2.1:jar pom'
+    'commons-io:commons-io:1.4:jar pom'
+    'commons-jxpath:commons-jxpath:1.3:jar pom'
+    'commons-lang:commons-lang:1.0 2.1 2.4 2.5:jar pom'
+    'commons-logging:commons-logging:1.0 1.1.1:jar pom'
+    'commons-logging:commons-logging-api:1.1:jar pom'
+    'doxia:doxia-sink-api:1.0-alpha-4:pom'
+    'easymock:easymock:1.2_Java1.3:jar pom'
+    'javax/servlet:servlet-api:2.5:jar pom'
+    'jdom:jdom:1.0:jar pom'
+    'junit:junit:3.8.1 3.8.2:jar pom'
+    'log4j:log4j:1.2.12:jar pom'
+#    'nekohtml:nekohtml:1.9.6.2:jar pom'
+#    'nekohtml:xercesMinimal:1.9.6.2:jar pom'
+    'net/java/dev/jna:jna:3.2.2:jar pom'
+    'org/antlr:antlr-master:3.1.3:pom'
+    'org/antlr:antlr-runtime:3.1.3:jar pom'
+    'org/antlr:stringtemplate:3.2:jar pom'
+    'org/apache:apache:3 4 5 6 7 9 10:pom'
+    'org/apache:apache-jar-resource-bundle:1.4:jar'
+    'org/apache/commons:commons-parent:5 7 9 11 12:pom'
+    'org/apache/httpcomponents:httpclient:4.0.2:jar pom'
+    'org/apache/httpcomponents:httpcomponents-client:4.0.2:pom'
+    'org/apache/httpcomponents:httpcomponents-core:4.0.1:pom'
+    'org/apache/httpcomponents:httpcore:4.0.1:jar pom'
+    'org/apache/httpcomponents:project:4.0 4.1:pom'
+    'org/apache/maven:maven:2.0 2.0.1 2.0.2 2.0.4 2.0.6 2.0.7 2.0.8 2.0.9 2.2.1 3.0 3.0.4:pom'
+    'org/apache/maven:maven-aether-provider:3.0:pom'
+    'org/apache/maven:maven-archiver:2.4 2.4.1:jar pom'
+    'org/apache/maven:maven-artifact:2.0 2.0.1 2.0.2 2.0.4 2.0.6 2.0.7 2.0.8 2.0.9 2.2.1 3.0:pom'
+    'org/apache/maven:maven-artifact-manager:2.0 2.0.1 2.0.2 2.0.4 2.0.6 2.0.7 2.0.8 2.0.9:pom'
+    'org/apache/maven:maven-compat:3.0.4:jar'
+    'org/apache/maven:maven-core:2.0 2.0.1 2.0.6 2.0.9 3.0 3.0.4:jar pom'
+    'org/apache/maven:maven-error-diagnostics:2.0 2.0.1 2.0.6 2.0.9:pom'
+    'org/apache/maven:maven-model:2.0 2.0.1 2.0.4 2.0.6 2.0.7 2.0.8 2.0.9 2.2.1 3.0:pom'
+    'org/apache/maven:maven-model-builder:3.0 3.0.4:jar pom'
+    'org/apache/maven:maven-monitor:2.0 2.0.1 2.0.6 2.0.9:pom'
+    'org/apache/maven:maven-parent:4 5 6 7 8 9 10 11 13 15 16 19 20 21:pom'
+    'org/apache/maven:maven-plugin-api:2.0 2.0.1 2.0.4 2.0.6 2.0.7 2.0.9 2.2.1 3.0:pom'
+    'org/apache/maven:maven-plugin-descriptor:2.0 2.0.1 2.0.6 2.0.9:pom'
+    'org/apache/maven:maven-plugin-parameter-documenter:2.0 2.0.1 2.0.6 2.0.9:pom'
+    'org/apache/maven:maven-plugin-registry:2.0 2.0.1 2.0.6 2.0.7 2.0.8 2.0.9:pom'
+    'org/apache/maven:maven-profile:2.0 2.0.1 2.0.4 2.0.6 2.0.7 2.0.8 2.0.9:pom'
+    'org/apache/maven:maven-project:2.0 2.0.1 2.0.4 2.0.6 2.0.7 2.0.8 2.0.9:pom'
+    'org/apache/maven:maven-repository-metadata:2.0 2.0.1 2.0.2 2.0.4 2.0.6 2.0.7 2.0.8 2.0.9 3.0:pom'
+    'org/apache/maven:maven-settings:2.0 2.0.1 2.0.4 2.0.6 2.0.7 2.0.8 2.0.9 3.0:pom'
+    'org/apache/maven:maven-settings-builder:3.0:pom'
+    'org/apache/maven:maven-toolchain:1.0 2.0.9:pom'
+    'org/apache/maven/doxia:doxia:1.0-alpha-6 1.0-alpha-7 1.0-alpha-10 1.0 1.2:pom'
+    'org/apache/maven/doxia:doxia-core:1.2:jar pom'
+    'org/apache/maven/doxia:doxia-decoration-model:1.2:jar pom'
+    'org/apache/maven/doxia:doxia-logging-api:1.2:jar pom'
+    'org/apache/maven/doxia:doxia-module-apt:1.2:jar pom'
+    'org/apache/maven/doxia:doxia-module-fml:1.2:jar pom'
+    'org/apache/maven/doxia:doxia-module-xdoc:1.2:jar pom'
+    'org/apache/maven/doxia:doxia-module-xhtml:1.2:jar pom'
+    'org/apache/maven/doxia:doxia-modules:1.2:pom'
+    'org/apache/maven/doxia:doxia-sink-api:1.0-alpha-6 1.0-alpha-7 1.0-alpha-10 1.0 1.2:jar pom'
+    'org/apache/maven/doxia:doxia-sitetools:1.2:pom'
+    'org/apache/maven/doxia:doxia-site-renderer:1.2:jar pom'
+    'org/apache/maven/plugins:maven-assembly-plugin:2.2-beta-5:jar pom'
+    'org/apache/maven/plugins:maven-compiler-plugin:2.3.2:jar pom'
+    'org/apache/maven/plugins:maven-install-plugin:2.3.1:jar pom'
+    'org/apache/maven/plugins:maven-jar-plugin:2.3.1:jar pom'
+    'org/apache/maven/plugins:maven-plugins:16 18 19 21:pom'
+    'org/apache/maven/plugins:maven-remote-resources-plugin:1.2.1:jar pom'
+    'org/apache/maven/plugins:maven-resources-plugin:2.5:jar pom'
+    'org/apache/maven/plugins:maven-site-plugin:3.0:jar pom'
+    'org/apache/maven/plugins:maven-surefire-plugin:2.9:jar pom'
+    'org/apache/maven/reporting:maven-reporting:2.0 2.0.1 2.0.6 2.0.9:pom'
+    'org/apache/maven/reporting:maven-reporting-api:2.0 2.0.1 2.0.6 2.0.9 3.0:jar pom'
+    'org/apache/maven/reporting:maven-reporting-exec:1.0.1:jar pom'
+    'org/apache/maven/scm:maven-scm:1.5:pom'
+    'org/apache/maven/scm:maven-scm-api:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-manager-plexus:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-managers:1.5:pom'
+    'org/apache/maven/scm:maven-scm-provider-bazaar:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-provider-clearcase:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-provider-cvs-commons:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-provider-cvsexe:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-provider-git-commons:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-provider-gitexe:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-provider-hg:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-provider-perforce:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-provider-starteam:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-provider-svn-commons:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-provider-svnexe:1.5:jar pom'
+    'org/apache/maven/scm:maven-scm-providers:1.5:pom'
+    'org/apache/maven/scm:maven-scm-providers-cvs:1.5:pom'
+    'org/apache/maven/scm:maven-scm-providers-git:1.5:pom'
+    'org/apache/maven/scm:maven-scm-providers-svn:1.5:pom'
+    'org/apache/maven/shared:file-management:1.1:jar pom'
+    'org/apache/maven/shared:maven-artifact-resolver:1.0:jar pom'
+    'org/apache/maven/shared:maven-common-artifact-filters:1.0-alpha-1 1.0 1.1 1.2 1.3:jar pom'
+    'org/apache/maven/shared:maven-downloader:1.1:jar pom'
+    'org/apache/maven/shared:maven-doxia-tools:1.4:jar pom'
+    'org/apache/maven/shared:maven-filtering:1.0-beta-2 1.0:jar pom'
+    'org/apache/maven/shared:maven-plugin-testing-harness:1.1:jar pom'
+    'org/apache/maven/shared:maven-repository-builder:1.0-alpha-2:jar pom'
+    'org/apache/maven/shared:maven-shared-components:4 6 7 8 10 11 12 15 16:pom'
+    'org/apache/maven/shared:maven-shared-io:1.0 1.1:jar pom'
+    'org/apache/maven/surefire:maven-surefire-common:2.9:jar pom'
+    'org/apache/maven/surefire:surefire:2.9:pom'
+    'org/apache/maven/surefire:surefire-api:2.9:jar pom'
+    'org/apache/maven/surefire:surefire-booter:2.9:jar pom'
+#    'org/apache/maven/surefire:surefire-junit:2.4.2:jar pom'
+    'org/apache/maven/surefire:surefire-junit3:2.9:jar pom'
+    'org/apache/maven/surefire:surefire-providers:2.9:pom'
+    'org/apache/maven/wagon:wagon:1.0-alpha-6 1.0 2.2:pom'
+    'org/apache/maven/wagon:wagon-file:2.2:jar pom'
+    'org/apache/maven/wagon:wagon-http:2.2:jar pom:shaded'
+#    'org/apache/maven/wagon:wagon-http-lightweight:1.0-beta-7:jar pom'
+#    'org/apache/maven/wagon:wagon-http-shared:1.0-beta-7:jar pom'
+    'org/apache/maven/wagon:wagon-providers:1.0 2.2:pom'
+    'org/apache/maven/wagon:wagon-provider-api:1.0-alpha-6 1.0 2.2:jar pom'
+    'org/apache/maven/wagon:wagon-ssh:1.0:jar pom'
+    'org/apache/maven/wagon:wagon-ssh-common:1.0:jar pom'
+    'org/apache/velocity:velocity:1.5 1.6.4:jar pom'
+    'org/apache/xbean:xbean:3.4:pom'
+    'org/apache/xbean:xbean-reflect:3.4:jar pom'
+    'org/codehaus:codehaus-parent:3:pom'
+    'org/codehaus/modello:modello:1.4.1:pom'
+    'org/codehaus/modello:modello-core:1.4.1:jar pom'
+    'org/codehaus/modello:modello-maven-plugin:1.4.1:jar pom'
+    'org/codehaus/modello:modello-plugin-converters:1.4.1:jar pom'
+    'org/codehaus/modello:modello-plugin-dom4j:1.4.1:jar pom'
+    'org/codehaus/modello:modello-plugin-java:1.4.1:jar pom'
+    'org/codehaus/modello:modello-plugin-jdom:1.4.1:jar pom'
+    'org/codehaus/modello:modello-plugin-stax:1.4.1:jar pom'
+    'org/codehaus/modello:modello-plugin-xdoc:1.4.1:jar pom'
+    'org/codehaus/modello:modello-plugin-xml:1.4.1:jar pom'
+    'org/codehaus/modello:modello-plugin-xpp3:1.4.1:jar pom'
+    'org/codehaus/modello:modello-plugin-xsd:1.4.1:jar pom'
+    'org/codehaus/modello:modello-plugins:1.4.1:pom'
+    'org/codehaus/mojo:animal-sniffer:1.6:jar pom'
+    'org/codehaus/mojo:animal-sniffer-maven-plugin:1.6:jar pom'
+    'org/codehaus/mojo:animal-sniffer-parent:1.6:pom'
+    'org/codehaus/mojo:buildnumber-maven-plugin:1.0:jar pom'
+    'org/codehaus/mojo:java-boot-classpath-detector:1.6:jar pom'
+#    'org/codehaus/mojo:mojo:16:pom'
+    'org/codehaus/mojo:mojo-parent:23 28:pom'
+    'org/codehaus/mojo/signature:java15:1.0:signature'
+    'org/codehaus/plexus:plexus:1.0.4 1.0.5 1.0.8 1.0.9 1.0.10 1.0.11 1.0.12 2.0.2 2.0.3 2.0.5 2.0.6 2.0.7:pom'
+    'org/codehaus/plexus:plexus-active-collections:1.0-beta-2:jar pom'
+    'org/codehaus/plexus:plexus-archiver:1.0-alpha-7 1.0-alpha-11 1.0-alpha-12 1.0:jar pom'
+    'org/codehaus/plexus:plexus-classworlds:1.2-alpha-6 1.2-alpha-7 1.2-alpha-9 2.2.2 2.2.3 2.4:jar pom'
+    'org/codehaus/plexus:plexus-cli:1.2:jar pom'
+    'org/codehaus/plexus:plexus-compiler:1.8.1:pom'
+    'org/codehaus/plexus:plexus-compiler-api:1.8.1:jar pom'
+    'org/codehaus/plexus:plexus-compiler-javac:1.8.1:jar pom'
+    'org/codehaus/plexus:plexus-compiler-manager:1.8.1:jar pom'
+    'org/codehaus/plexus:plexus-compilers:1.8.1:pom'
+    'org/codehaus/plexus:plexus-component-annotations:1.5.4 1.5.5:jar pom'
+    'org/codehaus/plexus:plexus-component-api:1.0-alpha-15 1.0-alpha-16:pom'
+    'org/codehaus/plexus:plexus-component-metadata:1.5.5:jar pom'
+    'org/codehaus/plexus:plexus-components:1.1.6 1.1.7 1.1.9 1.1.12 1.1.14 1.1.15 1.1.17 1.1.18:pom'
+    'org/codehaus/plexus:plexus-container-default:1.0-alpha-8 1.0-alpha-9 1.0-alpha-9-stable-1 1.0-alpha-15 1.0-alpha-20 1.0-alpha-22 1.0-alpha-30 1.5.5:pom'
+    'org/codehaus/plexus:plexus-containers:1.0-alpha-15 1.0-alpha-16 1.0-alpha-20 1.0-alpha-22 1.0-alpha-30 1.0.3 1.5.4 1.5.5:pom'
+    'org/codehaus/plexus:plexus-digest:1.0:jar pom'
+    'org/codehaus/plexus:plexus-i18n:1.0-beta-7:jar pom'
+    'org/codehaus/plexus:plexus-interactivity:1.0-alpha-6:pom'
+    'org/codehaus/plexus:plexus-interactivity-api:1.0-alpha-4 1.0-alpha-6:jar pom'
+    'org/codehaus/plexus:plexus-interpolation:1.6 1.7 1.12 1.13 1.14:jar pom'
+    'org/codehaus/plexus:plexus-io:1.0-alpha-3 1.0-alpha-4 1.0:jar pom'
+    'org/codehaus/plexus:plexus-resources:1.0-alpha-5:jar pom'
+    'org/codehaus/plexus:plexus-tools:1.0.8:pom'
+    'org/codehaus/plexus:plexus-utils:1.0.4 1.0.5 1.1 1.2 1.3 1.4 1.4.1 1.4.2 1.4.5 1.4.6 1.4.9 1.5.1 1.5.5 1.5.6 1.5.8 1.5.10 1.5.12 1.5.15 2.0.1 2.0.4 2.0.5 2.0.6 2.1:jar pom'
+    'org/codehaus/plexus:plexus-velocity:1.1.7 1.1.8:jar pom'
+    'org/eclipse/jetty:jetty-parent:14:pom'
+    'org/mortbay/jetty:jetty:6.1.25:jar pom'
+    'org/mortbay/jetty:jetty-parent:7 10:pom'
+    'org/mortbay/jetty:jetty-util:6.1.25:jar pom'
+    'org/mortbay/jetty:project:6.1.25:pom'
+    'org/mortbay/jetty:servlet-api:2.5-20081211:jar pom'
+    'org/sonatype/aether:aether:1.13.1:pom'
+    'org/sonatype/aether:aether-api:1.7 1.13.1:jar pom'
+    'org/sonatype/aether:aether-connector-wagon:1.13.1:jar pom'
+    'org/sonatype/aether:aether-impl:1.7 1.13.1:jar pom'
+    'org/sonatype/aether:aether-parent:1.7:pom'
+    'org/sonatype/aether:aether-spi:1.7 1.13.1:jar pom'
+    'org/sonatype/aether:aether-util:1.7 1.13.1:jar pom'
+    'org/sonatype/forge:forge-parent:3 4 5 6 10:pom'
+    'org/sonatype/oss:oss-parent:5 6:pom'
+    'org/sonatype/plexus:plexus-build-api:0.0.3 0.0.4:jar pom'
+    'org/sonatype/plexus:plexus-cipher:1.4 1.7:jar pom'
+    'org/sonatype/plexus:plexus-sec-dispatcher:1.3:jar pom'
+    'org/sonatype/sisu:sisu-guava:0.9.9:jar pom'
+    'org/sonatype/sisu:sisu-guice:3.1.0:jar pom:no_aop'
+    'org/sonatype/sisu:sisu-guice:2.1.7:jar pom:noaop'
+    'org/sonatype/sisu:sisu-inject:1.4.2 2.3.0:pom'
+    'org/sonatype/sisu:sisu-inject-bean:1.4.2 2.3.0:jar pom'
+    'org/sonatype/sisu:sisu-inject-plexus:1.4.2 2.3.0:jar pom'
+    'org/sonatype/sisu:sisu-parent:1.4.2 2.3.0:pom'
+    'org/sonatype/sisu/inject:containers:2.3.0:pom'
+    'org/sonatype/sisu/inject:guava-parent:0.9.9:pom'
+    'org/sonatype/sisu/inject:guice-bean:1.4.2 2.3.0:pom'
+    'org/sonatype/sisu/inject:guice-parent:3.1.0:pom'
+    'org/sonatype/sisu/inject:guice-plexus:1.4.2 2.3.0:pom'
+    'org/sonatype/spice:spice-parent:10 12 15 16:pom'
+    'org/tmatesoft/sqljet:sqljet:1.0.4:jar pom'
+    'org/tmatesoft/svnkit:svnkit:1.3.5:jar pom'
+    'org/tmatesoft/svnkit:trilead-ssh2:build213-svnkit-1.3-patch:jar pom'
+    'oro:oro:2.0.8:jar pom'
+    'regexp:regexp:1.3:jar pom'
+    'velocity:velocity:1.5:jar pom'
+#    'velocity:velocity-dep:1.4:jar pom'
+    'xerces:xercesImpl:2.9.1:jar pom'
+    'xmlunit:xmlunit:1.3:jar pom'
+    'xml-apis:xml-apis:1.3.04:jar pom'
+)
+
+SUMMARY="Apache Maven - Project Management and Comprehension Tool"
+DESCRIPTION="
+Apache Maven is a software project management and comprehension tool. Based on the concept of a
+project object model (POM), Maven can manage a project's build, reporting and documentation from a
+central piece of information.
+"
+HOMEPAGE="http://${PN}.apache.org"
+
+set_downloads() {
+    DOWNLOADS="bootstrap?  ( mirror://apache/${PN}/${PN}-$(ever major)/${PV}/binaries/${MY_PNV}-bin.tar.gz )
+               !bootstrap? ( mirror://apache/${PN}/${PN}-$(ever major)/${PV}/source/${MY_PNV}-src.tar.gz
+    "
+    local groupId= artifactId= versions= exts= suffix=
+    for artifact in "${ARTIFACTS[@]}" ; do
+        IFS=":" read -rs groupId artifactId versions exts suffix <<< "${artifact}"
+        for version in ${versions}; do
+            for ext in ${exts}; do
+                if [[ "${ext}" == "jar" && -n "${suffix}" ]]; then
+                    DOWNLOADS+="mirror://maven2/${groupId}/${artifactId}/${version}/${artifactId}-${version}-${suffix}.${ext}
+                    "
+                else
+                    DOWNLOADS+="mirror://maven2/${groupId}/${artifactId}/${version}/${artifactId}-${version}.${ext}
+                    "
+                fi
+            done
+        done
+    done
+    DOWNLOADS+=" )"
+}
+
+set_downloads
+
+LICENCES="Apache-2.0"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="bootstrap [[ description = [ Bootstrap ${PN} with a pre-compiled binary rather than an
+                                        already installed ${PN}. ] ]]"
+
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/guides/index.html"
+UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/docs/${PV}/release-notes.html"
+
+WORK="${WORKBASE}/${MY_PNV}"
+
+M2_REPOSITORY="${WORKBASE}/repository"
+
+emvn() {
+    edo mvn --batch-mode --offline \
+            "-D${PN}.home=${IMAGE}/usr/share/${MY_PNV}" \
+            "-D${PN}.repo.local=${M2_REPOSITORY}" "${@}"
+}
+
+pkg_pretend() {
+    if ! option bootstrap ; then
+        if ! has_version dev-java/maven ; then
+            ewarn "You need ${PN} installed to compile ${PN} from source."
+            ewarn "Try installing ${PN}[bootstrap]"
+            die "Could not find ${PN} to bootstrap with"
+        else
+            ewarn "The maven mirror you will use may hate wget as download agent."
+            ewarn "Make sure you put \"EXTRA_WGET=--user-agent=NoSuchBrowser/1.0\""
+            ewarn "or something similar in your bashrc to avoid download problems."
+        fi
+    fi
+}
+
+src_unpack() {
+    if option bootstrap ; then
+        default
+    else
+        # Prevent unpacking of jar files
+        unpack "${MY_PNV}-src.tar.gz"
+    fi
+}
+
+src_prepare() {
+    if ! option bootstrap ; then
+        edo mkdir -p "${M2_REPOSITORY}"
+        local groupId= artifactId= versions= exts= suffix= repository_path=
+        for artifact in "${ARTIFACTS[@]}" ; do
+            IFS=":" read -rs groupId artifactId versions exts suffix <<< "${artifact}"
+            for version in ${versions}; do
+                repository_path="${M2_REPOSITORY}/${groupId}/${artifactId}/${version}"
+                edo mkdir -p "${repository_path}"
+                for ext in ${exts}; do
+                    if [[ "${ext}" == "jar" && -n "${suffix}" ]]; then
+                        edo cp "${FETCHEDDIR}/${artifactId}-${version}-${suffix}.${ext}" "${repository_path}"
+                    else
+                        edo cp "${FETCHEDDIR}/${artifactId}-${version}.${ext}" "${repository_path}"
+                    fi
+                done
+            done
+        done
+    fi
+}
+
+src_compile() {
+    if ! option bootstrap ; then
+        emvn compile
+    fi
+}
+
+src_test() {
+    if ! option bootstrap ; then
+        emvn test
+    fi
+}
+
+src_install() {
+    if option bootstrap ; then
+        dodir /usr/share
+        edo cp -r "${WORK}" "${IMAGE}"/usr/share/
+    else
+        emvn -Dmaven.test.skip=true install
+        dodir /usr/share
+        edo tar zxf "${WORK}"/"${MY_PN}"/target/"${MY_PNV}"-bin.tar.gz --no-same-owner -C "${IMAGE}"/usr/share
+    fi
+    dodir /usr/bin
+    dosym /usr{/share/"${MY_PNV}",}/bin/mvn
+}
+
