@@ -1,7 +1,7 @@
 # Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop
+require freedesktop-desktop udev-rules
 
 SUMMARY="A family of powerful x86 virtualization products"
 DESCRIPTION="VirtualBox is a powerful x86 virtualization product for enterprise as well as home use. Not only is VirtualBox an extremely feature rich, high performance product for enterprise customers, it is also the only professional solution that is freely available as Open Source Software under the terms of the GNU General Public License (GPL)."
@@ -180,7 +180,7 @@ EOF
     # VirtualBox needs to be setuid
     edo chmod 4711 "${IMAGE}/${installdir}"/{VirtualBox,VBoxHeadless,VBoxNetAdpCtl,VBoxSDL}
 
-    insinto /etc/udev/rules.d
+    insinto "${UDEVRULESDIR}"
     hereins 10-vboxdrv.rules <<EOF
 KERNEL=="vboxdrv", NAME="vboxdrv", OWNER="root", GROUP="vboxusers", MODE="0660"
 KERNEL=="vboxnetctl", NAME="vboxnetctl", OWNER="root", GROUP="vboxusers", MODE="0660"
@@ -208,10 +208,13 @@ pkg_postinst() {
     ewarn "This exheres does not build the kernel modules for VirtualBox, you will have to do this"
     ewarn "on your own. The source code has been installed to /usr/src/${PNV}"
 
-    if [[ -f /etc/udev/rules.d/60-virtualbox.rules ]]; then
-        ewarn "Old rules file /etc/udev/rules.d/60-virtualbox.rules found."
-        ewarn "You should remove this file."
-    fi
+    for rule in {10-vboxdrv.rules,60-virtualbox.rules};
+    do
+        if [[ -f /etc/udev/rules.d/"${rule}" ]]; then
+            ewarn "Old rules file /etc/udev/rules.d/${rule} found."
+            ewarn "You should remove this file."
+        fi
+    done
 
     elog "In order to expose USB devices to VirtualBox guests, your user must be a member of"
     elog "the 'usb' group."
