@@ -172,6 +172,11 @@ EOF
     mv "${outdir}"/bin/VBoxTunctl "${IMAGE}"/"${installdir}"
     edo dosym "${installdir}"/VBoxTunctl /usr/bin/VBoxTunctl
 
+    if optionq opengl; then
+        mv "${outdir}"/bin/VBoxTestOGL "${IMAGE}"/"${installdir}"
+        edo dosym "${installdir}"/VBoxTestOGL /usr/bin/VBoxTestOGL
+    fi
+
     if optionq webservice; then
         mv "${outdir}"/bin/vboxwebsrv "${IMAGE}"/"${installdir}"
         edo dosym "${installdir}"/VBox.sh /usr/bin/vboxwebsrv
