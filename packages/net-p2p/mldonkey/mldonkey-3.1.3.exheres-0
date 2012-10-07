@@ -38,8 +38,8 @@ DEPENDENCIES="
         gd? ( media-libs/gd[>=2.0.14] )
         gui? ( dev-ocaml/lablgtk[>=2.14.2][svg] )
         magic? ( sys-apps/file )
-        upnp-natpmp? ( net-libs/libnatpmp[>=20100202&<20110103]
-                       net-libs/miniupnpc[>=1.4.20100609&<1.5.20110215] )
+        upnp-natpmp? ( net-libs/libnatpmp[>=20110808]
+                       net-libs/miniupnpc[>=1.6] )
 "
 
 REMOTE_IDS+="freshmeat:${PN}"
