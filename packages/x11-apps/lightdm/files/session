@@ -29,6 +29,15 @@ case $# in
     esac
 esac
 
+# Load profile
+
+for file in "/etc/profile" "$HOME/.profile" "/etc/xprofile" "$HOME/.xprofile"; do
+    if [ -f "$file" ]; then
+        echo "Loading profile from $file";
+        . "$file"
+    fi
+done
+
 # The startup script is not intended to have arguments.
 
 startup=$HOME/.xsession
