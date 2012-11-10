@@ -16,7 +16,7 @@ MYOPTIONS="debug"
 
 DEPENDENCIES="
     build:
-        dev-util/pkg-config
+        virtual/pkg-config
     build+run:
         dev-dotnet/xsp
         dev-lang/mono

@@ -28,8 +28,8 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build:
-        dev-util/pkg-config
         sys-devel/gettext
+        virtual/pkg-config
     build+run:
         dev-cpp/libxml++:2.6[>=2.33.1]
         dev-lang/llvm[>=2.8]

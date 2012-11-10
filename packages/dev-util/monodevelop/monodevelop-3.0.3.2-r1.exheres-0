@@ -23,8 +23,8 @@ MYOPTIONS="extensions git subversion"
 DEPENDENCIES="
     build:
         dev-util/intltool
-        dev-util/pkg-config
         sys-devel/gettext
+        virtual/pkg-config
     build+run:
         dev-dotnet/mono-addins[>=0.6][gui]
         dev-lang/mono[>=2.8]

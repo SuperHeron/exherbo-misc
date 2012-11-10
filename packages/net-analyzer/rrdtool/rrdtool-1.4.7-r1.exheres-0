@@ -21,9 +21,9 @@ MYOPTIONS="cgi lua perl python ruby tcl"
 DEPENDENCIES="
     build:
         dev-util/intltool[>=0.35.0]
-        dev-util/pkg-config
         sys-devel/gettext[>=0.17]
         sys-apps/groff
+        virtual/pkg-config
     run:
         user/rrdtool
         group/rrdtool

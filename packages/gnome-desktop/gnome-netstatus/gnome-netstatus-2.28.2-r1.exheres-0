@@ -18,8 +18,8 @@ DEPENDENCIES="
     build:
         dev-lang/perl:*[>=5]
         dev-util/intltool[>=0.35.0]
-        dev-util/pkg-config[>=0.9.0]
         sys-devel/gettext
+        virtual/pkg-config[>=0.9.0]
     build+run:
         gnome-desktop/gnome-panel[>=2.0.0]
         gnome-platform/GConf:2

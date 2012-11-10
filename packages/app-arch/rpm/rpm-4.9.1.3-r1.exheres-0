@@ -25,8 +25,8 @@ MYOPTIONS="acl caps lua python sqlite"
 
 DEPENDENCIES="
     build:
-        dev-util/pkg-config
         sys-devel/gettext
+        virtual/pkg-config
     build+run:
         app-arch/bzip2
         app-arch/gzip

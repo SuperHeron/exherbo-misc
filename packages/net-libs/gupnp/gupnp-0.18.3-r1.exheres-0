@@ -40,7 +40,7 @@ MYOPTIONS="gobject-introspection gtk-doc networkmanager
 # TODO: automagic check for conic with unix context manager
 DEPENDENCIES="
     build:
-        dev-util/pkg-config[>=0.9.0]
+        virtual/pkg-config[>=0.9.0]
         gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
         dev-libs/glib:2[>=2.28] [[ note = [ for connman, oldest ist 2.28 ] ]]

@@ -16,7 +16,7 @@ MYOPTIONS="gobject-introspection gtk gtk-doc"
 DEPENDENCIES="
     build:
         app-arch/xz
-        dev-util/pkg-config
+        virtual/pkg-config
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.6.7] )
         gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:

@@ -16,9 +16,9 @@ MYOPTIONS="dbus ipv6 libnotify mmx perl python sound spell tcl"
 
 DEPENDENCIES="
     build:
-        dev-util/pkg-config
         gnome-desktop/gnome-doc-utils
         sys-devel/gettext
+        virtual/pkg-config
     build+run:
         dev-libs/glib:2
         gnome-platform/GConf:2

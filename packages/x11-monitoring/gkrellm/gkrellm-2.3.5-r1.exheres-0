@@ -20,8 +20,8 @@ MYOPTIONS="gnutls lm_sensors"
 
 DEPENDENCIES="
     build:
-        dev-util/pkg-config
         sys-devel/gettext
+        virtual/pkg-config
     build+run:
         dev-libs/glib:2
         x11-libs/gtk+:2[>=2.4]

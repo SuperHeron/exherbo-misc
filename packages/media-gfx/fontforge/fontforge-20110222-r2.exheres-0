@@ -21,9 +21,9 @@ MYOPTIONS="X cairo native-script pango python truetype type3
 
 DEPENDENCIES="
     build:
-        dev-util/pkg-config
         sys-devel/gettext
         sys-devel/libtool
+        virtual/pkg-config
     build+run:
         dev-libs/libxml2
         media-libs/giflib

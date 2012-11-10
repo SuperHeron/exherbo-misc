@@ -23,8 +23,8 @@ MYOPTIONS="charmap [[ description = [ Builds charmap plugin ] ]]
 DEPENDENCIES="
     build:
         dev-util/intltool
-        dev-util/pkg-config
         sys-devel/gettext
+        virtual/pkg-config
     build+run:
         dev-libs/glib:2[>=2.16]
         dev-libs/libxml2:2.0
