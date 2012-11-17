@@ -1,4 +1,4 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop sourceforge [ suffix=tar.gz ]
@@ -18,11 +18,10 @@ MYOPTIONS="berkdb debug spell"
 
 DEPENDENCIES="
     build:
-        sys-apps/gawk
         virtual/pkg-config[>=0.9.0]
     build+run:
-        x11-libs/wxGTK:2.8[>=2.8.0]
-        berkdb? ( sys-libs/db:=[>=3.1] )
+        x11-libs/wxGTK:2.8[>=2.8.7]
+        berkdb? ( sys-libs/db:=[>=4.7] )
         spell? ( app-spell/gtkspell:2 )
 "
 
