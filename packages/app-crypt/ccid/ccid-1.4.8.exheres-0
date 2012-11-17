@@ -1,7 +1,7 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require alioth-debian [ project=pcsclite dl_number=3730 ] udev-rules
+require alioth-debian [ project=pcsclite dl_number=3768 ] udev-rules
 
 SUMMARY="CCID free software driver"
 DESCRIPTION="This package provides the source code for a generic USB CCID (Chip/Smart Card Interface
@@ -14,6 +14,8 @@ PLATFORMS="~amd64 ~x86"
 MYOPTIONS="serial usb"
 
 DEPENDENCIES="
+    build:
+        virtual/pkg-config[>=0.9.0]
     build+run:
         sys-apps/pcsc-lite[>=1.8.3]
         usb? ( dev-libs/libusb:1 )
