@@ -4,9 +4,7 @@
 require sourceforge [ suffix='tar.gz' ]
 
 SUMMARY="Dos2Unix / Unix2Dos - Text file format converters"
-DESCRIPTION="
-Convert text files with DOS or Mac line endings to Unix line endings and vice versa.
-"
+DESCRIPTION="Convert text files with DOS or Mac line endings to Unix line endings and vice versa."
 
 LICENCES="BSD-2"
 SLOT="0"
@@ -20,7 +18,7 @@ DEPENDENCIES="
         pdf? ( app-text/ghostscript )
 "
 
-REMOTE_IDS+="freshmeat:${PN}"
+REMOTE_IDS+="freecode:${PN}"
 
 src_compile() {
     default
