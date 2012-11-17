@@ -1,7 +1,8 @@
-# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop freedesktop-mime sourceforge [ pnv="Stable/${PV}/${PNV}" suffix=tar.gz ]
+require python [ python_dep='2.6][berkdb' has_lib=false has_bin=true ]
 
 SUMMARY="Genealogical Research and Analysis Management Programming System"
 DESCRIPTION="
@@ -20,18 +21,15 @@ DEPENDENCIES="
         dev-util/intltool
         sys-devel/gettext
     build+run:
-        dev-lang/python:=[>=2.6][berkdb]
         dev-libs/glib:2[>=2.2.0]
         gnome-bindings/pygtk:2[>=2.12.0]
         gnome-desktop/librsvg:2
         x11-apps/xdg-utils
     recommendation:
         dev-python/pyexiv2 [[ description = [ Enable management of Exif metadata ] ]]
+        dev-python/pygoocanvas [[ description = [ Use GraphView plugin ] ]]
         media-gfx/graphviz [[ description = [ Enable creation of graphs ] ]]
-        (
-            dev-python/pyenchant
-            gnome-bindings/gnome-python-extras[gtkspell]
-        ) [[ *description = [ Enable use spell checking ] ]]
+        gnome-bindings/gnome-python-extras[gtkspell] [[ description = [ Enable use spell checking ] ]]
         x11-libs/osm-gps-map [[ description = [ Used to show OpenStreetMaps in Geographic view ] ]]
 "
 
