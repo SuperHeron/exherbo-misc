@@ -1,4 +1,4 @@
-# Copyright 2011 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2011-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require wafsamba
@@ -26,7 +26,7 @@ DEPENDENCIES="
     build+run:
         dev-libs/popt
         dev-libs/talloc[>=2.0.7]
-        dev-libs/tevent[>=0.9.14]
+        dev-libs/tevent[>=0.9.17]
     recommendation:
         net-directory/openldap [[ description = [ ldb can use OpenLDAP as a backend ] ]]
 "
