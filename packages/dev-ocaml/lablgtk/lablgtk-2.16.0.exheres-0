@@ -1,46 +1,45 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-BASE_URI="http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl"
 SUMMARY="Objective Caml bindings for Gtk+"
 DESCRIPTION="
 LablGTK is is an Objective Caml interface to gtk+. It comes in two flavors: LablGTK1 for gtk+-1.2 and LablGTK2 for gtk+-2.0 to gtk+-2.16.
 
 It uses the rich type system of Objective Caml 3 to provide a strongly typed, yet very comfortable, object-oriented interface to gtk+. This is not that easy if you know the dynamic typing approach taken by gtk+. 
 "
-HOMEPAGE="${BASE_URI}/lablgtk.html"
-DOWNLOADS="${BASE_URI}/dist/${PNV}.tar.gz"
+HOMEPAGE="http://${PN}.forge.ocamlcore.org"
+DOWNLOADS="http://forge.ocamlcore.org/frs/download.php/979/${PNV}.tar.gz"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="debug glade gnomecanvas gnomeui ocamlopt panel spell svg threads"
+MYOPTIONS="glade gnomecanvas gnomeui gtksourceview ocamlopt panel spell svg threads"
 #opengl
 
 DEPENDENCIES="
-    build:
     build+run:
         dev-lang/ocaml[>=3.11][ocamlopt?]
         x11-libs/gtk+:2[>=2.12]
         glade? ( dev-util/glade )
         gnomecanvas? ( gnome-platform/libgnomecanvas )
         gnomeui? ( gnome-platform/libgnomeui:2 )
-        panel? ( gnome-desktop/gnome-panel )
+        gtksourceview? ( gnome-desktop/gtksourceview:2 )
+        panel? ( gnome-desktop/gnome-panel:3.0 )
         spell? ( app-spell/gtkspell:2 )
         svg? ( gnome-desktop/librsvg:2 )
 "
 #opengl? ( dev-ocaml/lablgl )
 
-UPSTREAM_CHANGELOG="${BASE_URI}/changes2.txt"
-UPSTREAM_DOCUMENTATION="${BASE_URI}/${PN}/html/"
+UPSTREAM_CHANGELOG="${HOMEPAGE}/changes2.txt"
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/refdoc/index.html"
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( --without-gl --without-gtksourceview --without-gtksourceview2 --without-quartz )
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'debug' )
+DEFAULT_SRC_CONFIGURE_PARAMS=( --without-gl --without-gtksourceview --without-quartz )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     #'opengl gl'
     'glade'
     'gnomecanvas'
     'gnomeui'
+    'gtksourceview gtksourceview2'
     'panel'
     'spell gtkspell'
     'svg rsvg'
@@ -49,7 +48,13 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
 
 src_compile() {
     local targets='world'
-    optionq ocamlopt && targets+=' opt'
+    option ocamlopt && targets+=' opt'
     emake ${targets} || die "emake failed"
+}
+
+src_install() {
+    # emake install uses ocamlfind
+    emake -j1 DESTDIR="${IMAGE}" old-install
+    emagicdocs
 }
 
