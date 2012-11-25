@@ -1,7 +1,7 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require systemd-service checksums [ sha1=[ ${PNV}.tar.gz=436da30cefa33e22a0266077ab95397e9432e297 ] ]
+require systemd-service checksums [ sha1=[ ${PNV}.tar.gz=f36976bb1c5df25ac236d8a29e965ba2b825ccd0 ] ]
 
 SUMMARY="very secure FTP daemon"
 DESCRIPTION="
@@ -42,7 +42,7 @@ src_install() {
     edo cd "${WORK}"
     edo mkdir -p "${IMAGE}"/usr/sbin
     edo mkdir -p "${IMAGE}"/usr/share/man/man{5,8}
-    option xinetd && edo mkdir -p /etc/xinetd.d
+    option xinetd && edo mkdir -p "${IMAGE}"/etc/xinetd.d
     default
     insinto /etc/pam.d
     newins "${FILES}/${PN}.pamd" "${PN}"
@@ -53,7 +53,7 @@ src_install() {
         newinitd "${FILES}/${PNV}-initd" "${PN}"
         newconfd "${FILES}/${PNV}-confd" "${PN}"
     fi
-    keepdir '/usr/share/empty'
+    keepdir /usr/share/empty
 
     install_systemd_files
 }
