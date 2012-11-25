@@ -1,7 +1,10 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+MY_PV="${PV}-b"
+
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ none ] ]
+require sourceforge [ pnv="${PN}-source/${PN}_full-${MY_PV}" ]
 
 SUMMARY="FontForge - An Outline Font Editor"
 DESCRIPTION="FontForge -- An outline font editor that lets you create your own postscript, truetype, opentype,
@@ -10,8 +13,6 @@ DESCRIPTION="FontForge -- An outline font editor that lets you create your own p
  FontForge's user interface has been localized for: (English), Russian, Japanese, French, Italian,
  Spanish, Vietnamese, Greek, Simplified & Traditional Chinese, German, Polish, Ukrainian.
 "
-HOMEPAGE="http://fontforge.sourceforge.net"
-DOWNLOADS="mirror://sourceforge/${PN}/${PN}-source/${PN}_full-${PV}.tar.bz2"
 
 LICENCES="BSD-3"
 SLOT="0"
@@ -49,7 +50,7 @@ DEPENDENCIES="
         truetype? ( media-libs/freetype:2 )
 "
 
-REMOTE_IDS="sourceforge:${PN}"
+WORK="${WORKBASE}/${PN}-${MY_PV}"
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/overview.html"
@@ -57,6 +58,7 @@ UPSTREAM_DOCUMENTATION="${HOMEPAGE}/overview.html"
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--enable-libff'
     '--with-regular-link'
+    '--without-static-imagelibs'
 )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'cairo'
