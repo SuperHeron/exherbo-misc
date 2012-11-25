@@ -1,7 +1,7 @@
-# Copyright 2011 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2011-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require googlecode [ suffix='tar.gz' ] distutils [ python_dep='2.3' ]
+require googlecode [ suffix='tar.gz' ] distutils [ python_dep='2.4' ]
 
 SUMMARY="A comprehensive HTTP client library in Python"
 DESCRIPTION="
