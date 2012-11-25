@@ -22,18 +22,23 @@ DEPENDENCIES="
             gnome-desktop/gnome-doc-utils[>=0.9.0]
         )
     build+run:
-        dev-libs/glib:2[>=2.16.3]
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.9.0] )
 "
 if ever at_least 3.0.0; then
+    MYOPTIONS+=" vala"
     DEPENDENCIES+="
+        build:
+            dev-libs/libxml2
+            vala? ( dev-lang/vala:=[>=0.16] )
         build+run:
-            x11-libs/gtk+:3[>=3.0.0]
+            dev-libs/glib:2[>=2.32.0]
+            x11-libs/gtk+:3[>=3.4.0]
     "
 else
     MYOPTIONS+=" gtk3 python"
     DEPENDENCIES+="
         build+run:
+            dev-libs/glib:2[>=2.16.3]
             gnome-platform/GConf:2
             gtk3? ( x11-libs/gtk+:3[>=3.0.0] )
             !gtk3? ( x11-libs/gtk+:2[>=2.14.0] )
@@ -45,15 +50,16 @@ else
 fi
 
 gucharmap_src_configure() {
-    local enable_python=
+    local enable_python= enable_vala=
     ever at_least 3.0.0 || enable_python="$(option_enable python python-bindings)"
+    ever at_least 3.0.0 || enable_vala="$(option_enable vala)"
     local gtk_version=3.0
     ! ever at_least 3.0.0 && option !gtk3 && gtk_version=2.0
     econf --with-gtk="${gtk_version}" \
         $(option_enable cjk unihan) \
         $(option_enable gtk-doc) \
         $(option_enable gobject-introspection introspection) \
-        ${enable_python}
+        ${enable_python} ${enable_vala}
 }
 
 gucharmap_pkg_postinst() {
