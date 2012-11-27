@@ -11,8 +11,7 @@ LICENCES="GPL-2 LGPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 
-DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-no-strip.patch"
-                              -p1 "${FILES}/${PNV}-linux86-copt.patch" )
+DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-no-strip.patch" )
 
 DEFAULT_SRC_COMPILE_PARAMS=( -j1 DIST="${IMAGE}"
                              LIBDIR="/usr/${LIBDIR}/bcc"
@@ -21,3 +20,4 @@ DEFAULT_SRC_COMPILE_PARAMS=( -j1 DIST="${IMAGE}"
 src_install() {
     emake -j1 install-all DIST="${IMAGE}"
 }
+
