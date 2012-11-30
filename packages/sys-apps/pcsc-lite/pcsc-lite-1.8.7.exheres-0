@@ -1,9 +1,9 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 # Based in part upon 'pcsc-lite-1.5.3.ebuild' from Gentoo, which is:
 #     Copyright 1999-2009 Gentoo Foundation
 
-require systemd-service alioth-debian [ project=pcsclite dl_number=3734 ] easy-multibuild
+require systemd-service alioth-debian [ project=pcsclite dl_number=3842 ] easy-multibuild
 
 SUMMARY="PC/SC Architecture smartcard middleware library"
 DESCRIPTION="Middleware to access a smart card using SCard API (PC/SC)."
