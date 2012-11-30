@@ -1,4 +1,4 @@
-# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require gnome.org [ suffix=.tar.xz ]
@@ -6,27 +6,28 @@ require gnome.org [ suffix=.tar.xz ]
 SUMMARY="GUPnP is an object-oriented open source framework
 for creating UPnP devices and control points, written in C
 using GObject and libsoup. The GUPnP API is intended to be
-easy to use, efficient and flexible."
+easy to use, efficient and flexible. It provides the same
+set of features as libupnp, but shields the developer from
+most of UPnP's internals."
 DESCRIPTION="
-The GUPnP framework consists of the following two libraries:
+The GUPnP framework consists of the following libraries:
 
   * GSSDP implements resource discovery and announcement over SSDP.
 
-  * GUPnP implements the UPnP specification: resource announcement and
-    discovery, description, control, event notification, and presentation
-    (GUPnP includes basic web server functionality through libsoup). GUPnP does
-    not include helpers for construction or control of specific standardized
-    resources (e.g. MediaServer); this is left for higher level libraries
-    utilizing the GUPnP framework.
+  * GUPnP implements the UPnP specification: resource announcement and discovery, description,
+    control, event notification, and presentation (GUPnP includes basic web server functionality
+    through libsoup). GUPnP does not include helpers for construction or control of specific
+    standardized resources (e.g. MediaServer); this is left for higher level libraries utilizing
+    the GUPnP framework.
+  
+  * GUPnP-AV is a collection of helpers for building AV (audio/video) applications using GUPnP.
 
-The GUPnP framework was born out of frustration with libupnp and its mess of
-threads. GUPnP is entirely single-threaded (though asynchronous), integrates
-with the GLib main loop, and provides the same set of features as libupnp while
-hiding most of the UPnP internals through an elegant object-oriented design.
+  * GUPnP-DLNA is a small utility library that aims to ease the DLNA-related tasks such as media
+    profile guessing, transcoding to a given profile, etc. 
 
 GUPnP is free software released under the GNU LGPL.
 "
-HOMEPAGE="http://gupnp.org/"
+HOMEPAGE="https://live.gnome.org/GUPnP/"
 
 LICENCES="LGPL-2"
 SLOT="1.0"
@@ -43,7 +44,7 @@ DEPENDENCIES="
         virtual/pkg-config[>=0.9.0]
         gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
-        dev-libs/glib:2[>=2.28] [[ note = [ for connman, oldest ist 2.28 ] ]]
+        dev-libs/glib:2[>=2.28] [[ note = [ for connman, oldest is 2.28 ] ]]
         dev-libs/libxml2:2.0
         gnome-desktop/libsoup:2.4[>=2.28.2][gobject-introspection?]
         net-libs/gssdp:1.0[>=0.11.2][gobject-introspection?]
@@ -63,8 +64,8 @@ UPSTREAM_DOCUMENTATION="http://developer.gnome.org/${PN}/$(ever range 1-2)"
 
 src_configure() {
     local context_manager='linux'
-    optionq networkmanager && context_manager='network-manager'
-    optionq connman && context_manager='connman'
+    option networkmanager && context_manager='network-manager'
+    option connman && context_manager='connman'
     econf $(option_enable gtk-doc) \
           $(option_enable gobject-introspection introspection) \
           --with-context-manager=${context_manager}
