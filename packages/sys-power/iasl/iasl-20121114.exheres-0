@@ -1,4 +1,4 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 MY_PNV="acpica-unix-${PV}"
@@ -21,12 +21,15 @@ DEPENDENCIES="
         sys-devel/flex
 "
 
-WORK="${WORKBASE}/${MY_PNV}/source/compiler"
+WORK="${WORKBASE}/${MY_PNV}/generate/unix"
 
-DEFAULT_SRC_COMPILE_PARAMS=( -j1 )
-
-src_install() {
-    dobin iasl
-    dodoc readme.txt
+src_compile() {
+    # build system is a mess
+    local cflags="${CFLAGS}"
+    unset CFLAGS
+    cflags+=" -m${MULTIBUILD_C_DEFAULT_TARGET} -D_LINUX -D_GNU_SOURCE -D_FORTIFY_SOURCE=2"
+    cflags+=" -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler"
+    cflags+=" -Iobj${MULTIBUILD_C_DEFAULT_TARGET}"
+    edo make iasl HOST="_LINUX" CFLAGS="${cflags}"
 }
 
