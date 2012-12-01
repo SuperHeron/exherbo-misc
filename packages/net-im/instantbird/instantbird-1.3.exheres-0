@@ -1,0 +1,165 @@
+# Copyright 2012 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+NSPR_VER="[>=4.9.2]"
+NSS_VER="[>=3.14]"
+
+require autotools [ supported_autoconf=[ 2.1 ] supported_automake=[ 1.12 ] ]
+require mozilla [ co_project="${PN}" supported_nspr="${NSPR_VER}" supported_nss="${NSS_VER}" \
+                  provide_bindist=false xulrunner_dir='mozilla/xulrunner' ]
+require googlecode [ suffix='src.tgz' ] freedesktop-desktop gtk-icon-cache
+require flag-o-matic
+
+SUMMARY="Mozilla-based instant messaging client"
+HOMEPAGE="http://www.instantbird.com"
+
+LICENCES="|| ( MPL-1.1 GPL-2 LGPL-2.1 )"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="avahi dbus libnotify libpurple startup-notification"
+
+DEPENDENCIES="
+    build:
+        dev-lang/perl:*[>=5.6]
+        dev-lang/python:*[>=2.5&<3]
+        dev-lang/yasm[>=1.1]
+        dev-python/ply
+        virtual/pkg-config
+    build+run:
+        app-arch/unzip
+        app-arch/zip
+        dev-libs/atk
+        dev-libs/glib:2[>=2.18]
+        dev-libs/libxml2:2.0
+        dev-libs/xulrunner
+        media-libs/fontconfig
+        media-libs/freetype:2[>=2.1.0]
+        x11-libs/cairo[>=1.10.2-r1][X] [[ note = [ required for tee backend ] ]]
+        x11-libs/gdk-pixbuf:2.0
+        x11-libs/gtk+:2[>=2.14]
+        x11-libs/pango[>=1.14.0][X]
+        avahi? ( net-dns/avahi )
+        dbus? ( sys-apps/dbus )
+        libnotify? ( x11-libs/libnotify )
+        libpurple? ( net-im/pidgin )
+        startup-notification? ( x11-libs/startup-notification[>=0.8] )
+"
+
+ECONF_SOURCE="${WORKBASE}/${PNV}-src"
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}/${PNV}-libxul-path.patch"
+    "${FILES}/${PNV}-nss.patch"
+)
+
+MOZILLA_SRC_CONFIGURE_PARAMS=(
+    --disable-crashreporter
+    --disable-gconf
+    --disable-gnomeui
+    --disable-gnomevfs
+    --disable-installer
+    --disable-javaxpcom
+    --disable-libproxy
+    --disable-necko-wifi
+    --disable-system-sqlite
+    --disable-tree-freetype
+    --disable-updater
+    --disable-warnings-as-errors
+    --disable-websms-backend
+    --enable-chrome-format=omni
+    --enable-crypto
+    --enable-gio
+    --enable-ogg
+    --enable-shared-js
+    --enable-svg
+    --enable-system-cairo
+    --enable-system-ffi
+    --enable-system-hunspell
+    --enable-system-pixman
+    --enable-wave
+    --enable-webm
+    --hates=docdir
+    --with-libxul-sdk=/usr/${LIBDIR}/xulrunner-devel
+    --with-system-bz2
+    --with-system-jpeg
+    --with-system-libevent
+    --with-system-libvpx
+    --with-system-libxul
+    --with-system-ply
+    --with-system-zlib
+    --without-system-png # System libpng would require APNG patches
+)
+
+MOZILLA_SRC_CONFIGURE_OPTION_ENABLES=(
+    'avahi bonjour'
+    'dbus'
+    'libnotify'
+    'libpurple purple-plugins'
+    'startup-notification'
+)
+
+src_prepare() {
+    edo cd "${ECONF_SOURCE}"
+    mozilla_src_prepare
+
+    # Firefox 3.6.2 introduced broken makefiles that have yet to be fixed.
+    # Affected makefiles attempt to run "hg parent". However, "hg" has no such
+    # command; they meant "hg parents", instead. But they shouldn't be running
+    # "hg" at all. (The tarball does not ship a working ".hg/" repository.)
+
+    # This removes all reference to "hg" from affected makefiles, and
+    # should be submitted as an upstream patch.
+    local BROKEN_MAKEFILE
+    for   BROKEN_MAKEFILE in \
+        "${ECONF_SOURCE}/mozilla/browser/app/Makefile.in" \
+        "${ECONF_SOURCE}/mozilla/xpcom/analysis/Makefile.in" \
+        "${ECONF_SOURCE}/mozilla/toolkit/content/Makefile.in"; do
+        edo sed -e 's:$(shell hg .*)::' -i "${BROKEN_MAKEFILE}"
+    done
+
+    for BROKEN_MAKEFILE in \
+        "${ECONF_SOURCE}/${PN}/app/Makefile.in" \
+        "${ECONF_SOURCE}/mozilla/toolkit/mozapps/installer/package-name.mk" \
+        "${ECONF_SOURCE}/mozilla/toolkit/xre/Makefile.in"; do
+        edo sed -e 's:$(firstword $(shell hg .*))::' -i "${BROKEN_MAKEFILE}"
+    done
+
+    # nss check fails to recognize 3.14 as >=3.13.2
+    edo sed -e 's:3.13.2:3.14:g' \
+            -i configure.in
+
+    eautoreconf
+
+    edo cd "${ECONF_SOURCE}"/mozilla
+    # nss check fails to recognize 3.14 as >=3.13.2
+    edo sed -e 's:3.13.2:3.14:g' \
+            -i configure.in
+    eautoreconf
+
+    # May be affected by mozilla bug 559278
+    append-flags -std=gnu++0x
+}
+
+mozilla_src_install() {
+    default
+
+    insinto /usr/share/applications
+    doins "${FILES}"/${PN}.desktop
+
+    local icondir="${MOZ_CO_PROJECT}"/branding/release
+    insinto /usr/share/pixmaps
+    newins "${ECONF_SOURCE}"/"${icondir}"/content/icon64.png ${PN}-icon.png
+
+    dosym /usr/"${LIBDIR}"/xulrunner /usr/"${LIBDIR}"/"${PN}"/xulrunner
+}
+
+pkg_postinst() {
+    gtk-icon-cache_pkg_postinst
+    freedesktop-desktop_pkg_postinst
+}
+
+pkg_postrm() {
+    gtk-icon-cache_pkg_postrm
+    freedesktop-desktop_pkg_postrm
+}
+
