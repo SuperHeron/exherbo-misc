@@ -138,6 +138,8 @@ src_prepare() {
 
     # May be affected by mozilla bug 559278
     append-flags -std=gnu++0x
+
+    option libpurple && export GLIB_GMODULE_LIBS=`pkg-config --libs gmodule-2.0`
 }
 
 mozilla_src_install() {
