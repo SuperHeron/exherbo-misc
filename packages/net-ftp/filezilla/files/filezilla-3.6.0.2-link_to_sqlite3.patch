@@ -1,0 +1,15 @@
+Upstream: yes, r4866
+Source: Xake on http://trac.filezilla-project.org/ticket/8360
+Reason: fix building of tests
+
+Index: tests/Makefile.am
+===================================================================
+--- tests/Makefile.am	(revision 4861)
++++ tests/Makefile.am	(working copy)
+@@ -20,5 +20,6 @@
+ test_LDFLAGS += $(LIBGNUTLS_LIBS)
+ test_LDFLAGS += $(WX_LIBS)
+ test_LDFLAGS += $(IDN_LIB)
++test_LDFLAGS += $(LIBSQLITE3_LIBS)
+ 
+ test_DEPENDENCIES = ../src/engine/libengine.a
