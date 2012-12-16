@@ -6,5 +6,5 @@ Conflicts=xdm.service gdm.service kdm.service lxdm.service slim.service
 ExecStart=/usr/sbin/lightdm
 
 [Install]
-Alias=displaymanager.service
+Alias=display-manager.service
 WantedBy=graphical.target
