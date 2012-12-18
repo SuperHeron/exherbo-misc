@@ -99,7 +99,8 @@ pkg_setup() {
 rpm_unpack() {
     # Pipes don't work with edo
     echo "rpm2tar -O ${1} | tar -xf - --no-same-owner -C ${WORK}"
-    rpm2tar -O "${1}" | tar -xf - --no-same-owner -C "${WORK}" || die "Unpacking RPM failed"
+    rpm2tar -O "${1}" | tar -xf - --no-same-owner -C "${WORK}"
+    assert "Unpacking RPM failed"
 }
 
 src_unpack() {
