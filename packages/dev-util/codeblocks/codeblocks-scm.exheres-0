@@ -1,4 +1,4 @@
-# Copyright 2008 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2008-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SCM_REPOSITORY="http://svn.berlios.de/svnroot/repos/codeblocks"
@@ -6,35 +6,13 @@ SCM_SECONDARY_REPOSITORIES="FortranProject"
 SCM_FortranProject_REPOSITORY="http://fortranproject.googlecode.com/svn"
 SCM_EXTERNAL_REFS="src/plugins/contrib/FortranProject:FortranProject"
 
-require scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 1.11 1.12 ] ]
+require codeblocks scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.12 1.11 1.10 ] ]
 
-SUMMARY="Code::Blocks C/C++ IDE"
-DESCRIPTION="Code::Blocks free C/C++ IDE"
-HOMEPAGE="http://www.codeblocks.org"
-DOWNLOADS=""
-
-LICENCES="GPL-3"
-SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="
-    contrib-plugins [[ description = [ Build community-contributed plugins ] ]]
-"
-
-DEPENDENCIES="
-    build:
-        virtual/pkg-config
-    build+run:
-        app-admin/gamin
-        app-spell/hunspell
-        x11-libs/wxGTK:2.8[>=2.8.8]
-"
-
-BUGS_TO=""
-
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'contrib-plugins contrib-plugins all' )
 
 src_prepare() {
     edo chmod +x update_revision.sh
     edo ./update_revision.sh
     autotools_src_prepare
 }
+
