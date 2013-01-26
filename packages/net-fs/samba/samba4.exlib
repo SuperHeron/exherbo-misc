@@ -18,7 +18,10 @@ HOMEPAGE="http://www.samba.org"
 
 LICENCES="GPL-3"
 SLOT="4"
-MYOPTIONS="acl aio avahi cluster cups gnutls iconv ldap syslog"
+MYOPTIONS="
+    acl aio avahi cluster cups gnutls iconv ldap syslog
+    ntdb [[ description = [ Enables dev-db/ntdb support ] ]]
+"
 
 DEPENDENCIES="
     build:
@@ -26,7 +29,6 @@ DEPENDENCIES="
     build+run:
         app-crypt/heimdal[>=1.5]
         dev-db/ldb[>=1.1.8]
-        dev-db/ntdb[>=0.9]
         dev-db/tdb[>=1.2.9]
         dev-libs/iniparser
         dev-libs/libgcrypt
@@ -46,6 +48,7 @@ DEPENDENCIES="
         gnutls? ( dev-libs/gnutls )
         iconv? ( text-libs/libiconv )
         ldap? ( net-directory/openldap )
+        ntdb? ( dev-db/ntdb[>=0.9] )
         syslog? ( virtual/syslog )
 "
 
@@ -66,6 +69,7 @@ WAF_SRC_CONFIGURE_PARAMS+=(
 WAF_SRC_CONFIGURE_OPTION_ENABLES=(
     'cups'
     'gnutls'
+    'ntdb'
 )
 WAF_SRC_CONFIGURE_OPTION_WITHS=(
     'acl acl-support'
