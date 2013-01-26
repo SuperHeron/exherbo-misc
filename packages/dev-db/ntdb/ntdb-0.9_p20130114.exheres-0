@@ -1,0 +1,11 @@
+# Copyright 2012-2013 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require ntdb
+
+DOWNLOADS="http://dev.exherbo.org/~philantrop/distfiles/${PNV}.tar.xz"
+
+PLATFORMS="~amd64"
+
+WORK="${WORKBASE}/${PN}"
+
