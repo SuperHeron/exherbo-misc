@@ -1,18 +1,12 @@
-# Copyright 2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2012-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SCM_REPOSITORY="git://git.samba.org/samba.git"
 SCM_CHECKOUT_TO="samba"
 
-require scm-git wafsamba python
+require scm-git ntdb
 
-SUMMARY="Simple database API - Version 2 (formerly tdb2)"
-HOMEPAGE="http://tdb.samba.org/"
-
-LICENCES="LGPL-3"
-SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS=""
 
 WORK="${WORKBASE}/${PNV}/lib/${PN}"
 
