@@ -24,6 +24,8 @@ DEPENDENCIES="
         dev-cpp/cppunit
         dev-lang/perl:=
         dev-libs/check
+    test:
+        dev-lang/python:*[>=3.1]
 "
 
 src_install() {
