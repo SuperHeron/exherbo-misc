@@ -29,8 +29,6 @@ DEPENDENCIES="
         x11-libs/libX11
 "
 
-REMOTE_IDS="launchpad:${PN}"
-
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --enable-nls
 )
