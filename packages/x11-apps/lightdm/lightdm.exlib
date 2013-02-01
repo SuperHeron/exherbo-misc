@@ -7,7 +7,7 @@ else
     branch=$(ever range 1-2)
 fi
 
-require launchpad [ branch=${branch} ] pam systemd-service
+require launchpad [ branch=${branch} suffix=tar.xz ] pam systemd-service
 
 export_exlib_phases src_install
 
