@@ -12,15 +12,13 @@ on a variety of platforms. It is free software and therefore free to download, u
 "
 HOMEPAGE="http://www.libreoffice.org"
 
-LO_BUILDID="3"
+LO_BUILDID="2"
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibO"
 LO_PN_LONG="${PN%-bin}"
 LO_PNV_LONG="${LO_PN_LONG}$(ever range 1-2)"
 LO_PNV_DOWNLOADS="${LO_PN_SHORT}_$(ever range 1-3)"
 LO_PNV="${LO_PN_SHORT}_${PV}"
-LIBPNG12_PV="1.2.50"
-LIBPNG12_WORK="${WORKBASE}/libpng-${LIBPNG12_PV}"
 LO_LINGUAS=( 'af' 'ar' 'as' 'ast' 'be' 'bg' 'bn' 'bo' 'br' 'brx' 'bs' 'ca' 'ca_XV' 'cs' 'cy' 'da'
              'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fa' 'fi' 'fr' 'ga'
              'gd' 'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja' 'ka' 'kk' 'km' 'kn' 'ko' 'kok'
@@ -33,7 +31,6 @@ DOWNLOADS_ROOT="mirror://${LO_PN_LONG}/stable/$(ever range 1-3)/rpm"
 DOWNLOADS="
     platform:amd64? ( ${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_install-rpm_en-US.tar.gz )
     platform:x86? ( ${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_install-rpm_en-US.tar.gz )
-    mirror://sourceforge/libpng/libpng-${LIBPNG12_PV}.tar.xz [[ note = [ LibO-${PV} is linked against libpng-1.2 ] ]]
     branding? ( http://dev.exherbo.org/~moben/distfiles/${LO_PN_LONG}-exherbo-branding-$(ever range 1-2).tar.xz )
 "
 
@@ -79,12 +76,12 @@ MYOPTIONS="
 DEPENDENCIES="
     build:
         app-arch/rpm2targz
-        app-arch/xz [[ description = [ Used to unpack libpng12 tarball ] ]]
     build+run:
        !app-office/libreoffice
        !app-office/openoffice
        !app-office/openoffice-bin
     run:
+        media-libs/libpng[>=1.5]
         x11-libs/gtk+:2[>=2.10.4]
         x11-libs/libXinerama
         java? ( virtual/jre:*[>=1.5] )
@@ -162,23 +159,8 @@ src_unpack() {
     done
 }
 
-src_configure() {
-    edo cd "${LIBPNG12_WORK}"
-    default
-}
-
-src_compile() {
-    edo cd "${LIBPNG12_WORK}"
-    default
-}
-
 src_install() {
     edo cp -rT "${WORK}" "${IMAGE}"
-    edo cd "${LIBPNG12_WORK}"/.libs
-    insinto /opt/"${LO_PNV_LONG}"/program
-    for i in libpng12.so*; do
-        doins "${i}"
-    done
     edo cd "${IMAGE}"/usr/bin
     edo ln -s "${LO_PN_LONG}"{$(ever range 1-2),}
     edo find "${IMAGE}" -type d -empty -delete
