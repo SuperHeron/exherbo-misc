@@ -12,36 +12,36 @@ on a variety of platforms. It is free software and therefore free to download, u
 "
 HOMEPAGE="http://www.libreoffice.org"
 
-LO_BUILDID="2"
+LO_BUILDID="103"
 LO_BASIS="libobasis$(ever range 1-2)"
-LO_PN_SHORT="LibO"
+LO_PN_SHORT="LibreOffice"
 LO_PN_LONG="${PN%-bin}"
 LO_PNV_LONG="${LO_PN_LONG}$(ever range 1-2)"
 LO_PNV_DOWNLOADS="${LO_PN_SHORT}_$(ever range 1-3)"
 LO_PNV="${LO_PN_SHORT}_${PV}"
-LO_LINGUAS=( 'af' 'ar' 'as' 'ast' 'be' 'bg' 'bn' 'bo' 'br' 'brx' 'bs' 'ca' 'ca_XV' 'cs' 'cy' 'da'
-             'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fa' 'fi' 'fr' 'ga'
-             'gd' 'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja' 'ka' 'kk' 'km' 'kn' 'ko' 'kok'
-             'ks' 'ku' 'lb' 'lo' 'lt' 'lv' 'mai' 'mk' 'ml' 'mn' 'mni' 'mr' 'my' 'nb' 'ne' 'nl' 'nn'
-             'nr' 'nso' 'oc' 'om' 'or' 'pa_IN' 'pl' 'pt' 'pt_BR' 'ro' 'ru' 'rw' 'sa_IN' 'sat' 'sd'
-             'sh' 'si' 'sk' 'sl' 'sq' 'sr' 'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te' 'tg' 'th' 'tn' 'tr' 'ts'
-             'tt' 'ug' 'uk' 'uz' 've' 'vi' 'xh' 'zh_CN' 'zh_TW' 'zu' )
+LO_LINGUAS=( 'af' 'am' 'ar' 'as' 'ast' 'be' 'bg' 'bn' 'bn_IN' 'bo' 'br' 'brx' 'bs' 'ca' 'ca_XV' 'cs'
+             'cy' 'da' 'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fa' 'fi'
+             'fr' 'ga' 'gd' 'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja' 'ka' 'kk' 'km' 'kn'
+             'ko' 'kok' 'ks' 'ku' 'lb' 'lo' 'lt' 'lv' 'mai' 'mk' 'ml' 'mn' 'mni' 'mr' 'my' 'nb' 'ne'
+             'nl' 'nn' 'nr' 'nso' 'oc' 'om' 'or' 'pa_IN' 'pl' 'pt' 'pt_BR' 'ro' 'ru' 'rw' 'sa_IN'
+             'sat' 'sd' 'sh' 'si' 'sid' 'sk' 'sl' 'sq' 'sr' 'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te' 'tg'
+             'th' 'tn' 'tr' 'ts' 'tt' 'ug' 'uk' 'uz' 've' 'vi' 'xh' 'zh_CN' 'zh_TW' 'zu' )
 
 DOWNLOADS_ROOT="mirror://${LO_PN_LONG}/stable/$(ever range 1-3)/rpm"
 DOWNLOADS="
-    platform:amd64? ( ${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_install-rpm_en-US.tar.gz )
-    platform:x86? ( ${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_install-rpm_en-US.tar.gz )
-    branding? ( http://dev.exherbo.org/~moben/distfiles/${LO_PN_LONG}-exherbo-branding-$(ever range 1-2).tar.xz )
+    platform:amd64? ( ${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_rpm.tar.gz )
+    platform:x86? ( ${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_rpm.tar.gz )
+    branding? ( http://dev.exherbo.org/~moben/distfiles/${LO_PN_LONG}-exherbo-branding-3.6.tar.xz )
 "
 
 set_linguas() {
     for linguas in "${LO_LINGUAS[@]}"; do
         local amd64_langpack='' x86_langpack=''
-        local amd64_helppack="${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_helppack-rpm_${linguas//_/-}.tar.gz"
-        local x86_helppack="${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_helppack-rpm_${linguas//_/-}.tar.gz"
+        local amd64_helppack="${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_rpm_helppack_${linguas//_/-}.tar.gz"
+        local x86_helppack="${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_rpm_helppack_${linguas//_/-}.tar.gz"
         if [[ "${linguas}" != 'en_US' ]]; then
-            amd64_langpack="${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_langpack-rpm_${linguas//_/-}.tar.gz"
-            x86_langpack="${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_langpack-rpm_${linguas//_/-}.tar.gz"
+            amd64_langpack="${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_rpm_langpack_${linguas//_/-}.tar.gz"
+            x86_langpack="${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_rpm_langpack_${linguas//_/-}.tar.gz"
         fi
         DOWNLOADS+="
             linguas:${linguas}? (
@@ -114,8 +114,8 @@ src_unpack() {
     edo mkdir -p "${WORK}"
 
     echo "Unpacking RPM files"
-    edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_install-rpm_en-US/RPMS"
-    for appl in base binfilter calc core{01,02,03,04,05,06,07} draw graphicfilter images impress \
+    edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm/RPMS"
+    for appl in base calc core{01,02,03,04,05,06,07} draw graphicfilter images impress librelogo \
                 math ogltrans onlineupdate ooofonts ooolinguistic postgresql-sdbc pyuno writer \
                 xsltfilter; do
         rpm_unpack "${LO_BASIS}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
@@ -127,7 +127,7 @@ src_unpack() {
     rpm_unpack "desktop-integration/${LO_PNV_LONG}-freedesktop-menus-$(ever range 1-3)-${LO_BUILDID}.noarch.rpm"
     if optionq extensions; then
         for appl in {beanshell,javascript,python}-script-provider mediawiki-publisher nlpsolver \
-                    pdf-import presentation-minimizer presenter-screen report-builder; do
+                    presentation-minimizer report-builder; do
             rpm_unpack "${LO_BASIS}-extension-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
         done
     fi
@@ -139,9 +139,9 @@ src_unpack() {
         if optionq linguas:${linguas}; then
             linguas="${linguas//_/-}"
             case "${linguas}" in
-                en-US) edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_install-rpm_en-US/RPMS"
+                en-US) edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm/RPMS"
                 ;;
-                * ) edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_langpack-rpm_${linguas}/RPMS"
+                * ) edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm_langpack_${linguas}/RPMS"
                 ;;
             esac
             rpm_unpack "${LO_PNV_LONG}-${linguas}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
@@ -152,7 +152,7 @@ src_unpack() {
                 rpm_unpack "${LO_BASIS}-${linguas}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
             done
             if optionq help; then
-                edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_helppack-rpm_${linguas}/RPMS"
+                edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm_helppack_${linguas}/RPMS"
                 rpm_unpack "${LO_BASIS}-${linguas}-help-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
             fi
         fi
@@ -165,7 +165,7 @@ src_install() {
     edo ln -s "${LO_PN_LONG}"{$(ever range 1-2),}
     edo find "${IMAGE}" -type d -empty -delete
     if option branding; then
-        edo cd "${WORKBASE}/${LO_PN_LONG}-exherbo-branding-$(ever range 1-2)"
+        edo cd "${WORKBASE}/${LO_PN_LONG}-exherbo-branding-3.6"
         insinto /opt/"${LO_PNV_LONG}"/program
         doins flat_logo.svg
         doins intro.png
