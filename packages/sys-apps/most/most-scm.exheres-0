@@ -1,31 +1,11 @@
-# Copyright 2009 Pierre Lejeune
+# Copyright 2009-2013 Pierre Lejeune
 # Distributed under the terms of the GNU General Public License v2
 # Based in part upon 'most-5.0.0a.ebuild from Gentoo, which is:
 #   Copyright 1999-2008 Gentoo Foundation
 
 SCM_REPOSITORY="git://git.jedsoft.org/git/${PN}.git"
 
-require scm-git
+require scm-git most
 
-SUMMARY="a paging program that displays, one windowful at a time, the contents of a file."
-DESCRIPTION="
-MOST is a powerful paging program for Unix, VMS, MSDOS, and win32 systems.
-Unlike other well-known paging programs, most supports multiple windows and can
-scroll left and right. Why settle for less?
-"
-HOMEPAGE="http://www.jedsoft.org/most/"
-
-LICENCES="GPL-2"
-SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS=""
-
-DEPENDENCIES="
-    build+run:
-        sys-libs/slang[>=2.1.3]
-"
-
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-Makefile-strip.patch" )
-
-DEFAULT_SRC_INSTALL_PARAMS=( "DOC_DIR=/usr/share/doc/${PNVR}" )
 
