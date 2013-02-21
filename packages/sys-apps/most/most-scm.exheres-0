@@ -3,7 +3,7 @@
 # Based in part upon 'most-5.0.0a.ebuild from Gentoo, which is:
 #   Copyright 1999-2008 Gentoo Foundation
 
-SCM_REPOSITORY="git://git.jedsoft.org/git/${PN}.git"
+SCM_REPOSITORY="git://github.com/FauxFaux/${PN}-pager.git"
 
 require scm-git most
 
