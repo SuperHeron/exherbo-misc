@@ -1,0 +1,32 @@
+# Copyright 2013 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Normalisation for syslog messages"
+DESCRIPTION="
+Liblognorm shall help to make sense out of syslog data, or, actually, any event data that is
+present in text form.
+
+In short words, one will be able to throw arbitrary log message to liblognorm, one at a time,
+and for each message it will output well-defined name-value pairs and a set of tags describing
+the message.
+"
+HOMEPAGE="http://www.${PN}.com"
+DOWNLOADS="${HOMEPAGE}/files/download/${PNV}.tar.gz"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        virtual/pkg-config
+    build+run:
+        dev-libs/libee[>=0.3.2]
+        dev-libs/libestr
+"
+
+REMOTE_IDS="freecode:${PN}"
+
+DEFAULT_SRC_COMPILE_PARAMS=( '-j1' )
+
