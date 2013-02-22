@@ -1,0 +1,15 @@
+Source: written by Pierre Lejeune <superheron@gmail.com>, for Exherbo
+Upstream: no (release is from Jan 2000)
+Reason: Respect (CPP|LD)FLAGS and paths
+
+--- a/Makefile.in	2000-01-27 16:39:07.000000000 +0100
++++ b/Makefile.in	2013-02-22 19:39:48.445615169 +0100
+@@ -20,7 +20,7 @@
+ all: setserial setserial.cat
+ 
+ setserial: setserial.c
+-	$(CC) $(CFLAGS) $(DEFS) $(INCS) setserial.c -o setserial
++	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(DEFS) $(INCS) setserial.c -o setserial
+ 
+ setserial.cat: setserial.8
+ 	nroff -man setserial.8 > setserial.cat
