@@ -1,0 +1,50 @@
+# Copyright 2013 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require cmake [ api=2 ]
+
+SUMMARY="FreeRDP: A Remote Desktop Protocol Implementation"
+DESCRIPTION="
+FreeRDP is a free implementation of the Remote Desktop Protocol (RDP), released under the Apache license.
+"
+HOMEPAGE="http://www.freerdp.com"
+DOWNLOADS="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${PNV}.tar.gz"
+
+LICENCES="Apache-2.0"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="alsa cups ffmpeg pcsc pulseaudio server"
+
+DEPENDENCIES="
+    build:
+        app-text/xmlto
+        virtual/pkg-config
+    build+run:
+        x11-libs/libX11
+        x11-libs/libXcursor
+        x11-libs/libXext
+        x11-libs/libXinerama
+        x11-libs/libXv
+        x11-libs/libxkbfile
+        alsa? ( sys-sound/alsa-lib )
+        cups? ( net-print/cups )
+        ffmpeg? ( || ( media/ffmpeg media/libav ) )
+        pcsc? ( sys-apps/pcsc-lite )
+        pulseaudio? ( media-sound/pulseaudio )
+        server? (
+            x11-libs/libXdamage
+            x11-libs/libXext
+            x11-libs/libXfixes
+        )
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=( '-DWITH_MANPAGES:BOOL=TRUE' )
+CMAKE_SRC_CONFIGURE_OPTION_WITHS=(
+    'ALSA'
+    'CUPS'
+    'FFMPEG'
+    'PCSC'
+    'PULSEAUDIO'
+    'SERVER'
+)
+
