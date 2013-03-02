@@ -1,8 +1,8 @@
-# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop freedesktop-mime gtk-icon-cache mono
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
+equire autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.12 1.11 ] ]
 
 SUMMARY="Integrated Development Environment for .NET"
 DESCRIPTION="
@@ -39,18 +39,18 @@ UPSTREAM_DOCUMENTATION="${HOMEPAGE}/Documentation"
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/Download/Release_Notes/Release_Notes_for_MonoDevelop_${PV}"
 
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-fix-libdir.patch" )
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--disable-update-desktopdb'
+    '--disable-update-mimedb'
+    '--enable-gnomeplatform'
+)
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'extensions monoextensions'
+    'git'
+    'subversion'
+)
+DEFAULT_SRC_CONFIGURE_TESTS=( '--any --enable-tests' )
 DEFAULT_SRC_COMPILE_PARAMS=( '-j1' )
-
-src_configure() {
-    econf \
-        --disable-update-desktopdb \
-        --disable-update-mimedb \
-        --enable-gnomeplatform \
-        $(option_enable extensions monoextensions) \
-        $(option_enable git) \
-        $(option_enable subversion) \
-        $(expecting_tests --recommended && echo '--enable-tests')
-}
 
 # Update desktop and MIME databases at the same time
 pkg_postinst() {

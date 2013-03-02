@@ -11,41 +11,41 @@ diff -urpN a/build/Makefile.am b/build/Makefile.am
  install:
 -	mkdir -p $(DESTDIR)$(prefix)/lib/monodevelop/bin
 -	cp -rf bin $(DESTDIR)$(prefix)/lib/monodevelop/
--	cp -rf AddIns $(DESTDIR)$(prefix)/lib/monodevelop/AddIns
--	cp -rf locale $(DESTDIR)$(prefix)/lib/monodevelop/locale
--	cp -rf data $(DESTDIR)$(prefix)/lib/monodevelop/data
+-	cp -rf AddIns $(DESTDIR)$(prefix)/lib/monodevelop/
+-	cp -rf locale $(DESTDIR)$(prefix)/lib/monodevelop/
+-	cp -rf data $(DESTDIR)$(prefix)/lib/monodevelop/
 +	mkdir -p $(DESTDIR)$(libdir)/monodevelop/bin
 +	cp -rf bin $(DESTDIR)$(libdir)/monodevelop/
-+	cp -rf AddIns $(DESTDIR)$(libdir)/monodevelop/AddIns
-+	cp -rf locale $(DESTDIR)$(libdir)/monodevelop/locale
-+	cp -rf data $(DESTDIR)$(libdir)/monodevelop/data
++	cp -rf AddIns $(DESTDIR)$(libdir)/monodevelop/
++	cp -rf locale $(DESTDIR)$(libdir)/monodevelop/
++	cp -rf data $(DESTDIR)$(libdir)/monodevelop/
  
  clean-local:
  	rm -rf bin AddIns locale data
 diff -urpN a/build/Makefile.in b/build/Makefile.in
 --- a/build/Makefile.in	2012-11-15 14:54:09.442286946 +0000
 +++ b/build/Makefile.in	2012-11-15 14:55:42.231373389 +0000
-@@ -552,11 +552,11 @@ uninstall-am:
+@@ -546,11 +546,11 @@ uninstall-am:
  all:
  
  install:
 -	mkdir -p $(DESTDIR)$(prefix)/lib/monodevelop/bin
 -	cp -rf bin $(DESTDIR)$(prefix)/lib/monodevelop/
--	cp -rf AddIns $(DESTDIR)$(prefix)/lib/monodevelop/AddIns
--	cp -rf locale $(DESTDIR)$(prefix)/lib/monodevelop/locale
--	cp -rf data $(DESTDIR)$(prefix)/lib/monodevelop/data
+-	cp -rf AddIns $(DESTDIR)$(prefix)/lib/monodevelop/
+-	cp -rf locale $(DESTDIR)$(prefix)/lib/monodevelop/
+-	cp -rf data $(DESTDIR)$(prefix)/lib/monodevelop/
 +	mkdir -p $(DESTDIR)$(libdir)/monodevelop/bin
 +	cp -rf bin $(DESTDIR)$(libdir)/monodevelop/
-+	cp -rf AddIns $(DESTDIR)$(libdir)/monodevelop/AddIns
-+	cp -rf locale $(DESTDIR)$(libdir)/monodevelop/locale
-+	cp -rf data $(DESTDIR)$(libdir)/monodevelop/data
++	cp -rf AddIns $(DESTDIR)$(libdir)/monodevelop/
++	cp -rf locale $(DESTDIR)$(libdir)/monodevelop/
++	cp -rf data $(DESTDIR)$(libdir)/monodevelop/
  
  clean-local:
  	rm -rf bin AddIns locale data
 diff -urpN a/configure b/configure
 --- a/configure	2012-11-15 14:54:09.442286946 +0000
 +++ b/configure	2012-11-15 14:57:13.238458173 +0000
-@@ -4366,7 +4366,7 @@ CSC_FLAGS="-debug -codepage:utf8"
+@@ -4072,7 +4072,7 @@ CSC_FLAGS="-debug -codepage:utf8"
  
  
  
@@ -57,7 +57,7 @@ diff -urpN a/configure b/configure
 diff -urpN a/configure.in b/configure.in
 --- a/configure.in	2012-11-15 14:54:10.356287797 +0000
 +++ b/configure.in	2012-11-15 14:55:39.758371085 +0000
-@@ -250,7 +250,7 @@ AC_SUBST(SQLITE_XML)
+@@ -244,7 +244,7 @@ AC_SUBST(SQLITE_XML)
  AC_SUBST(CSC_FLAGS)
  
  
@@ -318,7 +318,7 @@ diff -urpN a/Makefile.am b/Makefile.am
 diff -urpN a/Makefile.in b/Makefile.in
 --- a/Makefile.in	2012-11-15 14:54:09.442286946 +0000
 +++ b/Makefile.in	2012-11-15 14:55:39.761371088 +0000
-@@ -304,7 +304,7 @@ desktop_DATA = monodevelop.desktop
+@@ -298,7 +298,7 @@ desktop_DATA = monodevelop.desktop
  xdgmimedir = $(datadir)/mime/packages
  xdgmime_DATA = monodevelop.xml
  pkgconfig_in_files = monodevelop.pc.in monodevelop-core-addins.pc.in
