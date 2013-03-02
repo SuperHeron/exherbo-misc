@@ -1,0 +1,9 @@
+# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SCM_REPOSITORY="https://code.google.com/p/${PN}/"
+
+require pingus scm-git
+
+PLATFORMS="~amd64"
+
