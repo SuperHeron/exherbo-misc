@@ -1,8 +1,0 @@
-# Copyright 2011-2012 Pierre Lejeune <superheron@gmail.com>
-# Distributed under the terms of the GNU General Public License v2
-
-require tevent
-
-DOWNLOADS="mirror://samba/../${PN}/${PNV}.tar.gz"
-PLATFORMS="~amd64"
-

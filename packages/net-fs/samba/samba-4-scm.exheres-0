@@ -1,9 +1,0 @@
-# Copyright 2011 Pierre Lejeune <superheron@gmail.com>
-# Distributed under the terms of the GNU General Public License v2
-
-SCM_REPOSITORY="git://git.samba.org/samba.git"
-
-require samba4 scm-git
-
-PLATFORMS="~amd64"
-
