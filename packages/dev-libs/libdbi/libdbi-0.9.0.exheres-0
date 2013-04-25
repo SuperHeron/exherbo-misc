@@ -1,0 +1,27 @@
+# Copyright 2013 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require sourceforge [ suffix=tar.gz ]
+
+SUMMARY="Database Independent Abstraction Layer"
+DESCRIPTION="
+libdbi implements a database-independent abstraction layer in C, similar to the DBI/DBD layer in
+Perl. Writing one generic set of code, programmers can leverage the power of multiple DBs and
+multiple simultaneous DB connections by using this framework.
+"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="doc"
+SLOTTED_PV="$(ever range 1-2).0"
+
+DEPENDENCIES="
+    build:
+        doc? ( app-text/openjade )
+    recommendation:
+        dev-libs/libdbi-drivers[~>${SLOTTED_PV}] [[ description = [ libdbi is not useful without some drivers ] ]]
+"
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc docs' )
+
