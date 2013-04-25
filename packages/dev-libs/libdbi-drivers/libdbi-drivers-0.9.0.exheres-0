@@ -1,0 +1,46 @@
+# Copyright 2013 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require sourceforge [ suffix=tar.gz ]
+
+SUMMARY="Drivers for libdbi"
+DESCRIPTION="
+The libdbi-drivers project maintains drivers for the libdbi database abstraction layer written in C.
+Drivers are distributed seperately from the library itself.
+"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="( freetds mysql pgsql sqlite ) [[ number-selected = at-least-one ]]"
+SLOTTED_PV="$(ever range 1-2).0"
+
+DEPENDENCIES="
+    build+run:
+        dev-libs/libdbi[~>${SLOTTED_PV}]
+        freetds? ( dev-db/freetds )
+        mysql? ( dev-db/mysql )
+        pgsql? ( dev-db/postgresql )
+        sqlite? ( dev-db/sqlite:3 )
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--hates=docdir'
+    '--disable-docs'
+    '--with-dbi-dbdir=/var/lib/libdbi'
+)
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
+    'freetds'
+    'mysql'
+    'pgsql'
+    'sqlite sqlite3'
+)
+
+src_install() {
+    default
+
+    keepdir /var/lib/libdbi
+    edo rmdir "${IMAGE}"/var/lib/libdbi/{firebird,sqlite}
+    option sqlite && keepdir /var/lib/libdbi/sqlite3
+}
+
