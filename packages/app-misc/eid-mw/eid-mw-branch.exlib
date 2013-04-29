@@ -1,4 +1,4 @@
-# Copyright 2009, 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 export_exlib_phases src_prepare src_configure src_compile src_install pkg_postinst
@@ -24,7 +24,7 @@ DEPENDENCIES="
         x11-libs/qt:4[>=4.5.0][qt3support][X(+)]
     run:
         sys-apps/pcsc-lite[>=1.4.4]
-        pcsc_drivers:acr38u? ( app-crypt/acr38u[>=1.0.7.5] )
+        pcsc_drivers:acr38u? ( app-crypt/acsccid[>=1.0.4] )
         pcsc_drivers:ccid? ( app-crypt/ccid )
 "
 

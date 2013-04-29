@@ -1,4 +1,4 @@
-# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SCM_REPOSITORY="http://${PN}.googlecode.com/svn/"
@@ -23,7 +23,7 @@ DEPENDENCIES="
         sys-apps/pcsc-lite[>=1.4.4]
         gtk? ( x11-libs/gtk+:2[>=2.10] )
     run:
-        pcsc_drivers:acr38u? ( app-crypt/acr38u[>=1.0.7.5] )
+        pcsc_drivers:acr38u? ( app-crypt/acsccid[>=1.0.4] )
         pcsc_drivers:ccid? ( app-crypt/ccid )
 "
 
