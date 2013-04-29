@@ -1,4 +1,4 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Lossless data compressor based on the LZMA algorithm"
@@ -17,10 +17,7 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
-DEPENDENCIES="
-"
-
-REMOTE_IDS="freshmeat:${PN}"
+REMOTE_IDS="freecode:${PN}"
 
 UPSTREAM_DOCUMENTATION="http://www.nongnu.org/${PN}/manual/${PN}_manual.html"
 
