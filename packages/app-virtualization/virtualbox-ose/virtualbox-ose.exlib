@@ -16,7 +16,7 @@ DOWNLOADS="
 
 LICENCES="CDDL-1.0 GPL-2 additions? ( PUEL ) extensions? ( PUEL )"
 SLOT="0"
-MYOPTIONS="X additions alsa dbus opengl pulseaudio python truetype vnc webservice wine
+MYOPTIONS="X additions alsa dbus devmapper opengl pulseaudio python truetype vnc webservice wine
     additions [[ description = [ Installs Guest Additions ISO ] ]]
     extensions [[ description = [ Install Extension Pack (binary) ] ]]
     webservice [[ description = [ Builds VBoxWebSrv ] ]]
@@ -62,6 +62,7 @@ DEPENDENCIES="
         )
         alsa? ( sys-sound/alsa-lib[>=1.0.6] )
         dbus? ( sys-apps/dbus )
+        devmapper? ( sys-fs/lvm2 )
         pulseaudio? ( media-sound/pulseaudio[>=0.9.0] )
         python? ( dev-lang/python:=[>=2.5] )
         vnc? ( net-libs/libvncserver[>=0.9.7] )
@@ -114,6 +115,7 @@ src_configure() {
     fi
     optionq alsa || myconf="${myconf} --disable-alsa"
     optionq dbus || myconf="${myconf} --disable-dbus"
+    optionq devmapper || myconf="${myconf} --disable-devmapper"
     optionq pulseaudio || myconf="${myconf} --disable-pulse"
     optionq python || myconf="${myconf} --disable-python"
     optionq vnc && myconf="${myconf} --enable-vnc"
