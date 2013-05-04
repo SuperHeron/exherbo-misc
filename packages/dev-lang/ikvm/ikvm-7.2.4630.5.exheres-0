@@ -1,7 +1,7 @@
-# Copyright 2010-2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require mono sourceforge [ pnv="${PV}/${PN}src-${PV}" suffix=zip ]
+require mono sourceforge [ pnv="${PN}/${PV}/${PN}src-${PV}" suffix=zip ]
 
 SUMMARY="IKVM.NET is a Java Virtual Machine (JVM) for the .NET and Mono runtimes."
 DESCRIPTION="
@@ -14,7 +14,7 @@ It includes the following components:
 "
 HOMEPAGE="http://www.${PN}.net"
 
-OPENJDK7_BUILD="7u4"
+OPENJDK7_BUILD="7u6-b24"
 DOWNLOADS+=" mirror://sourceforge/${PN}/openjdk-${OPENJDK7_BUILD}-stripped.zip"
 
 LICENCES="ZLIB GPL-2"
