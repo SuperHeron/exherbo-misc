@@ -18,7 +18,7 @@ DEPENDENCIES="
         virtual/pkg-config[>=0.9.0]
     build+run:
         sys-apps/pcsc-lite[>=1.8.3]
-        usb? ( dev-libs/libusb:1 )
+        usb? ( virtual/usb:1 )
     run:
         sys-apps/systemd
 "
