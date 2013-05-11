@@ -24,7 +24,7 @@ DEPENDENCIES="
         sys-devel/flex
         virtual/pkg-config
     build+run:
-        libusb? ( dev-libs/libusb:1[multibuild_c:*(-)?] )
+        libusb? ( virtual/usb:1 )
         !libusb? ( sys-apps/systemd[multibuild_c:*(-)?] )
     run:
         group/pcscd
