@@ -5,7 +5,7 @@ SUMMARY="Perl interface to the PC/SC smart card library"
 DESCRIPTION="
 This library allows to communicate with a smart card using PC/SC from a Perl script.
 "
-HOMEPAGE="http://ludovic.rousseau.free.fr/softwares/${PN}/"
+HOMEPAGE="http://ludovic.rousseau.free.fr/softwares/${PN}"
 DOWNLOADS="${HOMEPAGE}/${PNV}.tar.bz2"
 
 LICENCES="GPL-2"
@@ -20,6 +20,6 @@ DEPENDENCIES="
 "
 
 src_configure() {
-    perl Makefile.PL
+    edo perl Makefile.PL
 }
 
