@@ -1,4 +1,4 @@
-# Copyright 2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2012-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 NSPR_VER="[>=4.9.2]"
@@ -34,12 +34,14 @@ DEPENDENCIES="
         dev-libs/xulrunner
         media-libs/fontconfig
         media-libs/freetype:2[>=2.1.0]
+        media-libs/libjpeg-turbo
         x11-libs/cairo[>=1.10.2-r1][X] [[ note = [ required for tee backend ] ]]
         x11-libs/gdk-pixbuf:2.0
         x11-libs/gtk+:2[>=2.14]
         x11-libs/pango[>=1.14.0][X]
         avahi? ( net-dns/avahi )
-        dbus? ( sys-apps/dbus )
+        dbus? ( dev-libs/dbus-glib:1[>=0.60]
+                sys-apps/dbus )
         libnotify? ( x11-libs/libnotify )
         libpurple? ( net-im/pidgin )
         startup-notification? ( x11-libs/startup-notification[>=0.8] )
@@ -81,7 +83,7 @@ MOZILLA_SRC_CONFIGURE_PARAMS=(
     --hates=docdir
     --with-libxul-sdk=/usr/${LIBDIR}/xulrunner-devel
     --with-system-bz2
-    --with-system-jpeg
+    --with-system-jpeg=/opt/libjpeg-turbo
     --with-system-libevent
     --with-system-libvpx
     --with-system-libxul
@@ -152,7 +154,7 @@ mozilla_src_install() {
     insinto /usr/share/pixmaps
     newins "${ECONF_SOURCE}"/"${icondir}"/content/icon64.png ${PN}-icon.png
 
-    dosym /usr/"${LIBDIR}"/xulrunner /usr/"${LIBDIR}"/"${PN}"/xulrunner
+    dosym /usr/"${LIBDIR}"/xulrunner /usr/"${LIBDIR}"/"${PNV}"/xulrunner
 }
 
 pkg_postinst() {
