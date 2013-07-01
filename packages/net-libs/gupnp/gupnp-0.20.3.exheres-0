@@ -1,4 +1,4 @@
-# Copyright 2010-2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require gnome.org [ suffix=.tar.xz ]
@@ -47,17 +47,17 @@ DEPENDENCIES="
         dev-libs/glib:2[>=2.28] [[ note = [ for connman, oldest is 2.28 ] ]]
         dev-libs/libxml2:2.0
         gnome-desktop/libsoup:2.4[>=2.28.2][gobject-introspection?]
-        net-libs/gssdp:1.0[>=0.11.2][gobject-introspection?]
+        net-libs/gssdp:1.0[>=0.13.0][gobject-introspection?]
         sys-apps/util-linux
         connman? ( net-misc/connman[>=0.80] )
-        gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.6.4] )
+        gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=1.36.0] )
     run:
         networkmanager? ( net-apps/NetworkManager )
 "
 
 RESTRICT="test" # network violation
 
-REMOTE_IDS="freshmeat:${PN}"
+REMOTE_IDS="freecode:${PN}"
 
 UPSTREAM_RELEASE_NOTES="http://ftp.gnome.org/pub/GNOME/sources/${PN}/$(ever range 1-2)/${PNV}.news"
 UPSTREAM_DOCUMENTATION="http://developer.gnome.org/${PN}/$(ever range 1-2)"
