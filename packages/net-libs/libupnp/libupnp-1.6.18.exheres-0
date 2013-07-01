@@ -16,3 +16,4 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( debug )
 
 # FIXME sydbox
 RESTRICT="test"
+
