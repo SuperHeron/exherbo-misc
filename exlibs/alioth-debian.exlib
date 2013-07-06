@@ -13,6 +13,6 @@ myexparam dl_number=
 HOMEPAGE="http://$(exparam project).alioth.debian.org"
 
 if ! ever is_scm ; then
-    DOWNLOADS="https://alioth.debian.org/download.php/$(exparam dl_number)/$(exparam pnv).$(exparam suffix)"
+    DOWNLOADS="https://alioth.debian.org/frs/download.php/file/$(exparam dl_number)/$(exparam pnv).$(exparam suffix)"
 fi
 
