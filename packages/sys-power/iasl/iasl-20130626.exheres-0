@@ -1,4 +1,4 @@
-# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 MY_PNV="acpica-unix-${PV}"
@@ -28,8 +28,8 @@ src_compile() {
     local cflags="${CFLAGS}"
     unset CFLAGS
     cflags+=" -m${MULTIBUILD_C_DEFAULT_TARGET} -D_LINUX -D_GNU_SOURCE -D_FORTIFY_SOURCE=2"
-    cflags+=" -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler"
+    cflags+=" -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj"
     cflags+=" -Iobj${MULTIBUILD_C_DEFAULT_TARGET}"
-    edo make iasl HOST="_LINUX" CFLAGS="${cflags}"
+    emake -j1 iasl HOST="_LINUX" CFLAGS="${cflags}"
 }
 
