@@ -5,7 +5,8 @@
 
 SCM_REPOSITORY="git://anongit.freedesktop.org/libfprint/${PN}"
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] scm-git
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
+require scm-git systemd-service
 
 SUMMARY="Fprint D-Bus daemon"
 DESCRIPTION="Daemon to offer libfprint functionality over D-Bus"
@@ -19,24 +20,25 @@ MYOPTIONS="doc"
 DEPENDENCIES="
     build:
         app-doc/gtk-doc-autotools[>=1.3] [[ description = [ For gtkdocize ] ]]
+        dev-libs/libxml2:2.0
+        dev-libs/libxslt
         dev-util/intltool[>=0.35.0]
         sys-devel/gettext
     build+run:
         dev-libs/dbus-glib:1
-        dev-libs/glib:2
+        dev-libs/glib:2[>=2.26]
         sys-auth/polkit:1[>=0.91]
-        sys-libs/libfprint[=scm]
+        sys-libs/libfprint[>=0.1.0]
         sys-libs/pam
 "
 
 # Install pam module to /${LIBDIR}/security, not /usr/${LIBDIR}/security
 DEFAULT_SRC_CONFIGURE_PARAMS=( --libdir=/"${LIBDIR}" )
-
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'doc gtk-doc'
-)
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc gtk-doc' )
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( "systemd systemdsystemunitdir ${SYSTEMDSYSTEMUNITDIR}" )
 
 src_prepare() {
+    edo glib-gettextize --copy --force
     edo gtkdocize --copy
     edo intltoolize --copy --force
     autotools_src_prepare
@@ -44,7 +46,6 @@ src_prepare() {
 
 src_install() {
     default
-
     keepdir /var/lib/fprint
 }
 
