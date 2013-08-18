@@ -12,7 +12,7 @@ on a variety of platforms. It is free software and therefore free to download, u
 "
 HOMEPAGE="http://www.libreoffice.org"
 
-LO_BUILDID="2"
+LO_BUILDID="4"
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibreOffice"
 LO_PN_LONG="${PN%-bin}"
@@ -123,12 +123,13 @@ src_unpack() {
     for appl in base calc draw impress math ure writer; do
         rpm_unpack "${LO_PNV_LONG}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     done
-    rpm_unpack "desktop-integration/${LO_PNV_LONG}-freedesktop-menus-$(ever range 1-3)-${LO_BUILDID}.noarch.rpm"
+    rpm_unpack "${LO_PNV_LONG}-freedesktop-menus-$(ever range 1-3)-${LO_BUILDID}.noarch.rpm"
     if optionq extensions; then
-        for appl in {beanshell,javascript,python}-script-provider mediawiki-publisher nlpsolver \
+        for appl in {beanshell,javascript}-script-provider mediawiki-publisher nlpsolver \
                     presentation-minimizer report-builder; do
             rpm_unpack "${LO_BASIS}-extension-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
         done
+        rpm_unpack "${LO_BASIS}-python-script-provider-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     fi
     optionq gnome && rpm_unpack "${LO_BASIS}-gnome-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     optionq kde && rpm_unpack "${LO_BASIS}-kde-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
