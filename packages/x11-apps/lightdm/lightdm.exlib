@@ -32,6 +32,8 @@ SLOT="0"
 
 MYOPTIONS="
     gobject [[ description = [ Enables client gobject libraries ] ]]
+    qt4 [[ description = [ Enable LightDM client Qt4 libraries ] ]]
+    qt5 [[ description = [ Enable LightDM client Qt5 libraries ] ]]
 "
 
 RESTRICT="test" # requires dbus
@@ -53,6 +55,8 @@ DEPENDENCIES="
             x11-libs/libX11
             x11-libs/libxklavier
         )
+        qt4? ( x11-libs/qt:4 )
+        qt5? ( x11-libs/qtbase:5 )
     run:
         sys-apps/accountsservice
     recommendation:
@@ -77,6 +81,8 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'gobject liblightdm_gobject'
+    'qt4 liblightdm-qt'
+    'qt5 liblightdm-qt5'
 )
 
 lightdm_src_install() {
