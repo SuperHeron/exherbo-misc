@@ -12,7 +12,7 @@ on a variety of platforms. It is free software and therefore free to download, u
 "
 HOMEPAGE="http://www.libreoffice.org"
 
-LO_BUILDID="4"
+LO_BUILDID="2"
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibreOffice"
 LO_PN_LONG="${PN%-bin}"
@@ -66,7 +66,6 @@ MYOPTIONS="
     branding [[ description = [ Use exherbo flavoured branding in the splash screen ] ]]
     extensions [[ description = [ Installs bundled extensions ] ]]
     gnome
-    java
     help [[ description = [ Installs help package ] ]]
     kde
     ( linguas: ${LO_LINGUAS[@]} ) [[ number-selected = at-least-one ]]
@@ -83,7 +82,8 @@ DEPENDENCIES="
     run:
         x11-libs/gtk+:2[>=2.10.4]
         x11-libs/libXinerama
-        java? ( virtual/jre:*[>=1.5] )
+    suggestion:
+        virtual/jre:*[>=1.5] [[ description = [ Needed by some features like Base ] ]]
 "
 
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/download/release-notes/"
@@ -133,7 +133,6 @@ src_unpack() {
     fi
     optionq gnome && rpm_unpack "${LO_BASIS}-gnome-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     optionq kde && rpm_unpack "${LO_BASIS}-kde-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
-    optionq java && rpm_unpack "${LO_BASIS}-javafilter-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     echo "Unpacking language pack RPM files"
     for linguas in "${LO_LINGUAS[@]}"; do
         if optionq linguas:${linguas}; then
