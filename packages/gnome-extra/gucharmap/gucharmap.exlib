@@ -35,6 +35,7 @@ if ever at_least 3.0.0; then
             x11-libs/gtk+:3[>=3.4.0]
     "
 else
+    require python [ python_dep="[>=2.4]" python_sup="2.7 2.6" with_opt=true ]
     MYOPTIONS+=" gtk3 python"
     DEPENDENCIES+="
         build+run:
@@ -42,10 +43,7 @@ else
             gnome-platform/GConf:2
             gtk3? ( x11-libs/gtk+:3[>=3.0.0] )
             !gtk3? ( x11-libs/gtk+:2[>=2.14.0] )
-            python? (
-                dev-lang/python:=[>=2.4]
-                gnome-bindings/pygtk:2[>=2.7.1]
-            )
+            python? ( gnome-bindings/pygtk:2[>=2.7.1] )
     "
 fi
 
