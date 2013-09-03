@@ -3,6 +3,7 @@
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.12 ] ] freedesktop-desktop
 require freedesktop-mime sourceforge gtk-icon-cache
+require python [ python_dep="[>=2.4]" python_sup="2.7 2.6" with_opt=true ]
 
 SUMMARY="Bluefish GTK+ web editor"
 DESCRIPTION="
@@ -18,7 +19,7 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="charmap [[ description = [ Builds charmap plugin ] ]]
            gtk2 [[ description = [ Forces use of GTK+-2 interface instead of GTK+-3 ] ]]
-           python spell"
+           spell"
 
 DEPENDENCIES="
     build:
@@ -40,7 +41,6 @@ DEPENDENCIES="
             x11-libs/gtk+:3[>=3.2.2]
             charmap? ( gnome-extra/gucharmap[>=2.90][gtk3(+)] )
         )
-        python? ( dev-lang/python:=[>=2.4] )
         spell? ( app-spell/enchant[>=1.4] )
 "
 
