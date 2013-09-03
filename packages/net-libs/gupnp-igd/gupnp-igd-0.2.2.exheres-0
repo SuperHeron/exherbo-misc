@@ -1,7 +1,8 @@
-# Copyright 2010-2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require gnome.org [ suffix=.tar.xz ]
+require python [ python_dep="[>=2.6]" python_sup="2.7 2.6" with_opt=true ]
 
 SUMMARY="This is a library to handle UPnP IGD port mapping"
 HOMEPAGE="https://live.gnome.org/GUPnP/"
@@ -9,7 +10,7 @@ HOMEPAGE="https://live.gnome.org/GUPnP/"
 LICENCES="LGPL-2.1"
 SLOT="1.0"
 PLATFORMS="~amd64"
-MYOPTIONS="gobject-introspection gtk-doc python"
+MYOPTIONS="gobject-introspection gtk-doc"
 
 DEPENDENCIES="
     build:
@@ -19,10 +20,7 @@ DEPENDENCIES="
     build+run:
         dev-libs/glib:2[>=2.16]
         net-libs/gupnp:1.0[>=0.18][gobject-introspection?]
-        python? (
-            dev-lang/python:=
-            gnome-bindings/pygobject:2[>=2.16.0]
-        )
+        python? ( gnome-bindings/pygobject:2[>=2.16.0] )
 "
 
 RESTRICT="test" # needs network access
