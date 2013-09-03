@@ -1,7 +1,7 @@
 # Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop udev-rules
+require freedesktop-desktop udev-rules python [ python_dep='[>=2.5]' python_sup='2.7 2.6' with_opt=true ]
 
 SUMMARY="A family of powerful x86 virtualization products"
 DESCRIPTION="VirtualBox is a powerful x86 virtualization product for enterprise as well as home use. Not only is VirtualBox an extremely feature rich, high performance product for enterprise customers, it is also the only professional solution that is freely available as Open Source Software under the terms of the GNU General Public License (GPL)."
@@ -64,7 +64,6 @@ DEPENDENCIES="
         dbus? ( sys-apps/dbus )
         devmapper? ( sys-fs/lvm2 )
         pulseaudio? ( media-sound/pulseaudio[>=0.9.0] )
-        python? ( dev-lang/python:=[>=2.5] )
         vnc? ( net-libs/libvncserver[>=0.9.7] )
         webservice? ( net-libs/gsoap[>=2.7.9f] )
         wine? ( app-emulation/wine )
