@@ -1,10 +1,11 @@
-# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 MY_PV="${PV}-b"
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ none ] ]
 require sourceforge [ pnv="${PN}-source/${PN}_full-${MY_PV}" ]
+require python [ python_dep="[>=2.3]" python_sup="2.7 2.6" with_opt=true ]
 
 SUMMARY="FontForge - An Outline Font Editor"
 DESCRIPTION="FontForge -- An outline font editor that lets you create your own postscript, truetype, opentype,
@@ -17,8 +18,8 @@ DESCRIPTION="FontForge -- An outline font editor that lets you create your own p
 LICENCES="BSD-3"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="X cairo native-script pango python truetype type3
-           native-script [[ description = [ include a legacy fontforge scripting interpreter  ] ]]"
+MYOPTIONS="X cairo native-script pango truetype type3
+           native-script [[ description = [ include a legacy fontforge scripting interpreter ] ]]"
 
 DEPENDENCIES="
     build:
@@ -46,7 +47,6 @@ DEPENDENCIES="
             x11-libs/libXft
             x11-libs/pango[X]
         )
-        python? ( dev-lang/python:=[>=2.3] )
         truetype? ( media-libs/freetype:2 )
 "
 
