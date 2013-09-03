@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ] systemd-service
+require distutils [ python_dep="[>=2.3]" python_sup="2.7 2.6" with_opt=true ]
 
 SUMMARY="A system to store and display time-series data"
 DESCRIPTION="
@@ -16,7 +17,7 @@ DOWNLOADS="${HOMEPAGE}/pub/${PNV}.tar.gz"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="cgi dbi lua perl python ruby tcl tcpd"
+MYOPTIONS="cgi dbi lua perl ruby tcl tcpd"
 
 DEPENDENCIES="
     build:
@@ -35,7 +36,6 @@ DEPENDENCIES="
         dbi? ( dev-libs/libdbi )
         lua? ( dev-lang/lua[>=5.1] )
         perl? ( dev-lang/perl:=[>=5.8.1] )
-        python? ( dev-lang/python:=[>=2.3] )
         ruby? ( dev-lang/ruby:= )
         tcl? ( dev-lang/tcl:=[>=8.3] )
         tcpd? ( sys-apps/tcp-wrappers )
