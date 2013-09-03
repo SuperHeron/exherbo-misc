@@ -1,22 +1,31 @@
 # Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop udev-rules python [ python_dep='[>=2.5]' python_sup='2.7 2.6' with_opt=true ]
+require freedesktop-desktop udev-rules
+require python [ python_dep='[>=2.5]' python_sup='2.7 2.6' with_opt=true ]
 
 SUMMARY="A family of powerful x86 virtualization products"
-DESCRIPTION="VirtualBox is a powerful x86 virtualization product for enterprise as well as home use. Not only is VirtualBox an extremely feature rich, high performance product for enterprise customers, it is also the only professional solution that is freely available as Open Source Software under the terms of the GNU General Public License (GPL)."
+DESCRIPTION="
+VirtualBox is a powerful x86 virtualization product for enterprise as well as
+home use. Not only is VirtualBox an extremely feature rich, high performance
+product for enterprise customers, it is also the only professional solution
+that is freely available as Open Source Software under the terms of the GNU
+General Public License (GPL).
+"
+
 HOMEPAGE="http://www.virtualbox.org"
 MY_PNV="VirtualBox-${PV}"
 EXT_PN="Oracle_VM_VirtualBox_Extension_Pack"
+VBOX_DOWNLOADS_ROOT="http://download.virtualbox.org/${PN%-ose}/${PV}"
 DOWNLOADS="
-    http://download.virtualbox.org/${PN%-ose}/${PV}/${MY_PNV}.tar.bz2
-    additions? ( http://download.virtualbox.org/${PN%-ose}/${PV}/VBoxGuestAdditions_${PV}.iso )
-    extensions? ( http://download.virtualbox.org/${PN%-ose}/${PV}/${EXT_PN}-${PV}.vbox-extpack -> ${EXT_PN}-${PV}.tar.gz )
+    ${VBOX_DOWNLOADS_ROOT}/${MY_PNV}.tar.bz2
+    additions? ( ${VBOX_DOWNLOADS_ROOT}/VBoxGuestAdditions_${PV}.iso )
+    extensions? ( ${VBOX_DOWNLOADS_ROOT}/${EXT_PN}-${PV}.vbox-extpack -> ${EXT_PN}-${PV}.tar.gz )
 "
 
 LICENCES="CDDL-1.0 GPL-2 additions? ( PUEL ) extensions? ( PUEL )"
 SLOT="0"
-MYOPTIONS="X additions alsa dbus devmapper opengl pulseaudio python truetype vnc webservice wine
+MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc
     additions [[ description = [ Installs Guest Additions ISO ] ]]
     extensions [[ description = [ Install Extension Pack (binary) ] ]]
     webservice [[ description = [ Builds VBoxWebSrv ] ]]
