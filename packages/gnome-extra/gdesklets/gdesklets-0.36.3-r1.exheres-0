@@ -1,8 +1,9 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
 require freedesktop-desktop freedesktop-mime
+require python [ python_dep="[>=2.3]" python_sup="2.7 2.6" ]
 
 SUMMARY="gDesklets - GNOME Desktop Applets"
 DESCRIPTION="
@@ -28,7 +29,6 @@ DEPENDENCIES="
         sys-devel/gettext
         virtual/pkg-config
     build+run:
-        dev-lang/python:=[>=2.3]
         dev-libs/expat[>=2.0]
         gnome-bindings/gnome-python[>=2.6.0][bonobo][bonoboui][gnomecanvas]
         gnome-bindings/pygtk:2[>=2.10]
