@@ -1,8 +1,8 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require gnome.org [ suffix=.tar.xz ] freedesktop-desktop gtk-icon-cache
-require python [ has_lib=false has_bin=true ]
+require python [ python_dep="[>=2.4&<3]" python_sup="2.7 2.6" has_lib=false has_bin=true ]
 
 SUMMARY="Alacarte - GNOME menu editor"
 DESCRIPTION="
@@ -18,7 +18,6 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
-        dev-lang/python:=[>=2.4&<3]
         gnome-bindings/pygobject:3
         gnome-desktop/gnome-menus:3.0[>=3.2.0.1]
 "
