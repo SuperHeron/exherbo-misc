@@ -3,7 +3,7 @@
 # Based in part upon 'xchat-gnome-0.26.1.ebuild' from Gentoo which is:
 #     Copyright 1999-2009 Gentoo Foundation
 
-require gnome-2
+require gnome-2 python [ python_dep="[>=2.6]" python_sup="2.7 2.6" with_opt=true ]
 
 SUMMARY="GNOME frontend for the popular X-Chat IRC client"
 DESCRIPTION="XChat-GNOME is a new frontend to the popular X-Chat IRC client which is designed with the user interface foremost in mind."
@@ -12,7 +12,7 @@ HOMEPAGE="http://live.gnome.org/Xchat-Gnome"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="dbus ipv6 libnotify mmx perl python sound spell tcl"
+MYOPTIONS="dbus ipv6 libnotify mmx perl sound spell tcl"
 
 DEPENDENCIES="
     build:
@@ -30,7 +30,6 @@ DEPENDENCIES="
         dbus? ( sys-apps/dbus )
         libnotify? ( x11-libs/libnotify )
         perl? ( dev-lang/perl:=[>=5.6.1] )
-        python? ( dev-lang/python:=[>=2.6] )
         sound? ( media-libs/libcanberra[gtk] )
         spell? ( app-spell/enchant )
         tcl? ( dev-lang/tcl )
