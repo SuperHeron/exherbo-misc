@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop freedesktop-mime gtk-icon-cache mono
-equire autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.12 1.11 ] ]
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.12 1.11 ] ]
 
 SUMMARY="Integrated Development Environment for .NET"
 DESCRIPTION="
@@ -13,7 +13,7 @@ applications on Linux. MonoDevelop makes it easy for developers to port
 a single code base for all platforms.
 "
 HOMEPAGE="http://monodevelop.com"
-DOWNLOADS="http://download.mono-project.com/sources/${PN}/${PNV}.tar.bz2"
+DOWNLOADS="http://download.mono-project.com/sources/${PN}/${PNV}-3.tar.bz2"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
@@ -27,7 +27,7 @@ DEPENDENCIES="
         virtual/pkg-config
     build+run:
         dev-dotnet/mono-addins[>=0.6][gui]
-        dev-lang/mono[>=2.8]
+        dev-lang/mono[>=2.10.9]
         dev-libs/xulrunner
         gnome-bindings/gnome-sharp:2[>=2.12.8]
         gnome-bindings/gtk-sharp:2[>=2.12.8]
@@ -38,7 +38,10 @@ DEPENDENCIES="
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/Documentation"
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/Download/Release_Notes/Release_Notes_for_MonoDevelop_${PV}"
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-fix-libdir.patch" )
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}/${PNV}-fix-libdir.patch"
+    "${FILES}/${PNV}-dont-reference-cecil.patch"
+)
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--disable-update-desktopdb'
     '--disable-update-mimedb'

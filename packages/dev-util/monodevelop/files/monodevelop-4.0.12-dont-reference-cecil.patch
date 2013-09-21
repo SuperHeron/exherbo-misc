@@ -1,0 +1,29 @@
+# Source: Upstream Git.
+# Upstream: https://github.com/mono/monodevelop/commit/05ecdfd9b2d4e85b77fbbf62c887be898d9c2986#diff-0
+# Reason: Remove unused reference to fix build.
+diff -urpN a/external/debugger-libs/Mono.Debugging.Soft/Mono.Debugging.Soft.csproj b/external/debugger-libs/Mono.Debugging.Soft/Mono.Debugging.Soft.csproj
+--- a/external/debugger-libs/Mono.Debugging.Soft/Mono.Debugging.Soft.csproj	2013-09-21 18:46:37.822001855 +0200
++++ b/external/debugger-libs/Mono.Debugging.Soft/Mono.Debugging.Soft.csproj	2013-09-21 18:57:05.382010422 +0200
+@@ -44,11 +44,6 @@
+       <Name>Mono.Cecil</Name>
+       <Private>False</Private>
+     </ProjectReference>
+-    <ProjectReference Include="..\..\cecil\symbols\mdb\Mono.Cecil.Mdb.csproj">
+-      <Project>{8559DD7F-A16F-46D0-A05A-9139FAEBA8FD}</Project>
+-      <Name>Mono.Cecil.Mdb</Name>
+-      <Private>False</Private>
+-    </ProjectReference>
+   </ItemGroup>
+   <ItemGroup>
+     <Compile Include="ArrayAdaptor.cs" />
+diff -urpN a/external/debugger-libs/Mono.Debugging.Soft/SoftDebuggerSession.cs b/external/debugger-libs/Mono.Debugging.Soft/SoftDebuggerSession.cs
+--- a/external/debugger-libs/Mono.Debugging.Soft/SoftDebuggerSession.cs	2013-09-21 18:46:37.822001855 +0200
++++ b/external/debugger-libs/Mono.Debugging.Soft/SoftDebuggerSession.cs	2013-09-21 18:57:20.766010632 +0200
+@@ -39,7 +39,6 @@ using System.Globalization;
+ using System.Collections.Generic;
+ using System.Runtime.InteropServices;
+ 
+-using Mono.Cecil.Mdb;
+ using Mono.CompilerServices.SymbolWriter;
+ using Mono.Debugging.Client;
+ using Mono.Debugger.Soft;
