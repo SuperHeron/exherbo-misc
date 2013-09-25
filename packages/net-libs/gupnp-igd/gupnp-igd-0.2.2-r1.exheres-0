@@ -28,6 +28,10 @@ REMOTE_IDS="freshmeat:gupnp"
 
 UPSTREAM_CHANGELOG="http://git.gupnp.org/cgit.cgi?url=${PN}/tree/NEWS&id=${PV}"
 
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    LIBGUPNP_CFLAGS="$(pkg-config --cflags gobject-2.0 gssdp-1.0 gthread-2.0 gupnp-1.0)"
+    LIBGUPNP_LIBS="$(pkg-config --libs gobject-2.0 gssdp-1.0 gthread-2.0 gupnp-1.0)"
+)
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'gobject-introspection introspection'
     'gtk-doc'
