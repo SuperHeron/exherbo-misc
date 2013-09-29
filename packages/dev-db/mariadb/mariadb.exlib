@@ -1,0 +1,205 @@
+# Copyright 2013 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'mysql.exlib', which is:
+#     Copyright 2008, 2009, 2010 Ingmar Vanhassel <ingmar@exherbo.org>
+#     Copyright 2011-2013 Timo Gurr <tgurr@exherbo.org>
+#     Distributed under the terms of the GNU General Public License v2
+
+require cmake [ api=2 ] systemd-service easy-multibuild
+
+export_exlib_phases pkg_pretend src_install
+
+MARIADB_MAJOR_VERSION=$(ever range 1-2)
+
+SUMMARY="An enhanced, drop-in replacement for MySQL"
+HOMEPAGE="http://${PN}.org"
+DOWNLOADS="mirror://${PN}/${PNV}/kvm-tarbake-jaunty-x86/${PNV}.tar.gz"
+
+REMOTE_IDS="freecode:${PN}"
+UPSTREAM_CHANGELOG="https://${PN}.com/kb/en/${PN}-$(ever delete_all)-changelog [[ lang = [ en ] ]]"
+UPSTREAM_DOCUMENTATION="https://${PN}.com/kb/en [[ lang = [ en ] ]]"
+UPSTREAM_RELEASE_NOTES="https://${PN}.com/kb/en/${PN}-$(ever delete_all)-release-notes [[ lang = [ en ] ]]"
+
+LICENCES="GPL-2" # with-exceptions
+SLOT="0"
+MYOPTIONS="
+    baselayout
+    debug
+    embedded-server [[ description = [ The embedded MariaDB server library, a full-featured MariaDB server that can be run inside a client application ] ]]
+    tcpd
+    multibuild_c: 32 64
+"
+
+DEPENDENCIES="
+    build+run:
+       !dev-db/mysql [[
+            description = [ MariaDB is a drop-in replacement for MySQL with same binary names ]
+            resolution = uninstall-blocked-after
+        ]]
+        dev-libs/libaio[multibuild_c:*(-)?]
+        group/mysql
+        sys-libs/zlib[>=1.2.3][multibuild_c:*(-)?]
+        user/mysql
+        tcpd? ( sys-apps/tcp-wrappers[multibuild_c:*(-)?] )
+    suggestion:
+        app-admin/logrotate [[ description = [ Use logrotate for rotating logs ] ]]
+"
+
+if ever at_least 10.0 ; then
+    DEPENDENCIES+="
+        build+run:
+            dev-libs/libedit[multibuild_c:*(-)?]
+            dev-libs/libevent[>=1.4.12][multibuild_c:*(-)?]
+    "
+else
+    DEPENDENCIES+="
+        build+run:
+            sys-libs/readline[>=5.2][multibuild_c:*(-)?]
+    "
+fi
+
+mariadb_pkg_pretend() {
+    # Sanity check when upgrading to a different x.y version of mysql
+    if [[ -z ${MARIADB_MAJOR_UPGRADE} ]] && has_version ${CATEGORY}/${PN} && \
+        ! has_version ${CATEGORY}/${PN}[=${MARIADB_MAJOR_VERSION}*] ; then
+        ewarn "To install a different major version of MariaDB, you have to dump/reload your database."
+        ewarn "When you've done this, please set 'MARIADB_MAJOR_UPGRADE=YesPlease', to continue the upgrade."
+        ewarn "For more information visit:"
+        ewarn "https://${PN}.com/kb/en/upgrading-${PN}"
+        die "Dump your databases before doing a major version upgrade of MariaDB."
+    fi
+
+    if [[ -f "${ROOT}"/etc/tmpfiles.d/${PN}.conf ]] ; then
+        ewarn "The configuration file /etc/tmpfiles.d/${PN}.conf has been moved to"
+        ewarn "/usr/${LIBDIR}/tmpfiles.d/${PN}.conf and can be safely removed after upgrade"
+        ewarn "if you did not make any changes to it."
+    fi
+}
+
+configure_one_multibuild() {
+    local cmakeargs=(
+        -DBUILD_CONFIG:STRING=mysql_release
+        -DCMAKE_INSTALL_PREFIX:PATH=/usr
+        -DCOMPILATION_COMMENT:STRING="Exherbo"
+        -DDEFAULT_CHARSET:STRING=utf8
+        -DDEFAULT_COLLATION:STRING=utf8_general_ci
+        -DFEATURE_SET:STRING=community
+        -DINSTALL_BINDIR:PATH=bin
+        -DINSTALL_DOCDIR:PATH=share/doc/${PNVR}
+        -DINSTALL_DOCREADMEDIR:PATH=share/doc/${PNVR}
+        -DINSTALL_INCLUDEDIR:PATH=include/${PN}
+        -DINSTALL_INFODIR:PATH=share/${PN}/info
+        -DINSTALL_LIBDIR:PATH=${LIBDIR}/${PN}
+        -DINSTALL_MANDIR:PATH=share/man
+        -DINSTALL_MYSQLSHAREDIR:PATH=share/${PN}
+        # Empty value to not install the mysql-test directory
+        -DINSTALL_MYSQLTESTDIR:STRING=
+        -DINSTALL_PLUGINDIR:PATH=${LIBDIR}/${PN}/plugin
+        -DINSTALL_SBINDIR:PATH=sbin
+        -DINSTALL_SCRIPTDIR:PATH=bin
+        # Empty value to not install the sql-bench directory
+        -DINSTALL_SQLBENCHDIR:STRING=
+        -DINSTALL_SUPPORTFILESDIR:PATH=share/doc/${PNVR}/support-files
+        -DMYSQL_DATADIR:PATH=/var/lib/mysql
+        -DMYSQL_UNIX_ADDR:PATH=/run/mysqld/mysqld.sock
+        -DSYSCONFDIR:PATH=/etc/${PN}
+        -DENABLED_PROFILING:BOOL=TRUE
+        -DWITH_EXTRA_CHARSETS:STRING=all
+        # Default ENGINES for MariaDB 5.6 community build (currently == xlarge) minus embedded
+        -DWITH_ARCHIVE_STORAGE_ENGINE:BOOL=TRUE
+        -DWITH_BLACKHOLE_STORAGE_ENGINE:BOOL=TRUE
+        -DWITH_FEDERATED_STORAGE_ENGINE:BOOL=TRUE
+        -DWITH_INNOBASE_STORAGE_ENGINE:BOOL=TRUE
+        -DWITH_PARTITION_STORAGE_ENGINE:BOOL=TRUE
+        -DWITH_SSL:STRING=system
+        -DWITH_UNIT_TESTS:BOOL=TRUE
+        -DWITH_VALGRIND:BOOL=FALSE
+        -DWITH_ZLIB:STRING=system
+    )
+
+    if option debug ; then
+        cmakeargs+=(
+            -DCMAKE_BUILD_TYPE:STRING=Debug
+        )
+    else
+        cmakeargs+=(
+            -DCMAKE_BUILD_TYPE:STRING=Release
+        )
+    fi
+
+    if ever at_least 10.0 ; then
+        cmakeargs+=(
+            -DBUILD_WITH_WERROR:BOOL=FALSE
+            -DCOMPILE_FLAG_WERROR:BOOL=FALSE
+            -DENABLE_DTRACE:BOOL=FALSE
+            -DENABLE_GCOV:BOOL=FALSE
+            -DENABLE_GPROF:BOOL=FALSE
+            -DENABLED_LOCAL_INFILE:BOOL=TRUE
+            -DWITH_EDITLINE:STRING=system
+            -DWITH_LIBEVENT:STRING=system
+        )
+    else
+        cmakeargs+=(
+            -DWITH_LIBEDIT:BOOL=FALSE
+            -DWITH_READLINE:BOOL=FALSE
+        )
+    fi
+
+    ecmake \
+        "${cmakeargs[@]}" \
+        $(cmake_with debug DEBUG)\
+        $(cmake_with embedded-server EMBEDDED_SERVER)\
+        $(cmake_with tcpd LIBWRAP)
+}
+
+install_one_multibuild() {
+    cmake_src_install
+
+    # construct ldpath for all targets
+    ldpath="/usr/${LIBDIR}/${PN}${ldpath:+:${ldpath}}"
+}
+
+mariadb_src_install() {
+    local ldpath
+
+    easy-multibuild_src_install
+
+    # Remove empty directories
+    edo rm -r "${IMAGE}"/usr/data
+
+    keepdir /etc/${PN}
+
+    if ever at_least 10.0 ; then
+        edo cp "${IMAGE}"/usr/share/doc/${PNVR}/support-files/my-default.cnf "${IMAGE}"/etc/${PN}/my.cnf
+    else
+        edo cp "${IMAGE}"/usr/share/doc/${PNVR}/support-files/my-small.cnf "${IMAGE}"/etc/${PN}/my.cnf
+    fi
+#    edo mv "${IMAGE}"/usr/bin/mysqlaccess.conf "${IMAGE}"/etc/mysql/mysqlaccess.conf
+#    edo chmod 644 "${IMAGE}"/etc/mysql/mysqlaccess.conf
+
+    keepdir /var/{lib,log}/mysql
+    edo chown mysql:mysql "${IMAGE}"/var/{lib,log}/mysql
+    edo chmod 755 "${IMAGE}"/var/{lib,log}/mysql
+
+    hereenvd 46${PN} <<EOF
+LDPATH=${ldpath}
+EOF
+
+    insinto /etc/logrotate.d
+    newins "${FILES}"/logrotate.${PN} ${PN}
+
+    if option baselayout ; then
+        newinitd "${FILES}"/${PN}.rc6 ${PN}
+        newconfd "${FILES}"/${PN}.conf.d ${PN}
+    fi
+
+    install_systemd_files
+
+    if option systemd ; then
+        insinto /usr/${LIBDIR}/tmpfiles.d
+        hereins ${PN}.conf <<EOF
+d /run/mysqld 0755 mysql mysql
+EOF
+    fi
+}
+
