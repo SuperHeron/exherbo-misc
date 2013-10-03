@@ -1,0 +1,32 @@
+# Copyright 2013 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require sourceforge cmake [ api=2 ] gtk-icon-cache freedesktop-desktop
+
+SUMMARY="Sqlite Databases Made Easy"
+DESCRIPTION="Sqliteman is simple but powerfull Sqlite3 GUI database manager"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        virtual/pkg-config
+    build+run:
+        app-editors/QScintilla
+        dev-db/sqlite:3
+        x11-libs/qt:4[>=4.3.0][sql][sqlite]
+"
+
+pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+    gtk-icon-cache_pkg_postinst
+}
+
+pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+    gtk-icon-cache_pkg_postrm
+}
+
