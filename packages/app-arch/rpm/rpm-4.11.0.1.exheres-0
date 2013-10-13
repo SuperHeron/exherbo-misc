@@ -2,7 +2,7 @@
 # Copyright 2010 Timothy Redaelli <timothy@redaelli.eu>
 # Distributed under the terms of the GNU General Public License v2
 
-require flag-o-matic python [ python_dep="[>=2.6]" python_sup="2.7 2.6" with_opt=true ]
+require flag-o-matic python [ python_dep="[>=2.6]" python_sup="2.7 2.6" multibuild=false with_opt=true ]
 
 SUMMARY="Powerful command line driven package management system"
 DESCRIPTION="
