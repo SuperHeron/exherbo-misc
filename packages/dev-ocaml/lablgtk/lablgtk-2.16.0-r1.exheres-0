@@ -5,7 +5,7 @@ SUMMARY="Objective Caml bindings for Gtk+"
 DESCRIPTION="
 LablGTK is is an Objective Caml interface to gtk+. It comes in two flavors: LablGTK1 for gtk+-1.2 and LablGTK2 for gtk+-2.0 to gtk+-2.16.
 
-It uses the rich type system of Objective Caml 3 to provide a strongly typed, yet very comfortable, object-oriented interface to gtk+. This is not that easy if you know the dynamic typing approach taken by gtk+. 
+It uses the rich type system of Objective Caml 3 to provide a strongly typed, yet very comfortable, object-oriented interface to gtk+. This is not that easy if you know the dynamic typing approach taken by gtk+.
 "
 HOMEPAGE="http://${PN}.forge.ocamlcore.org"
 DOWNLOADS="http://forge.ocamlcore.org/frs/download.php/979/${PNV}.tar.gz"
@@ -18,7 +18,7 @@ MYOPTIONS="glade gnomecanvas gnomeui gtksourceview ocamlopt panel spell svg thre
 
 DEPENDENCIES="
     build+run:
-        dev-lang/ocaml[>=3.11][ocamlopt?]
+        dev-lang/ocaml[>=3.11]
         x11-libs/gtk+:2[>=2.12]
         glade? ( dev-util/glade )
         gnomecanvas? ( gnome-platform/libgnomecanvas )
