@@ -32,6 +32,7 @@ SLOT="0"
 
 MYOPTIONS="
     gobject [[ description = [ Enables client gobject libraries ] ]]
+    gobject-introspection
     qt4 [[ description = [ Enable LightDM client Qt4 libraries ] ]]
     qt5 [[ description = [ Enable LightDM client Qt5 libraries ] ]]
 "
@@ -47,13 +48,16 @@ DEPENDENCIES="
     build+run:
         group/${PN}
         user/${PN}
-        dev-libs/glib:2[>=2.26]
+        dev-libs/glib:2[>=2.30]
         sys-libs/pam
         x11-libs/libxcb
         x11-libs/libXdmcp
         gobject? (
             x11-libs/libX11
             x11-libs/libxklavier
+        )
+        gobject-introspection? (
+            gnome-desktop/gobject-introspection:1[>=0.9.5]
         )
         qt4? ( x11-libs/qt:4 )
         qt5? ( x11-libs/qtbase:5 )
@@ -73,14 +77,15 @@ REMOTE_IDS="launchpad:${PN}"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --localstatedir=/var
-    --disable-introspection
     --disable-static
-    --disable-liblightdm-qt
-    --disable-tests
+    --enable-tests
+    --with-greeter-user=lightdm
+    --with-greeter-session=lightdm-greeter
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'gobject liblightdm_gobject'
+    'gobject-introspection introspection'
     'qt4 liblightdm-qt'
     'qt5 liblightdm-qt5'
 )
@@ -92,12 +97,16 @@ lightdm_src_install() {
     doins "${FILES}"/session
     edo chmod +x "${IMAGE}"/usr/share/lightdm/session
 
+    insinto /usr/share/polkit-1/rules.d
+    doins "${FILES}"/lightdm-polkit.rules
+
+    insinto /usr/${LIBDIR}/tmpfiles.d
+    doins "${FILES}"/lightdm-tmpfiles.conf
+
     # Use the provided session wrapper (from xdm)
     edo sed -i \
         -e '/^#run-directory/s|=/var/run|=/run|' \
         -e '/^#run-directory/s|^#||' \
-        -e '/^#greeter-session/s|=example-gtk-gnome|=lightdm-gtk-greeter|' \
-        -e '/^#greeter-session/s|^#||' \
         -e '/^#session-wrapper/s|=lightdm-session|=/usr/share/lightdm/session|' \
         -e '/^#session-wrapper/s|^#||' \
         "${IMAGE}"/etc/lightdm/lightdm.conf
