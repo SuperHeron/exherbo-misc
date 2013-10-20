@@ -30,6 +30,8 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --disable-silent-rules
+    --disable-static
     --disable-libindicator # in no repository
     --enable-nls
     --without-gtk2 # feel free to make it optional
