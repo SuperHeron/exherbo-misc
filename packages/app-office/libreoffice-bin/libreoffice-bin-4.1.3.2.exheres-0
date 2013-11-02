@@ -12,7 +12,7 @@ on a variety of platforms. It is free software and therefore free to download, u
 "
 HOMEPAGE="http://www.libreoffice.org"
 
-LO_BUILDID="3"
+LO_BUILDID="2"
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibreOffice"
 LO_PN_LONG="${PN%-bin}"
