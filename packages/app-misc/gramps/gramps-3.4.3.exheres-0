@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop freedesktop-mime sourceforge [ pnv="Stable/${PV}/${PNV}" suffix=tar.gz ]
-require python [ python_dep='[>=2.6][berkdb]' has_lib=false has_bin=true ]
+require python [ blacklist=none python_opts='[berkdb]' has_lib=false has_bin=true ]
 
 SUMMARY="Genealogical Research and Analysis Management Programming System"
 DESCRIPTION="
