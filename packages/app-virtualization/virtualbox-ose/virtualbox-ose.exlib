@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop udev-rules
-require python [ python_dep='[>=2.5]' python_sup='2.7 2.6' with_opt=true ]
+require python [ blacklist=3 with_opt=true ]
 
 SUMMARY="A family of powerful x86 virtualization products"
 DESCRIPTION="
