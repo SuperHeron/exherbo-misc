@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require gnome.org [ suffix=.tar.xz ]
-require python [ python_dep="[>=2.6]" python_sup="2.7 2.6" with_opt=true ]
+require python [ blacklist=3 with_opt=true ]
 
 SUMMARY="This is a library to handle UPnP IGD port mapping"
 HOMEPAGE="https://live.gnome.org/GUPnP/"
