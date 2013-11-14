@@ -3,7 +3,7 @@
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.12 ] ] freedesktop-desktop
 require freedesktop-mime sourceforge gtk-icon-cache
-require python [ python_dep="[>=2.4]" python_sup="2.7 2.6" with_opt=true ]
+require python [ blacklist=3 multibuild=false with_opt=true ]
 
 SUMMARY="Bluefish GTK+ web editor"
 DESCRIPTION="
