@@ -1,9 +1,9 @@
 # Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require distutils [ python_dep="[>=2]" python_sup="2.7 2.6" with_opt=true ]
-
 MY_PNV="${PN}${PV}"
+
+require setup-py [ import='distutils' blacklist=3 with_opt=true work="${MY_PNV}/python" ]
 
 SUMMARY="The Snack Sound Toolkit"
 DESCRIPTION="
@@ -42,12 +42,17 @@ UPSTREAM_CHANGELOG="${HOMEPAGE}/changes.txt"
 WORK="${WORKBASE}/${MY_PNV}/unix"
 WORK_PYTHON="${WORKBASE}/${MY_PNV}/python"
 
+src_unpack() {
+    default
+    easy-multibuild_src_unpack
+}
+
 src_prepare() {
     edo cd "${WORKBASE}/${MY_PNV}"
     expatch "${FILES}/${PNV}-conflicting-floor.patch"
     if option python; then
         edo cd "${WORK_PYTHON}"
-        distutils_src_prepare
+        setup-py_src_prepare
     fi
 }
 
@@ -59,13 +64,17 @@ src_configure() {
         "--with-ogg-lib=/usr/${LIBDIR}"
     )
     econf "${myconf[@]}"
+    if option python; then
+        edo cd "${WORK_PYTHON}"
+        setup-py_src_configure
+    fi
 }
 
 src_compile() {
     default
     if option python; then
         edo cd "${WORK_PYTHON}"
-        distutils_src_compile
+        setup-py_src_compile
     fi
 }
 
@@ -73,7 +82,7 @@ src_install() {
     default
     if option python; then
         edo cd "${WORK_PYTHON}"
-        distutils_src_install
+        setup-py_src_install
     fi
 }
 
