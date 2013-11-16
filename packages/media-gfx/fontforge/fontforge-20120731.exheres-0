@@ -5,7 +5,7 @@ MY_PV="${PV}-b"
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ none ] ]
 require sourceforge [ pnv="${PN}-source/${PN}_full-${MY_PV}" ]
-require python [ python_dep="[>=2.3]" python_sup="2.7 2.6" with_opt=true ]
+require python [ blacklist=3 multibuild=false with_opt=true ]
 
 SUMMARY="FontForge - An Outline Font Editor"
 DESCRIPTION="FontForge -- An outline font editor that lets you create your own postscript, truetype, opentype,
