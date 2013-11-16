@@ -3,7 +3,7 @@
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
 require freedesktop-desktop freedesktop-mime
-require python [ python_dep="[>=2.3]" python_sup="2.7 2.6" ]
+require python [ blacklist=3 multibuild=false ]
 
 SUMMARY="gDesklets - GNOME Desktop Applets"
 DESCRIPTION="
@@ -31,8 +31,8 @@ DEPENDENCIES="
     build+run:
         dev-libs/expat[>=2.0]
         gnome-bindings/gnome-python[>=2.6.0][bonobo][bonoboui][gnomecanvas]
-        gnome-bindings/pygtk:2[>=2.10]
-        gnome-bindings/pyorbit[>=2.0.1]
+        gnome-bindings/pygtk:2[>=2.10][python_abis:*(-)?]
+        gnome-bindings/pyorbit[>=2.0.1][python_abis:*(-)?]
         gnome-desktop/libgtop:2[>=2.8.0]
         gnome-desktop/librsvg:2[>=2.8.0]
 "
