@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ] systemd-service
-require distutils [ python_dep="[>=2.3]" python_sup="2.7 2.6" with_opt=true ]
+require setup-py [ import='distutils' blacklist=3 multibuild=false with_opt=true ]
 
 SUMMARY="A system to store and display time-series data"
 DESCRIPTION="
@@ -58,8 +58,36 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'tcpd libwrap'
 )
 
+src_prepare() {
+    autotools_src_prepare
+    if option python; then
+        edo cd bindings/python
+        setup-py_src_prepare
+    fi
+}
+
+src_configure() {
+    default
+    if option python; then
+        edo cd bindings/python
+        setup-py_src_configure
+    fi
+}
+
+src_compile() {
+    default
+    if option python; then
+        edo cd bindings/python
+        setup-py_src_compile
+    fi
+}
+
 src_install() {
     default
+    if option python; then
+        edo cd bindings/python
+        setup-py_src_install
+    fi
 
     keepdir /var/lib/${PN}
     edo chown ${PN}:${PN} "${IMAGE}"/var/lib/${PN}
