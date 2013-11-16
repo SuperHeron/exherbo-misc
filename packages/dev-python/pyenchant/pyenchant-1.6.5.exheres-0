@@ -1,7 +1,7 @@
 # Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require distutils [ python_dep="[>=2.2]" python_sup="2.7 2.6" ] pypi
+require setup-py [ import='setuptools' blacklist=3 ] pypi
 
 SUMMARY="PyEnchant is a spellchecking library for Python, based on the excellent Enchant library."
 DESCRIPTION="
