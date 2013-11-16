@@ -29,3 +29,5 @@ UPSTREAM_DOCUMENTATION="
     ${HOMEPAGE}/api/enchant.html [[ description = [ API Doc ] ]]
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-replace-distribute-with-setuptools.patch" )
+
