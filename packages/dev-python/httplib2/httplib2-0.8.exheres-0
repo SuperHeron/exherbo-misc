@@ -1,7 +1,7 @@
 # Copyright 2011-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require googlecode [ suffix='tar.gz' ] setuptools [ python_dep="[>=2.4]" python_sup="2.7 2.6" ]
+require googlecode [ suffix='tar.gz' ] setup-py [ import='setuptools' blacklist=3 ]
 
 SUMMARY="A comprehensive HTTP client library in Python"
 DESCRIPTION="
