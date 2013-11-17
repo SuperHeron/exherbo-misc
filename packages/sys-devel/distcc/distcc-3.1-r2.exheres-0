@@ -4,7 +4,7 @@
 AT_M4DIR="m4"
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ] googlecode
-require python [ python_dep="[>=2.4]" python_sup="2.7 2.6" ]
+require python [ blacklist=3 multibuild=false ]
 
 SUMMARY="distcc: a fast, free distributed C/C++ compiler"
 DESCRIPTION="
@@ -57,6 +57,7 @@ pkg_setup() {
 
 src_install() {
     default
+    python_bytecompile
 
     dodir /usr/libexec/distcc
     insinto /usr/libexec/distcc
