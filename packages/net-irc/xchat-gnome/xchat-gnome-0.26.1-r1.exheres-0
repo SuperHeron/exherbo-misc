@@ -3,7 +3,7 @@
 # Based in part upon 'xchat-gnome-0.26.1.ebuild' from Gentoo which is:
 #     Copyright 1999-2009 Gentoo Foundation
 
-require gnome-2 python [ python_dep="[>=2.6]" python_sup="2.7 2.6" with_opt=true ]
+require gnome-2 python [ blacklist=3 multibuild=false with_opt=true ]
 
 SUMMARY="GNOME frontend for the popular X-Chat IRC client"
 DESCRIPTION="XChat-GNOME is a new frontend to the popular X-Chat IRC client which is designed with the user interface foremost in mind."
