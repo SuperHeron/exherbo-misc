@@ -10,7 +10,7 @@ arbitrary command will be executed (for example an installation script). Makesel
 checksums for integrity self-validation (CRC and/or MD5 checksums).
 "
 HOMEPAGE="http://www.megastep.org/${PN}"
-DOWNLOADS="${HOMEPAGE}/${PNV}.run"
+DOWNLOADS="http://cdn.megastep.org/${PN}/${PNV}.run"
 
 LICENCES="GPL-2"
 SLOT="0"
