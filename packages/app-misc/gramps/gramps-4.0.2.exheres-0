@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop freedesktop-mime sourceforge [ pnv="Stable/${PV}/${PNV}" suffix=tar.gz ]
-require python [ blacklist=none python_opts='[berkdb]' has_lib=false has_bin=true ]
+require setup-py [ import='distutils' blacklist='2.6 3.1' multibuild=false python_opts='[berkdb]' ]
+require gtk-icon-cache
 
 SUMMARY="Genealogical Research and Analysis Management Programming System"
 DESCRIPTION="
@@ -21,29 +22,41 @@ DEPENDENCIES="
         dev-util/intltool
         sys-devel/gettext
     build+run:
-        dev-libs/glib:2[>=2.2.0]
-        gnome-bindings/pygtk:2[>=2.12.0]
-        gnome-desktop/librsvg:2
+        gnome-desktop/librsvg:2[gobject-introspection]
         x11-apps/xdg-utils
+        x11-libs/cairo
+        x11-libs/pango[gobject-introspection]
+        x11-libs/gtk+:3[>=3.0.0][gobject-introspection]
     recommendation:
-        dev-python/pyexiv2 [[ description = [ Enable management of Exif metadata ] ]]
-        dev-python/pygoocanvas [[ description = [ Use GraphView plugin ] ]]
         media-gfx/graphviz [[ description = [ Enable creation of graphs ] ]]
-        gnome-bindings/gnome-python-extras[gtkspell] [[ description = [ Enable use spell checking ] ]]
         x11-libs/osm-gps-map [[ description = [ Used to show OpenStreetMaps in Geographic view ] ]]
+    suggestion:
+        app-spell/gtkspell:3.0[>=3.0.0][gobject-introspection] [[ description = [ Enable use spell checking ] ]]
+        dev-libs/gexiv2[>=0.5][gobject-introspection] [[ description = [ Enable management of Exif metadata ] ]]
+        net-libs/webkit[gobject-introspection] [[ description = [ Load HTML pages in Gramps ] ]]
+        x11-libs/goocanvas:2.0 [[ description = [ Use GraphView plugin ] ]]
 "
 
 UPSTREAM_DOCUMENTATION="http://www.gramps-project.org/wiki/index.php?title=User_manual"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( --disable-mime-install )
 
+src_install() {
+    setup-py_src_install
+    # Override resource-path file containing ${WORK}
+    # This file cannot contain any newline or carriage return
+    echo -n /usr/share > ${IMAGE}/$(python_get_sitedir)/${PN}/gen/utils/resource-path
+}
+
 pkg_postinst() {
     freedesktop-desktop_pkg_postinst
     freedesktop-mime_pkg_postinst
+    gtk-icon-cache_pkg_postinst
 }
 
 pkg_postrm() {
     freedesktop-desktop_pkg_postrm
     freedesktop-mime_pkg_postrm
+    gtk-icon-cache_pkg_postrm
 }
 
