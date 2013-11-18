@@ -21,7 +21,7 @@ DOWNLOADS="http://rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
 LICENCES="|| ( GPL-2 LGPL-2 )"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="acl caps lua sqlite"
+MYOPTIONS="acl caps lua"
 
 DEPENDENCIES="
     build:
@@ -35,7 +35,6 @@ DEPENDENCIES="
         acl? ( sys-apps/acl )
         caps? ( sys-libs/libcap )
         lua? ( dev-lang/lua[>=5.1] )
-        sqlite? ( dev-db/sqlite:3 )
 "
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/wiki/Docs"
@@ -44,24 +43,15 @@ UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/Releases/${PV}"
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-fix-libdir.patch" )
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( --with-external-db )
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'python'
-    'sqlite sqlite3'
-)
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'python' )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'acl'
     'caps cap'
     'lua'
 )
 
-src_prepare() {
-    default
-    option lua && edo sed -e 's/-llua/-llua5.1/' -i configure
-}
-
 src_configure() {
     append-cppflags "$(pkg-config --cflags-only-I nspr nss)"
-    option lua && append-cppflags "$(pkg-config --cflags-only-I lua)"
     append-ldflags "$(pkg-config --libs-only-L nss)"
     default
 }
