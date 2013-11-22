@@ -57,6 +57,7 @@ UPSTREAM_DOCUMENTATION="${HOMEPAGE}/overview.html"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--enable-libff'
+    '--with-freetype-src='
     '--with-regular-link'
     '--without-static-imagelibs'
 )
