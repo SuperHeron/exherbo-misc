@@ -25,7 +25,7 @@ DOWNLOADS="
 
 LICENCES="CDDL-1.0 GPL-2 additions? ( PUEL ) extensions? ( PUEL )"
 SLOT="0"
-MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc
+MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc vpx
     additions [[ description = [ Installs Guest Additions ISO ] ]]
     extensions [[ description = [ Install Extension Pack (binary) ] ]]
     webservice [[ description = [ Builds VBoxWebSrv ] ]]
@@ -37,6 +37,7 @@ MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc
 DEPENDENCIES="
     build:
         dev-util/kBuild
+        virtual/pkg-config
     build+run:
         !app-virtualization/virtualbox-bin
         app-arch/makeself
@@ -48,7 +49,7 @@ DEPENDENCIES="
         group/usb
         group/vboxusers
         media-libs/libpng[>=1.2.5]
-        net-misc/curl[>=7.16.1]
+        net-misc/curl[>=7.19.1]
         sys-devel/dev86
         sys-libs/libcap
         sys-libs/pam
@@ -58,15 +59,18 @@ DEPENDENCIES="
             app-cdr/cdrkit
             app-cdr/cdrtools
         )
-        X?
-        (
+        X? (
             media-libs/SDL[>=1.2.7][X]
             x11-libs/libX11
             x11-libs/libXcursor
             x11-libs/libXext
+            x11-libs/libXinerama
             x11-libs/libXrandr
-            x11-libs/qt:4[>=4.4.3][opengl?][xinerama]
-            opengl? ( x11-dri/mesa x11-libs/libXmu )
+            x11-libs/qt:4[>=4.6.2][opengl?][xinerama]
+            opengl? (
+                x11-dri/mesa
+                x11-libs/libXmu
+            )
             truetype? ( media-libs/SDL_ttf[>=2.0.6] )
         )
         alsa? ( sys-sound/alsa-lib[>=1.0.6] )
@@ -74,6 +78,7 @@ DEPENDENCIES="
         devmapper? ( sys-fs/lvm2 )
         pulseaudio? ( media-sound/pulseaudio[>=0.9.0] )
         vnc? ( net-libs/libvncserver[>=0.9.7] )
+        vpx? ( media-libs/libvpx[>=0.9.5] )
         webservice? ( net-libs/gsoap[>=2.7.9f] )
         wine? ( app-emulation/wine )
 "
@@ -111,6 +116,9 @@ src_prepare() {
     # Disable -Werror for gcc-4.5 builds
     # See http://www.virtualbox.org/ticket/6715
     echo 'VBOX_WITH_WARNINGS_AS_ERRORS :=' >> "${WORK}/LocalConfig.kmk"
+    # https://forums.virtualbox.org/viewtopic.php?f=15&t=57828
+    echo 'VBOX_WITH_TESTCASES :=' >> "${WORK}/LocalConfig.kmk"
+    echo 'VBOX_WITH_TESTSUITE :=' >> "${WORK}/LocalConfig.kmk"
 }
 
 src_configure() {
@@ -127,6 +135,7 @@ src_configure() {
     optionq pulseaudio || myconf="${myconf} --disable-pulse"
     optionq python || myconf="${myconf} --disable-python"
     optionq vnc && myconf="${myconf} --enable-vnc"
+    optionq vpx || myconf="${myconf} --disable-libvpx"
     optionq webservice && myconf="${myconf} --enable-webservice"
     optionq wine && myconf="${myconf} --setup-wine"
     # Those could become options
