@@ -1,0 +1,40 @@
+# Copyright 2013 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require gnome.org
+
+SUMMARY="OpenGL widget for GTK+ GUI toolkit"
+DESCRIPTION="
+GtkGLArea is an OpenGL widget for GTK+ GUI toolkit.
+
+Just as GTK+ is build on top of GDK, GtkGLArea is built on top of gdkgl which
+is basically wrapper around GLX functions. The widget itself is derived
+from GtkDrawinigArea widget and adds only few extra functions.
+
+Lower level gdkgl functions make it easy to render on any widget that has
+OpenGL capable visual, rendering to off-screen pixmaps is also supported.
+"
+HOMEPAGE="http://www.mono-project.com/GtkGLArea"
+
+LICENCES="GPL-2"
+SLOT="2"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        virtual/pkg-config
+    build+run:
+        x11-dri/glu
+        x11-dri/mesa
+        x11-libs/gtk+:2
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=( --with-GL-prefix=/usr --with-lib-GL )
+
+src_configure() {
+    # For building examples
+    export LIBS='-lm -lX11'
+    default
+}
+
