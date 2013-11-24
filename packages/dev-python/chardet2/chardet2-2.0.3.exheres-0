@@ -4,7 +4,6 @@
 require setup-py [ import=setuptools blacklist=2 ] pypi
 
 SUMMARY="Character encoding auto-detection in Python 3"
-DESCRIPTION=""
 
 LICENCES="LGPL-2.1"
 SLOT="0"
