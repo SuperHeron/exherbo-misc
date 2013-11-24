@@ -17,9 +17,13 @@ PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
+    build:
+        dev-util/intltool[>=0.40.0]
+        sys-devel/gettext
+        virtual/pkg-config
     build+run:
         gnome-bindings/pygobject:3
-        gnome-desktop/gnome-menus:3.0[>=3.2.0.1]
+        gnome-desktop/gnome-menus:3.0[>=3.5.3]
 "
 
 BUGS_TO="http://bugzilla.gnome.org/enter_bug.cgi?product=alacarte"
