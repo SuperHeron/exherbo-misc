@@ -12,7 +12,7 @@ of Enchant with the flexibility of Python and a nice 'Pythonic'
 object-oriented interface. It also aims to provide some higher-level
 functionality than is available in the C API.
 "
-HOMEPAGE+=" http://www.rfk.id.au/software/pyenchant"
+HOMEPAGE+=" http://pythonhosted.org/${PN}/"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
