@@ -14,7 +14,10 @@ MYOPTIONS="gobject-introspection gtk3 gtk-doc"
 DEPENDENCIES="
     build:
         virtual/pkg-config
-        gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.6.7] )
+        gobject-introspection? (
+            dev-lang/vala:=[>=0.20]
+            gnome-desktop/gobject-introspection:1[>=1.36.0]
+        )
         gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
         dev-libs/glib:2[>=2.32]
