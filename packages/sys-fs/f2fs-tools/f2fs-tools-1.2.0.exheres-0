@@ -14,3 +14,8 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
+DEPENDENCIES="
+    build+run:
+        sys-apps/util-linux
+"
+
