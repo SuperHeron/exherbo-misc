@@ -50,7 +50,10 @@ DEPENDENCIES="
         net-libs/gssdp:1.0[>=0.13.0][gobject-introspection?]
         sys-apps/util-linux
         connman? ( net-misc/connman[>=0.80] )
-        gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=1.36.0] )
+        gobject-introspection? (
+            dev-lang/vala:=[>=0.20]
+            gnome-desktop/gobject-introspection:1[>=1.36.0]
+        )
     run:
         networkmanager? ( net-apps/NetworkManager )
 "
