@@ -17,19 +17,12 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build:
-        sys-devel/bison
-        sys-devel/flex
+        sys-devel/bison[>=2.4.1]
+        sys-devel/flex[>=2.5.4]
 "
 
-WORK="${WORKBASE}/${MY_PNV}/generate/unix"
+WORK="${WORKBASE}/${MY_PNV}"
 
-src_compile() {
-    # build system is a mess
-    local cflags="${CFLAGS}"
-    unset CFLAGS
-    cflags+=" -m${MULTIBUILD_C_DEFAULT_TARGET} -D_LINUX -D_GNU_SOURCE -D_FORTIFY_SOURCE=2"
-    cflags+=" -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj"
-    cflags+=" -Iobj${MULTIBUILD_C_DEFAULT_TARGET}"
-    emake -j1 iasl HOST="_LINUX" CFLAGS="${cflags}"
-}
+DEFAULT_SRC_COMPILE_PARAMS=( -j1 iasl )
+DEFAULT_SRC_INSTALL_PARAMS=( INSTALLFLAGS="-m 555" )
 
