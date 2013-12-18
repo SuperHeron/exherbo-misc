@@ -12,7 +12,7 @@ HOMEPAGE="http://live.gnome.org/Xchat-Gnome"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="dbus ipv6 libnotify mmx perl sound spell tcl"
+MYOPTIONS="dbus libnotify mmx perl sound spell tcl"
 
 DEPENDENCIES="
     build:
@@ -39,6 +39,7 @@ DEFAULT_SRC_PREPARE_PATCHES=( -p1 "${FILES}/${PNV}-remove-deprecated-gtk-symbols
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--enable-gnome-fe'
+    '--enable-ipv6'
     '--enable-nls'
     '--enable-ssl'
     '--disable-schemas-install'
@@ -47,7 +48,6 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'dbus'
-    'ipv6'
     'libnotify notification'
     'mmx'
     'perl'
