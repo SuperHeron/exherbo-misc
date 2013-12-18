@@ -14,7 +14,7 @@ DOWNLOADS="mirror://kernel/software/network/tftp/${PN}/${PNV}.tar.bz2"
 LICENCES="BSD-3"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="ipv6 readline remap tcp-wrappers
+MYOPTIONS="readline remap tcp-wrappers
            remap [[ description = [ Enables regex filename remapping ] ]]"
 
 DEPENDENCIES="
@@ -27,8 +27,8 @@ REMOTE_IDS="freshmeat:${PN}"
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/CHANGES"
 
+DEFAULT_SRC_CONFIGURE_PARAMS=( '--with-ipv6' )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
-    'ipv6'
     'readline'
     'remap'
     'tcp-wrappers tcpwrappers'
