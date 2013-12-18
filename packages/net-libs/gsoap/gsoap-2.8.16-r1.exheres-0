@@ -14,7 +14,7 @@ SOAP Web services and other applications that benefit from an XML interface.
 LICENCES="gSOAP-1.3b GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="debug gnutls ipv6 samples"
+MYOPTIONS="debug gnutls samples"
 
 DEPENDENCIES="
     build:
@@ -32,10 +32,10 @@ UPSTREAM_DOCUMENTATION="http://www.cs.fsu.edu/~engelen/soapdoc2.html"
 WORK="${WORKBASE}/${PN}-$(ever range 1-2)"
 
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-fix-autotools.patch" )
+DEFAULT_SRC_CONFIGURE_PARAMS=( '--enable-ipv6' )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'debug'
     'gnutls'
-    'ipv6'
     'samples'
 )
 DEFAULT_SRC_COMPILE_PARAMS=( -j1 )
