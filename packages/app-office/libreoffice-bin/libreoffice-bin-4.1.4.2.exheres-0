@@ -31,7 +31,6 @@ DOWNLOADS_ROOT="mirror://${LO_PN_LONG}/stable/$(ever range 1-3)/rpm"
 DOWNLOADS="
     platform:amd64? ( ${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_rpm.tar.gz )
     platform:x86? ( ${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_rpm.tar.gz )
-    branding? ( http://dev.exherbo.org/~moben/distfiles/${LO_PN_LONG}-exherbo-branding-3.6.tar.xz )
 "
 
 set_linguas() {
@@ -63,7 +62,6 @@ LICENCES="LGPL-3"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
-    branding [[ description = [ Use exherbo flavoured branding in the splash screen ] ]]
     extensions [[ description = [ Installs bundled extensions ] ]]
     gnome
     help [[ description = [ Installs help package ] ]]
@@ -163,16 +161,6 @@ src_install() {
     edo cd "${IMAGE}"/usr/bin
     edo ln -s "${LO_PN_LONG}"{$(ever range 1-2),}
     edo find "${IMAGE}" -type d -empty -delete
-    if option branding; then
-        edo cd "${WORKBASE}/${LO_PN_LONG}-exherbo-branding-3.6"
-        insinto /opt/"${LO_PNV_LONG}"/program
-        doins flat_logo.svg
-        doins intro.png
-        insinto /opt/"${LO_PNV_LONG}"/program/shell
-        for i in left rtl_left right rtl_right space; do
-            doins backing_${i}.png
-        done
-    fi
 }
 
 pkg_postinst() {
