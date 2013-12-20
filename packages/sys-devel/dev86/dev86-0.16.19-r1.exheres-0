@@ -16,7 +16,8 @@ DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-no-strip.patch"
 
 DEFAULT_SRC_COMPILE_PARAMS=( -j1 DIST="${IMAGE}"
                              LIBDIR="/usr/${LIBDIR}/bcc"
-                             INCLDIR="/usr/${LIBDIR}/bcc" )
+                             INCLDIR="/usr/${LIBDIR}/bcc"
+                             MANDIR="/usr/share/man" )
 
 src_install() {
     emake -j1 install-all DIST="${IMAGE}"

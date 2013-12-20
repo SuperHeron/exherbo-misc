@@ -19,8 +19,9 @@ Reason: disable stripping during install phase
  
  install:	dis88
 -	install -m 755 -s dis88   $(DIST)$(PREFIX)/bin/dis86
+-	install -m 644    dis88.1 $(DIST)$(PREFIX)/man/man1/dis86.1
 +	install -m 755    dis88   $(DIST)$(PREFIX)/bin/dis86
- 	install -m 644    dis88.1 $(DIST)$(PREFIX)/man/man1/dis86.1
++	install -m 644    dis88.1 $(DIST)$(PREFIX)/share/man/man1/dis86.1
  
  $(OBJ): dis.h a.out.h
 --- bootblocks/Makefile.orig	2004-01-24 11:55:38.000000000 +0100
