@@ -34,13 +34,13 @@ DEPENDENCIES="
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--disable-serial'
     '--enable-ipcdir=/run/pcscd'
+    '--without-systemdsystemunitdir' # we provide our own systemd units
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'static'
     'libusb'
     '!libusb libudev'
 )
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( "systemd systemdsystemunitdir ${SYSTEMDSYSTEMUNITDIR}" )
 
 install_one_multibuild() {
     default
@@ -58,6 +58,8 @@ src_install() {
     fi
 
     keepdir /etc/reader.conf.d
+
+    install_systemd_files
 
     if option systemd; then
         insinto /usr/"${LIBDIR}"/tmpfiles.d

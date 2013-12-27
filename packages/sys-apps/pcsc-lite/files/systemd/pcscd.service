@@ -4,7 +4,8 @@ Description=pcscd smart card reader daemon
 [Service]
 User=pcscd
 Group=pcscd
-ExecStart=/usr/sbin/pcscd -f
+ExecStart=/usr/sbin/pcscd --foreground --auto-exit
+ExecReload=/usr/sbin/pcscd --hotplug
 StandardOutput=syslog
 
 [Install]
