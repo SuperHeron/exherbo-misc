@@ -3,7 +3,7 @@
 
 SCM_REPOSITORY="svn://svn.code.sf.net/p/${PN}/code"
 SCM_SECONDARY_REPOSITORIES="FortranProject"
-SCM_FortranProject_REPOSITORY="http://fortranproject.googlecode.com/svn"
+SCM_FortranProject_REPOSITORY="https://fortranproject.googlecode.com/svn"
 SCM_EXTERNAL_REFS="src/plugins/contrib/FortranProject:FortranProject"
 
 require codeblocks scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.12 1.11 1.10 ] ]
