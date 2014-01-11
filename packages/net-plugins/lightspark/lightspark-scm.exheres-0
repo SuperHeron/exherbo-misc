@@ -20,6 +20,7 @@ PLATFORMS="~amd64"
 MYOPTIONS="
     curl
     ffmpeg
+    libav [[ requires = ffmpeg ]]
     nsplugin
     rtmp [[ description = [ Adds support for Real Time Messaging Protocol ] ]]
     scripts [[ description = [ Installs YouTube-related scripts ] ]]
@@ -47,7 +48,10 @@ DEPENDENCIES="
         x11-libs/libX11
         x11-libs/pango
         curl? ( net-misc/curl )
-        ffmpeg? ( || ( media/ffmpeg media/libav ) )
+        ffmpeg? (
+            !libav? ( media/ffmpeg )
+            libav? ( media/libav )
+        )
         rtmp? ( media-video/rtmpdump )
     recommendation:
         net-plugins/gnash [[ description = [ Used for playing older SWF clips ] ]]
