@@ -13,7 +13,9 @@ DOWNLOADS="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${PNV}.tar.gz"
 LICENCES="Apache-2.0"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="alsa cups ffmpeg pcsc pulseaudio server"
+MYOPTIONS="alsa cups ffmpeg pcsc pulseaudio server
+    libav [[ requires = ffmpeg ]]
+"
 
 DEPENDENCIES="
     build:
@@ -28,7 +30,10 @@ DEPENDENCIES="
         x11-libs/libxkbfile
         alsa? ( sys-sound/alsa-lib )
         cups? ( net-print/cups )
-        ffmpeg? ( || ( media/ffmpeg media/libav ) )
+        ffmpeg? (
+            !libav? ( media/ffmpeg )
+            libav? ( media/libav )
+        )
         pcsc? ( sys-apps/pcsc-lite )
         pulseaudio? ( media-sound/pulseaudio )
         server? (
