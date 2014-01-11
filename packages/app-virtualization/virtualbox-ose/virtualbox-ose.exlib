@@ -66,7 +66,7 @@ DEPENDENCIES="
             x11-libs/libXext
             x11-libs/libXinerama
             x11-libs/libXrandr
-            x11-libs/qt:4[>=4.6.2][opengl?][xinerama]
+            x11-libs/qt:4[>=4.6.2][opengl?][xinerama(+)]
             opengl? (
                 x11-dri/mesa
                 x11-libs/libXmu
