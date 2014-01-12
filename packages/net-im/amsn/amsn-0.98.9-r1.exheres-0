@@ -53,6 +53,8 @@ DEPENDENCIES="
 
 REMOTE_IDS+=" freshmeat:${PN} "
 
+RESTRICT="test" # requires X
+
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'upnp'
     'v4l libv4l'
