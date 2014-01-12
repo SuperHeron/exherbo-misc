@@ -43,7 +43,7 @@ DEPENDENCIES="
         media-libs/jpeg
         media-libs/libpng
         media-plugins/gst-plugins-base[>=0.10.22]
-        || ( net-im/farstream:0.1[>=0.1] net-im/farsight2:0.10[>=0.0.9] )
+        net-im/farstream:0.1[>=0.1]
         x11-libs/libX11
         upnp? ( net-libs/gupnp-igd:1.0 )
         v4l? ( media-libs/v4l-utils[>=0.5.0] )
