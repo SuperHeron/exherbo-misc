@@ -23,6 +23,6 @@ DEPENDENCIES="
         dev-python/pycrypto
         dev-python/pyopenssl[>=0.6]
         gnome-bindings/pygobject:2[>=2.10]
-        || ( net-im/farstream:0.1[python] net-im/farsight2:0.10[python] )
+        net-im/farstream:0.1[python]
 "
 
