@@ -1,0 +1,24 @@
+# Copyright 2014 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi setup-py [ import="setuptools" ]
+
+SUMMARY="Acceleration code for PyOpenGL"
+DESCRIPTION="
+This set of C (Cython) extensions provides acceleration of common operations
+for slow points in PyOpenGL 3.x. For code which uses large arrays extensively
+speed-up is around 10% compared to unaccelerated code.
+"
+
+LICENCES="BSD-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-python/numpy[python_abis:*(-)?]
+    run:
+        dev-python/PyOpenGL[python_abis:*(-)?]
+"
+
