@@ -32,6 +32,8 @@ MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc vpx
     wine [[ description = [ Builds wine support ] ]]
 
     ( opengl truetype ) [[ requires = X ]]
+
+    platform: amd64
 "
 
 DEPENDENCIES="
@@ -50,14 +52,14 @@ DEPENDENCIES="
         group/vboxusers
         media-libs/libpng[>=1.2.5]
         net-misc/curl[>=7.19.1]
-        sys-devel/dev86
         sys-libs/libcap
         sys-libs/pam
         sys-libs/zlib[>=1.2.1]
         sys-power/iasl
         || (
-            app-cdr/cdrkit
+            app-cdr/genisoimage
             app-cdr/cdrtools
+            app-cdr/cdrkit
         )
         X? (
             media-libs/SDL[>=1.2.7][X]
@@ -90,10 +92,10 @@ UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/News"
 WORK="${WORKBASE}/${MY_PNV}"
 
 pkg_pretend() {
-    if [[ ! -e '/usr/include/gnu/stubs-32.h' ]]; then
-        ewarn 'You do not have a 32-bit glibc.'
-        ewarn 'Please switch to multilib first.'
-        die 'No /usr/include/gnu/stubs-32.h found.'
+    if optionq platform:amd64 && [[ ! -e '/usr/include/gnu/stubs-32.h' ]]; then
+        ewarn 'You do not have a 32-bits glibc.'
+        ewarn 'You will *only* be able to run 64-bits guests.'
+        ewarn 'Please switch to multilib if you also want to run 32-bits guests.'
     fi
 }
 
@@ -138,6 +140,10 @@ src_configure() {
     optionq vpx || myconf="${myconf} --disable-libvpx"
     optionq webservice && myconf="${myconf} --enable-webservice"
     optionq wine && myconf="${myconf} --setup-wine"
+    if optionq platform:amd64 && [[ ! -e '/usr/include/gnu/stubs-32.h' ]]; then
+        # This is needed to build on a non-multilib system
+        myconf="${myconf} --disable-vmmraw"
+    fi
     # Those could become options
     # doc: Needs pdflatex
     # java: Needs detection in configure script
@@ -221,6 +227,7 @@ EOF
         insinto "${installdir}"
         newins "${FETCHEDDIR}"/VBoxGuestAdditions_${PV}.iso VBoxGuestAdditions.iso
     fi
+
     if optionq extensions; then
         edo pushd "${WORK}"/${EXT_PN}
         insinto /opt/VirtualBox/ExtensionPacks/${EXT_PN}
