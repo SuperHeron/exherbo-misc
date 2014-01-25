@@ -142,8 +142,10 @@ src_configure() {
     # doc: Needs pdflatex
     # java: Needs detection in configure script
     myconf="${myconf} --disable-docs --disable-java"
+    esandbox allow_net unix:/tmp/.wine-*/server-*/socket
     # Call configure script directly as it is not a GNU one
     edo ./configure --disable-kmods ${myconf}
+    esandbox disallow_net unix:/tmp/.wine-*/server-*/socket
 }
 
 src_compile() {
