@@ -1,0 +1,9 @@
+# Copyright 2012-2014 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require kmscon
+
+DOWNLOADS="http://www.freedesktop.org/software/${PN}/releases/${PNV}.tar.xz"
+
+PLATFORMS="~amd64"
+

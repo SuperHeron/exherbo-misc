@@ -1,45 +1,55 @@
-# Copyright 2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2012-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require github [ user='dvdhrm' ] systemd-service
+require systemd-service
 
-SUMMARY="Linux KMS/DRM based virtual Console Emulator"
+SUMMARY="Linux KMS/DRM based System Console"
 DESCRIPTION="
-Kmscon is a simple terminal emulator based on linux kernel mode setting (KMS).
-It is an attempt to replace the in-kernel VT implementation with a userspace
-console.
+kmscon is a system console for linux. It does not depend on any graphics-server on your system
+(like X.org), but instead provides a raw console layer that can be used independently. It can
+replace the linux kernel console entirely but was designed to work well side-by-side, too. Even
+though initially targeted at providing internationalization to the system-console, it has grown
+into a fully modularized console layer including features like multi-head support,
+internationalized font rendering, XKB-compatible keyboard handling, hardware-accelerated graphics
+access and more.
 "
+HOMEPAGE="http://www.freedesktop.org/wiki/Software/${PN}/"
 
 LICENCES="MIT"
 SLOT="0"
-MYOPTIONS="dbus drm fbdev freetype gbm gles2 pango unifont wayland xkbcommon"
+MYOPTIONS="opengl pango pixman systemd"
 
 DEPENDENCIES="
+    build:
+        app-text/docbook-xsl-stylesheets
+        dev-libs/libxslt
+        sys-kernel/linux-headers
+        virtual/pkg-config
     build+run:
+        dev-libs/libtsm
         sys-apps/systemd
-        dbus? ( sys-apps/dbus )
-        drm? ( x11-dri/libdrm )
-        freetype? ( media-libs/freetype:2 )
-        gbm? ( x11-dri/mesa[gbm(+)] )
-        gles2? ( x11-dri/mesa )
+        x11-dri/libdrm
+        x11-libs/libxkbcommon
+        opengl? ( x11-dri/mesa )
         pango? ( x11-libs/pango )
-        unifont? ( fonts/unifont )
-        wayland? ( sys-libs/wayland )
-        xkbcommon? ( x11-libs/libxkbcommon )
+        pixman? ( x11-libs/pixman:1 )
 "
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( '--enable-kmscon' '--enable-udev' )
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'dbus'
-    'drm'
-    'fbdev'
-    'freetype freetype2'
-    'gles2'
-    'unifont'
-    'systemd'
-    'xkbcommon'
-    'wayland wlterm'
-)
+src_configure() {
+    local with_video=fbdev,drm2d
+    local with_renderers=bbulk
+    local with_fonts=unifont
+    if option opengl; then
+        with_video="${with_video},drm3d"
+        with_renderers="${with_renderers},gltex"
+    fi
+    option pixman && with_renderers="${with_renderers},pixman"
+    option pango && with_fonts="${with_fonts},pango"
+    econf $(option_enable systemd multi-seat)  \
+          --with-video="${with_video}"         \
+          --with-renderers="${with_renderers}" \
+          --with-fonts="${with_fonts}"
+}
 
 src_install() {
     default
