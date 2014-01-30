@@ -1,4 +1,4 @@
-# Copyright 2010-2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 # Based in part upon 'openoffice-bin-3.2.1.exheres-0' from Exherbo, which is:
 #     Copyright 2009, 2010 Pierre Lejeune
@@ -12,20 +12,21 @@ on a variety of platforms. It is free software and therefore free to download, u
 "
 HOMEPAGE="http://www.libreoffice.org"
 
-LO_BUILDID="2"
+LO_BUILDID="4"
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibreOffice"
 LO_PN_LONG="${PN%-bin}"
 LO_PNV_LONG="${LO_PN_LONG}$(ever range 1-2)"
 LO_PNV_DOWNLOADS="${LO_PN_SHORT}_$(ever range 1-3)"
 LO_PNV="${LO_PN_SHORT}_${PV}"
-LO_LINGUAS=( 'af' 'am' 'ar' 'as' 'ast' 'be' 'bg' 'bn' 'bn_IN' 'bo' 'br' 'brx' 'bs' 'ca' 'ca_XV' 'cs'
-             'cy' 'da' 'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fa' 'fi'
-             'fr' 'ga' 'gd' 'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja' 'ka' 'kk' 'km' 'kn'
-             'ko' 'kok' 'ks' 'ku' 'lb' 'lo' 'lt' 'lv' 'mai' 'mk' 'ml' 'mn' 'mni' 'mr' 'my' 'nb' 'ne'
-             'nl' 'nn' 'nr' 'nso' 'oc' 'om' 'or' 'pa_IN' 'pl' 'pt' 'pt_BR' 'ro' 'ru' 'rw' 'sa_IN'
-             'sat' 'sd' 'sh' 'si' 'sid' 'sk' 'sl' 'sq' 'sr' 'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te' 'tg'
-             'th' 'tn' 'tr' 'ts' 'tt' 'ug' 'uk' 'uz' 've' 'vi' 'xh' 'zh_CN' 'zh_TW' 'zu' )
+LO_LINGUAS=( 'af' 'am' 'ar' 'as' 'ast' 'be' 'bg' 'bn' 'bn_IN' 'bo' 'br' 'brx' 'bs' 'ca'
+             'ca_valencia' 'cs' 'cy' 'da' 'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es'
+             'et' 'eu' 'fa' 'fi' 'fr' 'ga' 'gd' 'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja'
+             'ka' 'kk' 'km'  'kmr_Latn' 'kn' 'ko' 'kok' 'ks' 'ku' 'lb' 'lo' 'lt' 'lv' 'mai' 'mk'
+             'ml' 'mn' 'mni' 'mr' 'my' 'nb' 'ne' 'nl' 'nn' 'nr' 'nso' 'oc' 'om' 'or' 'pa_IN' 'pl'
+             'pt' 'pt_BR' 'ro' 'ru' 'rw' 'sa_IN' 'sat' 'sd' 'si' 'sid' 'sk' 'sl' 'sq' 'sr' 'sr_Latn'
+             'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te' 'tg' 'th' 'tn' 'tr' 'ts' 'tt' 'ug' 'uk' 'uz' 've' 'vi'
+             'xh' 'zh_CN' 'zh_TW' 'zu' )
 
 DOWNLOADS_ROOT="mirror://${LO_PN_LONG}/stable/$(ever range 1-3)/rpm"
 DOWNLOADS="
@@ -122,18 +123,18 @@ src_unpack() {
         rpm_unpack "${LO_PNV_LONG}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     done
     rpm_unpack "${LO_PNV_LONG}-freedesktop-menus-$(ever range 1-3)-${LO_BUILDID}.noarch.rpm"
-    if optionq extensions; then
+    if option extensions; then
         for appl in {beanshell,javascript}-script-provider mediawiki-publisher nlpsolver \
-                    presentation-minimizer report-builder; do
+                    pdf-import report-builder; do
             rpm_unpack "${LO_BASIS}-extension-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
         done
         rpm_unpack "${LO_BASIS}-python-script-provider-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     fi
-    optionq gnome && rpm_unpack "${LO_BASIS}-gnome-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
-    optionq kde && rpm_unpack "${LO_BASIS}-kde-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    option gnome && rpm_unpack "${LO_BASIS}-gnome-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    option kde && rpm_unpack "${LO_BASIS}-kde-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     echo "Unpacking language pack RPM files"
     for linguas in "${LO_LINGUAS[@]}"; do
-        if optionq linguas:${linguas}; then
+        if option linguas:${linguas}; then
             linguas="${linguas//_/-}"
             case "${linguas}" in
                 en-US) edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm/RPMS"
@@ -148,7 +149,7 @@ src_unpack() {
             for appl in base calc math res writer; do
                 rpm_unpack "${LO_BASIS}-${linguas}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
             done
-            if optionq help; then
+            if option help; then
                 edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm_helppack_${linguas}/RPMS"
                 rpm_unpack "${LO_BASIS}-${linguas}-help-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
             fi
