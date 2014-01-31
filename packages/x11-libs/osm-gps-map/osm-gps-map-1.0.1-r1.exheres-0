@@ -10,13 +10,14 @@ SUMMARY="GTK+ widget for displaying OpenStreetMap files"
 LICENCES="GPL-3"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS=""
+MYOPTIONS="gtk-doc"
 
 DEPENDENCIES="
     build:
         app-doc/gtk-doc-autotools[>=1.12]
         gnome-desktop/gnome-common[>=2.3.0]
         virtual/pkg-config
+        gtk-doc? ( dev-doc/gtk-doc[>=1.12] )
     build+run:
         dev-libs/glib:2[>=2.16]
         gnome-desktop/gobject-introspection:1
@@ -25,8 +26,10 @@ DEPENDENCIES="
         x11-libs/cairo[>=1.8]
 "
 
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'gtk-doc' )
+
 src_prepare() {
-    edo sed -i -e "/osm_gps_mapdocdir =/cosm_gps_mapdocdir = \${datadir}/doc/${PNV}" Makefile.am
+    edo sed -i -e "/osm_gps_mapdocdir =/cosm_gps_mapdocdir = \${datadir}/doc/${PNVR}" Makefile.am
     edo touch INSTALL # missing file
     edo gtkdocize --copy
     edo gnome-doc-common
