@@ -14,8 +14,8 @@ HOMEPAGE="http://www.freedesktop.org/wiki/Software/fprint/${PN}"
 LICENCES="LGPL-2.1"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MY_FPRINT_DRIVERS="aes1610 aes1660 aes2501 aes2550 aes2660 aes4000 fdu2000
-                   upeke2 upeksonly upektc upekts uru4000 vcom5s vfs101 vfs301"
+MY_FPRINT_DRIVERS="aes1610 aes1660 aes2501 aes2550 aes2660 aes3500 aes4000 etes603 fdu2000
+                   upeke2 upeksonly upektc upektc_img upekts uru4000 vcom5s vfs101 vfs301"
 MYOPTIONS="
     debug
     examples
@@ -26,9 +26,10 @@ MYOPTIONS="
 DEPENDENCIES="
     build+run:
         dev-libs/glib:2[>=2.28]
-        virtual/usb:1
         dev-libs/nss
+        virtual/usb:1
         x11_examples? ( x11-libs/libXv )
+        fprint_drivers:aes3500? ( x11-libs/pixman )
         fprint_drivers:aes4000? ( x11-libs/pixman )
 "
 
