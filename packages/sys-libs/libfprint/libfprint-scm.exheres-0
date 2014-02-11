@@ -11,7 +11,7 @@ SUMMARY="Fprint library"
 DESCRIPTION="Library for fingerprint readers from Fprint project."
 HOMEPAGE="http://www.freedesktop.org/wiki/Software/fprint/${PN}"
 
-LICENCES="LGPL-2"
+LICENCES="LGPL-2.1"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MY_FPRINT_DRIVERS="aes1610 aes1660 aes2501 aes2550 aes2660 aes4000 fdu2000
