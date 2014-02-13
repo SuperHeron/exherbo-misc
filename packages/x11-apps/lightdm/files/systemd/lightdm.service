@@ -1,7 +1,8 @@
 [Unit]
 Description=Light Display Manager
 Documentation=man:lightdm(1)
-Conflicts=xdm.service gdm.service kdm.service lxdm.service slim.service
+Conflicts=getty@tty7.service
+After=systemd-user-sessions.service getty@tty7.service plymouth-quit.service
 
 [Service]
 ExecStart=/usr/sbin/lightdm

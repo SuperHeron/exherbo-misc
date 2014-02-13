@@ -1,4 +1,5 @@
-# Copyright 2012 Quentin "Sardem FF7" Glidic <sardemff7+exherbo@sardemff7.net>
+# Copyright 2012-2013 Quentin "Sardem FF7" Glidic <sardemff7@exherbo.org>
+# Copyright 2013, 2014 Lasse Brun <bruners@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 if (( $(ever range 2) % 2 )); then
@@ -93,6 +94,10 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
 lightdm_src_install() {
     default
 
+    # Remove apparmor and upstart scripts
+    edo rm -rfv "${IMAGE}"/etc/apparmor.d
+    edo rm -rfv "${IMAGE}"/etc/init
+
     insinto /usr/share/lightdm
     doins "${FILES}"/session
     edo chmod +x "${IMAGE}"/usr/share/lightdm/session
@@ -107,16 +112,21 @@ lightdm_src_install() {
     edo sed -i \
         -e '/^#run-directory/s|=/var/run|=/run|' \
         -e '/^#run-directory/s|^#||' \
+        -e '/^#user-authority-in-system-dir/s|=false|=true|' \
+        -e '/^#user-authority-in-system-dir/s|^#||' \
         -e '/^#session-wrapper/s|=lightdm-session|=/usr/share/lightdm/session|' \
         -e '/^#session-wrapper/s|^#||' \
-        "${IMAGE}"/etc/lightdm/lightdm.conf
+        "${IMAGE}"/etc/${PN}/lightdm.conf
 
-    keepdir /var/cache/${PN}
-    keepdir /var/log/${PN}
+    keepdir {/etc,/usr/share}/${PN}/lightdm.conf.d
+    edo chown ${PN}:${PN} "${IMAGE}"{/etc,/usr/share}/${PN}/lightdm.conf.d
 
-    keepdir /var/lib/${PN}
+    keepdir /usr/share/${PN}/remote-sessions
+    edo chown ${PN}:${PN} "${IMAGE}"/usr/share/${PN}/remote-sessions
+
+    keepdir /var/{cache,lib,log}/${PN}
     edo chmod g+w "${IMAGE}"/var/lib/${PN}
-    edo chown ${PN}:${PN} "${IMAGE}"/var/lib/${PN}
+    edo chown ${PN}:${PN} "${IMAGE}"/var/{cache,lib,log}/${PN}
 
     install_systemd_files
 
