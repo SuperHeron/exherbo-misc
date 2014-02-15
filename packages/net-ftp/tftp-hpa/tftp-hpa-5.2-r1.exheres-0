@@ -23,7 +23,7 @@ DEPENDENCIES="
         tcp-wrappers? ( sys-apps/tcp-wrappers )
 "
 
-REMOTE_IDS="freshmeat:${PN}"
+REMOTE_IDS="freecode:${PN}"
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/CHANGES"
 

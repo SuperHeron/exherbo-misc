@@ -29,7 +29,7 @@ DEPENDENCIES="
         lm_sensors? ( sys-apps/lm_sensors )
 "
 
-REMOTE_IDS="freshmeat:${PN}"
+REMOTE_IDS="freecode:${PN}"
 
 UPSTREAM_CHANGELOG="${BASE_URI}/Changelog"
 

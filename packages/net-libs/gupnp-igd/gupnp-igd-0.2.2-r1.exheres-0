@@ -24,7 +24,7 @@ DEPENDENCIES="
 "
 
 RESTRICT="test" # needs network access
-REMOTE_IDS="freshmeat:gupnp"
+REMOTE_IDS="freecode:gupnp"
 
 UPSTREAM_CHANGELOG="http://git.gupnp.org/cgit.cgi?url=${PN}/tree/NEWS&id=${PV}"
 

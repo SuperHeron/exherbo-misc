@@ -36,7 +36,7 @@ DEPENDENCIES="
         net-dns/libidn
 "
 
-REMOTE_IDS="freshmeat:${PN}"
+REMOTE_IDS="freecode:${PN}"
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/docs/index.html"
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/NEWS"

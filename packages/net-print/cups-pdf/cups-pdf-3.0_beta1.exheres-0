@@ -22,7 +22,7 @@ DEPENDENCIES="
         net-print/cups
 "
 
-REMOTE_IDS="freshmeat:${PN/-/}"
+REMOTE_IDS="freecode:${PN/-/}"
 
 WORK="${WORKBASE}/${PN}-${MY_PV}/src"
 

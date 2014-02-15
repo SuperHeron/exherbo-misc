@@ -42,7 +42,7 @@ DEPENDENCIES="
                        net-libs/miniupnpc[>=1.6] )
 "
 
-REMOTE_IDS+="freshmeat:${PN}"
+REMOTE_IDS+="freecode:${PN}"
 
 UPSTREAM_CHANGELOG="http://cvs.savannah.gnu.org/viewvc/${PN}/${PN}/distrib/ChangeLog?view=markup"
 UPSTREAM_DOCUMENTATION="http://mldonkey.sourceforge.net/Quickstart_guide"

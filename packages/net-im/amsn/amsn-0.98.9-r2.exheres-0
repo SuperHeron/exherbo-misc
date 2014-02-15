@@ -51,7 +51,7 @@ DEPENDENCIES="
         dev-tcl/snack [[ description = [ For sound support ] ]]
 "
 
-REMOTE_IDS+=" freshmeat:${PN} "
+REMOTE_IDS+=" freecode:${PN} "
 
 RESTRICT="test" # requires X
 
