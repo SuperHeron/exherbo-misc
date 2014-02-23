@@ -12,7 +12,7 @@ on a variety of platforms. It is free software and therefore free to download, u
 "
 HOMEPAGE="http://www.libreoffice.org"
 
-LO_BUILDID="4"
+LO_BUILDID="$(ever range 4)"
 LO_BASIS="libobasis$(ever range 1-2)"
 LO_PN_SHORT="LibreOffice"
 LO_PN_LONG="${PN%-bin}"
@@ -114,8 +114,8 @@ src_unpack() {
     echo "Unpacking RPM files"
     edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm/RPMS"
     for appl in base calc core{01,02,03,04,05,06,07} draw graphicfilter images impress librelogo \
-                math ogltrans onlineupdate ooofonts ooolinguistic postgresql-sdbc pyuno writer \
-                xsltfilter; do
+                math ogltrans onlineupdate ooofonts ooolinguistic postgresql-sdbc python-script-provider \
+                pyuno writer xsltfilter; do
         rpm_unpack "${LO_BASIS}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     done
     rpm_unpack "${LO_PNV_LONG}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
@@ -128,7 +128,6 @@ src_unpack() {
                     pdf-import report-builder; do
             rpm_unpack "${LO_BASIS}-extension-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
         done
-        rpm_unpack "${LO_BASIS}-python-script-provider-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     fi
     option gnome && rpm_unpack "${LO_BASIS}-gnome-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     option kde && rpm_unpack "${LO_BASIS}-kde-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
