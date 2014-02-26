@@ -32,15 +32,19 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build+run:
-       !dev-db/mysql [[
-            description = [ MariaDB is a drop-in replacement for MySQL with same binary names ]
-            resolution = uninstall-blocked-after
-        ]]
         dev-libs/libaio[multibuild_c:*(-)?]
         group/mysql
         sys-libs/zlib[>=1.2.3][multibuild_c:*(-)?]
         user/mysql
         tcpd? ( sys-apps/tcp-wrappers[multibuild_c:*(-)?] )
+       !dev-db/mysql [[
+            description = [ MariaDB is a drop-in replacement for MySQL with same binary names ]
+            resolution = uninstall-blocked-after
+        ]]
+       !dev-db/Percona-Server [[
+            description = [ Percona-Server is a drop-in replacement for MySQL with same binary names ]
+            resolution = uninstall-blocked-after
+        ]]
     suggestion:
         app-admin/logrotate [[ description = [ Use logrotate for rotating logs ] ]]
 "
