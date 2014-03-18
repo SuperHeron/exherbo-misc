@@ -7,7 +7,7 @@
 
 require cmake [ api=2 ] systemd-service easy-multibuild
 
-export_exlib_phases pkg_pretend src_install
+export_exlib_phases pkg_pretend src_prepare src_install
 
 MARIADB_MAJOR_VERSION=$(ever range 1-2)
 
@@ -78,6 +78,13 @@ mariadb_pkg_pretend() {
         ewarn "/usr/${LIBDIR}/tmpfiles.d/${PN}.conf and can be safely removed after upgrade"
         ewarn "if you did not make any changes to it."
     fi
+}
+
+mariadb_src_prepare() {
+    cmake_src_prepare
+    ever at_least 10.0.4 || \
+        edo sed -e 's/-Werror//g' \
+                -i "${CMAKE_SOURCE}"/storage/tokudb/ft-index/cmake_modules/TokuSetupCompiler.cmake
 }
 
 configure_one_multibuild() {
