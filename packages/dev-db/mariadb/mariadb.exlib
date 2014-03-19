@@ -126,6 +126,8 @@ configure_one_multibuild() {
         -DWITH_UNIT_TESTS:BOOL=TRUE
         -DWITH_VALGRIND:BOOL=FALSE
         -DWITH_ZLIB:STRING=system
+        # boost is needed for the oqgraph storage engine
+        -DCMAKE_DISABLE_FIND_PACKAGE_Boost:BOOL=TRUE
     )
 
     if option debug ; then
