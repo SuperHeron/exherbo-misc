@@ -100,14 +100,14 @@ configure_one_multibuild() {
         -DINSTALL_BINDIR:PATH=bin
         -DINSTALL_DOCDIR:PATH=share/doc/${PNVR}
         -DINSTALL_DOCREADMEDIR:PATH=share/doc/${PNVR}
-        -DINSTALL_INCLUDEDIR:PATH=include/${PN}
-        -DINSTALL_INFODIR:PATH=share/${PN}/info
-        -DINSTALL_LIBDIR:PATH=${LIBDIR}/${PN}
+        -DINSTALL_INCLUDEDIR:PATH=include/mysql
+        -DINSTALL_INFODIR:PATH=share/mysql/info
+        -DINSTALL_LIBDIR:PATH=${LIBDIR}/mysql
         -DINSTALL_MANDIR:PATH=share/man
-        -DINSTALL_MYSQLSHAREDIR:PATH=share/${PN}
+        -DINSTALL_MYSQLSHAREDIR:PATH=share/mysql
         # Empty value to not install the mysql-test directory
         -DINSTALL_MYSQLTESTDIR:STRING=
-        -DINSTALL_PLUGINDIR:PATH=${LIBDIR}/${PN}/plugin
+        -DINSTALL_PLUGINDIR:PATH=${LIBDIR}/mysql/plugin
         -DINSTALL_SBINDIR:PATH=sbin
         -DINSTALL_SCRIPTDIR:PATH=bin
         # Empty value to not install the sql-bench directory
@@ -115,7 +115,7 @@ configure_one_multibuild() {
         -DINSTALL_SUPPORTFILESDIR:PATH=share/doc/${PNVR}/support-files
         -DMYSQL_DATADIR:PATH=/var/lib/mysql
         -DMYSQL_UNIX_ADDR:PATH=/run/mysqld/mysqld.sock
-        -DSYSCONFDIR:PATH=/etc/${PN}
+        -DSYSCONFDIR:PATH=/etc/mysql
         -DENABLED_PROFILING:BOOL=TRUE
         -DWITH_EXTRA_CHARSETS:STRING=all
         # Default ENGINES for MariaDB 5.6 community build (currently == xlarge) minus embedded
@@ -171,7 +171,7 @@ install_one_multibuild() {
     cmake_src_install
 
     # construct ldpath for all targets
-    ldpath="/usr/${LIBDIR}/${PN}${ldpath:+:${ldpath}}"
+    ldpath="/usr/${LIBDIR}/mysql${ldpath:+:${ldpath}}"
 }
 
 mariadb_src_install() {
@@ -182,12 +182,12 @@ mariadb_src_install() {
     # Remove empty directories
     edo rm -r "${IMAGE}"/usr/data
 
-    keepdir /etc/${PN}
+    keepdir /etc/mysql
 
     if ever at_least 10.0 ; then
-        edo cp "${IMAGE}"/usr/share/doc/${PNVR}/support-files/my-default.cnf "${IMAGE}"/etc/${PN}/my.cnf
+        edo cp "${IMAGE}"/usr/share/doc/${PNVR}/support-files/my-default.cnf "${IMAGE}"/etc/mysql/my.cnf
     else
-        edo cp "${IMAGE}"/usr/share/doc/${PNVR}/support-files/my-small.cnf "${IMAGE}"/etc/${PN}/my.cnf
+        edo cp "${IMAGE}"/usr/share/doc/${PNVR}/support-files/my-small.cnf "${IMAGE}"/etc/mysql/my.cnf
     fi
 #    edo mv "${IMAGE}"/usr/bin/mysqlaccess.conf "${IMAGE}"/etc/mysql/mysqlaccess.conf
 #    edo chmod 644 "${IMAGE}"/etc/mysql/mysqlaccess.conf
