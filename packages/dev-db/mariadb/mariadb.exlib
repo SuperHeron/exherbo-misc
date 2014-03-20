@@ -5,7 +5,7 @@
 #     Copyright 2011-2013 Timo Gurr <tgurr@exherbo.org>
 #     Distributed under the terms of the GNU General Public License v2
 
-require cmake [ api=2 ] systemd-service easy-multibuild
+require cmake [ api=2 cmake_minimum_version=2.8.9 ] systemd-service easy-multibuild
 
 export_exlib_phases pkg_pretend src_prepare src_install
 
