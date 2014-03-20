@@ -59,6 +59,8 @@ else
     DEPENDENCIES+="
         build+run:
             sys-libs/readline[>=5.2][multibuild_c:*(-)?]
+        test:
+            dev-libs/libevent[multibuild_c:*(-)?]
     "
 fi
 
@@ -123,7 +125,7 @@ configure_one_multibuild() {
         -DWITH_INNOBASE_STORAGE_ENGINE:BOOL=TRUE
         -DWITH_PARTITION_STORAGE_ENGINE:BOOL=TRUE
         -DWITH_SSL:STRING=system
-        -DWITH_UNIT_TESTS:BOOL=TRUE
+        -DWITH_UNIT_TESTS:BOOL=$(expecting_tests && echo "TRUE" || echo "FALSE")
         -DWITH_VALGRIND:BOOL=FALSE
         -DWITH_ZLIB:STRING=system
         # boost is needed for the oqgraph storage engine
