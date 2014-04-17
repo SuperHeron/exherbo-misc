@@ -12,7 +12,7 @@ serial port options.
 
 LICENCES="GPL-2"
 SLOT="0"
-PLATFORMS="~amd64"
+PLATFORMS="~amd64 ~x86"
 MYOPTIONS=""
 
 DEFAULT_SRC_PREPARE_PATCHES=(
