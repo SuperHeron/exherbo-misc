@@ -33,6 +33,7 @@ MYOPTIONS="
 DEPENDENCIES="
     build+run:
         dev-libs/libaio[multibuild_c:*(-)?]
+        dev-libs/libevent[>=1.4.12][multibuild_c:*(-)?]
         group/mysql
         sys-libs/zlib[>=1.2.3][multibuild_c:*(-)?]
         user/mysql
@@ -53,14 +54,11 @@ if ever at_least 10.0 ; then
     DEPENDENCIES+="
         build+run:
             dev-libs/libedit[multibuild_c:*(-)?]
-            dev-libs/libevent[>=1.4.12][multibuild_c:*(-)?]
     "
 else
     DEPENDENCIES+="
         build+run:
             sys-libs/readline[>=5.2][multibuild_c:*(-)?]
-        test:
-            dev-libs/libevent[multibuild_c:*(-)?]
     "
 fi
 
