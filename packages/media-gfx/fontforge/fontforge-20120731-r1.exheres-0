@@ -1,4 +1,4 @@
-# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 MY_PV="${PV}-b"
@@ -30,7 +30,7 @@ DEPENDENCIES="
         dev-libs/libxml2
         media-libs/giflib
         media-libs/jpeg
-        media-libs/libpng[>=1.2]
+        media-libs/libpng:=[>=1.2]
         media-libs/libuninameslist
         media-libs/tiff
         sys-libs/zlib

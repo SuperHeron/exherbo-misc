@@ -1,4 +1,4 @@
-# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.12 1.11 ] ]
@@ -41,7 +41,7 @@ DEPENDENCIES="
         dev-tcl/tls[>=1.6]
         media-libs/gstreamer:0.10[>=0.10.22]
         media-libs/jpeg
-        media-libs/libpng
+        media-libs/libpng:=
         media-plugins/gst-plugins-base[>=0.10.22]
         net-im/farstream:0.1[>=0.1]
         x11-libs/libX11

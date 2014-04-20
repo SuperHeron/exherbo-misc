@@ -1,4 +1,4 @@
-# Copyright 2010-2011 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 # Launchpad repo is a delayed mirror
@@ -40,7 +40,7 @@ DEPENDENCIES="
         media-libs/freetype
         media-libs/glew
         media-libs/jpeg
-        media-libs/libpng
+        media-libs/libpng:=
         media-sound/pulseaudio
         x11-dri/mesa
         x11-libs/cairo

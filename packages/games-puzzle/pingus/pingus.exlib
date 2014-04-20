@@ -1,4 +1,4 @@
-# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require scons googlecode
@@ -18,7 +18,7 @@ MYOPTIONS=""
 DEPENDENCIES="
     build+run:
         dev-libs/boost
-        media-libs/libpng
+        media-libs/libpng:=
         media-libs/SDL
         media-libs/SDL_image
         media-libs/SDL_mixer[mikmod]
