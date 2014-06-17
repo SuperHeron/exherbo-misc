@@ -82,7 +82,7 @@ DEPENDENCIES="
         vnc? ( net-libs/libvncserver[>=0.9.7] )
         vpx? ( media-libs/libvpx[>=0.9.5] )
         webservice? ( net-libs/gsoap[>=2.7.9f] )
-        wine? ( app-emulation/wine )
+        wine? ( app-emulation/wine[multibuild_c:32] )
 "
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/wiki/Changelog"
@@ -149,6 +149,10 @@ src_configure() {
     # java: Needs detection in configure script
     myconf="${myconf} --disable-docs --disable-java"
     esandbox allow_net unix:/tmp/.wine-*/server-*/socket
+    # divert configure's wine checks away from the current user's home
+    export WINEPREFIX="${TEMP}"
+    export XDG_CACHE_HOME="${TEMP}/.cache/"
+    unset DISPLAY
     # Call configure script directly as it is not a GNU one
     edo ./configure --disable-kmods ${myconf}
     esandbox disallow_net unix:/tmp/.wine-*/server-*/socket
