@@ -1,7 +1,7 @@
 # Copyright 2011-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require googlecode [ suffix='tar.gz' ] setup-py [ import='setuptools' blacklist=3 ]
+require pypi setup-py [ import=setuptools ]
 
 SUMMARY="A comprehensive HTTP client library in Python"
 DESCRIPTION="
@@ -42,5 +42,26 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
-REMOTE_IDS="pypi:${PN}"
+# Tests run against a server on the internet.
+# Running the tests locally means manually setting up a carefully-configured
+# server and patching the tests to use localhost.
+RESTRICT="test"
+
+setup-py_test_one_multibuild() {
+    case $(python_get_abi) in
+    2.*)
+        PYTHONPATH="$(ls -d ${PWD}/build/lib*)" edo ${PYTHON} -B python2/httplib2test.py
+        ;;
+    3.*)
+        PYTHONPATH="$(ls -d ${PWD}/build/lib*)" edo ${PYTHON} -B python3/httplib2test.py
+        ;;
+    esac
+}
+
+install_one_multibuild() {
+    setup-py_install_one_multibuild
+
+    # Fix permissions of cacerts.txt file
+    edo chmod 644 "${IMAGE}$(python_get_sitedir)"/httplib2/cacerts.txt
+}
 
