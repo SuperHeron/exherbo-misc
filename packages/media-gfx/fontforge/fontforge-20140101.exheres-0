@@ -1,11 +1,11 @@
 # Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-MY_PV="${PV}-b"
+MY_PV="2.0.${PV}"
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ none ] ]
-require sourceforge [ pnv="${PN}-source/${PN}_full-${MY_PV}" ]
-require python [ blacklist=3 multibuild=false with_opt=true ]
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ]
+require github [ tag=${MY_PV} ]
+require python [ blacklist=none multibuild=false with_opt=true ]
 
 SUMMARY="FontForge - An Outline Font Editor"
 DESCRIPTION="FontForge -- An outline font editor that lets you create your own postscript, truetype, opentype,
@@ -14,12 +14,14 @@ DESCRIPTION="FontForge -- An outline font editor that lets you create your own p
  FontForge's user interface has been localized for: (English), Russian, Japanese, French, Italian,
  Spanish, Vietnamese, Greek, Simplified & Traditional Chinese, German, Polish, Ukrainian.
 "
+HOMEPAGE="http://www.fontforge.org/"
 
 LICENCES="BSD-3"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="X cairo native-script pango truetype type3
-           native-script [[ description = [ include a legacy fontforge scripting interpreter ] ]]"
+MYOPTIONS="X cairo
+    collaboration [[ description = [ Collaborative editing ] ]]
+"
 
 DEPENDENCIES="
     build:
@@ -27,54 +29,58 @@ DEPENDENCIES="
         sys-devel/libtool
         virtual/pkg-config
     build+run:
-        dev-libs/libxml2
+        dev-libs/expat
+        dev-libs/glib[>=2.6]
+        dev-libs/libffi
+        dev-libs/libxml2:2.0
+        media-libs/fontconfig
+        media-libs/freetype:2
         media-libs/giflib
         media-libs/jpeg
         media-libs/libpng:=[>=1.2]
         media-libs/libuninameslist
         media-libs/tiff
+        sys-libs/readline
         sys-libs/zlib
+        x11-libs/harfbuzz
         X? (
+            x11-libs/libICE
             x11-libs/libX11
-            x11-libs/libXi
-            x11-libs/libxkbui
-        )
-        cairo? (
-            media-libs/fontconfig
-            x11-libs/cairo
-        )
-        pango? (
+            x11-libs/libXau
             x11-libs/libXft
-            x11-libs/pango[X]
+            x11-libs/libXi
+            x11-libs/libXrender
+            x11-libs/libxkbui
+            x11-libs/pango[>=1.10][X]
         )
-        truetype? ( media-libs/freetype:2 )
+        cairo? ( x11-libs/cairo )
+        collaboration? ( net-libs/zeromq[>=4.0.0] )
 "
 
 WORK="${WORKBASE}/${PN}-${MY_PV}"
+
+# "The new Make build system is nice, but still needs work", make check is broken
+RESTRICT="test"
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/overview.html"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    '--enable-libff'
-    '--with-freetype-src='
-    '--with-regular-link'
-    '--without-static-imagelibs'
+    --disable-freetype-debugger
+    --disable-static
+    --enable-native-scripting
+    # dep could also be satified by https://bitbucket.org/sortsmill/libunicodenames/overview
+    --with-libuninameslist
+    --without-libunicodenames
+    --without-libspiro
 )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
-    'cairo'
-    'native-script'
-    'pango'
-    'python'
+    cairo
+    'collaboration libzmq'
+    'X x'
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'python pyextension'
-    'truetype'
-    'type3'
+    'python python-scripting'
+    'python python-extension'
 )
-
-src_prepare() {
-    default
-    eautoconf
-}
 
