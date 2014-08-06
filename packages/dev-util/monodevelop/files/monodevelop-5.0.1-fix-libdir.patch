@@ -1,9 +1,10 @@
 Source: Written by Pierre Lejeune, and modified by Anders Ladegaard Marchsteiner, for Exherbo
 Upstream: https://bugzilla.xamarin.com/show_bug.cgi?id=3650
 Reason: Take libdir configure arg into account
+
 diff -urpN a/build/Makefile.am b/build/Makefile.am
---- a/build/Makefile.am	2013-09-21 10:27:19.161386874 +0200
-+++ b/build/Makefile.am	2013-09-21 10:30:16.360389293 +0200
+--- a/build/Makefile.am	2014-08-06 11:59:41.448678034 +0200
++++ b/build/Makefile.am	2014-08-06 12:05:15.352026396 +0200
 @@ -9,11 +9,11 @@ endif
  all:
  
@@ -22,9 +23,9 @@ diff -urpN a/build/Makefile.am b/build/Makefile.am
  clean-local:
  	rm -rf bin AddIns locale data
 diff -urpN a/build/Makefile.in b/build/Makefile.in
---- a/build/Makefile.in	2013-09-21 10:27:19.161386874 +0200
-+++ b/build/Makefile.in	2013-09-21 10:31:43.332390480 +0200
-@@ -588,11 +588,11 @@ uninstall-am:
+--- a/build/Makefile.in	2014-08-06 11:59:41.448678034 +0200
++++ b/build/Makefile.in	2014-08-06 12:56:14.036062381 +0200
+@@ -589,11 +589,11 @@ uninstall-am:
  all:
  
  install:
@@ -36,15 +37,15 @@ diff -urpN a/build/Makefile.in b/build/Makefile.in
 +	mkdir -p $(DESTDIR)$(libdir)/monodevelop/bin
 +	cp -rf bin $(DESTDIR)$(libdir)/monodevelop/
 +	cp -rf AddIns $(DESTDIR)$(libdir)/monodevelop/
-+	cp -rf locale $(DESTDIR)$(libdr)/monodevelop/
++	cp -rf locale $(DESTDIR)$(libdir)/monodevelop/
 +	cp -rf data $(DESTDIR)$(libdir)/monodevelop/
  
  clean-local:
  	rm -rf bin AddIns locale data
 diff -urpN a/configure b/configure
---- a/configure	2013-09-21 10:27:21.407386904 +0200
-+++ b/configure	2013-09-21 10:32:28.718391100 +0200
-@@ -4094,7 +4094,7 @@ CSC_FLAGS="-debug -codepage:utf8"
+--- a/configure	2014-08-06 11:59:44.252635075 +0200
++++ b/configure	2014-08-06 12:07:03.435601848 +0200
+@@ -4089,7 +4089,7 @@ CSC_FLAGS="-debug -codepage:utf8"
  
  
  
@@ -54,9 +55,9 @@ diff -urpN a/configure b/configure
  MD_ADDIN_DIR="$MD_DIR/AddIns"
  
 diff -urpN a/configure.in b/configure.in
---- a/configure.in	2013-09-21 10:27:19.148386874 +0200
-+++ b/configure.in	2013-09-21 10:32:48.630391372 +0200
-@@ -258,7 +258,7 @@ AC_SUBST(SQLITE_XML)
+--- a/configure.in	2014-08-06 11:59:44.253635060 +0200
++++ b/configure.in	2014-08-06 12:07:03.436601834 +0200
+@@ -252,7 +252,7 @@ AC_SUBST(SQLITE_XML)
  AC_SUBST(CSC_FLAGS)
  
  
@@ -65,9 +66,65 @@ diff -urpN a/configure.in b/configure.in
  MD_ASSEMBLY_DIR="$MD_DIR/bin"
  MD_ADDIN_DIR="$MD_DIR/AddIns"
  
+diff -urpN a/configure.inn b/configure.inn
+--- a/configure.inn	2014-08-06 11:59:41.430678310 +0200
++++ b/configure.inn	2014-08-06 13:16:28.143437789 +0200
+@@ -252,7 +252,7 @@ AC_SUBST(SQLITE_XML)
+ AC_SUBST(CSC_FLAGS)
+ 
+ 
+-MD_DIR='$(prefix)/lib/monodevelop'
++MD_DIR='$(libdir)/monodevelop'
+ MD_ASSEMBLY_DIR="$MD_DIR/bin"
+ MD_ADDIN_DIR="$MD_DIR/AddIns"
+ 
+diff -urpN a/external/mono-addins/Mono.Addins/mono-addins.pc.in b/external/mono-addins/Mono.Addins/mono-addins.pc.in
+--- a/external/mono-addins/Mono.Addins/mono-addins.pc.in	2014-08-06 11:59:41.699674189 +0200
++++ b/external/mono-addins/Mono.Addins/mono-addins.pc.in	2014-08-06 13:31:55.126167075 +0200
+@@ -1,6 +1,6 @@
+ prefix=${pcfiledir}/../..
+ exec_prefix=${prefix}
+-pkglibdir=${prefix}/lib/mono/@PACKAGE@
++pkglibdir=${libdir}/mono/@PACKAGE@
+ 
+ Libraries=${pkglibdir}/@MONO_ADDINS_DEFAULT_LIB@
+ 
+diff -urpN a/external/mono-addins/Mono.Addins.Gui/mono-addins-gui.pc.in b/external/mono-addins/Mono.Addins.Gui/mono-addins-gui.pc.in
+--- a/external/mono-addins/Mono.Addins.Gui/mono-addins-gui.pc.in	2014-08-06 11:59:41.691674311 +0200
++++ b/external/mono-addins/Mono.Addins.Gui/mono-addins-gui.pc.in	2014-08-06 13:31:17.679584022 +0200
+@@ -1,6 +1,6 @@
+ prefix=${pcfiledir}/../..
+ exec_prefix=${prefix}
+-pkglibdir=${prefix}/lib/mono/@PACKAGE@
++pkglibdir=${libdir}/mono/@PACKAGE@
+ 
+ Libraries=${pkglibdir}/@MONO_ADDINS_GUI_DEFAULT_LIB@
+ 
+diff -urpN a/external/mono-addins/Mono.Addins.MSBuild/mono-addins-msbuild.pc.in b/external/mono-addins/Mono.Addins.MSBuild/mono-addins-msbuild.pc.in
+--- a/external/mono-addins/Mono.Addins.MSBuild/mono-addins-msbuild.pc.in	2014-08-06 11:59:41.713673974 +0200
++++ b/external/mono-addins/Mono.Addins.MSBuild/mono-addins-msbuild.pc.in	2014-08-06 13:32:17.021923238 +0200
+@@ -1,6 +1,6 @@
+ prefix=${pcfiledir}/../..
+ exec_prefix=${prefix}
+-pkglibdir=${prefix}/lib/mono/@PACKAGE@
++pkglibdir=${libdir}/mono/@PACKAGE@
+ 
+ Libraries=${pkglibdir}/@MONO_ADDINS_MSBUILD_DEFAULT_LIB@
+ 
+diff -urpN a/external/mono-addins/Mono.Addins.Setup/mono-addins-setup.pc.in b/external/mono-addins/Mono.Addins.Setup/mono-addins-setup.pc.in
+--- a/external/mono-addins/Mono.Addins.Setup/mono-addins-setup.pc.in	2014-08-06 11:59:41.693674280 +0200
++++ b/external/mono-addins/Mono.Addins.Setup/mono-addins-setup.pc.in	2014-08-06 13:31:33.702405627 +0200
+@@ -1,6 +1,6 @@
+ prefix=${pcfiledir}/../..
+ exec_prefix=${prefix}
+-pkglibdir=${prefix}/lib/mono/@PACKAGE@
++pkglibdir=${libdir}/mono/@PACKAGE@
+ 
+ Libraries=${pkglibdir}/@MONO_ADDINS_SETUP_DEFAULT_LIB@
+ 
 diff -urpN a/external/mono-tools/asn1view/gtk/Makefile.am b/external/mono-tools/asn1view/gtk/Makefile.am
---- a/external/mono-tools/asn1view/gtk/Makefile.am	2013-09-21 10:27:19.836386883 +0200
-+++ b/external/mono-tools/asn1view/gtk/Makefile.am	2013-09-21 10:33:31.187391952 +0200
+--- a/external/mono-tools/asn1view/gtk/Makefile.am	2014-08-06 11:59:41.805672565 +0200
++++ b/external/mono-tools/asn1view/gtk/Makefile.am	2014-08-06 12:58:05.354020456 +0200
 @@ -30,7 +30,7 @@ gasnview_sources_build = $(gasnview_sour
  if ENABLE_GNOME
  
@@ -78,8 +135,8 @@ diff -urpN a/external/mono-tools/asn1view/gtk/Makefile.am b/external/mono-tools/
  ress= $(foreach res,$(resources), $(addprefix -resource:,$(res)),$(notdir $(res)))
  
 diff -urpN a/external/mono-tools/create-native-map/lib/pkgconfig/Makefile.am b/external/mono-tools/create-native-map/lib/pkgconfig/Makefile.am
---- a/external/mono-tools/create-native-map/lib/pkgconfig/Makefile.am	2013-09-21 10:27:19.979386885 +0200
-+++ b/external/mono-tools/create-native-map/lib/pkgconfig/Makefile.am	2013-09-21 10:34:10.806392493 +0200
+--- a/external/mono-tools/create-native-map/lib/pkgconfig/Makefile.am	2014-08-06 11:59:41.847671921 +0200
++++ b/external/mono-tools/create-native-map/lib/pkgconfig/Makefile.am	2014-08-06 13:52:28.108449158 +0200
 @@ -1,5 +1,5 @@
  
 -pkgconfigdir = $(prefix)/lib/pkgconfig
@@ -88,8 +145,8 @@ diff -urpN a/external/mono-tools/create-native-map/lib/pkgconfig/Makefile.am b/e
  
  DISTCLEANFILES = create-native-map.pc
 diff -urpN a/external/mono-tools/create-native-map/src/Makefile.am b/external/mono-tools/create-native-map/src/Makefile.am
---- a/external/mono-tools/create-native-map/src/Makefile.am	2013-09-21 10:27:19.977386885 +0200
-+++ b/external/mono-tools/create-native-map/src/Makefile.am	2013-09-21 10:34:42.497392926 +0200
+--- a/external/mono-tools/create-native-map/src/Makefile.am	2014-08-06 11:59:41.847671921 +0200
++++ b/external/mono-tools/create-native-map/src/Makefile.am	2014-08-06 12:59:21.248287048 +0200
 @@ -19,7 +19,7 @@ all: $(EXE)
  $(EXE) : $(cnm_build_sources)
  	$(GMCS) $(MCS_FLAGS) -d:TRACE -debug+ -out:$@ -target:exe $(REFS) $(cnm_build_sources)
@@ -100,8 +157,8 @@ diff -urpN a/external/mono-tools/create-native-map/src/Makefile.am b/external/mo
  
  check: $(PROGRAM) TestMap.dll
 diff -urpN a/external/mono-tools/docbrowser/Makefile.am b/external/mono-tools/docbrowser/Makefile.am
---- a/external/mono-tools/docbrowser/Makefile.am	2013-09-21 10:27:20.023386886 +0200
-+++ b/external/mono-tools/docbrowser/Makefile.am	2013-09-21 10:35:11.042393316 +0200
+--- a/external/mono-tools/docbrowser/Makefile.am	2014-08-06 11:59:41.860671722 +0200
++++ b/external/mono-tools/docbrowser/Makefile.am	2014-08-06 12:59:41.656087058 +0200
 @@ -1,4 +1,4 @@
 -monodocdir=$(prefix)/lib/monodoc
 +monodocdir=$(libdir)/monodoc
@@ -109,8 +166,8 @@ diff -urpN a/external/mono-tools/docbrowser/Makefile.am b/external/mono-tools/do
  if DMCS_PRESENT
  COMPILER=$(DMCS)
 diff -urpN a/external/mono-tools/gendarme/console/Makefile.am b/external/mono-tools/gendarme/console/Makefile.am
---- a/external/mono-tools/gendarme/console/Makefile.am	2013-09-21 10:27:19.954386885 +0200
-+++ b/external/mono-tools/gendarme/console/Makefile.am	2013-09-21 10:36:07.656394089 +0200
+--- a/external/mono-tools/gendarme/console/Makefile.am	2014-08-06 11:59:41.841672013 +0200
++++ b/external/mono-tools/gendarme/console/Makefile.am	2014-08-06 13:00:29.503613964 +0200
 @@ -1,6 +1,6 @@
  include ../options.make
  
@@ -119,9 +176,19 @@ diff -urpN a/external/mono-tools/gendarme/console/Makefile.am b/external/mono-to
  gendarme_SCRIPTS = ../bin/gendarme.exe
  EXTRA_DIST = $(gendarme_sources) $(gendarme_sources_in) $(gendarme_resources) gendarme.csproj
  CLEANFILES = $(gendarme_SCRIPTS) $(gendarme_SCRIPTS).mdb
+diff -urpN a/external/mono-tools/gendarme/framework/gendarme-framework.pc.in b/external/mono-tools/gendarme/framework/gendarme-framework.pc.in
+--- a/external/mono-tools/gendarme/framework/gendarme-framework.pc.in	2014-08-06 11:59:41.841672013 +0200
++++ b/external/mono-tools/gendarme/framework/gendarme-framework.pc.in	2014-08-06 13:32:37.853691225 +0200
+@@ -1,5 +1,5 @@
+ prefix=@prefix@
+-assemblies_dir=${prefix}/lib/gendarme
++assemblies_dir=${libdir}/gendarme
+ Libraries=${assemblies_dir}/Gendarme.Framework.dll
+ 
+ Name: Gendarme.Framework
 diff -urpN a/external/mono-tools/gendarme/framework/Makefile.am b/external/mono-tools/gendarme/framework/Makefile.am
---- a/external/mono-tools/gendarme/framework/Makefile.am	2013-09-21 10:27:19.962386885 +0200
-+++ b/external/mono-tools/gendarme/framework/Makefile.am	2013-09-21 10:37:25.659395153 +0200
+--- a/external/mono-tools/gendarme/framework/Makefile.am	2014-08-06 11:59:41.843671982 +0200
++++ b/external/mono-tools/gendarme/framework/Makefile.am	2014-08-06 13:01:50.742798458 +0200
 @@ -2,7 +2,7 @@ include ../options.make
  
  SUBDIRS = Test
@@ -158,8 +225,8 @@ diff -urpN a/external/mono-tools/gendarme/framework/Makefile.am b/external/mono-
  self-test: $(framework_SCRIPTS)
  	mono --debug ../bin/gendarme.exe $(framework_SCRIPTS)
 diff -urpN a/external/mono-tools/gendarme/man/Makefile.am b/external/mono-tools/gendarme/man/Makefile.am
---- a/external/mono-tools/gendarme/man/Makefile.am	2013-09-21 10:27:19.965386885 +0200
-+++ b/external/mono-tools/gendarme/man/Makefile.am	2013-09-21 10:37:44.723395414 +0200
+--- a/external/mono-tools/gendarme/man/Makefile.am	2014-08-06 11:59:41.845671952 +0200
++++ b/external/mono-tools/gendarme/man/Makefile.am	2014-08-06 13:02:10.805594908 +0200
 @@ -3,7 +3,7 @@ EXTRA_DIST = gendarme.1.in gendarme.5.in
  DISTCLEANFILES = Makefile.in gendarme.1 gendarme.5 gd2i.1
  CLEANFILES = gendarme.tree gendarme.zip
@@ -170,8 +237,8 @@ diff -urpN a/external/mono-tools/gendarme/man/Makefile.am b/external/mono-tools/
  
  all: gendarme.tree gendarme.zip
 diff -urpN a/external/mono-tools/gendarme/rules/common.make b/external/mono-tools/gendarme/rules/common.make
---- a/external/mono-tools/gendarme/rules/common.make	2013-09-21 10:27:19.902386884 +0200
-+++ b/external/mono-tools/gendarme/rules/common.make	2013-09-21 10:38:20.546395903 +0200
+--- a/external/mono-tools/gendarme/rules/common.make	2014-08-06 11:59:41.830672181 +0200
++++ b/external/mono-tools/gendarme/rules/common.make	2014-08-06 13:03:00.965082627 +0200
 @@ -18,10 +18,10 @@ rules_doc_source = doc/$(prefixed_rules_
  rules_doc_tree = doc/$(prefixed_rules_category).tree
  rules_doc_zip = doc/$(prefixed_rules_category).zip
@@ -195,8 +262,8 @@ diff -urpN a/external/mono-tools/gendarme/rules/common.make b/external/mono-tool
  self-test: $(rules_dll)
  	mono --debug $(console_runner) $(rules_dll)
 diff -urpN a/external/mono-tools/gendarme/rules/Makefile.am b/external/mono-tools/gendarme/rules/Makefile.am
---- a/external/mono-tools/gendarme/rules/Makefile.am	2013-09-21 10:27:19.874386884 +0200
-+++ b/external/mono-tools/gendarme/rules/Makefile.am	2013-09-21 10:38:49.474396298 +0200
+--- a/external/mono-tools/gendarme/rules/Makefile.am	2014-08-06 11:59:41.823672289 +0200
++++ b/external/mono-tools/gendarme/rules/Makefile.am	2014-08-06 13:03:29.316791066 +0200
 @@ -27,10 +27,10 @@ EXTRA_DIST = rules.xml common.make
  DISTCLEANFILES = Makefile.in
  
@@ -211,8 +278,8 @@ diff -urpN a/external/mono-tools/gendarme/rules/Makefile.am b/external/mono-tool
  rules:
  	for ASM in $(RULEDIRS); do \
 diff -urpN a/external/mono-tools/gendarme/swf-wizard-runner/Makefile.am b/external/mono-tools/gendarme/swf-wizard-runner/Makefile.am
---- a/external/mono-tools/gendarme/swf-wizard-runner/Makefile.am	2013-09-21 10:27:19.946386885 +0200
-+++ b/external/mono-tools/gendarme/swf-wizard-runner/Makefile.am	2013-09-21 10:40:06.596397350 +0200
+--- a/external/mono-tools/gendarme/swf-wizard-runner/Makefile.am	2014-08-06 11:59:41.838672059 +0200
++++ b/external/mono-tools/gendarme/swf-wizard-runner/Makefile.am	2014-08-06 13:04:05.180420332 +0200
 @@ -1,4 +1,4 @@
 -wizarddir=$(prefix)/lib/gendarme
 +wizarddir=$(libdir)/gendarme
@@ -220,8 +287,8 @@ diff -urpN a/external/mono-tools/gendarme/swf-wizard-runner/Makefile.am b/extern
  
  desktopdir = $(datadir)/applications
 diff -urpN a/external/mono-tools/gendarme/tools/supported/gd2i/Makefile.am b/external/mono-tools/gendarme/tools/supported/gd2i/Makefile.am
---- a/external/mono-tools/gendarme/tools/supported/gd2i/Makefile.am	2013-09-21 10:27:19.950386885 +0200
-+++ b/external/mono-tools/gendarme/tools/supported/gd2i/Makefile.am	2013-09-21 10:40:42.547397841 +0200
+--- a/external/mono-tools/gendarme/tools/supported/gd2i/Makefile.am	2014-08-06 11:59:41.839672044 +0200
++++ b/external/mono-tools/gendarme/tools/supported/gd2i/Makefile.am	2014-08-06 13:04:34.515115587 +0200
 @@ -1,6 +1,6 @@
  EXTRA_DIST = $(gd2i_sources) gd2i.csproj
  
@@ -231,8 +298,8 @@ diff -urpN a/external/mono-tools/gendarme/tools/supported/gd2i/Makefile.am b/ext
  CLEANFILES = $(gd2i_SCRIPTS) $(gd2i_SCRIPTS).mdb
  DISTCLEANFILES = Makefile.in
 diff -urpN a/external/mono-tools/gsharp/Makefile.am b/external/mono-tools/gsharp/Makefile.am
---- a/external/mono-tools/gsharp/Makefile.am	2013-09-21 10:27:19.837386883 +0200
-+++ b/external/mono-tools/gsharp/Makefile.am	2013-09-21 10:41:09.158398204 +0200
+--- a/external/mono-tools/gsharp/Makefile.am	2014-08-06 11:59:41.806672549 +0200
++++ b/external/mono-tools/gsharp/Makefile.am	2014-08-06 13:04:57.778873003 +0200
 @@ -1,4 +1,4 @@
 -gsharpdir = $(prefix)/lib/gsharp
 +gsharpdir = $(libdir)/gsharp
@@ -240,8 +307,8 @@ diff -urpN a/external/mono-tools/gsharp/Makefile.am b/external/mono-tools/gsharp
  if DMCS_PRESENT
  COMPILER=$(DMCS)
 diff -urpN a/external/mono-tools/gui-compare/gui-compare.make b/external/mono-tools/gui-compare/gui-compare.make
---- a/external/mono-tools/gui-compare/gui-compare.make	2013-09-21 10:27:20.000386885 +0200
-+++ b/external/mono-tools/gui-compare/gui-compare.make	2013-09-21 10:42:53.193399625 +0200
+--- a/external/mono-tools/gui-compare/gui-compare.make	2014-08-06 11:59:41.852671845 +0200
++++ b/external/mono-tools/gui-compare/gui-compare.make	2014-08-06 13:06:34.800853440 +0200
 @@ -148,17 +148,17 @@ $(ASSEMBLY) $(ASSEMBLY_MDB): $(build_sou
  
  install-local: $(ASSEMBLY) $(ASSEMBLY_MDB) $(GUI_COMPARE) $(MONO_CECIL_DLL)
@@ -267,8 +334,8 @@ diff -urpN a/external/mono-tools/gui-compare/gui-compare.make b/external/mono-to
 +	test -z '$(MONO_CECIL_DLL)' || rm -f $(DESTDIR)$(libdir)/$(PACKAGE)/$(notdir $(MONO_CECIL_DLL))
  	make post-uninstall-local-hook prefix=$(prefix)
 diff -urpN a/external/mono-tools/gui-compare/Makefile.am b/external/mono-tools/gui-compare/Makefile.am
---- a/external/mono-tools/gui-compare/Makefile.am	2013-09-21 10:27:20.001386885 +0200
-+++ b/external/mono-tools/gui-compare/Makefile.am	2013-09-21 10:43:11.356399873 +0200
+--- a/external/mono-tools/gui-compare/Makefile.am	2014-08-06 11:59:41.852671845 +0200
++++ b/external/mono-tools/gui-compare/Makefile.am	2014-08-06 13:06:59.113596140 +0200
 @@ -1,4 +1,4 @@
 -guicomparedir=$(prefix)/lib/gui-compare
 +guicomparedir=$(libdir)/gui-compare
@@ -276,8 +343,8 @@ diff -urpN a/external/mono-tools/gui-compare/Makefile.am b/external/mono-tools/g
  guicompare_DATA = gui-compare.exe gui-compare.exe.mdb
  
 diff -urpN a/external/mono-tools/minvoke/Makefile.am b/external/mono-tools/minvoke/Makefile.am
---- a/external/mono-tools/minvoke/Makefile.am	2013-09-21 10:27:19.970386885 +0200
-+++ b/external/mono-tools/minvoke/Makefile.am	2013-09-21 10:43:47.421400365 +0200
+--- a/external/mono-tools/minvoke/Makefile.am	2014-08-06 11:59:41.845671952 +0200
++++ b/external/mono-tools/minvoke/Makefile.am	2014-08-06 13:07:27.256297488 +0200
 @@ -1,4 +1,4 @@
 -minvokedir=$(prefix)/lib/minvoke
 +minvokedir=$(libdir)/minvoke
@@ -285,8 +352,8 @@ diff -urpN a/external/mono-tools/minvoke/Makefile.am b/external/mono-tools/minvo
  minvoke_DATA = minvoke.exe
  
 diff -urpN a/external/mono-tools/mperfmon/Makefile.am b/external/mono-tools/mperfmon/Makefile.am
---- a/external/mono-tools/mperfmon/Makefile.am	2013-09-21 10:27:19.972386885 +0200
-+++ b/external/mono-tools/mperfmon/Makefile.am	2013-09-21 10:44:06.320400623 +0200
+--- a/external/mono-tools/mperfmon/Makefile.am	2014-08-06 11:59:41.846671936 +0200
++++ b/external/mono-tools/mperfmon/Makefile.am	2014-08-06 13:08:02.295924483 +0200
 @@ -1,4 +1,4 @@
 -mperfmondir=$(prefix)/lib/mperfmon
 +mperfmondir=$(libdir)/mperfmon
@@ -294,8 +361,8 @@ diff -urpN a/external/mono-tools/mperfmon/Makefile.am b/external/mono-tools/mper
  mperfmon_DATA = mperfmon.exe config
  man_MANS=mperfmon.1
 diff -urpN a/external/mono-tools/webdoc/Makefile.am b/external/mono-tools/webdoc/Makefile.am
---- a/external/mono-tools/webdoc/Makefile.am	2013-09-21 10:27:19.998386885 +0200
-+++ b/external/mono-tools/webdoc/Makefile.am	2013-09-21 10:44:27.041400906 +0200
+--- a/external/mono-tools/webdoc/Makefile.am	2014-08-06 11:59:41.851671860 +0200
++++ b/external/mono-tools/webdoc/Makefile.am	2014-08-06 13:08:18.151755292 +0200
 @@ -1,4 +1,4 @@
 -webdir=$(prefix)/lib/monodoc/web
 +webdir=$(libdir)/monodoc/web
@@ -303,9 +370,9 @@ diff -urpN a/external/mono-tools/webdoc/Makefile.am b/external/mono-tools/webdoc
  web_DATA = \
  	Global.asax \
 diff -urpN a/Makefile.am b/Makefile.am
---- a/Makefile.am	2013-09-21 10:27:19.161386874 +0200
-+++ b/Makefile.am	2013-09-21 10:45:21.958401655 +0200
-@@ -50,7 +50,7 @@ xdgmime_DATA = monodevelop.xml
+--- a/Makefile.am	2014-08-06 11:59:41.448678034 +0200
++++ b/Makefile.am	2014-08-06 12:07:24.845315090 +0200
+@@ -43,7 +43,7 @@ xdgmime_DATA = monodevelop.xml
  
  pkgconfig_in_files = monodevelop.pc.in monodevelop-core-addins.pc.in
  
@@ -315,9 +382,9 @@ diff -urpN a/Makefile.am b/Makefile.am
  
  if ENABLE_UPDATE_MIMEDB
 diff -urpN a/Makefile.in b/Makefile.in
---- a/Makefile.in	2013-09-21 10:27:19.148386874 +0200
-+++ b/Makefile.in	2013-09-21 10:46:00.177402177 +0200
-@@ -332,7 +332,7 @@ desktop_DATA = monodevelop.desktop
+--- a/Makefile.in	2014-08-06 11:59:41.430678310 +0200
++++ b/Makefile.in	2014-08-06 12:07:24.846315076 +0200
+@@ -334,7 +334,7 @@ desktop_DATA = monodevelop.desktop
  xdgmimedir = $(datadir)/mime/packages
  xdgmime_DATA = monodevelop.xml
  pkgconfig_in_files = monodevelop.pc.in monodevelop-core-addins.pc.in
@@ -327,11 +394,11 @@ diff -urpN a/Makefile.in b/Makefile.in
  PACKAGES = \
  	build/bin/MonoDevelop.Core.Gui.addin.xml \
 diff -urpN a/po/Makefile b/po/Makefile
---- a/po/Makefile	2013-09-21 10:27:19.156386874 +0200
-+++ b/po/Makefile	2013-09-21 10:46:44.565402783 +0200
-@@ -109,9 +109,9 @@ LTLIBOBJS =
+--- a/po/Makefile	2014-08-06 11:59:41.442678126 +0200
++++ b/po/Makefile	2014-08-06 13:53:57.640934810 +0200
+@@ -110,9 +110,9 @@ LTLIBOBJS =
  MAINT = 
- MAKEINFO = ${SHELL} /home/builder/data/lanes/monodevelop-linux-monodevelop-4.0.12-branch/593d7acb/source/monodevelop/main/missing --run makeinfo
+ MAKEINFO = ${SHELL} /home/builder/data/lanes/monodevelop-linux-monodevelop-5.0.1-branch/f94ee866/source/monodevelop/main/missing --run makeinfo
  MCS = /usr/bin/gmcs
 -MD_ADDIN_DIR = $(prefix)/lib/monodevelop/AddIns
 -MD_ASSEMBLY_DIR = $(prefix)/lib/monodevelop/bin
