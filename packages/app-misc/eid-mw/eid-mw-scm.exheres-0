@@ -4,7 +4,7 @@
 SCM_REPOSITORY="http://${PN}.googlecode.com/svn/"
 SCM_CHECKOUT_TO="${PNV}"
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ] eid-mw-common scm-svn
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ] eid-mw-common scm-svn
 
 DOWNLOADS=""
 
