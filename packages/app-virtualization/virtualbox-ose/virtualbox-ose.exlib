@@ -4,6 +4,8 @@
 require freedesktop-desktop udev-rules
 require python [ blacklist=3 with_opt=true ]
 
+export_exlib_phases pkg_pretend pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst
+
 SUMMARY="A family of powerful x86 virtualization products"
 DESCRIPTION="
 VirtualBox is a powerful x86 virtualization product for enterprise as well as
@@ -91,7 +93,7 @@ UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/News"
 
 WORK="${WORKBASE}/${MY_PNV}"
 
-pkg_pretend() {
+virtualbox-ose_pkg_pretend() {
     if optionq platform:amd64 && [[ ! -e '/usr/include/gnu/stubs-32.h' ]]; then
         ewarn 'You do not have a 32-bits glibc.'
         ewarn 'You will *only* be able to run 64-bits guests.'
@@ -99,11 +101,11 @@ pkg_pretend() {
     fi
 }
 
-pkg_setup() {
+virtualbox-ose_pkg_setup() {
     exdirectory --allow /opt
 }
 
-src_unpack() {
+virtualbox-ose_src_unpack() {
     unpack ${MY_PNV}.tar.bz2
     if optionq extensions; then
         edo mkdir "${WORK}"/${EXT_PN}
@@ -113,7 +115,7 @@ src_unpack() {
     fi
 }
 
-src_prepare() {
+virtualbox-ose_src_prepare() {
     default
     # Disable -Werror for gcc-4.5 builds
     # See http://www.virtualbox.org/ticket/6715
@@ -123,7 +125,7 @@ src_prepare() {
     echo 'VBOX_WITH_TESTSUITE :=' >> "${WORK}/LocalConfig.kmk"
 }
 
-src_configure() {
+virtualbox-ose_src_configure() {
     local myconf=
     if optionq X; then
         optionq opengl || myconf="${myconf} --disable-opengl"
@@ -158,12 +160,12 @@ src_configure() {
     esandbox disallow_net unix:/tmp/.wine-*/server-*/socket
 }
 
-src_compile() {
+virtualbox-ose_src_compile() {
     edo source env.sh
     edo kmk -j${EXJOBS:-1} all
 }
 
-src_install() {
+virtualbox-ose_src_install() {
     local installdir= outdir=
     edo source env.sh
     installdir="/opt/VirtualBox"
@@ -241,7 +243,7 @@ EOF
     fi
 }
 
-pkg_postinst() {
+virtualbox-ose_pkg_postinst() {
     ewarn "This exheres does not build the kernel modules for VirtualBox, you will have to do this"
     ewarn "on your own. The source code has been installed to /usr/src/${PNV}"
 

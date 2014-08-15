@@ -3,6 +3,8 @@
 
 require systemd-service
 
+export_exlib_phases src_configure src_install
+
 SUMMARY="Linux KMS/DRM based System Console"
 DESCRIPTION="
 kmscon is a system console for linux. It does not depend on any graphics-server on your system
@@ -35,7 +37,7 @@ DEPENDENCIES="
         pixman? ( x11-libs/pixman:1 )
 "
 
-src_configure() {
+kmscon_src_configure() {
     local with_video=fbdev,drm2d
     local with_renderers=bbulk
     local with_fonts=unifont
@@ -51,7 +53,7 @@ src_configure() {
           --with-fonts="${with_fonts}"
 }
 
-src_install() {
+kmscon_src_install() {
     default
     install_systemd_files
 }

@@ -3,6 +3,8 @@
 
 require scons googlecode
 
+export_exlib_phases src_configure src_compile src_install
+
 SUMMARY="Free Lemmings-like game"
 DESCRIPTION="
 Pingus is a free Lemmings-like game covered under the GNU GPL. It features
@@ -24,13 +26,13 @@ DEPENDENCIES="
         media-libs/SDL_mixer[mikmod]
 "
 
-src_configure() { :; }
+pingus_src_configure() { :; }
 
-src_compile() {
+pingus_src_compile() {
     escons --jobs ${EXJOBS:-1} CC="${CC}" CXX="${CXX}" CCFLAGS="${CFLAGS}" with_linuxevdev=True
 }
 
-src_install() {
+pingus_src_install() {
     emake install PREFIX=/usr DESTDIR="${IMAGE}"
     emagicdocs
 }
