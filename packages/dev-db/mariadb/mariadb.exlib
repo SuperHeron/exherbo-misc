@@ -13,7 +13,7 @@ MARIADB_MAJOR_VERSION=$(ever range 1-2)
 
 SUMMARY="An enhanced, drop-in replacement for MySQL"
 HOMEPAGE="http://${PN}.org"
-DOWNLOADS="mirror://${PN}/${PNV}/kvm-tarbake-jaunty-x86/${PNV}.tar.gz"
+DOWNLOADS="mirror://${PN}/${PNV}/source/${PNV}.tar.gz"
 
 REMOTE_IDS="freecode:${PN}"
 UPSTREAM_CHANGELOG="https://${PN}.com/kb/en/${PN}-$(ever delete_all)-changelog [[ lang = [ en ] ]]"
