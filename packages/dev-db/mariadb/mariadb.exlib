@@ -142,15 +142,13 @@ configure_one_multibuild() {
 
     if ever at_least 10.0 ; then
         cmakeargs+=(
-            -DBUILD_WITH_WERROR:BOOL=FALSE
-            -DCOMPILE_FLAG_WERROR:BOOL=FALSE
             -DENABLE_DTRACE:BOOL=FALSE
             -DENABLE_GCOV:BOOL=FALSE
-            -DENABLE_GPROF:BOOL=FALSE
             -DENABLED_LOCAL_INFILE:BOOL=TRUE
-            -DWITH_EDITLINE:STRING=system
-            -DWITH_LIBEVENT:STRING=system
+            -DWITH_MYSQLD_LDFLAGS="${LDFLAGS}"
         )
+        CFLAGS="-fPIC ${CFLAGS} -fno-strict-aliasing -DBIG_JOINS=1 -fomit-frame-pointer -fno-delete-null-pointer-checks -Wno-error"
+        CXXFLAGS="-fPIC ${CXXFLAGS} -fno-strict-aliasing -DBIG_JOINS=1 -felide-constructors -fno-rtti -fno-delete-null-pointer-checks -Wno-error"
     else
         cmakeargs+=(
             -DWITH_LIBEDIT:BOOL=FALSE
@@ -160,8 +158,8 @@ configure_one_multibuild() {
 
     ecmake \
         "${cmakeargs[@]}" \
-        $(cmake_with debug DEBUG)\
-        $(cmake_with embedded-server EMBEDDED_SERVER)\
+        $(cmake_with debug DEBUG) \
+        $(cmake_with embedded-server EMBEDDED_SERVER) \
         $(cmake_with tcpd LIBWRAP)
 }
 
@@ -182,11 +180,8 @@ mariadb_src_install() {
 
     keepdir /etc/mysql
 
-    if ever at_least 10.0 ; then
-        edo cp "${IMAGE}"/usr/share/doc/${PNVR}/support-files/my-default.cnf "${IMAGE}"/etc/mysql/my.cnf
-    else
-        edo cp "${IMAGE}"/usr/share/doc/${PNVR}/support-files/my-small.cnf "${IMAGE}"/etc/mysql/my.cnf
-    fi
+    edo cp "${IMAGE}"/usr/share/doc/${PNVR}/support-files/my-small.cnf "${IMAGE}"/etc/mysql/my.cnf
+
 #    edo mv "${IMAGE}"/usr/bin/mysqlaccess.conf "${IMAGE}"/etc/mysql/mysqlaccess.conf
 #    edo chmod 644 "${IMAGE}"/etc/mysql/mysqlaccess.conf
 
