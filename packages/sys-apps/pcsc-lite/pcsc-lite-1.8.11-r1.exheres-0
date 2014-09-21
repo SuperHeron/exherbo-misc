@@ -4,6 +4,7 @@
 #     Copyright 1999-2009 Gentoo Foundation
 
 require systemd-service alioth-debian [ project=pcsclite dl_number=3991 ] easy-multibuild
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ]
 
 SUMMARY="PC/SC Architecture smartcard middleware library"
 DESCRIPTION="Middleware to access a smart card using SCard API (PC/SC)."
@@ -25,14 +26,15 @@ DEPENDENCIES="
         sys-devel/flex
         virtual/pkg-config
     build+run:
-        libusb? ( virtual/usb:1 )
+        libusb? ( virtual/usb:1[multibuild_c:*(-)?] )
         !libusb? ( sys-apps/systemd[multibuild_c:*(-)?] )
-        policykit? ( sys-auth/polkit:1[>=0.111] )
+        policykit? ( sys-auth/polkit:1[>=0.111][multibuild_c:*(-)?] )
     run:
         group/pcscd
         user/pcscd
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=( -p2 "${FILES}/${PNV}-nopolkit.patch" )
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--disable-serial'
     '--enable-ipcdir=/run/pcscd'
