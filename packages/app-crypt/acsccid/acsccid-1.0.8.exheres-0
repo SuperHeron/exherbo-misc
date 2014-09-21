@@ -16,6 +16,8 @@ PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
+    build:
+        virtual/pkg-config
     build+run:
         dev-libs/libusb:0.1[>=0.1.12]
         sys-apps/pcsc-lite[>=1.3.3]
