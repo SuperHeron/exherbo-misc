@@ -1,0 +1,81 @@
+Upstream: yes
+
+From f815fe91050dc217f84e849f2e11e9a39813a381 Mon Sep 17 00:00:00 2001
+From: Jeremy Tan <jtanx@users.noreply.github.com>
+Date: Sat, 7 Jun 2014 18:02:37 +0800
+Subject: [PATCH] Add support for giflib version >= 5.1.0
+
+DGifCloseFile has changed.
+NB: Old commit here: fb0c4e6a5eca7a395f1c71964f7223308d6699db
+---
+ gutils/gimagereadgif.c | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
+
+diff --git a/gutils/gimagereadgif.c b/gutils/gimagereadgif.c
+index 1fba657..ba77d3b 100644
+--- a/gutils/gimagereadgif.c
++++ b/gutils/gimagereadgif.c
+@@ -39,6 +39,10 @@ static int a_file_must_define_something=0;	/* ANSI says so */
+ #include "gimage.h"
+ #include <gif_lib.h>
+ 
++#if defined(GIFLIB_MAJOR) && defined(GIFLIB_MINOR) && ((GIFLIB_MAJOR == 5 && GIFLIB_MINOR >= 1) || GIFLIB_MAJOR > 5)
++#define _GIFLIB_51PLUS
++#endif
++
+ static GImage *ProcessSavedImage(GifFileType *gif,struct SavedImage *si,int il) {
+ /* Process each gif image into an internal FF format. Return NULL if error */
+     GImage *ret;
+@@ -170,22 +174,34 @@ GImage *GImageReadGif(char *filename) {
+ 
+     if ( DGifSlurp(gif)!=GIF_OK ) {
+ 	fprintf(stderr,"Bad input file \"%s\"\n",filename );
++#ifdef _GIFLIB_51PLUS
++	DGifCloseFile(gif, NULL);
++#else
+ 	DGifCloseFile(gif);
++#endif
+ 	return( NULL );
+     }
+ 
+     /* Process each image so that it/they can be imported into FF. */
+     if ( (images=(GImage **) malloc(gif->ImageCount*sizeof(GImage *)))==NULL ) {
+-	DGifCloseFile(gif);
+-	NoMoreMemMessage();
+-	return( NULL );
++#ifdef  _GIFLIB_51PLUS
++        DGifCloseFile(gif, NULL);
++#else
++        DGifCloseFile(gif);
++#endif
++        NoMoreMemMessage();
++        return( NULL );
+     }
+     il=gif->SavedImages[0].ImageDesc.Interlace;
+     for ( i=0; i<gif->ImageCount; ++i ) {
+ 	if ( (images[i]=ProcessSavedImage(gif,&gif->SavedImages[i],il))==NULL ) {
+ 	    while ( --i>=0 ) free(images[i]);
+ 	    free(images);
++#ifdef  _GIFLIB_51PLUS
++	    DGifCloseFile(gif, NULL);
++#else
+ 	    DGifCloseFile(gif);
++#endif
+ 	    return( NULL );
+ 	}
+     }
+@@ -195,7 +211,11 @@ GImage *GImageReadGif(char *filename) {
+ 	ret = images[0];
+     else
+ 	ret = GImageCreateAnimation(images,gif->ImageCount);
++#ifdef  _GIFLIB_51PLUS
++    DGifCloseFile(gif, NULL);
++#else
+     DGifCloseFile(gif);
++#endif
+     free(images);
+     return( ret );
+ }
+-- 
+2.1.2
+

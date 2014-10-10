@@ -65,6 +65,10 @@ RESTRICT="test"
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/overview.html"
 
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}"/${PNV}-Add-support-for-giflib-version-5.1.0.patch
+)
+
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --disable-freetype-debugger
     --disable-static
