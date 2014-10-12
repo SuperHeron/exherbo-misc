@@ -16,6 +16,9 @@ DEPENDENCIES="
         dev-lang/perl:*
         sys-devel/gettext
         pdf? ( app-text/ghostscript )
+
+    test:
+        dev-perl/Test-Simple
 "
 
 REMOTE_IDS+="freecode:${PN}"
