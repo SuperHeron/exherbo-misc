@@ -1,4 +1,4 @@
-# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
 # Copyright 2010 Timothy Redaelli <timothy@redaelli.eu>
 # Distributed under the terms of the GNU General Public License v2
 
@@ -31,10 +31,17 @@ DEPENDENCIES="
         app-arch/unzip
         dev-libs/nspr
         dev-libs/nss
+        dev-libs/popt
         sys-libs/db:=[>=4.5]
         acl? ( sys-apps/acl )
         caps? ( sys-libs/libcap )
         lua? ( dev-lang/lua[>=5.1] )
+    suggestion:
+        app-arch/lzip
+        app-arch/p7zip
+        app-crypt/gnupg
+        net-misc/curl
+        sys-apps/fakechroot
 "
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/wiki/Docs"
