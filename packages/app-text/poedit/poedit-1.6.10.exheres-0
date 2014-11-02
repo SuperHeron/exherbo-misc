@@ -1,7 +1,7 @@
-# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop sourceforge [ suffix=tar.gz ]
+require freedesktop-desktop
 
 SUMMARY="Cross-platform gettext catalogs (.po files) editor"
 DESCRIPTION="
@@ -11,30 +11,30 @@ It aims to provide more convenient approach to editing catalogs than launching v
 file by hand.
 "
 
+HOMEPAGE="http://www.poedit.net"
+DOWNLOADS="https://github.com/vslavik/${PN}/releases/download/v${PV}-oss/${PNV}.tar.gz"
+
 LICENCES="MIT"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="berkdb debug spell"
+MYOPTIONS="debug spell"
 
 DEPENDENCIES="
     build:
         virtual/pkg-config[>=0.9.0]
     build+run:
+        dev-cpp/lucene++[>=3.0.5]
         dev-libs/boost
-        x11-libs/wxGTK:2.8[>=2.8.7]
-        berkdb? ( sys-libs/db:=[>=4.7] )
-        spell? ( app-spell/gtkspell:2 )
+        dev-libs/expat
+        dev-libs/icu
+        sys-libs/db:=[>=4.7]
+        x11-libs/wxGTK:3.0[>=3.0]
+        spell? ( app-spell/gtkspell:3.0 )
 "
 
-UPSTREAM_CHANGELOG="http://www.poedit.net/changelog.php"
-
-DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}/37a51b85a338bc2e24411e1d1caa62a8e2231bd8.patch"
-    "${FILES}/87e253647795bc457b537fd5678954673442ae72.patch"
-)
+UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.php"
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'berkdb transmem'
     'debug'
     'spell spellchecking'
 )
