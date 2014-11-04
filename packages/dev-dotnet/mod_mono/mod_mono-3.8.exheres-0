@@ -7,9 +7,9 @@ Mod_Mono is an Apache 2.0/2.2 module that provides ASP.NET support for the web's
 Apache.
 "
 HOMEPAGE="http://www.mono-project.com/docs/web/${PN}"
-DOWNLOADS="http://download.mono-project.com/sources/${PN}/${PNV}.tar.bz2"
+DOWNLOADS="http://download.mono-project.com/sources/${PN}/${PNV}.tar.gz"
 
-LICENCES=""
+LICENCES="Apache-2.0"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="debug"
@@ -20,7 +20,7 @@ DEPENDENCIES="
     build+run:
         dev-dotnet/xsp
         dev-lang/mono
-        www-servers/apache[>=2.2]
+        www-servers/apache[>=2.4]
 "
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'debug' )
