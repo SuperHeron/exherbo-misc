@@ -121,6 +121,7 @@ configure_one_multibuild() {
         -DWITH_BLACKHOLE_STORAGE_ENGINE:BOOL=TRUE
         -DWITH_FEDERATED_STORAGE_ENGINE:BOOL=TRUE
         -DWITH_INNOBASE_STORAGE_ENGINE:BOOL=TRUE
+        -DWITH_JEMALLOC:BOOL=FALSE
         -DWITH_PARTITION_STORAGE_ENGINE:BOOL=TRUE
         -DWITH_SSL:STRING=system
         -DWITH_UNIT_TESTS:BOOL=$(expecting_tests && echo "TRUE" || echo "FALSE")
@@ -151,7 +152,6 @@ configure_one_multibuild() {
         CXXFLAGS="-fPIC ${CXXFLAGS} -fno-strict-aliasing -DBIG_JOINS=1 -felide-constructors -fno-rtti -fno-delete-null-pointer-checks -Wno-error"
     else
         cmakeargs+=(
-            -DWITH_JEMALLOC:BOOL=FALSE
             -DWITH_LIBEDIT:BOOL=FALSE
             -DWITH_READLINE:BOOL=FALSE
         )
