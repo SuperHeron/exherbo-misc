@@ -1,4 +1,4 @@
-# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Apache module for ASP.NET under Mono"
@@ -6,7 +6,7 @@ DESCRIPTION="
 Mod_Mono is an Apache 2.0/2.2 module that provides ASP.NET support for the web's favorite server,
 Apache.
 "
-HOMEPAGE="http://www.mono-project.com/${PN}"
+HOMEPAGE="http://www.mono-project.com/docs/web/${PN}"
 DOWNLOADS="http://download.mono-project.com/sources/${PN}/${PNV}.tar.bz2"
 
 LICENCES=""
