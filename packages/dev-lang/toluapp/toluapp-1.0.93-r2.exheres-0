@@ -1,7 +1,7 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require scons
+require lua [ whitelist="5.1" multibuild=false ]
 
 SUMMARY="toLua++ - binding C/C++ code to Lua"
 DESCRIPTION="
@@ -23,28 +23,24 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
-DEPENDENCIES="
-    build:
-    build+run:
-        dev-lang/lua
-"
-
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/${MY_PNV}.html"
 
 WORK="${WORKBASE}/${MY_PNV}"
 
-src_prepare() {
-    ebegin "Copying custom.py for lua-5.1"
-    cp "${FILES}/${PNV}-custom-lua-5.1.py" "${WORK}/custom.py"
-    eend $?
+src_compile() {
+    cd "${WORK}"/src/lib
+    edo gcc ${CFLAGS} -ansi -shared -fPIC -o ../../lib/lib${MY_PN}.so *.c -I../../include -I/usr/include/lua$(lua_get_abi)
+    cd "${WORK}"/src/bin
+    edo gcc ${LDFLAGS} -o ../../bin/${MY_PN} tolua.c toluabind.c -I../../include -I/usr/include/lua$(lua_get_abi) -L../../lib -l${MY_PN} -L/usr/${LIBDIR} -llua$(lua_get_abi)
 }
-
-SCONS_SRC_COMPILE_PARAMS=( "shared=1" )
-SCONS_SRC_INSTALL_PARAMS=( "prefix=${IMAGE}/usr" )
 
 src_install() {
-	dobin bin/tolua++
-	dolib.so lib/libtolua++.so
-	insinto /usr/include
-	doins include/tolua++.h
+    cd "${WORK}"
+    dobin bin/${MY_PN}
+    dolib.so lib/lib${MY_PN}.so
+    insinto /usr/include
+    doins include/${MY_PN}.h
+    dodoc -r doc
+    emagicdocs
 }
+
