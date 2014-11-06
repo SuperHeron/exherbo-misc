@@ -1,9 +1,9 @@
 Source: written by Daniel Pielmeier, Gentoo Bug #293437
 Upstream: yes, Gnome Bug #602184
 Reason: Fix gucharmap automagic dep
---- a/configure.ac	2011-11-06 03:11:55.000000000 +0100
-+++ b/configure.ac	2011-11-30 22:39:49.658648145 +0100
-@@ -474,44 +474,54 @@
+--- a/configure.ac	2014-04-04 03:11:33.000000000 +0200
++++ b/configure.ac	2014-11-07 22:31:08.077329665 +0100
+@@ -505,44 +505,54 @@
  fi
  
  
@@ -17,7 +17,7 @@ Reason: Fix gucharmap automagic dep
 -			build_charmap_plugin=yes
 -			AC_DEFINE([HAVE_LIBGUCHARMAP_2], [1], [Define to 1 if you have the 'gucharmap-2.90' library (-lgucharmap).])
 -		],
--		[		
+-		[
 -	 		build_charmap_plugin=no
 -	 		AC_MSG_WARN([Disabling the building of the charmap plugin.])
 -	 		AC_MSG_WARN([Install gucharmap/gucharmap2.90 (>= 2.90) library/headers to build the plugin.])
@@ -60,31 +60,31 @@ Reason: Fix gucharmap automagic dep
 -	 		]
 -		)]
 -	)
-+				build_charmap_plugin=no
-+				AC_MSG_WARN([Disabling the building of the charmap plugin.])
-+				AC_MSG_WARN([Install gucharmap/gucharmap2.90 (>= 2.90) library/headers to build the plugin.])
-+			]
++		 		build_charmap_plugin=no
++		 		AC_MSG_WARN([Disabling the building of the charmap plugin.])
++		 		AC_MSG_WARN([Install gucharmap/gucharmap2.90 (>= 2.90) library/headers to build the plugin.])
++		 	]
 +		)
 +	else
 +		PKG_CHECK_MODULES(
 +			[CHARMAP_PLUGIN],
 +			[gucharmap-2],
 +			[
-+				build_charmap_plugin=yes
-+				AC_DEFINE([HAVE_LIBGUCHARMAP_2], [1], [Define to 1 if you have the 'gucharmap-2' library (-lgucharmap).])
++			 build_charmap_plugin=yes
++			 AC_DEFINE([HAVE_LIBGUCHARMAP_2], [1], [Define to 1 if you have the 'gucharmap-2' library (-lgucharmap).])
 +			],
 +			[PKG_CHECK_MODULES(
 +				[CHARMAP_PLUGIN],
 +				[gucharmap >= 2.20],
 +				[
-+					build_charmap_plugin=yes
-+					AC_DEFINE([HAVE_LIBGUCHARMAP], [1], [Define to 1 if you have the 'gucharmap' library (-lgucharmap).])
++				 build_charmap_plugin=yes
++				 AC_DEFINE([HAVE_LIBGUCHARMAP], [1], [Define to 1 if you have the 'gucharmap' library (-lgucharmap).])
 +				],
 +				[
-+					build_charmap_plugin=no
-+		 			AC_MSG_WARN([Disabling the building of the charmap plugin.])
-+					AC_MSG_WARN([Install gucharmap/gucharmap2 (>= 2.20) library/headers to build the plugin.])
-+				]
++				build_charmap_plugin=no
++		 		AC_MSG_WARN([Disabling the building of the charmap plugin.])
++		 		AC_MSG_WARN([Install gucharmap/gucharmap2 (>= 2.20) library/headers to build the plugin.])
++	 			]
 +			)]
 +		)
 +	fi
