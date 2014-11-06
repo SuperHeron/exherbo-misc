@@ -1,7 +1,7 @@
-# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require setup-py [ import='setuptools' blacklist=3 ] pypi
+require setup-py [ import='setuptools' ] pypi
 
 SUMMARY="PyEnchant is a spellchecking library for Python, based on the excellent Enchant library."
 DESCRIPTION="
@@ -25,9 +25,7 @@ DEPENDENCIES="
 "
 
 UPSTREAM_DOCUMENTATION="
-    ${HOMEPAGE}/tutorial.html [[ description = [ Tutorial ] ]]
-    ${HOMEPAGE}/api/enchant.html [[ description = [ API Doc ] ]]
+    http://pythonhosted.org/${PN}/tutorial.html [[ description = [ Tutorial ] ]]
+    http://pythonhosted.org/${PN}/api/enchant.html [[ description = [ API Doc ] ]]
 "
-
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-replace-distribute-with-setuptools.patch" )
 
