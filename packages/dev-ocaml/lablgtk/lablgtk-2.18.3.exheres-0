@@ -1,7 +1,7 @@
-# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-DL_NUMBER=1261
+DL_NUMBER=1479
 
 SUMMARY="Objective Caml bindings for Gtk+"
 DESCRIPTION="
@@ -20,7 +20,7 @@ MYOPTIONS="glade gnomecanvas gnomeui gtksourceview opengl panel spell svg thread
 DEPENDENCIES="
     build+run:
         dev-lang/ocaml[>=3.11]
-        x11-libs/gtk+:2[>=2.12]
+        x11-libs/gtk+:2[>=2.16.0]
         glade? ( dev-util/glade )
         gnomecanvas? ( gnome-platform/libgnomecanvas )
         gnomeui? ( gnome-platform/libgnomeui:2 )
