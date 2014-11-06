@@ -1,4 +1,4 @@
-# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require bash-completion
@@ -31,7 +31,7 @@ DEPENDENCIES="
         dev-db/sqlite:3[>=3.3.8]
         dev-lang/lua[>=5.1]
         dev-libs/boost:=[>=1.33.0]
-        dev-libs/botan[~>1.8.0]
+        dev-libs/botan[>=1.8.0]
         dev-libs/pcre[>=7.4]
         net-dns/libidn
 "
@@ -40,8 +40,6 @@ REMOTE_IDS="freecode:${PN}"
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/docs/index.html"
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/NEWS"
-
-DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-glibc-2.16.patch" )
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( '--enable-ipv6' '--enable-nls' )
 
