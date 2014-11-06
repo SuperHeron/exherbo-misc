@@ -1,9 +1,9 @@
 # Copyright 2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-MY_PNV="${PN}-src-${PV}"
+GITHUB_TAG="svn-release-${PV}"
 
-require sourceforge [ suffix="tar.gz" ] scons
+require github [ user="open-source-parsers" ] scons
 require python [ blacklist=none has_bin=true has_lib=false ]
 
 SUMMARY="An implementation of a JSON reader and writer in C++"
@@ -21,8 +21,6 @@ DEPENDENCIES="
     build:
         doc? ( app-doc/doxygen )
 "
-
-WORK="${WORKBASE}/${MY_PNV}"
 
 SCONS_SRC_CONFIGURE_PARAMS=( "platform=linux-gcc" )
 SCONS_SRC_COMPILE_PARAMS=( "platform=linux-gcc" )
