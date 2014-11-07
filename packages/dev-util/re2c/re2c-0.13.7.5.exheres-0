@@ -1,4 +1,4 @@
-# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require sourceforge [ suffix=tar.gz ]
@@ -11,12 +11,23 @@ re2c is a tool for writing very fast and very flexible scanners. Unlike any othe
 LICENCES="public-domain"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS=""
+MYOPTIONS="doc"
 
 DEPENDENCIES="
     build:
         sys-devel/bison
+        doc? (
+            app-doc/asciidoc
+            app-text/source-highlight
+        )
 "
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/manual.html"
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc docs' )
+
+src_install() {
+    default
+    option doc && dodoc -r htdocs
+}
 
