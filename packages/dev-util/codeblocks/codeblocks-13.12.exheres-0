@@ -1,9 +1,7 @@
-# Copyright 2008-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2008-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require codeblocks
 
 PLATFORMS="~amd64"
-
-WORK="${WORKBASE}/${PNV}release8629"
 
