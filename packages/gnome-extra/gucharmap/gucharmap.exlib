@@ -1,4 +1,4 @@
-# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop gtk-icon-cache
@@ -7,7 +7,7 @@ export_exlib_phases src_configure pkg_postinst pkg_postrm
 
 SUMMARY="GNOME Character Map"
 DESCRIPTION="Gucharmap is the GNOME Character Map, based on the Unicode Character Database."
-HOMEPAGE="http://live.gnome.org/Gucharmap"
+HOMEPAGE="https://wiki.gnome.org/Apps/Gucharmap"
 
 SLOT="0"
 MYOPTIONS="cjk gtk-doc gobject-introspection"
