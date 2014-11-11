@@ -1,11 +1,16 @@
 # Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-MY_PV="2.0.${PV}"
+SCM_REPOSITORY="https://github.com/fontforge/fontforge.git"
+SCM_TAG="${PV}"
+
+SCM_uthash_REPOSITORY="https://github.com/troydhanson/uthash.git"
+SCM_uthash_UNPACK_TO="${PNV}/uthash"
+
+SCM_SECONDARY_REPOSITORIES="uthash"
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ]
-require github [ tag=${MY_PV} ]
-require python [ blacklist=none multibuild=false with_opt=true ]
+require scm-git python [ blacklist=none multibuild=false with_opt=true ]
 
 SUMMARY="FontForge - An Outline Font Editor"
 DESCRIPTION="FontForge -- An outline font editor that lets you create your own postscript, truetype, opentype,
@@ -14,7 +19,7 @@ DESCRIPTION="FontForge -- An outline font editor that lets you create your own p
  FontForge's user interface has been localized for: (English), Russian, Japanese, French, Italian,
  Spanish, Vietnamese, Greek, Simplified & Traditional Chinese, German, Polish, Ukrainian.
 "
-HOMEPAGE="http://www.fontforge.org/"
+HOMEPAGE="http://fontforge.github.io"
 
 LICENCES="BSD-3"
 SLOT="0"
@@ -25,6 +30,7 @@ MYOPTIONS="X cairo
 
 DEPENDENCIES="
     build:
+        dev-libs/gnulib
         sys-devel/gettext
         sys-devel/libtool
         virtual/pkg-config
@@ -57,17 +63,11 @@ DEPENDENCIES="
         collaboration? ( net-libs/zeromq[>=4.0.0] )
 "
 
-WORK="${WORKBASE}/${PN}-${MY_PV}"
-
 # "The new Make build system is nice, but still needs work", make check is broken
 RESTRICT="test"
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/overview.html"
-
-DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}"/${PNV}-Add-support-for-giflib-version-5.1.0.patch
-)
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --disable-freetype-debugger
@@ -87,4 +87,11 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'python python-scripting'
     'python python-extension'
 )
+
+src_prepare() {
+    gnulib_modules=( warnings manywarnings c-strtod gethostname getline iconv inet_ntop
+                     localeconv progname strcase strtok_r strndup xalloc xvasprintf     )
+    edo gnulib-tool --aux-dir=config --m4-base=m4 --libtool --symlink --import ${gnulib_modules[@]}
+    autotools_src_prepare
+}
 
