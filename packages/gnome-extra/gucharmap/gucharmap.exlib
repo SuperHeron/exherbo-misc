@@ -28,7 +28,9 @@ if ever at_least 3.0.0; then
     MYOPTIONS+=" vala"
     DEPENDENCIES+="
         build:
-            dev-libs/libxml2
+            dev-libs/libxml2:2.0
+            dev-util/desktop-file-utils
+            sys-apps/appdata-tools
             vala? ( dev-lang/vala:=[>=0.16] )
         build+run:
             dev-libs/glib:2[>=2.32.0]
