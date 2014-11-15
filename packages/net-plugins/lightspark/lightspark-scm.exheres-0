@@ -1,18 +1,14 @@
 # Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-# Launchpad repo is a delayed mirror
-#SCM_REPOSITORY="http://bazaar.launchpad.net/~a-pignotti/lightspark"
-#SCM_BRANCH="master"
-
-require cmake github launchpad freedesktop-desktop
+require cmake github freedesktop-desktop
 
 SUMMARY="Lightspark, a free flash player implementation"
 DESCRIPTION="
 Lightspark is an open source Adobe Flash implementation, designed from
 the ground up to be efficient on current and (hopefully) future hardware.
 "
-DOWNLOADS=""
+HOMEPAGE="http://${PN}.github.io"
 
 LICENCES="LGPL-3"
 SLOT="0"
