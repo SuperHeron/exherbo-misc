@@ -19,7 +19,7 @@ DEPENDENCIES="
     build+run:
         dev-libs/libdbi[~>${SLOTTED_PV}]
         freetds? ( dev-db/freetds )
-        mysql? ( dev-db/mysql )
+        mysql? ( virtual/mysql )
         pgsql? ( dev-db/postgresql )
         sqlite? ( dev-db/sqlite:3 )
 "
