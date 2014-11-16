@@ -1,4 +1,4 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Bruce's C compiler - Simple C compiler to generate 8086 code"
@@ -11,8 +11,7 @@ LICENCES="GPL-2 LGPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 
-DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-no-strip.patch"
-                              -p1 "${FILES}/${PNV}-linux86-copt.patch" )
+DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-no-strip.patch" )
 
 DEFAULT_SRC_COMPILE_PARAMS=( -j1 DIST="${IMAGE}"
                              LIBDIR="/usr/${LIBDIR}/bcc"
