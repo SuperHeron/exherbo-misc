@@ -1,4 +1,4 @@
-# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require gnome.org [ suffix=.tar.xz ]
@@ -27,7 +27,7 @@ The GUPnP framework consists of the following libraries:
 
 GUPnP is free software released under the GNU LGPL.
 "
-HOMEPAGE="https://live.gnome.org/GUPnP/"
+HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
 
 LICENCES="LGPL-2"
 SLOT="1.0"
