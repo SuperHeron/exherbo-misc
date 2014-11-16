@@ -1,4 +1,4 @@
-# Copyright 2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2013-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SCM_REPOSITORY="git://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/${PN}.git"
