@@ -7,7 +7,7 @@ require gnome-2 python [ blacklist=3 multibuild=false with_opt=true ]
 
 SUMMARY="GNOME frontend for the popular X-Chat IRC client"
 DESCRIPTION="XChat-GNOME is a new frontend to the popular X-Chat IRC client which is designed with the user interface foremost in mind."
-HOMEPAGE="http://live.gnome.org/Xchat-Gnome"
+HOMEPAGE="https://wiki.gnome.org/Apps/Xchat-Gnome"
 
 LICENCES="GPL-2"
 SLOT="0"
