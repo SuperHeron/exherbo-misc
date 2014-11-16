@@ -1,11 +1,13 @@
 # Copyright 2010 Dan Callaghan <djc@djc.id.au>
-# Copyright 2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2013-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 1.12 1.11 ] ]
 require github [ user=nzjrs tag=${PV} ]
 
 SUMMARY="GTK+ widget for displaying OpenStreetMap files"
+
+HOMEPAGE="http://nzjrs.github.io/${PN}"
 
 LICENCES="GPL-3"
 SLOT="0"
