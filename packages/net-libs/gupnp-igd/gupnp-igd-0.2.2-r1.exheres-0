@@ -1,11 +1,11 @@
-# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require gnome.org [ suffix=.tar.xz ]
 require python [ blacklist=3 with_opt=true ]
 
 SUMMARY="This is a library to handle UPnP IGD port mapping"
-HOMEPAGE="https://live.gnome.org/GUPnP/"
+HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
 
 LICENCES="LGPL-2.1"
 SLOT="1.0"
