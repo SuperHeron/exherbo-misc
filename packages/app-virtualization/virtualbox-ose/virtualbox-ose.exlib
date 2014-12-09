@@ -49,7 +49,6 @@ DEPENDENCIES="
         dev-libs/libIDL:2
         dev-libs/libxml2:2.0[>=2.6.26]
         dev-libs/libxslt[>=1.1.17]
-        dev-libs/openssl[>=0.9.8]
         group/usb
         group/vboxusers
         media-libs/libpng:=[>=1.2.5]
@@ -58,6 +57,7 @@ DEPENDENCIES="
         sys-libs/pam
         sys-libs/zlib[>=1.2.1]
         sys-power/iasl
+        virtual/libssl
         || (
             app-cdr/genisoimage
             app-cdr/cdrtools
