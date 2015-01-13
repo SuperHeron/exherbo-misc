@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require lua [ whitelist="5.1" multibuild=false ]
+require github [ user=LuaDist ]
 
 SUMMARY="toLua++ - binding C/C++ code to Lua"
 DESCRIPTION="
@@ -14,20 +15,14 @@ with Lua. tolua++ includes new features oriented to c++ such as:
 As well as other features and bugfixes. 
 "
 MY_PN="${PN/pp/++}"
-MY_PNV="${MY_PN}-${PV}"
-HOMEPAGE="http://www.codenix.com/~tolua/"
-DOWNLOADS="http://www.codenix.com/~tolua/${MY_PNV}.tar.bz2"
 
 LICENCES="MIT"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
-UPSTREAM_DOCUMENTATION="${HOMEPAGE}/${MY_PNV}.html"
-
-WORK="${WORKBASE}/${MY_PNV}"
-
 src_compile() {
+    edo mkdir -p bin lib
     cd "${WORK}"/src/lib
     edo gcc ${CFLAGS} -ansi -shared -fPIC -o ../../lib/lib${MY_PN}.so *.c -I../../include -I/usr/include/lua$(lua_get_abi)
     cd "${WORK}"/src/bin
