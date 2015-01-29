@@ -113,8 +113,8 @@ src_unpack() {
 
     echo "Unpacking RPM files"
     edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm/RPMS"
-    for appl in base calc core{01,02,03,04,05,06,07} draw graphicfilter images impress librelogo \
-                math ogltrans onlineupdate ooofonts ooolinguistic postgresql-sdbc python-script-provider \
+    for appl in base calc core draw filter-data graphicfilter images impress librelogo math \
+                ogltrans onlineupdate ooofonts ooolinguistic postgresql-sdbc python-script-provider \
                 pyuno writer xsltfilter; do
         rpm_unpack "${LO_BASIS}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
     done
