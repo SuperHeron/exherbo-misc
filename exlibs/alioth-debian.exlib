@@ -10,7 +10,7 @@ myexparam pnv=${MY_PNV:-$(exparam pn)-$(exparam pv)}
 
 myexparam dl_number=
 
-HOMEPAGE="http://$(exparam project).alioth.debian.org"
+HOMEPAGE="https://$(exparam project).alioth.debian.org"
 
 if ! ever is_scm ; then
     DOWNLOADS="https://alioth.debian.org/frs/download.php/file/$(exparam dl_number)/$(exparam pnv).$(exparam suffix)"
