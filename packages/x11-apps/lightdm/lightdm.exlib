@@ -2,13 +2,7 @@
 # Copyright 2013, 2014 Lasse Brun <bruners@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-if (( $(ever range 2) % 2 )); then
-    branch=$(ever range 1).$(( $(ever range 2) + 1 ))
-else
-    branch=$(ever range 1-2)
-fi
-
-require launchpad [ branch=${branch} suffix=tar.xz ] pam systemd-service
+require launchpad [ branch=$(ever range 1-2) suffix=tar.xz ] pam systemd-service
 
 export_exlib_phases src_install
 
@@ -32,7 +26,6 @@ LICENCES="GPL-3 LGPL-3"
 SLOT="0"
 
 MYOPTIONS="
-    gobject [[ description = [ Enables client gobject libraries ] ]]
     gobject-introspection
     qt4 [[ description = [ Enable LightDM client Qt4 libraries ] ]]
     qt5 [[ description = [ Enable LightDM client Qt5 libraries ] ]]
@@ -51,12 +44,10 @@ DEPENDENCIES="
         user/${PN}
         dev-libs/glib:2[>=2.30]
         sys-libs/pam
+        x11-libs/libX11
         x11-libs/libxcb
         x11-libs/libXdmcp
-        gobject? (
-            x11-libs/libX11
-            x11-libs/libxklavier
-        )
+        x11-libs/libxklavier
         gobject-introspection? (
             gnome-desktop/gobject-introspection:1[>=0.9.5]
         )
@@ -85,7 +76,6 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'gobject liblightdm_gobject'
     'gobject-introspection introspection'
     'qt4 liblightdm-qt'
     'qt5 liblightdm-qt5'
@@ -124,13 +114,16 @@ lightdm_src_install() {
     keepdir /usr/share/${PN}/remote-sessions
     edo chown ${PN}:${PN} "${IMAGE}"/usr/share/${PN}/remote-sessions
 
-    keepdir /var/{cache,lib,log}/${PN}
-    edo chmod g+w "${IMAGE}"/var/lib/${PN}
-    edo chown ${PN}:${PN} "${IMAGE}"/var/{cache,lib,log}/${PN}
+    keepdir /var/{cache,log}/${PN}
+    edo chown ${PN}:${PN} "${IMAGE}"/var/{cache,log}/${PN}
+
+    keepdir /var/lib/${PN}-data
+    edo chmod g+w "${IMAGE}"/var/lib/${PN}-data
+    edo chown ${PN}:${PN} "${IMAGE}"/var/lib/${PN}-data
 
     install_systemd_files
 
-    ever at_least 1.3.3 && edo rm "${IMAGE}"/etc/pam.d/${PN}
+    edo rm "${IMAGE}"/etc/pam.d/${PN}
     pamd_mimic_system lightdm local-login auth account password session
 }
 
