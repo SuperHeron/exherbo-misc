@@ -197,7 +197,10 @@ EOF
     insinto "${installdir}"
     doins -r "${outdir}"/bin/components
 
-    edo mv "${outdir}"/bin/{*.so,*.r0,*.gc,VBox.sh,VBoxXPCOMIPCD,VBoxNetAdpCtl,VBoxNetDHCP,VBoxSVC,VBoxCreateUSBNode.sh} "${IMAGE}"/"${installdir}"
+    edo mv "${outdir}"/bin/{*.so,*.r0,VBox.sh,VBoxXPCOMIPCD,VBoxNetAdpCtl,VBoxNetDHCP,VBoxSVC,VBoxCreateUSBNode.sh} "${IMAGE}"/"${installdir}"
+    if ! optionq platform:amd64 || [[ -e '/usr/include/gnu/stubs-32.h' ]]; then
+        edo mv "${outdir}"/bin/*.gc "${IMAGE}"/"${installdir}"
+    fi
     for links in {VBoxHeadless,VBoxManage,VBoxSDL,VirtualBox};
     do
         edo mv "${outdir}"/bin/"${links}" "${IMAGE}"/"${installdir}"
