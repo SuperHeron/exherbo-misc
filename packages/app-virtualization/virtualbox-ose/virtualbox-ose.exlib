@@ -69,7 +69,7 @@ DEPENDENCIES="
             x11-libs/libXcursor
             x11-libs/libXext
             x11-libs/libXinerama
-            x11-libd/libXmu
+            x11-libs/libXmu
             x11-libs/libXrandr
             x11-libs/qt:4[>=4.6.2][opengl?][xinerama(+)]
             opengl? (
