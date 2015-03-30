@@ -2,9 +2,10 @@
 # Copyright 2013, 2014 Lasse Brun <bruners@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
 require launchpad [ branch=$(ever range 1-2) suffix=tar.xz ] pam systemd-service
 
-export_exlib_phases src_install
+export_exlib_phases src_{prepare,install}
 
 SUMMARY="A cross-desktop display manager"
 DESCRIPTION="
@@ -37,6 +38,7 @@ DEPENDENCIES="
     build:
         dev-util/intltool
         dev-util/itstool
+        gnome-desktop/yelp-tools
         sys-devel/gettext
         virtual/pkg-config
     build+run:
@@ -81,6 +83,11 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'qt5 liblightdm-qt5'
 )
 
+lightdm_src_prepare() {
+    edo intltoolize --force --automake
+    autotools_src_prepare
+}
+
 lightdm_src_install() {
     default
 
@@ -95,7 +102,7 @@ lightdm_src_install() {
     insinto /usr/share/polkit-1/rules.d
     doins "${FILES}"/lightdm-polkit.rules
 
-    insinto /usr/${LIBDIR}/tmpfiles.d
+    insinto /usr/$(exhost --target)/lib/tmpfiles.d
     doins "${FILES}"/lightdm-tmpfiles.conf
 
     # Use the provided session wrapper (from xdm)
