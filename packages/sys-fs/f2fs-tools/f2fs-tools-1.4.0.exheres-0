@@ -19,3 +19,10 @@ DEPENDENCIES="
         sys-apps/util-linux
 "
 
+src_prepare() {
+    # The configure script accepts --sbindir - and ignores it.
+    edo sed -i -e "s:/sbin:/usr/$(exhost --target)/bin:" configure.ac
+
+    autotools_src_prepare
+}
+
