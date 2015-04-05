@@ -23,5 +23,5 @@ UPSTREAM_DOCUMENTATION="http://www.nongnu.org/${PN}/manual/${PN}_manual.html"
 
 src_configure() {
     # Not a GNU configure script
-    edo ./configure --prefix=/usr CXXFLAGS="${CXXFLAGS}"
+    edo ./configure --prefix=/usr --exec-prefix=/usr/$(exhost --target) CXX=${CXX} CXXFLAGS="${CXXFLAGS}"
 }
