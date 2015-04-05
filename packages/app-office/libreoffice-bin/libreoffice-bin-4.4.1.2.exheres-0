@@ -158,7 +158,9 @@ src_unpack() {
 
 src_install() {
     edo cp -rT "${WORK}" "${IMAGE}"
-    edo cd "${IMAGE}"/usr/bin
+    edo mkdir "${IMAGE}"/usr/$(exhost --target)
+    edo mv "${IMAGE}"/usr/bin "${IMAGE}"/usr/$(exhost --target)
+    edo cd "${IMAGE}"/usr/$(exhost --target)/bin
     edo ln -s "${LO_PN_LONG}"{$(ever range 1-2),}
     edo find "${IMAGE}" -type d -empty -delete
 }
