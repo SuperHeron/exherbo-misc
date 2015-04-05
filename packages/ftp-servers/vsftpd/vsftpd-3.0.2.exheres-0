@@ -30,17 +30,19 @@ UPSTREAM_CHANGELOG="https://security.appspot.com/${PN}/Changelog"
 UPSTREAM_DOCUMENTATION="https://security.appspot.com/${PN}/${PN}_conf.html"
 
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-Makefile-destdir.patch" )
+DEFAULT_SRC_COMPILE_PARAMS=( "CC=${CC}" )
 
 src_configure() {
     edo cd "${WORK}"
     option tcp-wrappers && edo sed -i -e 's/#undef VSF_BUILD_TCPWRAPPERS/#define VSF_BUILD_TCPWRAPPERS/' builddefs.h
     edo sed -i -e 's/#undef VSF_BUILD_SSL/#define VSF_BUILD_SSL/' builddefs.h
-    option xinetd && edo sed -i -e "s|/usr/local/sbin/${PN}|/usr/sbin/${PN}|" xinetd.d/"${PN}"
+    option xinetd && edo sed -i -e "s|/usr/local/sbin/${PN}|/usr/$(exhost --target)/bin/${PN}|" xinetd.d/"${PN}"
+    edo sed -i -e "s|/usr/sbin|/usr/$(exhost --target)/bin|" Makefile
 }
 
 src_install() {
     edo cd "${WORK}"
-    edo mkdir -p "${IMAGE}"/usr/sbin
+    edo mkdir -p "${IMAGE}"/usr/$(exhost --target)/bin
     edo mkdir -p "${IMAGE}"/usr/share/man/man{5,8}
     option xinetd && edo mkdir -p "${IMAGE}"/etc/xinetd.d
     default
