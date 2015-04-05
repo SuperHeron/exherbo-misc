@@ -33,6 +33,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'remap'
     'tcp-wrappers tcpwrappers'
 )
+DEFAULT_SRC_COMPILE_PARAMS=( AR="${AR} cq" )
 DEFAULT_SRC_INSTALL_PARAMS=( INSTALLROOT="${IMAGE}" )
 DEFAULT_SRC_INSTALL_EXTRA_DOCS=( 'tftpd/sample.rules' )
 
