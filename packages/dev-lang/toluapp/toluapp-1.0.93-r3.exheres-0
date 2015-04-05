@@ -24,16 +24,16 @@ MYOPTIONS=""
 src_compile() {
     edo mkdir -p bin lib
     cd "${WORK}"/src/lib
-    edo gcc ${CFLAGS} -ansi -shared -fPIC -o ../../lib/lib${MY_PN}.so *.c -I../../include -I/usr/include/lua$(lua_get_abi)
+    edo ${CC} ${CFLAGS} -ansi -shared -fPIC -o ../../lib/lib${MY_PN}.so *.c -I../../include -I/usr/$(exhost --target)/include/lua$(lua_get_abi)
     cd "${WORK}"/src/bin
-    edo gcc ${LDFLAGS} -o ../../bin/${MY_PN} tolua.c toluabind.c -I../../include -I/usr/include/lua$(lua_get_abi) -L../../lib -l${MY_PN} -L/usr/${LIBDIR} -llua$(lua_get_abi)
+    edo ${CC} ${LDFLAGS} -o ../../bin/${MY_PN} tolua.c toluabind.c -I../../include -I/usr/$(exhost --target)/include/lua$(lua_get_abi) -L../../lib -l${MY_PN} -L/usr/$(exhost --target)/lib -llua$(lua_get_abi)
 }
 
 src_install() {
     cd "${WORK}"
     dobin bin/${MY_PN}
     dolib.so lib/lib${MY_PN}.so
-    insinto /usr/include
+    insinto /usr/$(exhost --target)/include
     doins include/${MY_PN}.h
     dodoc -r doc
     emagicdocs
