@@ -23,6 +23,17 @@ DEPENDENCIES="
 
 REMOTE_IDS+="freecode:${PN}"
 
+DEFAULT_SRC_COMPILE_PARAMS=(
+    CC=${CC}
+    CPP=${CPP}
+)
+
+src_prepare() {
+    default
+
+    edo sed -i -e "/^exec_prefix/s:=.*:= /usr/$(exhost --target):" Makefile
+}
+
 src_compile() {
     default
     option pdf && emake pdf

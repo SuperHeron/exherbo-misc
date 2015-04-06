@@ -19,6 +19,11 @@ DEPENDENCIES="
         sys-apps/pcsc-lite
 "
 
+src_prepare() {
+    edo sed -i -e "s:pkg-config:${PKG_CONFIG}:" Makefile.PL
+    default
+}
+
 src_configure() {
     edo perl Makefile.PL
 }
