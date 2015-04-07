@@ -5,9 +5,9 @@
 #     Copyright 2011-2013 Timo Gurr <tgurr@exherbo.org>
 #     Distributed under the terms of the GNU General Public License v2
 
-require cmake [ api=2 cmake_minimum_version=2.8.9 ] systemd-service easy-multibuild
+require cmake [ api=2 cmake_minimum_version=2.8.9 ] systemd-service
 
-export_exlib_phases pkg_pretend src_prepare src_install
+export_exlib_phases pkg_pretend src_prepare src_configure src_install
 
 MARIADB_MAJOR_VERSION=$(ever range 1-2)
 
@@ -27,17 +27,16 @@ MYOPTIONS="
     debug
     embedded-server [[ description = [ The embedded MariaDB server library, a full-featured MariaDB server that can be run inside a client application ] ]]
     tcpd
-    multibuild_c: 32 64
 "
 
 DEPENDENCIES="
     build+run:
-        dev-libs/libaio[multibuild_c:*(-)?]
-        dev-libs/libevent[>=1.4.12][multibuild_c:*(-)?]
+        dev-libs/libaio
+        dev-libs/libevent[>=1.4.12]
         group/mysql
-        sys-libs/zlib[>=1.2.3][multibuild_c:*(-)?]
+        sys-libs/zlib[>=1.2.3]
         user/mysql
-        tcpd? ( sys-apps/tcp-wrappers[multibuild_c:*(-)?] )
+        tcpd? ( sys-apps/tcp-wrappers )
        !dev-db/mysql [[
             description = [ MariaDB is a drop-in replacement for MySQL with same binary names ]
             resolution = uninstall-blocked-after
@@ -53,12 +52,12 @@ DEPENDENCIES="
 if ever at_least 10.0 ; then
     DEPENDENCIES+="
         build+run:
-            dev-libs/libedit[multibuild_c:*(-)?]
+            dev-libs/libedit
     "
 else
     DEPENDENCIES+="
         build+run:
-            sys-libs/readline[>=5.2][multibuild_c:*(-)?]
+            sys-libs/readline[>=5.2]
     "
 fi
 
@@ -87,30 +86,30 @@ mariadb_src_prepare() {
                 -i "${CMAKE_SOURCE}"/storage/tokudb/ft-index/cmake_modules/TokuSetupCompiler.cmake
 }
 
-configure_one_multibuild() {
+mariadb_src_configure() {
     local cmakeargs=(
         -DBUILD_CONFIG:STRING=mysql_release
-        -DCMAKE_INSTALL_PREFIX:PATH=/usr
+        -DCMAKE_INSTALL_PREFIX:PATH=/usr/$(exhost --target)
         -DCOMPILATION_COMMENT:STRING="Exherbo"
         -DDEFAULT_CHARSET:STRING=utf8
         -DDEFAULT_COLLATION:STRING=utf8_general_ci
         -DFEATURE_SET:STRING=community
         -DINSTALL_BINDIR:PATH=bin
-        -DINSTALL_DOCDIR:PATH=share/doc/${PNVR}
-        -DINSTALL_DOCREADMEDIR:PATH=share/doc/${PNVR}
+        -DINSTALL_DOCDIR:PATH=/usr/share/doc/${PNVR}
+        -DINSTALL_DOCREADMEDIR:PATH=/usr/share/doc/${PNVR}
         -DINSTALL_INCLUDEDIR:PATH=include/mysql
-        -DINSTALL_INFODIR:PATH=share/mysql/info
-        -DINSTALL_LIBDIR:PATH=${LIBDIR}/mysql
-        -DINSTALL_MANDIR:PATH=share/man
-        -DINSTALL_MYSQLSHAREDIR:PATH=share/mysql
+        -DINSTALL_INFODIR:PATH=/usr/share/mysql/info
+        -DINSTALL_LIBDIR:PATH=lib/mysql
+        -DINSTALL_MANDIR:PATH=/usr/share/man
+        -DINSTALL_MYSQLSHAREDIR:PATH=/usr/share/mysql
         # Empty value to not install the mysql-test directory
         -DINSTALL_MYSQLTESTDIR:STRING=
-        -DINSTALL_PLUGINDIR:PATH=${LIBDIR}/mysql/plugin
-        -DINSTALL_SBINDIR:PATH=sbin
+        -DINSTALL_PLUGINDIR:PATH=lib/mysql/plugin
+        -DINSTALL_SBINDIR:PATH=bin
         -DINSTALL_SCRIPTDIR:PATH=bin
         # Empty value to not install the sql-bench directory
         -DINSTALL_SQLBENCHDIR:STRING=
-        -DINSTALL_SUPPORTFILESDIR:PATH=share/doc/${PNVR}/support-files
+        -DINSTALL_SUPPORTFILESDIR:PATH=/usr/share/doc/${PNVR}/support-files
         -DMYSQL_DATADIR:PATH=/var/lib/mysql
         -DMYSQL_UNIX_ADDR:PATH=/run/mysqld/mysqld.sock
         -DSYSCONFDIR:PATH=/etc/mysql
@@ -129,6 +128,9 @@ configure_one_multibuild() {
         -DWITH_ZLIB:STRING=system
         # boost is needed for the oqgraph storage engine
         -DCMAKE_DISABLE_FIND_PACKAGE_Boost:BOOL=TRUE
+        # See https://mariadb.atlassian.net/browse/MDEV-6449
+        -DCMAKE_AR:PATH=$(exhost --tool-prefix)gcc-ar
+        -DCMAKE_RANLIB:PATH=$(exhost --tool-prefix)gcc-ranlib
     )
 
     if option debug ; then
@@ -164,20 +166,16 @@ configure_one_multibuild() {
         $(cmake_with tcpd LIBWRAP)
 }
 
-install_one_multibuild() {
-    cmake_src_install
-
-    # construct ldpath for all targets
-    ldpath="/usr/${LIBDIR}/mysql${ldpath:+:${ldpath}}"
-}
-
 mariadb_src_install() {
     local ldpath
 
-    easy-multibuild_src_install
+    cmake_src_install
+
+    # construct ldpath for all targets
+    ldpath="/usr/$(exhost --target)/lib/mysql${ldpath:+:${ldpath}}"
 
     # Remove empty directories
-    edo rm -r "${IMAGE}"/usr/data
+    edo rm -r "${IMAGE}"/usr/$(exhost --target)/data
 
     keepdir /etc/mysql
 
@@ -205,7 +203,7 @@ EOF
     install_systemd_files
 
     if option systemd ; then
-        insinto /usr/${LIBDIR}/tmpfiles.d
+        insinto /usr/$(exhost --target)/lib/tmpfiles.d
         hereins ${PN}.conf <<EOF
 d /run/mysqld 0755 mysql mysql
 EOF
