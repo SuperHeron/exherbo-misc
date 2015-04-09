@@ -36,3 +36,7 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --enable-nls
 )
 
+src_prepare() {
+    edo intltoolize --force --automake
+    default
+}
