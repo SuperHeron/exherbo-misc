@@ -46,8 +46,6 @@ DEPENDENCIES="
         !libav? ( media/ffmpeg )
         libav? ( media/libav )
         rtmp? ( media-video/rtmpdump )
-    recommendation:
-        net-plugins/gnash [[ description = [ Used for playing older SWF clips ] ]]
 "
 
 RESTRICT="test" # requires Adobe Flex SDK (especially mxmlc)
