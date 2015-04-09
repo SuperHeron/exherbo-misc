@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2015 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require cmake github freedesktop-desktop
@@ -15,8 +15,7 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
     curl
-    ffmpeg
-    libav [[ requires = ffmpeg ]]
+    libav
     nsplugin
     rtmp [[ description = [ Adds support for Real Time Messaging Protocol ] ]]
     scripts [[ description = [ Installs YouTube-related scripts ] ]]
@@ -44,10 +43,8 @@ DEPENDENCIES="
         x11-libs/libX11
         x11-libs/pango
         curl? ( net-misc/curl )
-        ffmpeg? (
-            !libav? ( media/ffmpeg )
-            libav? ( media/libav )
-        )
+        !libav? ( media/ffmpeg )
+        libav? ( media/libav )
         rtmp? ( media-video/rtmpdump )
     recommendation:
         net-plugins/gnash [[ description = [ Used for playing older SWF clips ] ]]
@@ -57,7 +54,6 @@ RESTRICT="test" # requires Adobe Flex SDK (especially mxmlc)
 
 CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
     'CURL'
-    'ffmpeg LIBAVCODEC'
     'RTMP'
 )
 CMAKE_SRC_CONFIGURE_OPTIONS=(
