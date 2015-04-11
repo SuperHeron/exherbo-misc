@@ -17,5 +17,5 @@ DEPENDENCIES="
         x11-libs/libsexy[>=0.1.9]
 "
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( '--hates=docdir' )
+DEFAULT_SRC_CONFIGURE_PARAMS=( '--hates=docdir' '--hates=datarootdir' )
 
