@@ -57,7 +57,7 @@ src_prepare() {
 }
 
 src_configure() {
-    local myconf=( '--hates=docdir' '--enable-threads' '--disable-stubs' )
+    local myconf=( '--hates=datarootdir' '--hates=docdir' '--enable-threads' '--disable-stubs' )
     option alsa && myconf+=( '--enable-alsa' )
     option ogg && myconf+=(
         '--with-ogg-include=/usr/include'
