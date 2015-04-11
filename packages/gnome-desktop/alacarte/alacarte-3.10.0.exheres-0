@@ -28,6 +28,10 @@ DEPENDENCIES="
 
 BUGS_TO="http://bugzilla.gnome.org/enter_bug.cgi?product=alacarte"
 
+src_prepare() {
+    edo sed -i -e 's:itlocaledir = $(prefix)/$(DATADIRNAME)/locale:itlocaledir = $(datarootdir)/locale:' po/Makefile.in.in
+}
+
 pkg_postinst() {
     freedesktop-desktop_pkg_postinst
     gtk-icon-cache_pkg_postinst
