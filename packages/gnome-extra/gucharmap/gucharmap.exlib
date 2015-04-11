@@ -3,7 +3,7 @@
 
 require freedesktop-desktop gtk-icon-cache
 
-export_exlib_phases src_configure pkg_postinst pkg_postrm
+export_exlib_phases src_prepare src_configure pkg_postinst pkg_postrm
 
 SUMMARY="GNOME Character Map"
 DESCRIPTION="Gucharmap is the GNOME Character Map, based on the Unicode Character Database."
@@ -48,6 +48,10 @@ else
             python? ( gnome-bindings/pygtk:2[>=2.7.1][python_abis:*(-)?] )
     "
 fi
+
+gucharmap_src_prepare() {
+    edo sed -i -e 's:itlocaledir = $(prefix)/$(DATADIRNAME)/locale:itlocaledir = $(datarootdir)/locale:' po/Makefile.in.in
+}
 
 gucharmap_src_configure() {
     local enable_python= enable_vala=
