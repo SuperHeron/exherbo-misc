@@ -22,5 +22,15 @@ DEPENDENCIES="
         dev-perl/Gtk2-Perl
 "
 
-DEFAULT_SRC_INSTALL_PARAMS=( DESTDIR="${IMAGE}/usr" )
+DEFAULT_SRC_INSTALL_PARAMS=( DESTDIR="${IMAGE}/usr/$(exhost --target)" )
+
+src_prepare() {
+    edo sed -i -e "s/pkg-config/$(exhost --tool-prefix)pkg-config/" Makefile
+}
+
+src_install() {
+    default
+    edo cd "${IMAGE}"/usr
+    edo mv {$(exhost --target)/,}share
+}
 
