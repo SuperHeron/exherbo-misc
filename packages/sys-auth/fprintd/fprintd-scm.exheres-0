@@ -32,12 +32,11 @@ DEPENDENCIES="
         sys-libs/pam
 "
 
-# Install pam module to /${LIBDIR}/security, not /usr/${LIBDIR}/security
-DEFAULT_SRC_CONFIGURE_PARAMS=( --libdir=/"${LIBDIR}" )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc gtk-doc' )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( "systemd systemdsystemunitdir ${SYSTEMDSYSTEMUNITDIR}" )
 
 src_prepare() {
+    edo sed -i -e "s/pkg-config/\${PKG_CONFIG}/" {pam,src,tests}/Makefile.am
     edo glib-gettextize --copy --force
     edo gtkdocize --copy
     edo intltoolize --copy --force
