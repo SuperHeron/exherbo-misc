@@ -21,19 +21,21 @@ DEPENDENCIES="
     build+run:
         dev-libs/boost
         media-libs/libpng:=
-        media-libs/SDL
+        media-libs/SDL:0
         media-libs/SDL_image
         media-libs/SDL_mixer[mikmod]
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/${PN}-respect-ar.patch )
+
 pingus_src_configure() { :; }
 
 pingus_src_compile() {
-    escons --jobs ${EXJOBS:-1} CC="${CC}" CXX="${CXX}" CCFLAGS="${CFLAGS}" with_linuxevdev=True
+    escons --jobs ${EXJOBS:-1} CC="${CC}" CXX="${CXX}" CCFLAGS="${CFLAGS}" AR="${AR}" with_linuxevdev=True
 }
 
 pingus_src_install() {
-    emake install PREFIX=/usr DESTDIR="${IMAGE}"
+    emake install PREFIX=/usr/$(exhost --target) DATADIR=/usr/share/${PN} MANDIR=/usr/share/man DESTDIR="${IMAGE}"
     emagicdocs
 }
 

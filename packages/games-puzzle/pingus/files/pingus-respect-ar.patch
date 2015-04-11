@@ -1,0 +1,14 @@
+Source: written by Pierre Lejeune <superheron@gmail.com>
+Upstream: no
+Reason: Allow providing AR on command line
+
+--- a/SConscript	2011-12-24 22:46:47.000000000 +0100
++++ b/SConscript	2015-04-11 20:29:36.230483994 +0200
+@@ -88,6 +88,7 @@
+         self.opts.Add('BUILD', 'Set the build type', "default")
+         self.opts.Add('CC', 'C Compiler', 'gcc')
+         self.opts.Add('CXX', 'C++ Compiler', 'g++')
++        self.opts.Add('AR', 'ARchiver', 'ar')
+     #   self.opts.Add('debug', 'Build with debugging options', 0)
+     #   self.opts.Add('profile', 'Build with profiling support', 0)
+     
