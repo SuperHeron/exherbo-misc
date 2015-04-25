@@ -2,11 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 SCM_REPOSITORY="svn://svn.code.sf.net/p/${PN}/code"
-SCM_SECONDARY_REPOSITORIES="FortranProject wxCrafterCB"
-SCM_FortranProject_REPOSITORY="https://fortranproject.googlecode.com/svn"
+SCM_SECONDARY_REPOSITORIES="FortranProject PythonPlugins wxCrafterCB"
+SCM_FortranProject_REPOSITORY="https://svn.code.sf.net/p/fortranproject/code"
+SCM_PythonPlugins_REPOSITORY="https://github.com/spillz/codeblocks-python"
 SCM_wxCrafterCB_REPOSITORY="https://github.com/eranif/wxCrafterCB"
 SCM_EXTERNAL_REFS="
     src/plugins/contrib/FortranProject:FortranProject
+    src/plugins/contrib/PythonPlugins:PythonPlugins
     src/plugins/contrib/wxCrafterCB:wxCrafterCB
 "
 
