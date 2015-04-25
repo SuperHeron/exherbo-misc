@@ -1,6 +1,8 @@
 # Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.15 ] ]
+
 SUMMARY="Apache module for ASP.NET under Mono"
 DESCRIPTION="
 Mod_Mono is an Apache 2.0/2.2 module that provides ASP.NET support for the web's favorite server,
@@ -24,6 +26,11 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'debug' )
+
+src_prepare() {
+    edo sed -e "s:\(AC_PATH_PROG(PKG_CONFIG, \)\(pkg-config\):\1${PKG_CONFIG}:" -i configure.in
+    autotools_src_prepare
+}
 
 src_install() {
     default
