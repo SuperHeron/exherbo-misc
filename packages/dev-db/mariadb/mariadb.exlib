@@ -62,6 +62,10 @@ else
 fi
 
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/0001-tokuftdump-Install-to-INSTALL_BINDIR-instead-of-bin.patch )
+if ever at_least 10.0 ; then
+    DEFAULT_SRC_PREPARE_PATCHES+=( "${FILES}"/0001-scripts-Do-not-prepend-the-prefix-to-absolute-paths.patch )
+fi
+
 
 mariadb_pkg_pretend() {
     # Sanity check when upgrading to a different x.y version of mysql
