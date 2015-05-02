@@ -124,9 +124,9 @@ lightdm_src_install() {
     keepdir /var/{cache,log}/${PN}
     edo chown ${PN}:${PN} "${IMAGE}"/var/{cache,log}/${PN}
 
-    keepdir /var/lib/${PN}-data
-    edo chmod g+w "${IMAGE}"/var/lib/${PN}-data
-    edo chown ${PN}:${PN} "${IMAGE}"/var/lib/${PN}-data
+    keepdir /var/lib/${PN}{,-data}
+    edo chmod g+w "${IMAGE}"/var/lib/${PN}{,-data}
+    edo chown ${PN}:${PN} "${IMAGE}"/var/lib/${PN}{,-data}
 
     install_systemd_files
 
