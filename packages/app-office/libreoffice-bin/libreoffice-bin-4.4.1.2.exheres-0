@@ -81,7 +81,6 @@ DEPENDENCIES="
     run:
         x11-libs/gtk+:2[>=2.10.4]
         x11-libs/libXinerama
-    suggestion:
         virtual/jre:*[>=1.5] [[ description = [ Needed by some features like Base ] ]]
 "
 
