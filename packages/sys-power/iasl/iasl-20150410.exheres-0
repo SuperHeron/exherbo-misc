@@ -19,6 +19,11 @@ DEPENDENCIES="
     build:
         sys-devel/bison[>=2.4.1]
         sys-devel/flex[>=2.5.4]
+    build+run:
+        !dev-lang/iasl [[
+            description = [ dev-lang/iasl was a duplicate of sys-power/iasl and was buried ]
+            resolution = uninstall-blocked-after
+        ]]
 "
 
 WORK="${WORKBASE}/${MY_PNV}"
