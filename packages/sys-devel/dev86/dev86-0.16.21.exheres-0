@@ -14,10 +14,16 @@ PLATFORMS="~amd64 ~x86"
 DEFAULT_SRC_PREPARE_PATCHES=( -p0 "${FILES}/${PNV}-no-strip.patch" )
 
 DEFAULT_SRC_COMPILE_PARAMS=( -j1 DIST="${IMAGE}"
-                             LIBDIR="/usr/${LIBDIR}/bcc"
-                             INCLDIR="/usr/${LIBDIR}/bcc"
-                             MANDIR="/usr/share/man" )
+                             BINDIR="/usr/$(exhost --target)/bin"
+                             LIBDIR="/usr/$(exhost --target)/lib/bcc"
+                             INCLDIR="/usr/$(exhost --target)/lib/bcc"
+                             MANDIR="/usr/share/man"
+                             CPPFLAGS="" )
 
 src_install() {
-    emake -j1 install-all DIST="${IMAGE}"
+    emake -j1 install-all DIST="${IMAGE}" CPPFLAGS="" HOSTCC="${CC}" \
+                          BINDIR="/usr/$(exhost --target)/bin"       \
+                          LIBDIR="/usr/$(exhost --target)/lib/bcc"   \
+                          INCLDIR="/usr/$(exhost --target)/lib/bcc"  \
+                          MANDIR="/usr/share/man"
 }
