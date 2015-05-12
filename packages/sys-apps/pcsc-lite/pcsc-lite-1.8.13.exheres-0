@@ -3,6 +3,7 @@
 # Based in part upon 'pcsc-lite-1.5.3.ebuild' from Gentoo, which is:
 #     Copyright 1999-2009 Gentoo Foundation
 
+require option-renames [ renames=[ 'policykit polkit' ] ]
 require systemd-service alioth-debian [ project=pcsclite dl_number=4126 ]
 
 SUMMARY="PC/SC Architecture smartcard middleware library"
@@ -15,7 +16,7 @@ PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
     baselayout
     libusb [[ description = [ Use libusb support instead of udev ] ]]
-    policykit [[ description = [ Allow pcscd to run as separate user ] ]]
+    polkit [[ description = [ Allow pcscd to run as separate user ] ]]
     static
 "
 
@@ -26,7 +27,7 @@ DEPENDENCIES="
     build+run:
         libusb? ( virtual/usb:1 )
         !libusb? ( sys-apps/systemd )
-        policykit? ( sys-auth/polkit:1[>=0.111] )
+        polkit? ( sys-auth/polkit:1[>=0.111] )
     run:
         group/pcscd
         user/pcscd
@@ -38,7 +39,7 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--without-systemdsystemunitdir' # we provide our own systemd units
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'policykit polkit'
+    polkit
     'static'
     'libusb'
     '!libusb libudev'
