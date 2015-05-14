@@ -63,6 +63,12 @@ src_prepare() {
     # Do not look for version.config in parent directory. It's located in ${WORK}.
     edo sed -in "s/..\/version.config/version.config/g" configure.in
 
+    # Use the right macro to find pkg-config
+    edo sed -e "s/AC_PATH_PROG(PKG_CONFIG, pkg-config, no)/PKG_PROG_PKG_CONFIG/" -i configure.in
+
+    # Install arch-independent files to the right place, i.e. /usr/share
+    edo sed -e "s|\$(prefix)/share/locale|\$(localedir)|" -i po/Makefile.am
+
     autotools_src_prepare
 }
 
