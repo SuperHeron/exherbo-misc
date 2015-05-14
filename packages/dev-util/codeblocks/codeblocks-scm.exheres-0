@@ -19,6 +19,16 @@ PLATFORMS="~amd64 ~x86"
 src_prepare() {
     edo chmod +x update_revision.sh
     edo ./update_revision.sh
+
+    edo sed -e "s/pkg-config,/${PKG_CONFIG},/" -i configure.ac
+
     autotools_src_prepare
+}
+
+src_install() {
+    default
+    hereenvd 50codeblocks <<EOF
+CODEBLOCKS_DATA_DIR="/usr"
+EOF
 }
 
