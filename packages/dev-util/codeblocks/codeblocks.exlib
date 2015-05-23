@@ -15,6 +15,7 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build:
+        app-arch/zip
         virtual/pkg-config
     build+run:
         app-admin/gamin
