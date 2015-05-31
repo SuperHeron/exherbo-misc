@@ -1,4 +1,4 @@
-# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2015 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop
@@ -17,7 +17,9 @@ DOWNLOADS="https://github.com/vslavik/${PN}/releases/download/v${PV}-oss/${PNV}.
 LICENCES="MIT"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="debug spell"
+MYOPTIONS="debug gtk2
+    legacy [[ description = [ Support pre-1.6 versions ] ]]
+"
 
 DEPENDENCIES="
     build:
@@ -25,17 +27,25 @@ DEPENDENCIES="
     build+run:
         dev-cpp/lucene++[>=3.0.5]
         dev-libs/boost
-        dev-libs/expat
-        dev-libs/icu
-        sys-libs/db:=[>=4.7]
-        x11-libs/wxGTK:3.0[>=3.0]
-        spell? ( app-spell/gtkspell:3.0 )
+        dev-libs/icu:=
+        x11-libs/wxGTK:3.0[>=3.0.0][gtk2?]
+        gtk2? ( app-spell/gtkspell:2 )
+        !gtk2? ( app-spell/gtkspell:3.0 )
+        legacy? (
+            dev-libs/expat
+            sys-libs/db:=[>=4.7]
+        )
 "
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.php"
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'debug'
-    'spell spellchecking'
+    'legacy legacytm'
 )
+
+src_install() {
+    default
+    option legacy || edo rmdir "${IMAGE}"/usr/$(exhost --target)/libexec
+}
 
