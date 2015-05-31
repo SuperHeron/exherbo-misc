@@ -1,35 +1,30 @@
 # Copyright 2010-2015 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-SCM_REPOSITORY="https://${PN}.googlecode.com/svn/"
-SCM_CHECKOUT_TO="${PNV}"
-
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ] eid-mw-common scm-svn
+require eid-mw autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ]
 
 DOWNLOADS=""
 
 PLATFORMS="~amd64"
 
-MYOPTIONS="
-    firefox [[ description = [ Builds XPI extension for Firefox ] ]]
-    pcsc_drivers: acr38u ccid
-"
+MYOPTIONS="gtk3"
 
 DEPENDENCIES="
     build:
-        firefox? ( app-arch/zip )
+        sys-devel/gettext
     build+run:
         sys-apps/pcsc-lite[>=1.4.4]
-        x11-libs/gtk+:2[>=2.10]
-    run:
-        pcsc_drivers:acr38u? ( app-crypt/acsccid[>=1.0.4] )
-        pcsc_drivers:ccid? ( app-crypt/ccid )
+        gtk3? ( x11-libs/gtk+:3 )
+        !gtk3? ( x11-libs/gtk+:2[>=2.10.0] )
+    test:
+        media-libs/jpeg:*
+        virtual/libssl
+    suggestion:
+        app-crypt/acsccid[>=1.0.4] [[ 
+            description = [ Use CCID drivers for ACS smartcard readers ] 
+        ]]
+        app-crypt/ccid [[ description = [ Use CCID drivers for a bunch a smartcard readers ] ]]
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( --enable-dialogs )
-
-src_compile() {
-    default
-    option firefox && emake xpipackage
-}
 
