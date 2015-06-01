@@ -51,8 +51,13 @@ DEPENDENCIES="
 
 if ever at_least 10.0 ; then
     DEPENDENCIES+="
+        build+:
+            virtual/pkg-config
         build+run:
             dev-libs/libedit
+            dev-libs/libxml2:2.0
+            dev-libs/pcre
+            sys-libs/pam
     "
 else
     DEPENDENCIES+="
@@ -61,9 +66,10 @@ else
     "
 fi
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/0001-tokuftdump-Install-to-INSTALL_BINDIR-instead-of-bin.patch )
 if ever at_least 10.0 ; then
     DEFAULT_SRC_PREPARE_PATCHES+=( "${FILES}"/0001-scripts-Do-not-prepend-the-prefix-to-absolute-paths.patch )
+else
+    DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/0001-tokuftdump-Install-to-INSTALL_BINDIR-instead-of-bin.patch )
 fi
 
 
@@ -155,6 +161,7 @@ mariadb_src_configure() {
             -DENABLE_GCOV:BOOL=FALSE
             -DENABLED_LOCAL_INFILE:BOOL=TRUE
             -DWITH_MYSQLD_LDFLAGS="${LDFLAGS}"
+            -DWITH_PCRE:STRING=system
         )
         CFLAGS="-fPIC ${CFLAGS} -fno-strict-aliasing -DBIG_JOINS=1 -fomit-frame-pointer -fno-delete-null-pointer-checks -Wno-error"
         CXXFLAGS="-fPIC ${CXXFLAGS} -fno-strict-aliasing -DBIG_JOINS=1 -felide-constructors -fno-rtti -fno-delete-null-pointer-checks -Wno-error"
@@ -178,7 +185,7 @@ mariadb_src_install() {
     cmake_src_install
 
     # construct ldpath for all targets
-    ldpath="/usr/$(exhost --target)/lib/mysql${ldpath:+:${ldpath}}"
+    ldpath="/usr/host/lib/mysql${ldpath:+:${ldpath}}"
 
     # Remove empty directories
     edo rm -r "${IMAGE}"/usr/data
