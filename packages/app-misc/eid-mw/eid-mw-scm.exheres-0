@@ -26,5 +26,7 @@ DEPENDENCIES="
         app-crypt/ccid [[ description = [ Use CCID drivers for a bunch a smartcard readers ] ]]
 "
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( --enable-dialogs )
+src_configure() {
+    econf --enable-dialogs --with-gtkvers=$(option gtk3 && echo 3 || echo 2)
+}
 
