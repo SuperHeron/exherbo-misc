@@ -1,10 +1,10 @@
-# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2015 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop udev-rules
 require python [ blacklist=3 with_opt=true ]
 
-export_exlib_phases pkg_pretend pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst
+export_exlib_phases pkg_pretend pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst
 
 SUMMARY="A family of powerful x86 virtualization products"
 DESCRIPTION="
@@ -34,8 +34,6 @@ MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc vpx
     wine [[ description = [ Builds wine support ] ]]
 
     ( opengl truetype ) [[ requires = X ]]
-
-    platform: amd64
 "
 
 DEPENDENCIES="
@@ -94,11 +92,22 @@ UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/News"
 
 WORK="${WORKBASE}/${MY_PNV}"
 
+is_on_x86_64_target_without_i686_gcc() {
+    case "$(exhost --target)" in
+        x86_64-pc-linux-gnu)
+            [ -d "/usr/$(exhost --target)/i686-pc-linux-gnu" ] && return 1 || return 0
+            ;;
+        i686-pc-linux-gnu)
+            return 1
+            ;;
+    esac
+}
+
 virtualbox-ose_pkg_pretend() {
-    if optionq platform:amd64 && [[ ! -e '/usr/include/gnu/stubs-32.h' ]]; then
+    if is_on_x86_64_target_without_i686_gcc; then
         ewarn 'You do not have a 32-bits glibc.'
         ewarn 'You will *only* be able to run 64-bits guests.'
-        ewarn 'Please switch to multilib if you also want to run 32-bits guests.'
+        ewarn 'Please switch to multiarch if you also want to run 32-bits guests.'
     fi
 }
 
@@ -118,16 +127,61 @@ virtualbox-ose_src_unpack() {
 
 virtualbox-ose_src_prepare() {
     default
+
+    edo sed -e "s/pkg-config/${PKG_CONFIG}/" \
+            -e "s/\$CC -m32/\$CC32/" \
+            -e "s/CC32=\"\"/CC32=\"i686-pc-linux-gnu-gcc\"/" \
+            -e "s/CXX32=\"\"/CXX32=\"i686-pc-linux-gnu-g++\"/" \
+            -i configure
+
+    edo sed -e "s/\$(QUIET)ld/\$(QUIET)\$(TOOL_\$(VBOX_GCC32_TOOL)_LD_SYSMOD)/" \
+            -i src/VBox/Devices/PC/ipxe/Makefile.kmk
+
+    edo sed -e "s/\tobjcopy/\t\$(TOOL_\$(VBOX_GCC_TOOL)_OBJCOPY)/" \
+            -i src/VBox/Additions/x11/vboxmouse/Makefile.kmk \
+            -i src/VBox/Additions/x11/vboxvideo/Makefile.kmk
+
+    edo sed -e "s/readelf/$(exhost --target)-readelf/" \
+            -i Config.kmk \
+            -i src/VBox/Additions/common/VBoxGuest/linux/Makefile \
+            -i src/VBox/HostDrivers/Support/linux/Makefile \
+            -i src/VBox/Runtime/Makefile.kmk
+
+    edo sed -e "s/\$(QUIET)nm/\$(QUIET)$(exhost --target)-nm/" \
+            -i src/VBox/Runtime/Makefile.kmk
+
     # Disable -Werror for gcc-4.5 builds
     # See http://www.virtualbox.org/ticket/6715
     echo 'VBOX_WITH_WARNINGS_AS_ERRORS :=' >> "${WORK}/LocalConfig.kmk"
     # https://forums.virtualbox.org/viewtopic.php?f=15&t=57828
     echo 'VBOX_WITH_TESTCASES :=' >> "${WORK}/LocalConfig.kmk"
     echo 'VBOX_WITH_TESTSUITE :=' >> "${WORK}/LocalConfig.kmk"
+
+    # Set some default paths
+    echo 'VBOX_WITH_ORIGIN :=' >> "${WORK}/LocalConfig.kmk"
+    echo "VBOX_PATH_APP_PRIVATE_ARCH := /usr/$(exhost --target)/lib/VirtualBox" >> "${WORK}/LocalConfig.kmk"
+    echo 'VBOX_PATH_SHARED_LIBS := $(VBOX_PATH_APP_PRIVATE_ARCH)' >> "${WORK}/LocalConfig.kmk"
+    echo 'VBOX_WITH_RUNPATH := $(VBOX_PATH_APP_PRIVATE_ARCH)' >> "${WORK}/LocalConfig.kmk"
+    echo "VBOX_PATH_APP_PRIVATE := /usr/share/${PN}" >> "${WORK}/LocalConfig.kmk"
+    echo "VBOX_PATH_PACKAGE_DOCS := /usr/share/doc/${PNVR}" >> "${WORK}/LocalConfig.kmk"
+    echo 'VBOX_PATH_APP_DOCS = $(VBOX_PATH_PACKAGE_DOCS)' >> "${WORK}/LocalConfig.kmk"
+
+    # Set some toolchain programs
+    echo "TOOL_GCC3_AR := ${AR}" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GXX3_AR := ${AR}" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GXX32_AR := i686-pc-linux-gnu-ar" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC3_LD := ${CC}" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC3_LD_SYSMOD := ${LD}" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GXX3_LD := ${CXX}" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GXX3_LD_SYSMOD := ${LD}" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GXX32_LD := i686-pc-linux-gnu-g++" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GXX32_LD_SYSMOD := i686-pc-linux-gnu-ld" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GXX3_OBJCOPY := $(exhost --target)-objcopy" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GXX32_OBJCOPY := i686-pc-linux-gnu-objcopy" >> "${WORK}/LocalConfig.kmk"
 }
 
 virtualbox-ose_src_configure() {
-    local myconf=
+    local myconf="--with-gcc=${CC} --with-g++=${CXX}"
     if optionq X; then
         optionq opengl || myconf="${myconf} --disable-opengl"
         optionq truetype || myconf="${myconf} --disable-sdl-ttf"
@@ -143,7 +197,7 @@ virtualbox-ose_src_configure() {
     optionq vpx || myconf="${myconf} --disable-libvpx"
     optionq webservice && myconf="${myconf} --enable-webservice"
     optionq wine && myconf="${myconf} --setup-wine"
-    if optionq platform:amd64 && [[ ! -e '/usr/include/gnu/stubs-32.h' ]]; then
+    if is_on_x86_64_target_without_i686_gcc; then
         # This is needed to build on a non-multilib system
         myconf="${myconf} --disable-vmmraw"
     fi
@@ -163,13 +217,18 @@ virtualbox-ose_src_configure() {
 
 virtualbox-ose_src_compile() {
     edo source env.sh
-    edo kmk -j${EXJOBS:-1} all
+    edo kmk -j${EXJOBS:-1} all VBOX_NM="${NM} -p"
+}
+
+virtualbox-ose_src_test() {
+    edo source env.sh
+    edo kmk -j1 test
 }
 
 virtualbox-ose_src_install() {
     local installdir= outdir=
     edo source env.sh
-    installdir="/opt/VirtualBox"
+    installdir="/usr/$(exhost --target)/lib/VirtualBox"
     outdir="${WORK}/out/${BUILD_TARGET}.${BUILD_TARGET_ARCH}/release"
 
     insinto /etc/vbox
@@ -180,10 +239,10 @@ INSTALL_DIR='${installdir}'
 INSTALL_VER='${PV}'
 EOF
 
-    insinto /usr/share/applications/
+    insinto /usr/share/applications
     doins "${outdir}"/bin/virtualbox.desktop
 
-    insinto /usr/share/pixmaps/
+    insinto /usr/share/pixmaps
     doins "${outdir}"/bin/VBox.png
 
     insinto /usr/share/"${PN}"
@@ -193,30 +252,30 @@ EOF
     insinto /usr/src/${PNV}
     doins -r "${outdir}"/bin/src/*
 
-    dodir "${installdir}" /usr/bin
+    dodir "${installdir}" /usr/$(exhost --target)/bin
     insinto "${installdir}"
     doins -r "${outdir}"/bin/components
 
     edo mv "${outdir}"/bin/{*.so,*.r0,VBox.sh,VBoxXPCOMIPCD,VBoxNetAdpCtl,VBoxNetDHCP,VBoxSVC,VBoxCreateUSBNode.sh} "${IMAGE}"/"${installdir}"
-    if ! optionq platform:amd64 || [[ -e '/usr/include/gnu/stubs-32.h' ]]; then
+    if ! is_on_x86_64_target_without_i686_gcc; then
         edo mv "${outdir}"/bin/*.gc "${IMAGE}"/"${installdir}"
     fi
     for links in {VBoxHeadless,VBoxManage,VBoxSDL,VirtualBox};
     do
         edo mv "${outdir}"/bin/"${links}" "${IMAGE}"/"${installdir}"
-        dosym "${installdir}"/VBox.sh /usr/bin/"${links}"
+        dosym "${installdir}"/VBox.sh /usr/$(exhost --target)/bin/"${links}"
     done
-    mv "${outdir}"/bin/VBoxTunctl "${IMAGE}"/"${installdir}"
-    edo dosym "${installdir}"/VBoxTunctl /usr/bin/VBoxTunctl
+    edo mv "${outdir}"/bin/VBoxTunctl "${IMAGE}"/"${installdir}"
+    edo dosym "${installdir}"/VBoxTunctl /usr/$(exhost --target)/bin/VBoxTunctl
 
     if optionq opengl; then
-        mv "${outdir}"/bin/VBoxTestOGL "${IMAGE}"/"${installdir}"
-        edo dosym "${installdir}"/VBoxTestOGL /usr/bin/VBoxTestOGL
+        edo mv "${outdir}"/bin/VBoxTestOGL "${IMAGE}"/"${installdir}"
+        edo dosym "${installdir}"/VBoxTestOGL /usr/$(exhost --target)/bin/VBoxTestOGL
     fi
 
     if optionq webservice; then
-        mv "${outdir}"/bin/vboxwebsrv "${IMAGE}"/"${installdir}"
-        edo dosym "${installdir}"/VBox.sh /usr/bin/vboxwebsrv
+        edo mv "${outdir}"/bin/vboxwebsrv "${IMAGE}"/"${installdir}"
+        edo dosym "${installdir}"/VBox.sh /usr/$(exhost --target)/bin/vboxwebsrv
     fi
 
     # VirtualBox needs to be setuid
@@ -234,13 +293,13 @@ EOF
 
     # Install guest additions if required
     if optionq additions; then
-        insinto "${installdir}"
+        insinto /usr/share/${PN}
         newins "${FETCHEDDIR}"/VBoxGuestAdditions_${PV}.iso VBoxGuestAdditions.iso
     fi
 
     if optionq extensions; then
         edo pushd "${WORK}"/${EXT_PN}
-        insinto /opt/VirtualBox/ExtensionPacks/${EXT_PN}
+        insinto "${installdir}"/ExtensionPacks/${EXT_PN}
         doins ExtPack* PXE-Intel.rom
         doins -r ${BUILD_TARGET}.${BUILD_TARGET_ARCH}
         edo popd
