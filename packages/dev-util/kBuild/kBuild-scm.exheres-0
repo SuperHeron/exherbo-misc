@@ -25,6 +25,16 @@ UPSTREAM_DOCUMENTATION="
 
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-glibc-2.10.patch" )
 
+kBuild_opts=(
+    AR=${AR}
+    TOOL_GCC3_AR=${AR}
+    TOOL_GCC3_CC=${CC}
+    TOOL_GCC3_LD=${CC}
+
+    MY_INST_MODE=0644
+    MY_INST_BIN_MODE=0755
+)
+
 src_prepare() {
     default
     edo chmod +x kBuild/env.sh
@@ -36,9 +46,10 @@ src_prepare() {
 }
 
 src_compile() {
-    kBuild/env.sh --full emake -f bootstrap.gmk AUTORECONF=true || die "bootstrap failed"
+    edo kBuild/env.sh --full emake -f bootstrap.gmk AUTORECONF=true ${kBuild_opts[@]}
 }
 
 src_install() {
-    kBuild/env.sh kmk NIX_INSTALL_DIR="/usr" PATH_INS="${IMAGE}" install || die "kmk install failed"
+    edo kBuild/env.sh kmk install NIX_INSTALL_DIR="/usr" MY_INST_BIN="usr/$(exhost --target)/bin/" \
+        MY_INST_DOC="usr/share/doc/${PNVR}/" PATH_INS="${IMAGE}" ${kBuild_opts[@]}
 }
