@@ -63,7 +63,7 @@ src_install() {
     cmake_src_install
 
     if optionq scripts; then
-        into '/usr'
+        into "/usr/$(exhost --target)"
         dobin "${WORK}"/tools/{play-youtube,urldecode,youtube-args-dumper,youtube-get-player}.sh
     fi
 }
