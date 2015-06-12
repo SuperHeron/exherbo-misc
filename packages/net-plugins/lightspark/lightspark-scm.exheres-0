@@ -15,11 +15,11 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
     curl
-    libav
     nsplugin
     rtmp [[ description = [ Adds support for Real Time Messaging Protocol ] ]]
     scripts [[ description = [ Installs YouTube-related scripts ] ]]
     tightspark [[ description = [ Builds TightSpark ] ]]
+    ( providers: ffmpeg libav ) [[ number-selected = exactly-one ]]
 "
 
 DEPENDENCIES="
@@ -43,8 +43,8 @@ DEPENDENCIES="
         x11-libs/libX11
         x11-libs/pango
         curl? ( net-misc/curl )
-        !libav? ( media/ffmpeg )
-        libav? ( media/libav )
+        providers:ffmpeg? ( media/ffmpeg )
+        providers:libav? ( media/libav )
         rtmp? ( media-video/rtmpdump )
 "
 
