@@ -60,11 +60,9 @@ src_install() {
 
     install_systemd_files
 
-    if option systemd; then
-        insinto /usr/$(exhost --target)/lib/tmpfiles.d
-        hereins ${PN}.conf <<EOF
+    insinto /usr/$(exhost --target)/lib/tmpfiles.d
+    hereins ${PN}.conf <<EOF
 d /run/pcscd 0755 pcscd pcscd
 EOF
-    fi
 }
 
