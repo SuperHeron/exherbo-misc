@@ -1,4 +1,4 @@
-# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2015 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require setup-py [ import='distutils' blacklist=3 multibuild=false with_opt=true ]
@@ -93,10 +93,8 @@ src_install() {
     edo chown ${PN}:${PN} "${IMAGE}"/var/lib/${PN}
 
     install_systemd_files
-    if option systemd; then
-        insinto /usr/${LIBDIR}/tmpfiles.d
-        hereins ${PN}.conf <<EOF
+    insinto /usr/$(exhost --target)/lib/tmpfiles.d
+    hereins ${PN}.conf <<EOF
 d /run/${PN} 0755 ${PN} ${PN}
 EOF
-    fi
 }
