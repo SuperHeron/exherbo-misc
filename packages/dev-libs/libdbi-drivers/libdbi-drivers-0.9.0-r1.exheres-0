@@ -15,6 +15,9 @@ PLATFORMS="~amd64"
 MYOPTIONS="( freetds mysql pgsql sqlite ) [[ number-selected = at-least-one ]]"
 SLOTTED_PV="$(ever range 1-2).0"
 
+# tests need running databases
+RESTRICT="test"
+
 DEPENDENCIES="
     build+run:
         dev-libs/libdbi[~>${SLOTTED_PV}]
