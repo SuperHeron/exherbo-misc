@@ -7,7 +7,10 @@ DOWNLOADS=""
 
 PLATFORMS="~amd64"
 
-MYOPTIONS="gtk3"
+MYOPTIONS="
+    gtk3
+    ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
+"
 
 DEPENDENCIES="
     build:
@@ -18,7 +21,8 @@ DEPENDENCIES="
         !gtk3? ( x11-libs/gtk+:2[>=2.10.0] )
     test:
         media-libs/jpeg:*
-        virtual/libssl
+        providers:libressl? ( dev-libs/libressl:= )
+        providers:openssl? ( dev-libs/openssl )
     suggestion:
         app-crypt/acsccid[>=1.0.4] [[ 
             description = [ Use CCID drivers for ACS smartcard readers ] 
