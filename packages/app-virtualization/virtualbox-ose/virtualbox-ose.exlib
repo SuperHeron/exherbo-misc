@@ -34,6 +34,7 @@ MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc vpx
     wine [[ description = [ Builds wine support ] ]]
 
     ( opengl truetype ) [[ requires = X ]]
+    ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
 "
 
 DEPENDENCIES="
@@ -55,7 +56,6 @@ DEPENDENCIES="
         sys-libs/pam
         sys-libs/zlib[>=1.2.1]
         sys-power/iasl
-        virtual/libssl
         || (
             app-cdr/genisoimage
             app-cdr/cdrtools
@@ -79,6 +79,8 @@ DEPENDENCIES="
         alsa? ( sys-sound/alsa-lib[>=1.0.6] )
         dbus? ( sys-apps/dbus )
         devmapper? ( sys-fs/lvm2 )
+        providers:libressl? ( dev-libs/libressl:= )
+        providers:openssl? ( dev-libs/openssl )
         pulseaudio? ( media-sound/pulseaudio[>=0.9.0] )
         vnc? ( net-libs/libvncserver[>=0.9.7] )
         vpx? ( media-libs/libvpx[>=0.9.5] )
