@@ -71,8 +71,6 @@ fi
 
 if ever at_least 10.0 ; then
     DEFAULT_SRC_PREPARE_PATCHES+=( "${FILES}"/0001-scripts-Do-not-prepend-the-prefix-to-absolute-paths.patch )
-else
-    DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/0001-tokuftdump-Install-to-INSTALL_BINDIR-instead-of-bin.patch )
 fi
 
 
