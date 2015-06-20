@@ -27,6 +27,7 @@ MYOPTIONS="
     debug
     embedded-server [[ description = [ The embedded MariaDB server library, a full-featured MariaDB server that can be run inside a client application ] ]]
     tcpd
+    ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
 "
 
 DEPENDENCIES="
@@ -36,6 +37,8 @@ DEPENDENCIES="
         group/mysql
         sys-libs/zlib[>=1.2.3]
         user/mysql
+        providers:libressl? ( dev-libs/libressl:= )
+        providers:openssl? ( dev-libs/openssl )
         tcpd? ( sys-apps/tcp-wrappers )
        !dev-db/mysql [[
             description = [ MariaDB is a drop-in replacement for MySQL with same binary names ]
