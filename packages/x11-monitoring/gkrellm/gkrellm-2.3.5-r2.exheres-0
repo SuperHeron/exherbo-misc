@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop
+require option-renames [ renames=[ 'gnutls providers:gnutls' ] ]
 
 BASE_URI="http://${PN}.srcbox.net"
 SUMMARY="GKrellM - GNU (or Gtk) Krell Monitors (or Meters)"
@@ -16,7 +17,10 @@ DOWNLOADS="${BASE_URI}/${PNV}.tar.bz2"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="gnutls lm_sensors"
+MYOPTIONS="
+    lm_sensors
+    ( providers: gnutls libressl openssl ) [[ number-selected = exactly-one ]]
+"
 
 DEPENDENCIES="
     build:
@@ -25,8 +29,10 @@ DEPENDENCIES="
     build+run:
         dev-libs/glib:2
         x11-libs/gtk+:2[>=2.4]
-        gnutls? ( dev-libs/gnutls )
         lm_sensors? ( sys-apps/lm_sensors )
+        providers:gnutls? ( dev-libs/gnutls )
+        providers:libressl? ( dev-libs/libressl:= )
+        providers:openssl? ( dev-libs/openssl )
 "
 
 REMOTE_IDS="freecode:${PN}"
@@ -43,8 +49,8 @@ DEFAULT_SRC_INSTALL_PARAMS=(
 
 src_compile() {
     emake PREFIX="/usr/$(exhost --target)" CC="${CC}" \
-        without-gnutls="$(optionq !gnutls && echo yes || echo no)" \
-        without-ssl="$(optionq gnutls && echo yes || echo no)" \
+        without-gnutls="$(optionq !providers:gnutls && echo yes || echo no)" \
+        without-ssl="$(optionq providers:gnutls && echo yes || echo no)" \
         without-libsensors="$(optionq !lm_sensors && echo yes || echo no)"
 }
 
