@@ -1,9 +1,9 @@
-# Copyright 2009 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2015 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop
 
-BASE_URI="http://members.dslextreme.com/users/billw/${PN}"
+BASE_URI="http://${PN}.srcbox.net"
 SUMMARY="GKrellM - GNU (or Gtk) Krell Monitors (or Meters)"
 DESCRIPTION="
 GKrellM is a single process stack of system monitors which supports
@@ -36,13 +36,13 @@ UPSTREAM_CHANGELOG="${BASE_URI}/Changelog"
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-gmodule.patch" )
 
 DEFAULT_SRC_INSTALL_PARAMS=(
-    "PKGCONFIGDIR=${IMAGE}/usr/${LIBDIR}/pkgconfig"
-    'PREFIX=/usr'
+    "PKGCONFIGDIR=${IMAGE}/usr/$(exhost --target)/lib/pkgconfig"
+    "PREFIX=/usr/$(exhost --target)"
     'STRIP='
 )
 
 src_compile() {
-    emake PREFIX=/usr CC="${CC}" \
+    emake PREFIX="/usr/$(exhost --target)" CC="${CC}" \
         without-gnutls="$(optionq !gnutls && echo yes || echo no)" \
         without-ssl="$(optionq gnutls && echo yes || echo no)" \
         without-libsensors="$(optionq !lm_sensors && echo yes || echo no)"
@@ -50,6 +50,9 @@ src_compile() {
 
 src_install() {
     default
+
+    edo mv "${IMAGE}"/usr/$(exhost --target)/share/* "${IMAGE}"/usr/share
+    edo rmdir "${IMAGE}"/usr/$(exhost --target)/share
 
     insinto /usr/share/pixmaps
     newins src/icon.xpm ${PN}.xpm
