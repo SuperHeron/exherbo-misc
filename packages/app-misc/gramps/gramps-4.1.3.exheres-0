@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2015 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop freedesktop-mime sourceforge [ pnv="Stable/${PV}/${PNV}" suffix=tar.gz ]
@@ -22,6 +22,7 @@ DEPENDENCIES="
         dev-util/intltool
         sys-devel/gettext
     build+run:
+        dev-python/bsddb3[python_abis:*(-)?]
         gnome-bindings/pygobject[>=3.3.2][cairo][python_abis:*(-)?]
         gnome-desktop/librsvg:2[gobject-introspection]
         x11-apps/xdg-utils
@@ -29,13 +30,14 @@ DEPENDENCIES="
         x11-libs/pango[gobject-introspection]
         x11-libs/gtk+:3[>=3.0.0][gobject-introspection]
     recommendation:
+        dev-python/PyICU [[ description = [ Improves localised sorting ] ]]
         media-gfx/graphviz [[ description = [ Enable creation of graphs ] ]]
         x11-libs/osm-gps-map[>=0.8] [[ description = [ Used to show OpenStreetMaps in Geographic view ] ]]
     suggestion:
         app-spell/gtkspell:3.0[>=3.0.0][gobject-introspection] [[ description = [ Enable use spell checking ] ]]
         dev-libs/gexiv2[>=0.5][gobject-introspection] [[ description = [ Enable management of Exif metadata ] ]]
-        dev-python/Imaging [[ description = [ Crop and convert to JPEG images ] ]]
-        fonts/corefonts [[ description = [ Use more font support in reports ] ]]
+        dev-python/Pillow [[ description = [ Crop and convert to JPEG images ] ]]
+        fonts/freefont-ttf [[ description = [ Use more font support in reports ] ]]
         net-libs/webkit[gobject-introspection] [[ description = [ Load HTML pages in Gramps ] ]]
         x11-libs/goocanvas:2.0 [[ description = [ Use GraphView plugin ] ]]
 "
