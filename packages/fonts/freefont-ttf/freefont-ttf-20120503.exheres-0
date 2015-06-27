@@ -1,0 +1,26 @@
+# Copyright 2015 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require gnu [ pn='freefont' suffix='zip' ]
+
+SUMMARY=""
+DESCRIPTION="
+If DESCRIPTION is set it must not be an empty string.
+"
+# ZIP suffix not supported by gnu.exlib
+DOWNLOADS="mirror://gnu/freefont/${PNV}.zip"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES=""
+
+src_install() {
+    default
+
+    insinto /usr/share/fonts/X11/${PN}
+    doins *.ttf
+}
+
