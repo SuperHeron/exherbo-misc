@@ -55,9 +55,10 @@ DEPENDENCIES="
         )
         qt4? ( x11-libs/qt:4 )
         qt5? ( x11-libs/qtbase:5 )
-    run:
-        sys-apps/accountsservice
     recommendation:
+        sys-apps/accountsservice [[
+            description = [ Allow for setting user icons, ${PN} uses ~/.face otherwise ]
+        ]]
         x11-apps/lightdm-gtk-greeter [[
             description = [ Default greeter ]
         ]]
