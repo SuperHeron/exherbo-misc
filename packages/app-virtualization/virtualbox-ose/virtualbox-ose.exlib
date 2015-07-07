@@ -85,7 +85,7 @@ DEPENDENCIES="
         vnc? ( net-libs/libvncserver[>=0.9.7] )
         vpx? ( media-libs/libvpx[>=0.9.5] )
         webservice? ( net-libs/gsoap[>=2.7.9f] )
-        wine? ( app-emulation/wine[multibuild_c:32] )
+        wine? ( app-emulation/wine )
 "
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/wiki/Changelog"
