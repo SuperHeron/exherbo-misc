@@ -394,18 +394,18 @@ diff -urpN a/Makefile.in b/Makefile.in
  PACKAGES = \
  	build/bin/MonoDevelop.Core.Gui.addin.xml \
 diff -urpN a/po/Makefile b/po/Makefile
---- a/po/Makefile	2014-08-06 11:59:41.442678126 +0200
-+++ b/po/Makefile	2014-08-06 13:53:57.640934810 +0200
-@@ -110,9 +110,9 @@ LTLIBOBJS =
+--- a/po/Makefile       2015-07-07 11:01:21.684401292 +0200
++++ b/po/Makefile       2015-07-07 11:04:16.325330916 +0200
+@@ -111,9 +111,9 @@ LTLIBOBJS =
  MAINT = 
- MAKEINFO = ${SHELL} /home/builder/data/lanes/monodevelop-linux-monodevelop-5.0.1-branch/f94ee866/source/monodevelop/main/missing --run makeinfo
- MCS = /usr/bin/gmcs
+ MAKEINFO = ${SHELL} /var/lib/jenkins/workspace/release-tarball-monodevelop/main/missing --run makeinfo
+ MCS = /opt/mono/bin//mcs
 -MD_ADDIN_DIR = $(prefix)/lib/monodevelop/AddIns
 -MD_ASSEMBLY_DIR = $(prefix)/lib/monodevelop/bin
 -MD_DIR = $(prefix)/lib/monodevelop
 +MD_ADDIN_DIR = $(libdir)/monodevelop/AddIns
 +MD_ASSEMBLY_DIR = $(libdir)/monodevelop/bin
 +MD_DIR = $(libdir)/monodevelop
- MKDIR_P = /usr/bin/mkdir -p
- MONO = /usr/bin/mono
+ MKDIR_P = /bin/mkdir -p
+ MONO = /opt/mono/bin//mono
  MONODOC_CFLAGS =  
