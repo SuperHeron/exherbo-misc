@@ -69,7 +69,7 @@ DEPENDENCIES="
             x11-libs/libXinerama
             x11-libs/libXmu
             x11-libs/libXrandr
-            x11-libs/qt:4[>=4.6.2][opengl?][xinerama(+)]
+            x11-libs/qt:4[>=4.8.0][opengl?][xinerama(+)]
             opengl? (
                 x11-dri/mesa
                 x11-libs/libXmu
@@ -258,10 +258,10 @@ EOF
     insinto "${installdir}"
     doins -r "${outdir}"/bin/components
 
-    edo mv "${outdir}"/bin/{*.so,*.r0,VBox.sh,VBoxXPCOMIPCD,VBoxNetAdpCtl,VBoxNetDHCP,VBoxSVC,VBoxCreateUSBNode.sh} "${IMAGE}"/"${installdir}"
-    if ! is_on_x86_64_target_without_i686_gcc; then
-        edo mv "${outdir}"/bin/*.gc "${IMAGE}"/"${installdir}"
-    fi
+    edo mv "${outdir}"/bin/{*.r0,*.rc,*.so,VBox.sh,VBoxExtPackHelperApp,VBoxXPCOMIPCD,VBoxNetAdpCtl,VBoxNetDHCP,VBoxNetNAT,VBoxSVC,VBoxCreateUSBNode.sh} "${IMAGE}"/"${installdir}"
+#    if ! is_on_x86_64_target_without_i686_gcc; then
+#        edo mv "${outdir}"/bin/*.gc "${IMAGE}"/"${installdir}"
+#    fi
     for links in {VBoxHeadless,VBoxManage,VBoxSDL,VirtualBox};
     do
         edo mv "${outdir}"/bin/"${links}" "${IMAGE}"/"${installdir}"
@@ -281,7 +281,7 @@ EOF
     fi
 
     # VirtualBox needs to be setuid
-    edo chmod 4711 "${IMAGE}/${installdir}"/{VirtualBox,VBoxHeadless,VBoxNetAdpCtl,VBoxSDL}
+    edo chmod 4711 "${IMAGE}/${installdir}"/{VirtualBox,VBoxHeadless,VBoxNetAdpCtl,VBoxNetDHCP,VBoxNetNAT,VBoxSDL}
 
     insinto "${UDEVRULESDIR}"
     hereins 10-vboxdrv.rules <<EOF
