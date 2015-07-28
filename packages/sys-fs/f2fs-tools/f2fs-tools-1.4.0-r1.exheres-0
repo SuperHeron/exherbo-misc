@@ -4,7 +4,7 @@
 SCM_REPOSITORY="git://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/${PN}.git"
 SCM_TAG="v${PV}"
 
-require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ]
+require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.15 1.13 ] ]
 
 SUMMARY="Userland tools for the f2fs filesystem"
 HOMEPAGE="http://git.kernel.org/cgit/linux/kernel/git/jaegeuk/${PN}.git"
