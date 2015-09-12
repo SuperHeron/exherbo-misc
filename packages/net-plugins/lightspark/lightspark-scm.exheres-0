@@ -21,6 +21,7 @@ MYOPTIONS="
     tightspark [[ description = [ Builds TightSpark ] ]]
     ( pulseaudio sdl ) [[ number-selected = exactly-one ]]
     ( providers: ffmpeg libav ) [[ number-selected = exactly-one ]]
+    ( providers: ijg-jpeg jpeg-turbo ) [[ number-selected = exactly-one ]]
 "
 
 DEPENDENCIES="
@@ -35,7 +36,6 @@ DEPENDENCIES="
         dev-libs/pcre
         media-libs/freetype
         media-libs/glew
-        media-libs/jpeg
         media-libs/libpng:=
         x11-dri/mesa
         x11-libs/cairo
@@ -44,6 +44,8 @@ DEPENDENCIES="
         x11-libs/pango
         curl? ( net-misc/curl )
         providers:ffmpeg? ( media/ffmpeg )
+        providers:ijg-jpeg? ( media-libs/jpeg:= )
+        providers:jpeg-turbo? ( media-libs/libjpeg-turbo )
         providers:libav? ( media/libav )
         pulseaudio? ( media-sound/pulseaudio )
         rtmp? ( media-video/rtmpdump )
