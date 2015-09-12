@@ -8,7 +8,7 @@ DOWNLOADS=""
 PLATFORMS="~amd64"
 
 MYOPTIONS="
-    gtk3
+    ( providers: gtk2 gtk3 ) [[ number-selected = exactly-one ]]
     ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
 "
 
@@ -17,8 +17,8 @@ DEPENDENCIES="
         sys-devel/gettext
     build+run:
         sys-apps/pcsc-lite[>=1.4.4]
-        gtk3? ( x11-libs/gtk+:3 )
-        !gtk3? ( x11-libs/gtk+:2[>=2.10.0] )
+        providers:gtk2? ( x11-libs/gtk+:2[>=2.10.0] )
+        providers:gtk3? ( x11-libs/gtk+:3 )
     test:
         media-libs/jpeg:*
         providers:libressl? ( dev-libs/libressl:= )
@@ -31,6 +31,6 @@ DEPENDENCIES="
 "
 
 src_configure() {
-    econf --enable-dialogs --with-gtkvers=$(option gtk3 && echo 3 || echo 2)
+    econf --enable-dialogs --with-gtkvers=$(option providers:gtk3 && echo 3 || echo 2)
 }
 
