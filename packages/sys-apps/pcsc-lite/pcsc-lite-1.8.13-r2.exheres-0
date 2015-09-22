@@ -14,7 +14,6 @@ LICENCES="BSD-3"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
-    baselayout
     libusb [[ description = [ Use libusb support instead of udev ] ]]
     polkit [[ description = [ Allow pcscd to run as separate user ] ]]
     static
@@ -49,11 +48,6 @@ src_install() {
     default
 
     dodoc AUTHORS DRIVERS HELP README SECURITY ChangeLog
-
-    if option baselayout ; then
-        newinitd "${FILES}/pcscd-initd" pcscd
-        newconfd "${FILES}/pcscd-confd" pcscd
-    fi
 
     keepdir /etc/reader.conf.d
     keepdir /usr/$(exhost --target)/lib/pcsc/drivers
