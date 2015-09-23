@@ -4,7 +4,7 @@
 SCM_REPOSITORY="git://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/${PN}.git"
 SCM_TAG="v${PV}"
 
-require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.15 1.13 ] ]
+require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.15 ] ]
 
 SUMMARY="Userland tools for the f2fs filesystem"
 HOMEPAGE="http://git.kernel.org/cgit/linux/kernel/git/jaegeuk/${PN}.git"
@@ -19,10 +19,6 @@ DEPENDENCIES="
         sys-apps/util-linux
 "
 
-src_prepare() {
-    # The configure script accepts --sbindir - and ignores it.
-    edo sed -i -e "s:/sbin:/usr/$(exhost --target)/bin:" configure.ac
-
-    autotools_src_prepare
-}
+# Upstream configure.ac patch. Remove after 1.4.1
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/5792951de24ebeaa6e8731ad5f3edfb08a442dd9.patch )
 
