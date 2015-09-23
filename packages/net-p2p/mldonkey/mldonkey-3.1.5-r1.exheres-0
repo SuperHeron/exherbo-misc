@@ -12,7 +12,7 @@ LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 MY_P2P_NETWORKS="bittorrent directconnect donkey donkeysui fasttrack filetp gnutella gnutella2"
-MYOPTIONS="baselayout doc gd magic threads upnp-natpmp
+MYOPTIONS="doc gd magic threads upnp-natpmp
 
     gui [[ description = [ Build GTK+-based client interface ] ]]
     magic [[ description = [ Enable use of libmagic ] ]]
@@ -73,11 +73,6 @@ pkg_setup() {
 src_install() {
     default
     option doc && dodoc -r docs
-
-    if option baselayout ; then
-        newinitd "${FILES}/${PN}-initd" "${PN}"
-        newconfd "${FILES}/${PN}-confd" "${PN}"
-    fi
 
     if option systemd ; then
         insinto /etc/conf.d
