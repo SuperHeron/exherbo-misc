@@ -23,7 +23,6 @@ UPSTREAM_RELEASE_NOTES="https://${PN}.com/kb/en/${PN}-$(ever delete_all)-release
 LICENCES="GPL-2" # with-exceptions
 SLOT="0"
 MYOPTIONS="
-    baselayout
     debug
     embedded-server [[ description = [ The embedded MariaDB server library, a full-featured MariaDB server that can be run inside a client application ] ]]
     tcpd
@@ -208,11 +207,6 @@ EOF
 
     insinto /etc/logrotate.d
     newins "${FILES}"/logrotate.${PN} ${PN}
-
-    if option baselayout ; then
-        newinitd "${FILES}"/${PN}.rc6 ${PN}
-        newconfd "${FILES}"/${PN}.conf.d ${PN}
-    fi
 
     install_systemd_files
 
