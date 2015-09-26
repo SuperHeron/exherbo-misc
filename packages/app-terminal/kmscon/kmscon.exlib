@@ -19,7 +19,9 @@ HOMEPAGE="http://www.freedesktop.org/wiki/Software/${PN}/"
 
 LICENCES="MIT"
 SLOT="0"
-MYOPTIONS="opengl pango pixman systemd"
+MYOPTIONS="opengl pango pixman systemd
+    ( providers: eudev systemd ) [[ number-selected = exactly-one ]]
+"
 
 DEPENDENCIES="
     build:
@@ -29,12 +31,14 @@ DEPENDENCIES="
         virtual/pkg-config
     build+run:
         dev-libs/libtsm
-        sys-apps/systemd
         x11-dri/libdrm
         x11-libs/libxkbcommon
         opengl? ( x11-dri/mesa )
         pango? ( x11-libs/pango )
         pixman? ( x11-libs/pixman:1 )
+        systemd? ( sys-apps/systemd )
+        providers:eudev? ( sys-apps/eudev )
+        providers:systemd? ( sys-apps/systemd )
 "
 
 kmscon_src_configure() {
@@ -50,7 +54,8 @@ kmscon_src_configure() {
     econf $(option_enable systemd multi-seat)  \
           --with-video="${with_video}"         \
           --with-renderers="${with_renderers}" \
-          --with-fonts="${with_fonts}"
+          --with-fonts="${with_fonts}"         \
+          CC_FOR_BUILD=${CC}
 }
 
 kmscon_src_install() {
