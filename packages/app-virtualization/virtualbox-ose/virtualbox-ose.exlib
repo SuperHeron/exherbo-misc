@@ -4,7 +4,7 @@
 require freedesktop-desktop udev-rules
 require python [ blacklist=3 with_opt=true ]
 
-export_exlib_phases pkg_pretend pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst
+export_exlib_phases pkg_pretend src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst
 
 SUMMARY="A family of powerful x86 virtualization products"
 DESCRIPTION="
@@ -62,7 +62,7 @@ DEPENDENCIES="
             app-cdr/cdrkit
         )
         X? (
-            media-libs/SDL[>=1.2.7][X]
+            media-libs/SDL:0[>=1.2.7][X]
             x11-libs/libX11
             x11-libs/libXcursor
             x11-libs/libXext
@@ -74,7 +74,7 @@ DEPENDENCIES="
                 x11-dri/mesa
                 x11-libs/libXmu
             )
-            truetype? ( media-libs/SDL_ttf[>=2.0.6] )
+            truetype? ( media-libs/SDL_ttf:0[>=2.0.6] )
         )
         alsa? ( sys-sound/alsa-lib[>=1.0.6] )
         dbus? ( sys-apps/dbus )
@@ -111,10 +111,6 @@ virtualbox-ose_pkg_pretend() {
         ewarn 'You will *only* be able to run 64-bits guests.'
         ewarn 'Please switch to multiarch if you also want to run 32-bits guests.'
     fi
-}
-
-virtualbox-ose_pkg_setup() {
-    exdirectory --allow /opt
 }
 
 virtualbox-ose_src_unpack() {
