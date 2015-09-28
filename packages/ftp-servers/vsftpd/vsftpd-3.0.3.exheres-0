@@ -1,7 +1,7 @@
 # Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require systemd-service checksums [ sha1=[ ${PNV}.tar.gz=f36976bb1c5df25ac236d8a29e965ba2b825ccd0 ] ]
+require systemd-service checksums [ sha1=[ ${PNV}.tar.gz=d5f5a180dbecd0fbcdc92bf0ba2fc001c962b55a ] ]
 
 SUMMARY="very secure FTP daemon"
 DESCRIPTION="
@@ -13,7 +13,7 @@ DOWNLOADS="https://security.appspot.com/downloads/${PNV}.tar.gz"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="baselayout tcp-wrappers xinetd"
+MYOPTIONS="tcp-wrappers xinetd"
 
 DEPENDENCIES="
     build+run:
@@ -51,10 +51,6 @@ src_install() {
     insinto /etc
     edo echo "pam_service_name=${PN}" >> "${PN}".conf
     doins "${PN}".conf
-    if option baselayout ; then
-        newinitd "${FILES}/${PNV}-initd" "${PN}"
-        newconfd "${FILES}/${PNV}-confd" "${PN}"
-    fi
     keepdir /usr/share/empty
 
     install_systemd_files
