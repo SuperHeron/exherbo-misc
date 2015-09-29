@@ -25,13 +25,13 @@ DEPENDENCIES="
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.9.0] )
 "
 if ever at_least 3.0.0; then
-    MYOPTIONS+=" vala"
+    require vala [ vala_dep=true vala_slots=[ 0.30 0.28 0.26 ] with_opt=true ]
+    require option-renames [ renames=[ 'vala vapi' ] ]
     DEPENDENCIES+="
         build:
             dev-libs/libxml2:2.0
             dev-util/desktop-file-utils
             sys-apps/appdata-tools
-            vala? ( dev-lang/vala:=[>=0.16] )
         build+run:
             dev-libs/glib:2[>=2.32.0]
             x11-libs/gtk+:3[>=3.4.0]
@@ -54,16 +54,16 @@ gucharmap_src_prepare() {
 }
 
 gucharmap_src_configure() {
-    local enable_python= enable_vala=
+    local enable_python= enable_vapi=
     ever at_least 3.0.0 || enable_python="$(option_enable python python-bindings)"
-    ever at_least 3.0.0 && enable_vala="$(option_enable vala)"
+    ever at_least 3.0.0 && enable_vapi="$(option_enable vapi vala)"
     local gtk_version=3.0
     ! ever at_least 3.0.0 && option providers:gtk2 && gtk_version=2.0
     econf --with-gtk="${gtk_version}" \
         $(option_enable cjk unihan) \
         $(option_enable gtk-doc) \
         $(option_enable gobject-introspection introspection) \
-        ${enable_python} ${enable_vala}
+        ${enable_python} ${enable_vapi}
 }
 
 gucharmap_pkg_postinst() {
