@@ -4,6 +4,7 @@
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.12 ] ] freedesktop-desktop
 require freedesktop-mime sourceforge gtk-icon-cache
 require python [ blacklist=3 multibuild=false with_opt=true ]
+require option-renames [ renames=[ 'gtk2 providers:gtk2' ] ]
 
 SUMMARY="Bluefish GTK+ web editor"
 DESCRIPTION="
@@ -17,9 +18,11 @@ DOWNLOADS="http://www.bennewitz.com/${PN}/stable/source/${PNV}.tar.bz2"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="charmap [[ description = [ Builds charmap plugin ] ]]
-           gtk2 [[ description = [ Forces use of GTK+-2 interface instead of GTK+-3 ] ]]
-           spell"
+MYOPTIONS="
+    charmap [[ description = [ Builds charmap plugin ] ]]
+    spell
+    ( providers: gtk2 gtk3 ) [[ number-selected = exactly-one ]]
+"
 
 DEPENDENCIES="
     build:
@@ -33,13 +36,13 @@ DEPENDENCIES="
         gnome-desktop/gvfs
         x11-libs/gdk-pixbuf:2.0
         x11-libs/pango
-        gtk2? (
+        providers:gtk2? (
             x11-libs/gtk+:2[>=2.12]
-            charmap? ( gnome-extra/gucharmap[>=2.20][-gtk3] )
+            charmap? ( gnome-extra/gucharmap[>=2.20][providers:gtk2] )
         )
-        !gtk2? (
+        providers:gtk3? (
             x11-libs/gtk+:3[>=3.2.2]
-            charmap? ( gnome-extra/gucharmap[>=2.90][gtk3(+)] )
+            charmap? ( gnome-extra/gucharmap[>=2.90][providers:gtk3(+)] )
         )
         spell? ( app-spell/enchant[>=1.4] )
 "
@@ -54,13 +57,15 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'python'
     'spell spell-check'
 )
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'gtk2' )
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'providers:gtk2' )
 
 src_prepare() {
     edo intltoolize --copy --force --automake
     for po_dir in src/plugin_*/po ; do
         edo cp po/Makefile.in.in "${po_dir}"
     done
+    # Fix gzip command
+    edo sed -i 's:gzip -n $< -c:gzip -n -c $<:' data/bflib/Makefile.am
     autotools_src_prepare
 }
 
