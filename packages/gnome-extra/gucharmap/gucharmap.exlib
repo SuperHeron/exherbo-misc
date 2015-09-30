@@ -38,7 +38,7 @@ if ever at_least 3.0.0; then
     "
 else
     require python [ blacklist=3 multibuild=false with_opt=true ]
-    MYOPTIONS+=" ( providers: gtk2 gtk3 ) [[ number-required = exactly-one ]]"
+    MYOPTIONS+=" ( providers: gtk2 gtk3 ) [[ number-selected = exactly-one ]]"
     DEPENDENCIES+="
         build+run:
             dev-libs/glib:2[>=2.16.3]
