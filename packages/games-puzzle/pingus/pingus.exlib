@@ -1,7 +1,7 @@
 # Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require scons googlecode
+require scons github [ user=Pingus ]
 
 export_exlib_phases src_configure src_compile src_install
 
