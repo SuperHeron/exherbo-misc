@@ -1,4 +1,4 @@
-# Copyright 2008-2015 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2008-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SCM_REPOSITORY="svn://svn.code.sf.net/p/${PN}/code"
@@ -12,23 +12,7 @@ SCM_EXTERNAL_REFS="
     src/plugins/contrib/wxCrafterCB:wxCrafterCB
 "
 
-require codeblocks scm-svn autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.12 1.11 1.10 ] ]
+require codeblocks scm-svn
 
 PLATFORMS="~amd64 ~x86"
-
-src_prepare() {
-    edo chmod +x update_revision.sh
-    edo ./update_revision.sh
-
-    edo sed -e "s/pkg-config,/${PKG_CONFIG},/" -i configure.ac
-
-    autotools_src_prepare
-}
-
-src_install() {
-    default
-    hereenvd 50codeblocks <<EOF
-CODEBLOCKS_DATA_DIR="/usr"
-EOF
-}
 
