@@ -79,8 +79,37 @@ DEPENDENCIES="
        !app-office/openoffice
        !app-office/openoffice-bin
     run:
+        dev-db/sqlite:3
+        dev-lang/python:3.5
+        dev-libs/atk
+        dev-libs/dbus-glib:1
+        dev-libs/glib:2
+        dev-libs/icu:56.1[parts:libraries]
+        dev-libs/libxml2:2.0
+        dev-libs/libxslt
+        dev-libs/nspr
+        dev-libs/nss
+        media-libs/fontconfig
+        media-libs/freetype:2
+        media-libs/gstreamer:0.10
+        media-libs/lcms2
+        media-plugins/gst-plugins-base:0.10
+        net-misc/curl
+        net-misc/neon
+        net-print/cups
+        sys-apps/dbus
+        x11-dri/mesa
+        x11-libs/cairo
+        x11-libs/gdk-pixbuf:2.0
         x11-libs/gtk+:2[>=2.10.4]
+        x11-libs/libICE
+        x11-libs/libSM
+        x11-libs/libX11
+        x11-libs/libXext
         x11-libs/libXinerama
+        x11-libs/libXrender
+        x11-libs/libXt
+        x11-libs/pango
         virtual/jre:*[>=1.5] [[ description = [ Needed by some features like Base ] ]]
 "
 
