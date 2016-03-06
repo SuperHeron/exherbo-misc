@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require scons github [ user=Pingus ]
@@ -23,7 +23,7 @@ DEPENDENCIES="
         media-libs/libpng:=
         media-libs/SDL:0
         media-libs/SDL_image:1
-        media-libs/SDL_mixer[mikmod]
+        media-libs/SDL_mixer:0[mikmod]
 "
 
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/${PN}-respect-ar.patch )
