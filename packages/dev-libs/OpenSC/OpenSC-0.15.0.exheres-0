@@ -1,0 +1,45 @@
+# Copyright 2016 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.15 ] ]
+
+SUMMARY="Open source smart card tools and middleware."
+DESCRIPTION="
+OpenSC provides a set of libraries and utilities to work with smart cards. Its main focus is on
+cards that support cryptographic operations, and facilitate their use in security applications
+such as authentication, mail encryption and digital signatures. OpenSC implements the PKCS#11 API
+so applications supporting this API (such as Mozilla Firefox and Thunderbird) can use it.
+On the card OpenSC implements the PKCS#15 standard and aims to be compatible with every
+software/card that does so, too.
+"
+HOMEPAGE="${HOMEPAGE}/wiki"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    doc
+    ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
+"
+
+DEPENDENCIES="
+    build:
+        app-text/docbook-xsl-stylesheets
+        dev-libs/libxslt [[ note = [ For xsltproc ] ]]
+        dev-scm/git
+    build+run:
+        sys-apps/pcsc-lite
+        sys-libs/ncurses
+        sys-libs/readline
+        providers:libressl? ( dev-libs/libressl:= )
+        providers:openssl? ( dev-libs/openssl )
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--enable-man'
+    '--enable-openssl'
+    '--enable-readline'
+    '--enable-zlib'
+)
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc' )
+
