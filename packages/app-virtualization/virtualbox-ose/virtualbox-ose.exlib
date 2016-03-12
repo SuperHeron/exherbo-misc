@@ -1,4 +1,4 @@
-# Copyright 2009-2015 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop udev-rules
@@ -109,7 +109,7 @@ virtualbox-ose_pkg_pretend() {
     if is_on_x86_64_target_without_i686_gcc; then
         ewarn 'You do not have a 32-bits glibc.'
         ewarn 'You will *only* be able to run 64-bits guests.'
-        ewarn 'Please switch to multiarch if you also want to run 32-bits guests.'
+        ewarn 'Please install 32-bits cross-toolchain if you also want to run 32-bits guests.'
     fi
 }
 
