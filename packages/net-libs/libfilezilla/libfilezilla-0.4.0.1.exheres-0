@@ -1,0 +1,33 @@
+# Copyright 2016 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require sourceforge [ project="filezilla" ]
+
+SUMMARY="C++ library offering some basic functionality for platform-independent programs"
+DESCRIPTION="
+libfilezilla is a free, open source C++ library, offering some basic
+functionality to build high-performing, platform-independent programs. Some
+of the highlights include:
+
+- A typesafe, multi-threaded event system that's very simple to use yet extremely efficient
+- Timers for periodic events
+- A datetime class that not only tracks timestamp but also their accuracy, which simplifies dealing
+  with timestamps originating from different sources
+"
+HOMEPAGE="https://lib.filezilla-project.org"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="doc"
+
+DEPENDENCIES="
+    build:
+        doc? ( app-doc/doxygen )
+    build+run:
+    test:
+        dev-cpp/cppunit[>=1.10.2]
+"
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc doxygen-doc' )
+
