@@ -1,7 +1,7 @@
-# Copyright 2010-2015 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop freedesktop-mime sourceforge [ pnv="Stable/${PV}/${PNV}" suffix=tar.gz ]
+require freedesktop-desktop freedesktop-mime github [ user="gramps-project" tag="v${PV}" ]
 require setup-py [ import='distutils' blacklist='2.6 3.1' multibuild=false python_opts='[berkdb]' ]
 require gtk-icon-cache
 
@@ -11,6 +11,8 @@ GRAMPS is a Free Software Project for Genealogy, offering a professional
 genealogy program, and a wiki open to all. It is a community project,
 created, developed and governed by genealogists. 
 "
+
+HOMEPAGE+=" https://gramps-project.org"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -23,12 +25,12 @@ DEPENDENCIES="
         sys-devel/gettext
     build+run:
         dev-python/bsddb3[python_abis:*(-)?]
-        gnome-bindings/pygobject[>=3.3.2][cairo][python_abis:*(-)?]
+        gnome-bindings/pygobject[>=3.12.0][cairo][python_abis:*(-)?]
         gnome-desktop/librsvg:2[gobject-introspection]
         x11-apps/xdg-utils
         x11-libs/cairo
         x11-libs/pango[gobject-introspection]
-        x11-libs/gtk+:3[>=3.0.0][gobject-introspection]
+        x11-libs/gtk+:3[>=3.10.0][gobject-introspection]
     recommendation:
         dev-python/PyICU [[ description = [ Improves localised sorting ] ]]
         media-gfx/graphviz [[ description = [ Enable creation of graphs ] ]]
@@ -36,9 +38,10 @@ DEPENDENCIES="
     suggestion:
         app-spell/gtkspell:3.0[>=3.0.0][gobject-introspection] [[ description = [ Enable use spell checking ] ]]
         dev-libs/gexiv2[>=0.5][gobject-introspection] [[ description = [ Enable management of Exif metadata ] ]]
+        dev-scm/rcs [[ description = [ Manage multiple versions of family tree ] ]]
         dev-python/Pillow [[ description = [ Crop and convert to JPEG images ] ]]
         fonts/freefont-ttf [[ description = [ Use more font support in reports ] ]]
-        net-libs/webkit[gobject-introspection] [[ description = [ Load HTML pages in Gramps ] ]]
+        net-libs/webkit:4.0[gobject-introspection] [[ description = [ Load HTML pages in Gramps ] ]]
         x11-libs/goocanvas:2.0 [[ description = [ Use GraphView plugin ] ]]
 "
 
