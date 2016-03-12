@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop gtk-icon-cache
