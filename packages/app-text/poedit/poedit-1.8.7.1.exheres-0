@@ -1,7 +1,7 @@
-# Copyright 2009-2015 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop
+require github [ user="vslavik" suffix="tar.gz" release="v${PV}-oss" ] freedesktop-desktop
 
 SUMMARY="Cross-platform gettext catalogs (.po files) editor"
 DESCRIPTION="
@@ -11,14 +11,15 @@ It aims to provide more convenient approach to editing catalogs than launching v
 file by hand.
 "
 
-HOMEPAGE="http://www.poedit.net"
-DOWNLOADS="https://github.com/vslavik/${PN}/releases/download/v${PV}-oss/${PNV}.tar.gz"
+HOMEPAGE+=" https://www.poedit.net"
 
 LICENCES="MIT"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="debug gtk2
+MYOPTIONS="
+    debug
     legacy [[ description = [ Support pre-1.6 versions ] ]]
+    providers: ( gtk2 gtk3 ) [[ number-selected = exactly-one ]]
 "
 
 DEPENDENCIES="
@@ -28,12 +29,18 @@ DEPENDENCIES="
         dev-cpp/lucene++[>=3.0.5]
         dev-libs/boost
         dev-libs/icu:=
-        x11-libs/wxGTK:3.0[>=3.0.0][gtk2?]
-        gtk2? ( app-spell/gtkspell:2 )
-        !gtk2? ( app-spell/gtkspell:3.0 )
+        x11-libs/wxGTK:3.0[>=3.0.1][providers:gtk2?][providers:gtk3?]
         legacy? (
             dev-libs/expat
             sys-libs/db:=[>=4.7]
+        )
+        providers:gtk2? (
+            app-spell/gtkspell:2
+            x11-libs/gtk+:2[>=2.20]
+        )
+        providers:gtk3? (
+            app-spell/gtkspell:3.0
+            x11-libs/gtk+:3
         )
 "
 
