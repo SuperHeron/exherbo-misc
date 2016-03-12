@@ -1,4 +1,4 @@
-# Copyright 2013-2015 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2013-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require sourceforge udev-rules
@@ -17,9 +17,10 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build:
+        sys-devel/flex
         virtual/pkg-config
     build+run:
-        dev-libs/libusb:1[>=1.0.8]
+        dev-libs/libusb:1[>=1.0.9]
         sys-apps/pcsc-lite[>=1.8.3]
         sys-apps/systemd [[ description = [ For udev ] ]]
 "
