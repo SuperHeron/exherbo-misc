@@ -1,4 +1,4 @@
-# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require sourceforge [ suffix='tar.gz' ]
@@ -15,7 +15,7 @@ DEPENDENCIES="
     build:
         dev-lang/perl:*
         sys-devel/gettext
-        pdf? ( app-text/ghostscript )
+        pdf? ( app-text/ghostscript [[ note = [ For ps2pdf ] ]] )
 
     test:
         dev-perl/Test-Simple
