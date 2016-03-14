@@ -1,4 +1,4 @@
-# Copyright 2012-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2012-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Some tools to be used with smart cards and PC/SC"
@@ -15,6 +15,8 @@ PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
+    build:
+        virtual/pkg-config
     build+run:
         sys-apps/pcsc-lite
     run:
@@ -25,7 +27,9 @@ DEPENDENCIES="
 DEFAULT_SRC_INSTALL_PARAMS=( DESTDIR="${IMAGE}/usr/$(exhost --target)" )
 
 src_prepare() {
-    edo sed -i -e "s/pkg-config/$(exhost --tool-prefix)pkg-config/" Makefile
+    edo sed -e "s/pkg-config/$(exhost --tool-prefix)pkg-config/" \
+            -e "s/gzip/gzip --force/"                            \
+            -i Makefile
 }
 
 src_install() {
