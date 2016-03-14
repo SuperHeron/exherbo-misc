@@ -1,4 +1,4 @@
-# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 MY_PNV="acpica-unix-${PV}"
@@ -28,6 +28,6 @@ DEPENDENCIES="
 
 WORK="${WORKBASE}/${MY_PNV}"
 
-DEFAULT_SRC_COMPILE_PARAMS=( HOST=_LINUX CC="$CC" )
+DEFAULT_SRC_COMPILE_PARAMS=( HOST=_LINUX CC="${CC}" )
 DEFAULT_SRC_INSTALL_PARAMS=( INSTALLFLAGS="-m 555" PREFIX="/usr/$(exhost --target)" )
 
