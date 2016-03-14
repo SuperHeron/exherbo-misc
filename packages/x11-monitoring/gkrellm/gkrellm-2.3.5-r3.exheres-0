@@ -44,6 +44,11 @@ DEFAULT_SRC_INSTALL_PARAMS=(
     'STRIP='
 )
 
+src_prepare() {
+    edo sed -e "s/pkg-config/${PKG_CONFIG}/" -i {server,src}/configure
+    default
+}
+
 src_compile() {
     emake PREFIX="/usr/$(exhost --target)" CC="${CC}" \
         without-gnutls="$(optionq !providers:gnutls && echo yes || echo no)" \
