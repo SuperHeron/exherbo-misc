@@ -1,18 +1,17 @@
-# Copyright 2009-2015 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop
 require option-renames [ renames=[ 'gnutls providers:gnutls' ] ]
 
-BASE_URI="http://${PN}.srcbox.net"
 SUMMARY="GKrellM - GNU (or Gtk) Krell Monitors (or Meters)"
 DESCRIPTION="
 GKrellM is a single process stack of system monitors which supports
 applying themes to match its appearance to your window manager, Gtk,
 or any other theme.
 "
-HOMEPAGE="${BASE_URI}/${PN}.html"
-DOWNLOADS="${BASE_URI}/${PNV}.tar.bz2"
+HOMEPAGE="https://${PN}.srcbox.net"
+DOWNLOADS="${HOMEPAE}/${PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -36,8 +35,6 @@ DEPENDENCIES="
 "
 
 REMOTE_IDS="freecode:${PN}"
-
-UPSTREAM_CHANGELOG="${BASE_URI}/Changelog"
 
 DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-gmodule.patch" )
 
