@@ -47,7 +47,7 @@ DEPENDENCIES="
         dev-libs/glib:2[>=2.28] [[ note = [ for connman, oldest is 2.28 ] ]]
         dev-libs/libxml2:2.0
         gnome-desktop/libsoup:2.4[>=2.28.2][gobject-introspection?]
-        net-libs/gssdp:1.0[>=0.13.0][gobject-introspection?]
+        net-libs/gssdp:1.0[>=0.14.13][gobject-introspection?]
         sys-apps/util-linux
         connman? ( net-misc/connman[>=0.80] )
         gobject-introspection? (
