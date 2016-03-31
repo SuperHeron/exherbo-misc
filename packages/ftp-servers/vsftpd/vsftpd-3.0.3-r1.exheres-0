@@ -1,0 +1,84 @@
+# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2016 Johannes Nixdorf <mixi@exherbo.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require systemd-service checksums [ sha1=[ ${PNV}.tar.gz=d5f5a180dbecd0fbcdc92bf0ba2fc001c962b55a ] ]
+
+SUMMARY="very secure FTP daemon"
+DESCRIPTION="
+vsftpd is a GPL licensed FTP server for UNIX systems, including Linux. It is secure and extremely fast. It is stable.
+"
+HOMEPAGE="https://security.appspot.com/${PN}.html"
+DOWNLOADS="https://security.appspot.com/downloads/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS="tcp-wrappers"
+
+DEPENDENCIES="
+    build+run:
+        group/ftp
+        sys-libs/libcap
+        sys-libs/pam
+        user/ftp
+        tcp-wrappers? ( sys-apps/tcp-wrappers )
+"
+
+UPSTREAM_CHANGELOG="https://security.appspot.com/${PN}/Changelog"
+UPSTREAM_DOCUMENTATION="https://security.appspot.com/${PN}/${PN}_conf.html"
+
+src_prepare() {
+    edo sed -i -e "s|/usr/local/sbin/${PN}|/usr/$(exhost --target)/bin/${PN}|" xinetd.d/"${PN}"
+    edo sed -i -e "s|/usr/sbin|/usr/$(exhost --target)/bin|" Makefile
+}
+
+src_configure() {
+    cat > builddefs.h <<EOF
+#ifndef VSF_BUILDDEFS_H
+#define VSF_BUILDDEFS_H
+
+$(option tcp-wrappers && echo "#define VSF_BUILD_TCPWRAPPER")
+#define VSF_BUILD_PAM
+#define VSF_BUILD_SSL
+
+#endif
+EOF
+}
+
+src_compile() {
+    local params=(
+        CC=${CC}
+        # These {C,LD}FLAGS are taken from the Makefile just adding our system's {C,LD}FLAGS to it.
+        CFLAGS="-fPIE -fstack-protector --param=ssp-buffer-size=4 -Wall -W -Wshadow -Werror -Wformat-security -D_FORTIFY_SOURCE=2 ${CFLAGS}"
+        LDFLAGS="-fPIE -pie -Wl,-z,relro -Wl,-z,now ${LDFLAGS}"
+        # This is the gist of what vsf_findlibs.sh wants to link against on Exherbo with our
+        # configuration without hardcoding the library path as vsf_findlibs.sh does.
+        LIBS="-lpam -lssl -lcrypto -lcap $(option tcp-wrappers && echo -lwrap)"
+        # Don't use -Wl,-s. This just strips the binary.
+        LINK=
+    )
+
+    emake "${params[@]}"
+}
+
+src_install() {
+    dobin vsftpd
+
+    doman vsftpd.8
+    doman vsftpd.conf.5
+
+    insinto /etc/xinetd.d
+    doins xinetd.d/vsftpd
+
+    insinto /etc/pam.d
+    newins "${FILES}/vsftpd.pamd" "vsftpd"
+
+    echo "pam_service_name=vsftpd" >> vsftpd.conf
+    echo "secure_chroot_dir=/var/empty" >> vsftpd.conf
+    insinto /etc
+    doins vsftpd.conf
+
+    install_systemd_files
+}
+
