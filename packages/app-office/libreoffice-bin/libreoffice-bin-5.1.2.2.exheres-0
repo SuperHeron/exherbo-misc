@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 # Based in part upon 'openoffice-bin-3.2.1.exheres-0' from Exherbo, which is:
 #     Copyright 2009, 2010 Pierre Lejeune
@@ -84,7 +84,7 @@ DEPENDENCIES="
         dev-libs/atk
         dev-libs/dbus-glib:1
         dev-libs/glib:2
-        dev-libs/icu:56.1[parts:libraries]
+        dev-libs/icu:*[parts:libraries]
         dev-libs/libxml2:2.0
         dev-libs/libxslt
         dev-libs/nspr
