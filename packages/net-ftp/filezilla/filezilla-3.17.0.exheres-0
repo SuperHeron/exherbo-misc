@@ -21,9 +21,10 @@ DEPENDENCIES="
     build+run:
         dev-db/sqlite:3[>=3.7]
         dev-libs/gnutls[>=3.1.12]
+        dev-libs/nettle[>=3.1]
         dev-libs/pugixml[>=1.6]
         net-dns/libidn
-        net-libs/libfilezilla[>=0.4.0]
+        net-libs/libfilezilla[>=0.5.0]
         x11-apps/xdg-utils
         x11-libs/wxGTK:3.0[>=3.0.2]
         dbus? ( sys-apps/dbus[>=1.2] )
