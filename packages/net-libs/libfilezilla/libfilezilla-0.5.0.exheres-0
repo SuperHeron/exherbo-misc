@@ -24,7 +24,6 @@ MYOPTIONS="doc"
 DEPENDENCIES="
     build:
         doc? ( app-doc/doxygen )
-    build+run:
     test:
         dev-cpp/cppunit[>=1.10.2]
 "
