@@ -1,7 +1,7 @@
 # Copyright 2009-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require alioth-debian [ project=pcsclite dl_number=4169 ] udev-rules
+require alioth-debian [ project=pcsclite dl_number=4171 ] udev-rules
 
 SUMMARY="CCID free software driver"
 DESCRIPTION="This package provides the source code for a generic USB CCID (Chip/Smart Card Interface
@@ -34,3 +34,4 @@ src_install() {
     insinto "${UDEVRULESDIR}"
     doins src/92_pcscd_${PN}.rules
 }
+
