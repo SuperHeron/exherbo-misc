@@ -4,7 +4,7 @@
 #     Copyright 1999-2009 Gentoo Foundation
 
 require option-renames [ renames=[ 'policykit polkit' ] ]
-require systemd-service alioth-debian [ project=pcsclite dl_number=4164 ]
+require systemd-service alioth-debian [ project=pcsclite dl_number=4173 ]
 
 SUMMARY="PC/SC Architecture smartcard middleware library"
 DESCRIPTION="Middleware to access a smart card using SCard API (PC/SC)."
