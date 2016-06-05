@@ -21,11 +21,9 @@ DEPENDENCIES="
         dev-perl/Test-Simple
 "
 
-REMOTE_IDS+="freecode:${PN}"
-
 DEFAULT_SRC_COMPILE_PARAMS=(
-    CC=${CC}
-    CPP=${CPP}
+    CC=$(exhost --tool-prefix)cc
+    CPP=$(exhost --tool-prefix)cpp
 )
 
 src_prepare() {
