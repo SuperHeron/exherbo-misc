@@ -30,3 +30,8 @@ DEPENDENCIES="
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc doxygen-doc' )
 
+src_test(){
+  # locale needs to be set to UTF-8
+  # for the string_test::test_conversion2 test
+  LC_ALL=en_US.UTF-8 make check
+}
