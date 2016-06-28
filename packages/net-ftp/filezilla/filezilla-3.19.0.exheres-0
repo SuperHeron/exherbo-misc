@@ -24,7 +24,7 @@ DEPENDENCIES="
         dev-libs/nettle[>=3.1]
         dev-libs/pugixml[>=1.6]
         net-dns/libidn
-        net-libs/libfilezilla[>=0.5.2]
+        net-libs/libfilezilla[>=0.5.3]
         x11-apps/xdg-utils
         x11-libs/wxGTK:3.0[>=3.0.2]
         dbus? ( sys-apps/dbus[>=1.2] )
@@ -32,7 +32,7 @@ DEPENDENCIES="
         dev-cpp/cppunit[>=1.10.2]
 "
 
-UPSTREAM_DOCUMENTATION="http://wiki.filezilla-project.org/Documentation"
+UPSTREAM_DOCUMENTATION="https://wiki.filezilla-project.org/Documentation"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--disable-manualupdatecheck'
