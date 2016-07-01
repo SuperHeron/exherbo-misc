@@ -7,8 +7,6 @@ SUMMARY=""
 DESCRIPTION="
 If DESCRIPTION is set it must not be an empty string.
 "
-# ZIP suffix not supported by gnu.exlib
-DOWNLOADS="mirror://gnu/freefont/${PNV}.zip"
 
 LICENCES="GPL-3"
 SLOT="0"
