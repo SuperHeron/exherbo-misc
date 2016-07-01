@@ -1,7 +1,7 @@
 # Copyright 2010-2015 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require gnome.org [ suffix=.tar.xz ]
+require gnome.org [ suffix=tar.xz ]
 require python [ blacklist=3 multibuild=false with_opt=true ]
 
 SUMMARY="This is a library to handle UPnP IGD port mapping"

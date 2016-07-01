@@ -1,7 +1,7 @@
 # Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require gnome.org [ suffix=.tar.xz ] freedesktop-desktop gtk-icon-cache
+require gnome.org [ suffix=tar.xz ] freedesktop-desktop gtk-icon-cache
 require python [ blacklist=3 multibuild=false has_lib=false has_bin=true ]
 
 SUMMARY="Alacarte - GNOME menu editor"
