@@ -12,7 +12,10 @@ DESCRIPTION="FileZilla Client is a fast and reliable cross-platform FTP, FTPS an
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="dbus"
+MYOPTIONS="
+    dbus
+    ( providers: gtk2 gtk3 ) [[ number-selected = exactly-one ]]
+"
 
 DEPENDENCIES="
     build:
@@ -26,7 +29,7 @@ DEPENDENCIES="
         net-dns/libidn
         net-libs/libfilezilla[>=0.6.1]
         x11-apps/xdg-utils
-        x11-libs/wxGTK:3.0[>=3.0.2]
+        x11-libs/wxGTK:3.0[>=3.0.2][providers:gtk3?][providers:gtk2?]
         dbus? ( sys-apps/dbus[>=1.2] )
     test:
         dev-cpp/cppunit[>=1.10.2]
@@ -34,9 +37,13 @@ DEPENDENCIES="
 
 UPSTREAM_DOCUMENTATION="https://wiki.filezilla-project.org/Documentation"
 
-DEFAULT_SRC_CONFIGURE_PARAMS=(
-    '--disable-manualupdatecheck'
-    '--enable-locales'
-    '--with-pugixml=system'
-)
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'dbus' )
+src_configure() {
+    econf \
+        --disable-manualupdatecheck \
+        --enable-locales \
+        --with-pugixml=system \
+        --with-wx-config="/usr/$(exhost --target)/bin/wx-config-3.0-$(option providers:gtk3 gtk3 gtk2)" \
+        $(option_with dbus)
+
+}
+
