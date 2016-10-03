@@ -1,4 +1,4 @@
-# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Port of the OpenBSD TFTP server"
@@ -19,7 +19,7 @@ MYOPTIONS="readline remap tcp-wrappers
 
 DEPENDENCIES="
     build+run:
-        readline? ( sys-libs/readline )
+        readline? ( sys-libs/readline:= )
         tcp-wrappers? ( sys-apps/tcp-wrappers )
 "
 
