@@ -30,7 +30,7 @@ DEPENDENCIES="
     build+run:
         sys-apps/pcsc-lite
         sys-libs/ncurses
-        sys-libs/readline
+        sys-libs/readline:=
         providers:libressl? ( dev-libs/libressl:= )
         providers:openssl? ( dev-libs/openssl )
 "
