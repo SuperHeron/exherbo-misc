@@ -3,6 +3,7 @@
 
 require setup-py [ import='distutils' blacklist=3 multibuild=false with_opt=true ]
 require systemd-service
+require lua [ multibuild=false with_opt=true ]
 
 SUMMARY="A system to store and display time-series data"
 DESCRIPTION="
@@ -34,7 +35,6 @@ DEPENDENCIES="
         x11-libs/cairo[>=1.10.2][pdf(+)][svg(+)]
         x11-libs/pango[>=1.28.4]
         dbi? ( dev-libs/libdbi )
-        lua? ( dev-lang/lua[>=5.1] )
         perl? ( dev-lang/perl:=[>=5.8.1] )
         ruby? ( dev-lang/ruby:= )
         tcl? ( dev-lang/tcl:=[>=8.3] )
