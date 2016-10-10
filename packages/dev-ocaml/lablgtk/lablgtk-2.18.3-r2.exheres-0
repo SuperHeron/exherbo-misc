@@ -15,7 +15,7 @@ DOWNLOADS="http://forge.ocamlcore.org/frs/download.php/${DL_NUMBER}/${PNV}.tar.g
 LICENCES="LGPL-2.1"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="glade gnomecanvas gnomeui opengl panel spell svg threads"
+MYOPTIONS="glade gnomecanvas gnomeui gtksourceview opengl panel spell svg threads"
 
 DEPENDENCIES="
     build:
@@ -27,6 +27,7 @@ DEPENDENCIES="
         glade? ( dev-util/glade )
         gnomecanvas? ( gnome-platform/libgnomecanvas )
         gnomeui? ( gnome-platform/libgnomeui:2 )
+        gtksourceview? ( gnome-desktop/gtksourceview:2 )
         opengl? (
             dev-ocaml/lablgl
             x11-libs/gtkglarea:2
@@ -39,12 +40,13 @@ DEPENDENCIES="
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changes2.txt"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/refdoc/index.html"
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( PKG_CONFIG=/usr/$(exhost --target)/bin/${PKG_CONFIG} --without-gtksourceview --without-gtksourceview2 --without-quartz )
+DEFAULT_SRC_CONFIGURE_PARAMS=( PKG_CONFIG=/usr/$(exhost --target)/bin/${PKG_CONFIG} --without-gtksourceview --without-quartz )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'opengl gl'
     'glade'
     'gnomecanvas'
     'gnomeui'
+    'gtksourceview gtksourceview2'
     'panel'
     'spell gtkspell'
     'svg rsvg'
