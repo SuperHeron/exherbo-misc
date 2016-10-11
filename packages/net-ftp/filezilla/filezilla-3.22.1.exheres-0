@@ -23,11 +23,11 @@ DEPENDENCIES="
         virtual/pkg-config[>=0.9.0]
     build+run:
         dev-db/sqlite:3[>=3.7]
-        dev-libs/gnutls[>=3.4]
+        dev-libs/gnutls[>=3.4.15]
         dev-libs/nettle[>=3.1]
         dev-libs/pugixml[>=1.6]
         net-dns/libidn
-        net-libs/libfilezilla[>=0.6.1]
+        net-libs/libfilezilla[>=0.7]
         x11-apps/xdg-utils
         x11-libs/wxGTK:3.0[>=3.0.2][providers:gtk3?][providers:gtk2?]
         dbus? ( sys-apps/dbus[>=1.2] )
