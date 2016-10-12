@@ -1,7 +1,7 @@
-# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-DL_NUMBER=1479
+DL_NUMBER=1627
 
 SUMMARY="Objective Caml bindings for Gtk+"
 DESCRIPTION="
@@ -52,7 +52,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     'svg rsvg'
     'threads'
 )
-DEFAULT_SRC_COMPILE_PARAMS=( world opt )
+DEFAULT_SRC_COMPILE_PARAMS=( -j1 world opt )
 
 src_prepare() {
     default
