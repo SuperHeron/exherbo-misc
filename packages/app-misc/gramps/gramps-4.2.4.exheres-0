@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop freedesktop-mime github [ user="gramps-project" tag="v${PV}" ]
-require setup-py [ import='distutils' blacklist='2.6 3.1' multibuild=false python_opts='[berkdb]' ]
+require setup-py [ import='distutils' blacklist='2 3.1' multibuild=false python_opts='[berkdb]' ]
 require gtk-icon-cache
 
 SUMMARY="Genealogical Research and Analysis Management Programming System"
