@@ -30,6 +30,7 @@ SLOT="0"
 MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc vpx
     additions [[ description = [ Installs Guest Additions ISO ] ]]
     extensions [[ description = [ Install Extension Pack (binary) ] ]]
+    system-kbuild [[ description = [ Use system kBuild instead of bundled copy ] ]]
     webservice [[ description = [ Builds VBoxWebSrv ] ]]
     wine [[ description = [ Builds wine support ] ]]
 
@@ -39,8 +40,8 @@ MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc vpx
 
 DEPENDENCIES="
     build:
-        dev-util/kBuild[>=0.1.999]
         virtual/pkg-config
+        system-kbuild? ( dev-util/kBuild[>=0.1.999] )
     build+run:
         !app-virtualization/virtualbox-bin
         app-arch/makeself
@@ -126,8 +127,8 @@ virtualbox-ose_src_unpack() {
 virtualbox-ose_src_prepare() {
     default
 
-    # remove bundled kBuild and use the system one instead
-    edo rm -r kBuild
+    # remove bundled kBuild and use the system one instead as requested
+    optionq system-kbuild && edo rm -r kBuild
 
     edo sed -e "s/pkg-config/${PKG_CONFIG}/" \
             -e "s/\$CC -m32/\$CC32/" \
