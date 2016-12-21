@@ -38,7 +38,7 @@ codeblocks_src_prepare() {
 
     edo sed -e "s/pkg-config,/${PKG_CONFIG},/" -i configure.ac
 
-    edo mkdir "${WORK}/m4"
+    [[ -e "${WORK}/m4" ]] || edo mkdir "${WORK}/m4"
 
     autotools_src_prepare
 }
