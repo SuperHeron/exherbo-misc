@@ -22,7 +22,7 @@ DEPENDENCIES="
         virtual/pkg-config
     build+run:
         app-admin/gamin
-        app-spell/hunspell
+        app-spell/hunspell:=
         dev-libs/boost
         media-libs/fontconfig
         x11-libs/wxGTK:=[>=2.8.12]
