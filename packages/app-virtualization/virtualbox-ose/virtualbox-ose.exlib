@@ -1,8 +1,8 @@
-# Copyright 2009-2016 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop udev-rules
-require python [ blacklist=3 with_opt=true ]
+require python [ blacklist=3.6 multibuild=false with_opt=true ]
 
 export_exlib_phases pkg_pretend src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst
 
@@ -36,6 +36,7 @@ MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc vpx
 
     ( opengl truetype ) [[ requires = X ]]
     ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
+    ( qt4 qt5 ) [[ number-selected = at-most-one requires = X ]]
 "
 
 DEPENDENCIES="
@@ -54,7 +55,7 @@ DEPENDENCIES="
         media-libs/libpng:=[>=1.2.5]
         net-misc/curl[>=7.19.1]
         sys-libs/libcap
-        sys-libs/pam
+        sys-libs/pam[>=1.0.0]
         sys-libs/zlib[>=1.2.1]
         sys-power/iasl
         || (
@@ -70,14 +71,16 @@ DEPENDENCIES="
             x11-libs/libXinerama
             x11-libs/libXmu
             x11-libs/libXrandr
-            x11-libs/qt:4[>=4.8.0][opengl?][xinerama(+)]
             opengl? (
+                x11-dri/glu
                 x11-dri/mesa
                 x11-libs/libXmu
             )
+            qt4? ( x11-libs/qt:4[>=4.8.0][opengl?][xinerama(+)] )
+            qt5? ( x11-libs/qtbase:5[>=5.3.2][gui] )
             truetype? ( media-libs/SDL_ttf:0[>=2.0.6] )
         )
-        alsa? ( sys-sound/alsa-lib[>=1.0.6] )
+        alsa? ( sys-sound/alsa-lib[>=1.0.14] )
         dbus? ( sys-apps/dbus )
         devmapper? ( sys-fs/lvm2 )
         providers:libressl? ( dev-libs/libressl:= )
@@ -95,19 +98,19 @@ UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/News"
 
 WORK="${WORKBASE}/${MY_PNV}"
 
-is_on_x86_64_target_without_i686_gcc() {
+has_32bit_glibc() {
     case "$(exhost --target)" in
         x86_64-pc-linux-gnu)
-            [ -d "/usr/$(exhost --target)/i686-pc-linux-gnu" ] && return 1 || return 0
+            [ -e /usr/i686-pc-linux-gnu/include/gnu/stubs.h ] && return 0 || return 1
             ;;
         i686-pc-linux-gnu)
-            return 1
+            return 0
             ;;
     esac
 }
 
 virtualbox-ose_pkg_pretend() {
-    if is_on_x86_64_target_without_i686_gcc; then
+    if ! has_32bit_glibc; then
         ewarn 'You do not have a 32-bits glibc.'
         ewarn 'You will *only* be able to run 64-bits guests.'
         ewarn 'Please install 32-bits cross-toolchain if you also want to run 32-bits guests.'
@@ -134,6 +137,7 @@ virtualbox-ose_src_prepare() {
             -e "s/\$CC -m32/\$CC32/" \
             -e "s/CC32=\"\"/CC32=\"i686-pc-linux-gnu-gcc\"/" \
             -e "s/CXX32=\"\"/CXX32=\"i686-pc-linux-gnu-g++\"/" \
+            -e "s/CXX_FLAGS=\"\"/CXX_FLAGS=\"-std=c++11\"/" \
             -i configure
 
     edo sed -e "s/\$(QUIET)ld/\$(QUIET)\$(TOOL_\$(VBOX_GCC32_TOOL)_LD_SYSMOD)/" \
@@ -170,10 +174,15 @@ virtualbox-ose_src_prepare() {
 
     # Set some toolchain programs
     echo "TOOL_GCC3_AR := ${AR}" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC32_AR := i686-pc-linux-gnu-ar" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX3_AR := ${AR}" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX32_AR := i686-pc-linux-gnu-ar" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GCC3_LD := ${CC}" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GCC3_LD_SYSMOD := ${LD}" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC32_LD := i686-pc-linux-gnu-gcc" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC32_LD_SYSMOD := i686-pc-linux-gnu-ld" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC3_OBJCOPY := $(exhost --target)-objcopy" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC32_OBJCOPY := i686-pc-linux-gnu-objcopy" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX3_LD := ${CXX}" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX3_LD_SYSMOD := ${LD}" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX32_LD := i686-pc-linux-gnu-g++" >> "${WORK}/LocalConfig.kmk"
@@ -187,6 +196,13 @@ virtualbox-ose_src_configure() {
     if optionq X; then
         optionq opengl || myconf="${myconf} --disable-opengl"
         optionq truetype || myconf="${myconf} --disable-sdl-ttf"
+        if optionq qt4; then
+            myconf="${myconf} --enable-qt4"
+        elif optionq qt5; then
+            myconf="${myconf} --enable-qt5"
+        else
+            myconf="${myconf} --disable-qt"
+        fi
     else
         myconf="${myconf} --build-headless"
     fi
@@ -199,7 +215,7 @@ virtualbox-ose_src_configure() {
     optionq vpx || myconf="${myconf} --disable-libvpx"
     optionq webservice && myconf="${myconf} --enable-webservice"
     optionq wine && myconf="${myconf} --setup-wine"
-    if is_on_x86_64_target_without_i686_gcc; then
+    if ! has_32bit_glibc; then
         # This is needed to build on a non-multilib system
         myconf="${myconf} --disable-vmmraw"
     fi
@@ -259,9 +275,6 @@ EOF
     doins -r "${outdir}"/bin/components
 
     edo mv "${outdir}"/bin/{*.r0,*.rc,*.so,VBox.sh,VBoxExtPackHelperApp,VBoxXPCOMIPCD,VBoxNetAdpCtl,VBoxNetDHCP,VBoxNetNAT,VBoxSVC,VBoxCreateUSBNode.sh} "${IMAGE}"/"${installdir}"
-#    if ! is_on_x86_64_target_without_i686_gcc; then
-#        edo mv "${outdir}"/bin/*.gc "${IMAGE}"/"${installdir}"
-#    fi
     for links in {VBoxHeadless,VBoxManage,VBoxSDL,VirtualBox};
     do
         edo mv "${outdir}"/bin/"${links}" "${IMAGE}"/"${installdir}"
