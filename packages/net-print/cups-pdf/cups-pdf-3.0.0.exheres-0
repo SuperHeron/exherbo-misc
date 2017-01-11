@@ -11,6 +11,8 @@ by providing a PDF printer on the central fileserver.
 HOMEPAGE="http://www.cups-pdf.de"
 DOWNLOADS="${HOMEPAGE}/src/${PN}_${MY_PV}.tar.gz"
 
+REMOTE_IDS="freecode:${PN/-/}"
+
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
@@ -22,12 +24,10 @@ DEPENDENCIES="
         net-print/cups
 "
 
-REMOTE_IDS="freecode:${PN/-/}"
-
 WORK="${WORKBASE}/${PN}-${MY_PV}/src"
 
 src_compile() {
-    edo ${CC} ${CFLAGS} $(cups-config --libs) -o ${PN} ${PN}.c
+    edo ${CC} ${CFLAGS} ${PN}.c -o ${PN} $(cups-config --libs)
 }
 
 src_install() {
