@@ -1,4 +1,5 @@
 # Copyright 2009-2016 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2017 Nadal Gonzalo García Zavala <snorkellingcactus@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user="vslavik" suffix="tar.gz" release="v${PV}-oss" ] freedesktop-desktop
@@ -49,6 +50,10 @@ UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.php"
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'debug'
     'legacy legacytm'
+)
+DEFAULT_SRC_CONFIGURE_OPTIONS=(
+    'providers:gtk2 --with-wx-config=wx-config-3.0-gtk2'
+    'providers:gtk3 --with-wx-config=wx-config-3.0-gtk3'
 )
 
 src_install() {
