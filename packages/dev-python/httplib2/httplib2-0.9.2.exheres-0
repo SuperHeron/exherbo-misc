@@ -61,7 +61,8 @@ setup-py_test_one_multibuild() {
 install_one_multibuild() {
     setup-py_install_one_multibuild
 
-    # Fix permissions of cacerts.txt file
+    # Fix permissions
     edo chmod 644 "${IMAGE}$(python_get_sitedir)"/httplib2/cacerts.txt
+    edo chmod o+r "${IMAGE}$(python_get_sitedir)"/*egg*/*
 }
 
