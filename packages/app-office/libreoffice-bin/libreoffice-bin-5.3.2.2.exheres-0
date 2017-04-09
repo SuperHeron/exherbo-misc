@@ -19,14 +19,11 @@ LO_PN_LONG="${PN%-bin}"
 LO_PNV_LONG="${LO_PN_LONG}$(ever range 1-2)"
 LO_PNV_DOWNLOADS="${LO_PN_SHORT}_$(ever range 1-3)"
 LO_PNV="${LO_PN_SHORT}_${PV}"
-LO_LINGUAS=( 'af' 'am' 'ar' 'as' 'ast' 'be' 'bg' 'bn' 'bn_IN' 'bo' 'br' 'brx' 'bs' 'ca'
-             'ca_valencia' 'cs' 'cy' 'da' 'de' 'dgo' 'dz' 'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es'
-             'et' 'eu' 'fa' 'fi' 'fr' 'ga' 'gd' 'gl' 'gu' 'he' 'hi' 'hr' 'hu' 'id' 'is' 'it' 'ja'
-             'ka' 'kk' 'km'  'kmr_Latn' 'kn' 'ko' 'kok' 'ks' 'ku' 'lb' 'lo' 'lt' 'lv' 'mai' 'mk'
-             'ml' 'mn' 'mni' 'mr' 'my' 'nb' 'ne' 'nl' 'nn' 'nr' 'nso' 'oc' 'om' 'or' 'pa_IN' 'pl'
-             'pt' 'pt_BR' 'ro' 'ru' 'rw' 'sa_IN' 'sat' 'sd' 'si' 'sid' 'sk' 'sl' 'sq' 'sr' 'sr_Latn'
-             'ss' 'st' 'sv' 'sw_TZ' 'ta' 'te' 'tg' 'th' 'tn' 'tr' 'ts' 'tt' 'ug' 'uk' 'uz' 've' 'vi'
-             'xh' 'zh_CN' 'zh_TW' 'zu' )
+LO_LINGUAS=( 'am' 'ar' 'ast' 'bg' 'bn' 'bn_IN' 'bo' 'bs' 'ca' 'ca_valencia' 'cs' 'da' 'de' 'dz'
+             'el' 'en_GB' 'en_US' 'en_ZA' 'eo' 'es' 'et' 'eu' 'fi' 'fr' 'gl' 'gu' 'he' 'hi' 'hr'
+             'hu' 'is' 'it' 'ja' 'ka' 'km' 'ko' 'lo' 'lt' 'lv' 'mk' 'nb' 'ne' 'nl' 'nn' 'om' 'pl'
+             'pt' 'pt_BR' 'ro' 'ru' 'si' 'sid' 'sk' 'sl' 'sq' 'sv' 'ta' 'tg' 'tr' 'ug' 'uk' 'vi'
+             'zh_CN' 'zh_TW' )
 
 DOWNLOADS_ROOT="mirror://${LO_PN_LONG}/stable/$(ever range 1-3)/rpm"
 DOWNLOADS="
