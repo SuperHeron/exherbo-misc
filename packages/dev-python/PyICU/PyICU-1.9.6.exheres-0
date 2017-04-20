@@ -7,7 +7,7 @@ SUMMARY="Python extension wrapping the ICU C++ API"
 DESCRIPTION="
 A Python extension wrapping IBM's International Components for Unicode C++ library (ICU).
 "
-HOMEPAGE+=" http://pyicu.osafoundation.org https://github.com/ovalhub/pyicu"
+HOMEPAGE+=" https://github.com/ovalhub/pyicu"
 
 LICENCES="MIT"
 SLOT="0"
