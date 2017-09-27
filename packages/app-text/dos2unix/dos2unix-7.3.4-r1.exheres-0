@@ -16,9 +16,6 @@ DEPENDENCIES="
         dev-lang/perl:*
         sys-devel/gettext
         pdf? ( app-text/ghostscript [[ note = [ For ps2pdf ] ]] )
-
-    test:
-        dev-perl/Test-Simple
 "
 
 DEFAULT_SRC_COMPILE_PARAMS=(
