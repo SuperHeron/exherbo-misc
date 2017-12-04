@@ -19,7 +19,6 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
     debug
-    legacy [[ description = [ Support pre-1.6 versions ] ]]
     providers: ( gtk2 gtk3 ) [[ number-selected = exactly-one ]]
 "
 
@@ -31,10 +30,6 @@ DEPENDENCIES="
         dev-libs/boost
         dev-libs/icu:=
         x11-libs/wxGTK:3.0[>=3.0.1][providers:gtk2?][providers:gtk3?]
-        legacy? (
-            dev-libs/expat
-            sys-libs/db:=[>=4.7]
-        )
         providers:gtk2? (
             app-spell/gtkspell:2
             x11-libs/gtk+:2[>=2.20]
@@ -47,17 +42,16 @@ DEPENDENCIES="
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.php"
 
+# Unpackaged
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --without-cpprest
+    --without-cld2
+)
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'debug'
-    'legacy legacytm'
 )
 DEFAULT_SRC_CONFIGURE_OPTIONS=(
     'providers:gtk2 --with-wx-config=wx-config-3.0-gtk2'
     'providers:gtk3 --with-wx-config=wx-config-3.0-gtk3'
 )
-
-src_install() {
-    default
-    option legacy || edo rmdir "${IMAGE}"/usr/$(exhost --target)/libexec
-}
 
