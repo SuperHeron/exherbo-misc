@@ -1,5 +1,7 @@
-# Copyright 2010 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
+
+require github [ user='megastep' suffix='run' release="release-${PV}" ]
 
 SUMMARY="Make self-extractable archives on Unix"
 DESCRIPTION="
@@ -9,13 +11,23 @@ be launched as is. The archive will then uncompress itself to a temporary direct
 arbitrary command will be executed (for example an installation script). Makeself archives also include
 checksums for integrity self-validation (CRC and/or MD5 checksums).
 "
-HOMEPAGE="http://www.megastep.org/${PN}"
-DOWNLOADS="http://cdn.megastep.org/${PN}/${PNV}.run"
+HOMEPAGE="http://${PN}.io"
 
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
+
+DEPENDENCIES="
+    suggestion:
+        app-arch/lz4[parts:binaries]    [[ description = [ Use lz4 for compression     ] ]]
+        app-arch/lzo                    [[ description = [ Use lzo for compression     ] ]]
+        app-arch/pbzip2[parts:binaries] [[ description = [ Use pbzip2 for compression  ] ]]
+        app-arch/pigz                   [[ description = [ Use pigz for compression    ] ]]
+        app-crypt/gnupg                 [[ description = [ Use GnuPG for encryption    ] ]]
+        dev-libs/openssl                [[ description = [ Use OpenSSL for encryption  ] ]]
+        dev-libs/libressl:*             [[ description = [ Use LibreSSL for encryption ] ]]
+"
 
 src_unpack() {
     edo mkdir "${WORK}"
