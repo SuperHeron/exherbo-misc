@@ -1,4 +1,4 @@
-# Copyright 2009-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
@@ -16,8 +16,8 @@ you whenever you need them, just one key-press away. The system is not
 restricted to one desktop environment, but currently works on most of
 the modern Unix desktops (including GNOME, KDE, Xfce).
 "
-HOMEPAGE="http://gdesklets.de"
-DOWNLOADS="http://gdesklets.de/files/${PNV}.tar.bz2"
+HOMEPAGE="http://gdesklets.info"
+DOWNLOADS="http://archive.gdesklets.info/gDesklets/${PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
