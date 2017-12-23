@@ -1,4 +1,4 @@
-# Copyright 2010-2016 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop freedesktop-mime github [ user="gramps-project" tag="v${PV}" ]
@@ -21,7 +21,7 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build:
-        dev-util/intltool
+        dev-util/intltool[>=0.25.0]
         sys-devel/gettext
     build+run:
         dev-python/bsddb3[python_abis:*(-)?]
