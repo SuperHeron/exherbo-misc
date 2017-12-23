@@ -1,4 +1,4 @@
-# Copyright 2014-2016 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2014-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ release=${PV} suffix=tar.bz2 ]
@@ -8,7 +8,7 @@ DESCRIPTION="
 jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and
 scalable concurrency support.
 "
-HOMEPAGE+=" http://www.canonware.com/${PN}"
+HOMEPAGE+=" http://${PN}.net"
 
 LICENCES="BSD-2"
 SLOT="0"
