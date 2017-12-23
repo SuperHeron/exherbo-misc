@@ -1,4 +1,4 @@
-# Copyright 2013-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2013-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require pypi setup-py [ import=setuptools ]
@@ -9,7 +9,7 @@ PyOpenGL is the most common cross platform Python binding to OpenGL and related 
 The binding is created using the standard ctypes library, and is provided under an extremely
 liberal BSD-style Open-Source license.
 "
-HOMEPAGE="http://pyopengl.sourceforge.net"
+HOMEPAGE+=" http://pyopengl.sourceforge.net"
 
 LICENCES="BSD-3"
 SLOT="0"
