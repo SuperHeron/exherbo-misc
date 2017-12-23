@@ -1,4 +1,4 @@
-# Copyright 2009-2016 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
 # Copyright 2017 Nadal Gonzalo García Zavala <snorkellingcactus@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
@@ -27,9 +27,9 @@ DEPENDENCIES="
         virtual/pkg-config[>=0.9.0]
     build+run:
         dev-cpp/lucene++[>=3.0.5]
-        dev-libs/boost
+        dev-libs/boost[>=1.60]
         dev-libs/icu:=
-        x11-libs/wxGTK:3.0[>=3.0.1][providers:gtk2?][providers:gtk3?]
+        x11-libs/wxGTK:3.0[>=3.0.3][providers:gtk2?][providers:gtk3?]
         providers:gtk2? (
             app-spell/gtkspell:2
             x11-libs/gtk+:2[>=2.20]
