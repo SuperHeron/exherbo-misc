@@ -1,12 +1,13 @@
-# Copyright 2009-2016 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require sourceforge [ suffix=tar.gz ]
+require github [ user='skvadrik' suffix='tar.gz' release="${PV}" ]
 
 SUMMARY="Re2c Scanner Generator"
 DESCRIPTION="
 re2c is a tool for writing very fast and very flexible scanners. Unlike any other such tool, re2c focuses on generating high efficient code for regular expression matching. As a result this allows a much broader range of use than any traditional lexer offers. And Last but not least re2c generates warning free code that is equal to hand-written code in terms of size, speed and quality.
 "
+HOMEPAGE+=" http://${PN}.org"
 
 LICENCES="public-domain"
 SLOT="0"
