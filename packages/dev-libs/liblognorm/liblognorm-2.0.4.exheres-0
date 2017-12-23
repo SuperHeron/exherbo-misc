@@ -1,4 +1,4 @@
-# Copyright 2013-2016 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2013-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Normalisation for syslog messages"
@@ -23,12 +23,14 @@ DEPENDENCIES="
         virtual/pkg-config
         doc? ( dev-python/Sphinx )
     build+run:
-        dev-libs/json-c
         dev-libs/libestr
+        dev-libs/libfastjson
+        dev-libs/pcre
 "
 
 REMOTE_IDS="freecode:${PN}"
 
+DEFAULT_SRC_CONFIGURE_PARAMS=( '--enable-regex' )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'debug' 'doc docs' )
 
 src_compile() {
