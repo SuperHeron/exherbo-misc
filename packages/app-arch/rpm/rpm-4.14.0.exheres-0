@@ -2,7 +2,7 @@
 # Copyright 2010 Timothy Redaelli <timothy@redaelli.eu>
 # Distributed under the terms of the GNU General Public License v2
 
-require flag-o-matic python [ blacklist=3 multibuild=false with_opt=true ]
+require flag-o-matic python [ blacklist=none multibuild=false with_opt=true ]
 
 SUMMARY="Powerful command line driven package management system"
 DESCRIPTION="
@@ -16,7 +16,7 @@ permitting advanced developers to manage such transactions
 from programming languages such as C or Python.
 "
 HOMEPAGE="http://rpm.org"
-DOWNLOADS="http://rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
+DOWNLOADS="http://ftp.rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
 
 LICENCES="|| ( GPL-2 LGPL-2 )"
 SLOT="0"
