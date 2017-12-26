@@ -1,7 +1,9 @@
-# Copyright 2010-2016 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require gnome.org [ suffix=tar.xz ]
+require gnome.org [ suffix='tar.xz' ]
+# Vala bindings are automagically enabled when g-i is
+require vala [ vala_dep=true with_opt=true option_name='gobject-introspection' ]
 
 SUMMARY="GUPnP is an object-oriented open source framework
 for creating UPnP devices and control points, written in C
@@ -38,23 +40,19 @@ MYOPTIONS="gobject-introspection gtk-doc networkmanager
     ( connman networkmanager ) [[ number-selected = at-most-one ]]
 "
 
-# TODO: automagic check for conic with unix context manager
 DEPENDENCIES="
     build:
         virtual/pkg-config[>=0.9.0]
-        gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
+        gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=1.36.0] )
+        gtk-doc? ( dev-doc/gtk-doc[>=1.14] )
     build+run:
-        dev-libs/glib:2[>=2.28] [[ note = [ for connman, oldest is 2.28 ] ]]
+        dev-libs/glib:2[>=2.40.0]
         dev-libs/libxml2:2.0
-        gnome-desktop/libsoup:2.4[>=2.28.2][gobject-introspection?]
-        net-libs/gssdp:1.0[>=0.14.13][gobject-introspection?]
+        gnome-desktop/libsoup:2.4[>=2.48.0][gobject-introspection?]
+        net-libs/gssdp:1.0[>=0.14.15][gobject-introspection?]
         sys-apps/util-linux
-        connman? ( net-misc/connman[>=0.80] )
-        gobject-introspection? (
-            dev-lang/vala:=[>=0.20]
-            gnome-desktop/gobject-introspection:1[>=1.36.0]
-        )
     run:
+        connman? ( net-misc/connman[>=0.80] )
         networkmanager? ( net-apps/NetworkManager )
 "
 
@@ -64,6 +62,10 @@ REMOTE_IDS="freecode:${PN}"
 
 UPSTREAM_RELEASE_NOTES="http://ftp.gnome.org/pub/GNOME/sources/${PN}/$(ever range 1-2)/${PNV}.news"
 UPSTREAM_DOCUMENTATION="http://developer.gnome.org/${PN}/$(ever range 1-2)"
+
+src_prepare() {
+    edo sed -e "s/if pkg-config/if \$PKG_CONFIG/" -i configure
+}
 
 src_configure() {
     local context_manager='linux'
