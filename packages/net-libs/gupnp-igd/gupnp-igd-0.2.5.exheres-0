@@ -1,8 +1,8 @@
-# Copyright 2010-2015 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require gnome.org [ suffix=tar.xz ]
-require python [ blacklist=3 multibuild=false with_opt=true ]
+require gnome.org [ suffix='tar.xz' ]
+require python [ blacklist='3' multibuild=false with_opt=true ]
 
 SUMMARY="This is a library to handle UPnP IGD port mapping"
 HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
@@ -15,10 +15,10 @@ MYOPTIONS="gobject-introspection gtk-doc"
 DEPENDENCIES="
     build:
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.10.0] )
-        gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
+        gtk-doc? ( dev-doc/gtk-doc[>=1.10] )
         virtual/pkg-config[>=0.9.0]
     build+run:
-        dev-libs/glib:2[>=2.16]
+        dev-libs/glib:2[>=2.26]
         net-libs/gupnp:1.0[>=0.18][gobject-introspection?]
         python? ( gnome-bindings/pygobject:2[>=2.16.0] )
 "
@@ -28,14 +28,13 @@ REMOTE_IDS="freecode:gupnp"
 
 UPSTREAM_CHANGELOG="http://git.gupnp.org/cgit.cgi?url=${PN}/tree/NEWS&id=${PV}"
 
-DEFAULT_SRC_CONFIGURE_PARAMS=(
-    LIBGUPNP_CFLAGS="$(${PKG_CONFIG} --cflags gobject-2.0 gssdp-1.0 gthread-2.0 gupnp-1.0)"
-    LIBGUPNP_LIBS="$(${PKG_CONFIG} --libs gobject-2.0 gssdp-1.0 gthread-2.0 gupnp-1.0)"
-)
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'gobject-introspection introspection'
     'gtk-doc'
     'python'
 )
-DEFAULT_SRC_COMPILE_PARAMS=( GLIB_GENMARSHAL=glib-genmarshal )
+
+src_prepare() {
+    edo sed -e "s/GLIB_GENMARSHAL=\`pkg-config/GLIB_GENMARSHAL=\`\$PKG_CONFIG/" -i configure
+}
 
