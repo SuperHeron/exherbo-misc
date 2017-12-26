@@ -1,9 +1,8 @@
-# Copyright 2009-2016 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require setup-py [ import='distutils' blacklist=3 multibuild=false with_opt=true ]
-require systemd-service
-require lua [ multibuild=false with_opt=true ]
+require systemd-service lua [ multibuild=false with_opt=true ]
 
 SUMMARY="A system to store and display time-series data"
 DESCRIPTION="
@@ -12,7 +11,7 @@ data logging and graphing system for time series data.
 Use it to write your custom monitoring shell scripts or create
 whole applications using its Perl, Python, Ruby, TCL or PHP bindings.
 "
-HOMEPAGE="http://oss.oetiker.ch/rrdtool/"
+HOMEPAGE="https://oss.oetiker.ch/${PN}"
 DOWNLOADS="${HOMEPAGE}/pub/${PNV}.tar.gz"
 
 LICENCES="GPL-2"
@@ -32,6 +31,7 @@ DEPENDENCIES="
     build+run:
         dev-libs/libxml2:2.0[>=2.7.8]
         dev-libs/glib:2[>=2.28.7]
+        media-libs/libpng:=[>=1.4.8]
         x11-libs/cairo[>=1.10.2][pdf(+)][svg(+)]
         x11-libs/pango[>=1.28.4]
         dbi? ( dev-libs/libdbi )
