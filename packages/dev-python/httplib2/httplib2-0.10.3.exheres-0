@@ -39,7 +39,7 @@ Unit Tested
 
 LICENCES="MIT"
 SLOT="0"
-PLATFORMS="~amd64"
+PLATFORMS="~amd64 ~armv7"
 MYOPTIONS=""
 
 # Tests run against a server on the internet.
