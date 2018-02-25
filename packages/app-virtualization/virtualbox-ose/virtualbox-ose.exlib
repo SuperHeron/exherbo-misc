@@ -87,7 +87,7 @@ DEPENDENCIES="
         providers:openssl? ( dev-libs/openssl )
         pulseaudio? ( media-sound/pulseaudio[>=0.9.0] )
         vnc? ( net-libs/libvncserver[>=0.9.7] )
-        vpx? ( media-libs/libvpx[>=0.9.5] )
+        vpx? ( media-libs/libvpx:=[>=0.9.5] )
         webservice? ( net-libs/gsoap[>=2.7.9f] )
         wine? ( app-emulation/wine )
 "
