@@ -44,7 +44,7 @@ DEPENDENCIES="
             x11-libs/gtk+:3[>=3.2.2]
             charmap? ( gnome-extra/gucharmap[>=2.90][providers:gtk3(+)] )
         )
-        spell? ( app-spell/enchant[>=1.4] )
+        spell? ( app-spell/enchant:0[>=1.4] )
 "
 
 UPSTREAM_DOCUMENTATION="http://bluefish.openoffice.nl/manual/"
