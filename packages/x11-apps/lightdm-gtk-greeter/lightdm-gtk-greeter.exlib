@@ -1,4 +1,5 @@
 # Copyright 2012 Quentin "Sardem FF7" Glidic <sardemff7+exherbo@sardemff7.net>
+# Copyright 2018 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 if (( $(ever range 2) % 2 )); then
@@ -15,28 +16,37 @@ HOMEPAGE="https://launchpad.net/lightdm-gtk-greeter"
 LICENCES="GPL-3"
 SLOT="0"
 
-MYOPTIONS=""
+MYOPTIONS="
+    gobject-introspection
+    libindicator [[ description = [ Add support for libindicator ] ]]
+"
 
 DEPENDENCIES="
     build:
         dev-util/intltool
-        sys-devel/gettext
+        sys-devel/gettext[>=0.19.7]
         virtual/pkg-config
     build+run:
         dev-libs/glib:2
-        x11-apps/lightdm
+        x11-apps/lightdm[>=1.19.2][gobject-introspection?]
         x11-libs/gtk+:3
         x11-libs/libX11
+        gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.9.5] )
+        libindicator? ( dev-libs/libindicator )
+    recommendation:
+        x11-apps/lightdm-gtk-greeter-settings [[
+            description = [ Settings dialog for lightdm-gtk-greeter ]
+        ]]
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --disable-libido
     --disable-silent-rules
     --disable-static
-    --disable-libindicator # in no repository
     --enable-nls
 )
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'gobject-introspection introspection'
+    'libindicator'
+)
 
-src_prepare() {
-    edo intltoolize --force --automake
-    default
-}
