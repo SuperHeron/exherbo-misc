@@ -1,11 +1,12 @@
 # Copyright 2012-2013 Quentin "Sardem FF7" Glidic <sardemff7@exherbo.org>
 # Copyright 2013, 2014 Lasse Brun <bruners@gmail.com>
+# Copyright 2018 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
-require launchpad [ branch=$(ever range 1-2) suffix=tar.xz ] pam systemd-service
+require github [ user='CanonicalLtd' release="${PV}" suffix='tar.xz' ] pam vala [ vala_dep=true ]
+require systemd-service [ systemd_tmpfiles=[ "${FILES}"/lightdm-tmpfiles.conf ] ]
 
-export_exlib_phases src_{prepare,install}
+export_exlib_phases src_install
 
 SUMMARY="A cross-desktop display manager"
 DESCRIPTION="
@@ -28,6 +29,7 @@ SLOT="0"
 
 MYOPTIONS="
     gobject-introspection
+    gtk-doc
     qt4 [[ description = [ Enable LightDM client Qt4 libraries ] ]]
     qt5 [[ description = [ Enable LightDM client Qt5 libraries ] ]]
 "
@@ -36,7 +38,8 @@ RESTRICT="test" # requires dbus
 
 DEPENDENCIES="
     build:
-        dev-util/intltool
+        app-doc/gtk-doc-autotools
+        dev-util/intltool[>=0.35.0]
         dev-util/itstool
         gnome-desktop/yelp-tools
         sys-devel/gettext
@@ -44,17 +47,17 @@ DEPENDENCIES="
     build+run:
         group/${PN}
         user/${PN}
-        dev-libs/glib:2[>=2.30]
+        dev-libs/glib:2[>=2.44.0]
+        dev-libs/libgcrypt
         sys-libs/pam
         x11-libs/libX11
-        x11-libs/libxcb
         x11-libs/libXdmcp
+        x11-libs/libxcb
         x11-libs/libxklavier
-        gobject-introspection? (
-            gnome-desktop/gobject-introspection:1[>=0.9.5]
-        )
-        qt4? ( x11-libs/qt:4 )
-        qt5? ( x11-libs/qtbase:5 )
+        gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.9.5] )
+        gtk-doc? ( dev-doc/gtk-doc )
+        qt4? ( x11-libs/qt:4[dbus] )
+        qt5? ( x11-libs/qtbase:5[gui] )
     recommendation:
         sys-apps/accountsservice [[
             description = [ Allow for setting user icons, ${PN} uses ~/.face otherwise ]
@@ -62,13 +65,14 @@ DEPENDENCIES="
         x11-apps/lightdm-gtk-greeter [[
             description = [ Default greeter ]
         ]]
+        x11-apps/light-locker [[
+            description = [ Simple screen locker for LightDM ]
+        ]]
     suggestion:
         x11-server/xorg-server [[
             description = [ Requires an X server ]
         ]]
 "
-
-REMOTE_IDS="launchpad:${PN}"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --localstatedir=/var
@@ -80,14 +84,10 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'gobject-introspection introspection'
+    'gtk-doc'
     'qt4 liblightdm-qt'
     'qt5 liblightdm-qt5'
 )
-
-lightdm_src_prepare() {
-    edo intltoolize --force --automake
-    autotools_src_prepare
-}
 
 lightdm_src_install() {
     default
@@ -102,9 +102,6 @@ lightdm_src_install() {
 
     insinto /usr/share/polkit-1/rules.d
     doins "${FILES}"/lightdm-polkit.rules
-
-    insinto /usr/$(exhost --target)/lib/tmpfiles.d
-    doins "${FILES}"/lightdm-tmpfiles.conf
 
     # Use the provided session wrapper (from xdm)
     edo sed -i \
