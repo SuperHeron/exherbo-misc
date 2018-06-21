@@ -4,10 +4,13 @@
 MY_PNV="FileZilla_${PV}_src"
 AT_M4DIR=( m4 )
 
-require freedesktop-desktop sourceforge
+require freedesktop-desktop
 
 SUMMARY="FileZilla Client, free FTP client"
 DESCRIPTION="FileZilla Client is a fast and reliable cross-platform FTP, FTPS and SFTP client with lots of useful features and an intuitive graphical user interface."
+
+HOMEPAGE="https://filezilla-project.org"
+DOWNLOADS="https://download.filezilla-project.org/client/${MY_PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -29,7 +32,7 @@ DEPENDENCIES="
         net-dns/libidn
         net-libs/libfilezilla[>=0.11.1]
         x11-apps/xdg-utils
-        x11-libs/wxGTK:3.0[>=3.0.3&<3.1][providers:gtk2?][providers:gtk3?]
+        x11-libs/wxGTK:3.0[>=3.0.4&<3.1][providers:gtk2?][providers:gtk3?]
         dbus? ( sys-apps/dbus[>=1.2] )
     test:
         dev-cpp/cppunit[>=1.13.0]
