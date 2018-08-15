@@ -1,7 +1,11 @@
 # Copyright 2008-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require sourceforge [ pnv="${PN}_${PV}" suffix='tar.gz' ]
+if ! ever at_least 17.12; then
+	require sourceforge [ pnv="${PN}_${PV}" suffix='tar.gz' ]
+else
+	require sourceforge [ pnv="${PN}_${PV}" suffix='tar.xz' ]
+fi
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.15 1.13 1.12 1.11 1.10 ] ]
 require freedesktop-desktop freedesktop-mime
 export_exlib_phases src_prepare src_install pkg_postinst pkg_postrm

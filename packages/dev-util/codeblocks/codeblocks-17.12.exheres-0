@@ -5,5 +5,5 @@ require codeblocks
 
 PLATFORMS="~amd64"
 
-WORK="${WORKBASE}/${PNV}.release"
+WORK="${WORKBASE}/${PNV}"
 
