@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop udev-rules
-require python [ blacklist=none multibuild=false with_opt=true ]
+require python [ blacklist=none multibuild=false with_opt=true has_lib=false has_bin=true ]
 
 export_exlib_phases pkg_pretend src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst
 
@@ -155,6 +155,10 @@ virtualbox-ose_src_prepare() {
 
     edo sed -e "s/\$(QUIET)nm/\$(QUIET)$(exhost --target)-nm/" \
             -i src/VBox/Runtime/Makefile.kmk
+
+    # Do not multibuild python
+    edo sed -e "/VBOX_WITH_MULTIVERSION_PYTHON ?= 1/d" \
+            -i Config.kmk
 
     # Disable -Werror for gcc-4.5 builds
     # See http://www.virtualbox.org/ticket/6715
