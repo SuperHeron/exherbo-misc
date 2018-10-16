@@ -30,7 +30,7 @@ DEPENDENCIES="
         dev-libs/nettle[>=3.1]
         dev-libs/pugixml[>=1.6]
         net-dns/libidn
-        net-libs/libfilezilla[>=0.11.1]
+        net-libs/libfilezilla[>=0.14.0]
         x11-apps/xdg-utils
         x11-libs/wxGTK:3.0[>=3.0.4&<3.1][providers:gtk2?][providers:gtk3?]
         dbus? ( sys-apps/dbus[>=1.2] )
