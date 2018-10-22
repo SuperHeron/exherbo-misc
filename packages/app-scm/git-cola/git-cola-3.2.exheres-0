@@ -30,3 +30,6 @@ SETUP_PY_SRC_INSTALL_PARAMS=(
     --no-vendor-libs
 )
 
+# Disable tests that require Unicode locale
+NOSETESTS_PARAMS=( -e compat_test -e spellcheck_test )
+
