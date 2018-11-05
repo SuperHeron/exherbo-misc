@@ -24,6 +24,8 @@ DEPENDENCIES="
     build:
         virtual/pkg-config
         doc? ( app-doc/doxygen )
+    build+run:
+        dev-libs/nettle[>=3.1]
     test:
         dev-cpp/cppunit[>=1.13.0]
 "
