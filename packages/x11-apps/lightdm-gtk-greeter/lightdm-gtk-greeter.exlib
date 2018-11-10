@@ -26,6 +26,7 @@ DEPENDENCIES="
         dev-util/intltool
         sys-devel/gettext[>=0.19.7]
         virtual/pkg-config
+        xfce-base/exo
     build+run:
         dev-libs/glib:2
         x11-apps/lightdm[>=1.19.2][gobject-introspection?]
