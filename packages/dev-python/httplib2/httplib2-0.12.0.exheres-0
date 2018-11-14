@@ -1,7 +1,7 @@
 # Copyright 2011-2016 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require pypi setup-py [ import=setuptools ]
+require pypi setup-py [ import=setuptools test=pytest ]
 
 SUMMARY="A comprehensive HTTP client library in Python"
 DESCRIPTION="
@@ -42,20 +42,27 @@ SLOT="0"
 PLATFORMS="~amd64 ~armv7"
 MYOPTIONS=""
 
+# pytest-randomly unpackaged
+DEPENDENCIES="
+    test:
+        dev-python/flake8[>=3.4.1][python_abis:*(-)?]
+        dev-python/future[>=0.16.0][python_abis:*(-)?]
+        dev-python/mock[>=2.0.0][python_abis:*(-)?]
+        dev-python/pytest-cov[>=2.5.1][python_abis:*(-)?]
+        dev-python/pytest-forked[>=0.2][python_abis:*(-)?]
+        dev-python/pytest-timeout[>=1.2.0][python_abis:*(-)?]
+        dev-python/pytest-xdist[>=1.20.0][python_abis:*(-)?]
+        dev-python/six[>=1.10.0][python_abis:*(-)?]
+"
+
 # Tests run against a server on the internet.
 # Running the tests locally means manually setting up a carefully-configured
 # server and patching the tests to use localhost.
 RESTRICT="test"
 
 setup-py_test_one_multibuild() {
-    case $(python_get_abi) in
-    2.*)
-        PYTHONPATH="$(ls -d ${PWD}/build/lib*)" edo ${PYTHON} -B python2/httplib2test.py
-        ;;
-    3.*)
-        PYTHONPATH="$(ls -d ${PWD}/build/lib*)" edo ${PYTHON} -B python3/httplib2test.py
-        ;;
-    esac
+    local version=$(ever major $(python_get_abi))
+    PYTHONPATH="$(ls -d ${PWD}/build/lib*)" edo ${PYTHON} -B python${version}/httplib2test.py
 }
 
 install_one_multibuild() {
