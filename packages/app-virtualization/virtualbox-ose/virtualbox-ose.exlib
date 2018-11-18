@@ -27,7 +27,7 @@ DOWNLOADS="
 
 LICENCES="CDDL-1.0 GPL-2 additions? ( PUEL ) extensions? ( PUEL )"
 SLOT="0"
-MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc vpx
+MYOPTIONS="X alsa dbus devmapper opengl pulseaudio qt5 truetype vnc vpx
     additions [[ description = [ Installs Guest Additions ISO ] ]]
     extensions [[ description = [ Install Extension Pack (binary) ] ]]
     system-kbuild [[ description = [ Use system kBuild instead of bundled copy ] ]]
@@ -36,7 +36,6 @@ MYOPTIONS="X alsa dbus devmapper opengl pulseaudio truetype vnc vpx
 
     ( opengl truetype ) [[ requires = X ]]
     ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
-    ( qt4 qt5 ) [[ number-selected = at-most-one requires = X ]]
 "
 
 DEPENDENCIES="
@@ -53,6 +52,7 @@ DEPENDENCIES="
         group/usb
         group/vboxusers
         media-libs/libpng:=[>=1.2.5]
+        media-libs/opus
         net-misc/curl[>=7.19.1]
         sys-libs/libcap
         sys-libs/pam[>=1.0.0]
@@ -76,8 +76,11 @@ DEPENDENCIES="
                 x11-dri/mesa
                 x11-libs/libXmu
             )
-            qt4? ( x11-libs/qt:4[>=4.8.0][opengl?][xinerama(+)] )
-            qt5? ( x11-libs/qtbase:5[>=5.3.2][gui] )
+            qt5? (
+                x11-libs/qtbase:5[>=5.6][gui]
+                x11-libs/qttools:5[>=5.6][gui]
+                x11-libs/qtx11extras:5[>=5.6]
+            )
             truetype? ( media-libs/SDL_ttf:0[>=2.0.6] )
         )
         alsa? ( sys-sound/alsa-lib[>=1.0.14] )
@@ -200,9 +203,7 @@ virtualbox-ose_src_configure() {
     if optionq X; then
         optionq opengl || myconf="${myconf} --disable-opengl"
         optionq truetype || myconf="${myconf} --disable-sdl-ttf"
-        if optionq qt4; then
-            myconf="${myconf} --enable-qt4"
-        elif optionq qt5; then
+        if optionq qt5; then
             myconf="${myconf} --enable-qt5"
         else
             myconf="${myconf} --disable-qt"
