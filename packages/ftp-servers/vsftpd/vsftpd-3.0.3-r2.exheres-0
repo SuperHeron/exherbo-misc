@@ -14,7 +14,10 @@ DOWNLOADS="https://security.appspot.com/downloads/${PNV}.tar.gz"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="tcp-wrappers"
+MYOPTIONS="
+    tcp-wrappers
+    ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
+"
 
 DEPENDENCIES="
     build+run:
@@ -23,6 +26,8 @@ DEPENDENCIES="
         sys-libs/pam
         user/ftp
         tcp-wrappers? ( sys-apps/tcp-wrappers )
+        providers:libressl? ( dev-libs/libressl:= )
+        providers:openssl? ( dev-libs/openssl )
 "
 
 UPSTREAM_CHANGELOG="https://security.appspot.com/${PN}/Changelog"
