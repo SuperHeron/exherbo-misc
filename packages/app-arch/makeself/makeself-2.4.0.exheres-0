@@ -16,17 +16,23 @@ HOMEPAGE="http://${PN}.io"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS=""
+MYOPTIONS="
+    ( providers: libressl openssl ) [[
+        number-selected = exactly-one
+        *description = [ Use openssl binary for encryption  ]
+    ]]
+"
 
 DEPENDENCIES="
+    run:
+        providers:libressl? ( dev-libs/libressl:* )
+        providers:openssl? ( dev-libs/openssl )
     suggestion:
         app-arch/lz4[parts:binaries]    [[ description = [ Use lz4 for compression     ] ]]
-        app-arch/lzo                    [[ description = [ Use lzo for compression     ] ]]
+        app-arch/lzo:*                  [[ description = [ Use lzo for compression     ] ]]
         app-arch/pbzip2[parts:binaries] [[ description = [ Use pbzip2 for compression  ] ]]
         app-arch/pigz                   [[ description = [ Use pigz for compression    ] ]]
         app-crypt/gnupg                 [[ description = [ Use GnuPG for encryption    ] ]]
-        dev-libs/openssl                [[ description = [ Use OpenSSL for encryption  ] ]]
-        dev-libs/libressl:*             [[ description = [ Use LibreSSL for encryption ] ]]
 "
 
 src_unpack() {
@@ -40,5 +46,17 @@ src_install() {
     dobin "${PN}-header.sh"
     doman "${PN}".1
     dodoc "${PN}".lsm
+}
+
+src_prepare() {
+    edo sed "s|strings|$(exhost --tool-prefix)strings|" -i test/datetest
+}
+
+src_test() {
+    edo pushd test
+    for t in *test; do
+        edo bash "$t"
+    done
+    edo popd
 }
 
