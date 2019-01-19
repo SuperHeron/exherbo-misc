@@ -45,5 +45,8 @@ src_prepare() {
     autotools_src_prepare
     # Strip ARCHFLAGS to avoid silly warnings
     edo sed -i -e '/ARCHFLAGS=/s:=.*:=:' configure
+
+    # Strip -fno-PIC
+    edo sed -i -e '/PROGRAM_NOPIC=/s:=.*:=:' configure
 }
 
