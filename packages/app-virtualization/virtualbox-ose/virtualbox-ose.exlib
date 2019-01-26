@@ -3,6 +3,7 @@
 
 require freedesktop-desktop udev-rules
 require python [ blacklist=none multibuild=false with_opt=true has_lib=false has_bin=true ]
+require option-renames [ renames=[ 'devmapper device-mapper' ] ]
 
 export_exlib_phases pkg_pretend src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst
 
@@ -27,10 +28,13 @@ DOWNLOADS="
 
 LICENCES="CDDL-1.0 GPL-2 additions? ( PUEL ) extensions? ( PUEL )"
 SLOT="0"
-MYOPTIONS="X alsa dbus devmapper opengl pulseaudio qt5 truetype vnc vpx
+MYOPTIONS="X alsa dbus opengl pulseaudio qt5 truetype
     additions [[ description = [ Installs Guest Additions ISO ] ]]
+    device-mapper [[ description = [ Installs VBoxVolInfo, dependent of libdevmapper ] ]]
     extensions [[ description = [ Install Extension Pack (binary) ] ]]
     system-kbuild [[ description = [ Use system kBuild instead of bundled copy ] ]]
+    vnc [[ description = [ Builds VNC server ] ]]
+    vpx [[ description = [ Use libvpx for video capture ] ]]
     webservice [[ description = [ Builds VBoxWebSrv ] ]]
     wine [[ description = [ Builds wine support ] ]]
 
@@ -85,7 +89,7 @@ DEPENDENCIES="
         )
         alsa? ( sys-sound/alsa-lib[>=1.0.14] )
         dbus? ( sys-apps/dbus )
-        devmapper? ( sys-fs/lvm2 )
+        device-mapper? ( sys-fs/lvm2 )
         providers:libressl? ( dev-libs/libressl:= )
         providers:openssl? ( dev-libs/openssl )
         pulseaudio? ( media-sound/pulseaudio[>=0.9.0] )
@@ -213,7 +217,7 @@ virtualbox-ose_src_configure() {
     fi
     optionq alsa || myconf="${myconf} --disable-alsa"
     optionq dbus || myconf="${myconf} --disable-dbus"
-    optionq devmapper || myconf="${myconf} --disable-devmapper"
+    optionq device-mapper || myconf="${myconf} --disable-devmapper"
     optionq pulseaudio || myconf="${myconf} --disable-pulse"
     optionq python || myconf="${myconf} --disable-python"
     optionq vnc && myconf="${myconf} --enable-vnc"
