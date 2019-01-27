@@ -1,9 +1,9 @@
-# Copyright 2009-2018 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop udev-rules
-require python [ blacklist=none multibuild=false with_opt=true has_lib=false has_bin=true ]
-require option-renames [ renames=[ 'devmapper device-mapper' ] ]
+require python [ blacklist='3.7' multibuild=false with_opt=true ]
+require option-renames [ renames=[ 'devmapper device-mapper' ] ] systemd-service
 
 export_exlib_phases pkg_pretend src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst
 
@@ -200,6 +200,12 @@ virtualbox-ose_src_prepare() {
     echo "TOOL_GXX32_LD_SYSMOD := i686-pc-linux-gnu-ld" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX3_OBJCOPY := $(exhost --target)-objcopy" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX32_OBJCOPY := i686-pc-linux-gnu-objcopy" >> "${WORK}/LocalConfig.kmk"
+
+    if option python; then
+        local python_abi=$(python_get_abi)
+        ever at_least 3 ${python_abi} && python_abi+=m
+        edo sed -e "s/SUPPYTHONLIBS=\"[a-z0-9. ]*/SUPPYTHONLIBS=\"python${python_abi}/" -i configure
+    fi
 }
 
 virtualbox-ose_src_configure() {
@@ -253,10 +259,21 @@ virtualbox-ose_src_test() {
 }
 
 virtualbox-ose_src_install() {
-    local installdir= outdir=
     edo source env.sh
-    installdir="/usr/$(exhost --target)/lib/VirtualBox"
-    outdir="${WORK}/out/${BUILD_TARGET}.${BUILD_TARGET_ARCH}/release"
+
+    local installdir="/usr/$(exhost --target)/lib/VirtualBox"
+
+    edo cd "${WORK}/out/${BUILD_TARGET}.${BUILD_TARGET_ARCH}/release/bin"
+
+    vbox_doins() {
+        local file="${1}"
+        local perms="${2:-0750}"
+        local destpath="${3:-${installdir}}"
+
+        insinto ${destpath}
+        insopts -m ${perms} -g vboxusers
+        doins ${file}
+    }
 
     insinto /etc/vbox
     hereins vbox.cfg <<EOF
@@ -266,48 +283,77 @@ INSTALL_DIR='${installdir}'
 INSTALL_VER='${PV}'
 EOF
 
-    insinto /usr/share/applications
-    doins "${outdir}"/bin/virtualbox.desktop
-
-    insinto /usr/share/pixmaps
-    doins "${outdir}"/bin/VBox.png
-
-    insinto /usr/share/"${PN}"
-    doins -r "${outdir}"/bin/nls
-
     # Move kernel modules files
     insinto /usr/src/${PNV}
-    doins -r "${outdir}"/bin/src/*
+    doins -r src/*
 
     dodir "${installdir}" /usr/$(exhost --target)/bin
     insinto "${installdir}"
-    doins -r "${outdir}"/bin/components
+    doins -r components
 
-    edo mv "${outdir}"/bin/{*.r0,*.rc,*.so,VBox.sh,VBoxExtPackHelperApp,VBoxXPCOMIPCD,VBoxNetAdpCtl,VBoxNetDHCP,VBoxNetNAT,VBoxSVC,VBoxCreateUSBNode.sh} "${IMAGE}"/"${installdir}"
-    for links in {VBoxHeadless,VBoxManage,VBoxSDL,VirtualBox};
+    for bin in *.r0 *.rc *.so iPxeBaseBin VBox{,CreateUSBNode,SysInfo}.sh \
+               VBox{Autostart,BalloonCtrl,BugReport,CpuReport,ExtPackHelperApp,Manage,SVC,VMMPreload,XPCOMIPCD};
     do
-        edo mv "${outdir}"/bin/"${links}" "${IMAGE}"/"${installdir}"
-        dosym "${installdir}"/VBox.sh /usr/$(exhost --target)/bin/"${links}"
+        vbox_doins ${bin}
     done
-    edo mv "${outdir}"/bin/VBoxTunctl "${IMAGE}"/"${installdir}"
-    edo dosym "${installdir}"/VBoxTunctl /usr/$(exhost --target)/bin/VBoxTunctl
 
-    if optionq opengl; then
-        edo mv "${outdir}"/bin/VBoxTestOGL "${IMAGE}"/"${installdir}"
-        edo dosym "${installdir}"/VBoxTestOGL /usr/$(exhost --target)/bin/VBoxTestOGL
+    for suid in VBox{Headless,Net{AdpCtl,DHCP,NAT}}; do
+        vbox_doins ${suid} 4750
+    done
+
+    for efi in VBoxEFI*.fd; do
+        vbox_doins ${efi} 0644
+    done
+
+    for link in VBox{Autostart,BalloonCtrl,BugReport,Headless,Manage,VRDP}; do
+        dosym "${installdir}"/VBox.sh /usr/$(exhost --target)/bin/${link}
+    done
+
+    vbox_doins VBoxTunctl
+    dosym "${installdir}"/VBoxTunctl /usr/$(exhost --target)/bin/VBoxTunctl
+    dosym VBoxAuth.so "${installdir}"/VRDPAuth.so
+
+    if option X; then
+        vbox_doins rdesktop-vrdp
+        vbox_doins VBoxSDL 4750
+        dosym "${installdir}"/VBox.sh /usr/$(exhost --target)/bin/VBoxSDL
+
+        insinto /usr/share/applications
+        doins virtualbox.desktop
+
+        insinto /usr/share/pixmaps
+        doins VBox.png
+
+        insinto /usr/share/"${PN}"
+        doins -r {nls,UnattendedTemplates}
+
+        if option qt5; then
+            vbox_doins VirtualBox
+            dosym "${installdir}"/VBox.sh /usr/$(exhost --target)/bin/VirtualBox
+            vbox_doins VirtualBoxVM 4750
+        fi
+
+        if option opengl; then
+            vbox_doins VBoxTestOGL
+            dosym "${installdir}"/VBoxTestOGL /usr/$(exhost --target)/bin/VBoxTestOGL
+        fi
     fi
 
-    if optionq webservice; then
-        edo mv "${outdir}"/bin/vboxwebsrv "${IMAGE}"/"${installdir}"
-        edo dosym "${installdir}"/VBox.sh /usr/$(exhost --target)/bin/vboxwebsrv
+    if option device-mapper; then
+        vbox_doins VBoxVolInfo 4750
+        dosym "${installdir}"/VBoxVolInfo /usr/$(exhost --target)/bin/VBoxVolInfo
     fi
 
-    # VirtualBox needs to be setuid
-    edo chmod 4711 "${IMAGE}/${installdir}"/{VirtualBox,VBoxHeadless,VBoxNetAdpCtl,VBoxNetDHCP,VBoxNetNAT,VBoxSDL}
+    if option webservice; then
+        vbox_doins vboxwebsrv
+        dosym "${installdir}"/VBox.sh /usr/$(exhost --target)/bin/vboxwebsrv
+        install_systemd_files
+    fi
 
     insinto "${UDEVRULESDIR}"
-    hereins 10-vboxdrv.rules <<EOF
+    hereins 60-vboxdrv.rules <<EOF
 KERNEL=="vboxdrv", NAME="vboxdrv", OWNER="root", GROUP="vboxusers", MODE="0660"
+KERNEL=="vboxdrvu", NAME="vboxdrvu", OWNER="root", GROUP="vboxusers", MODE="0666"
 KERNEL=="vboxnetctl", NAME="vboxnetctl", OWNER="root", GROUP="vboxusers", MODE="0660"
 SUBSYSTEM=="usb_device", ACTION=="add", RUN+="${installdir}/VBoxCreateUSBNode.sh \$major \$minor \$attr{bDeviceClass} usb"
 SUBSYSTEM=="usb", ACTION=="add", ENV{DEVTYPE}=="usb_device", RUN+="${installdir}/VBoxCreateUSBNode.sh \$major \$minor \$attr{bDeviceClass} usb"
