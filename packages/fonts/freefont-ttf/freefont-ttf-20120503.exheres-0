@@ -1,11 +1,12 @@
 # Copyright 2015 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require gnu [ pn='freefont' suffix='zip' ]
+MY_PN='freefont'
+require gnu [ pnv=${PNV} suffix='zip' ]
 
-SUMMARY=""
+SUMMARY="GNU FreeFont fonts"
 DESCRIPTION="
-If DESCRIPTION is set it must not be an empty string.
+TrueType fonts from GNU FreeFont.
 "
 
 LICENCES="GPL-3"
@@ -14,6 +15,8 @@ PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES=""
+
+WORK="${WORKBASE}/${MY_PN}-${PV}"
 
 src_install() {
     default
