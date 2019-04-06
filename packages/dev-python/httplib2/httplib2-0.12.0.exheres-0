@@ -39,7 +39,7 @@ Unit Tested
 
 LICENCES="MIT"
 SLOT="0"
-PLATFORMS="~amd64 ~armv7"
+PLATFORMS="~amd64 ~armv7 ~armv8"
 MYOPTIONS=""
 
 # pytest-randomly unpackaged
