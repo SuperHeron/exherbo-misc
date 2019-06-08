@@ -24,3 +24,7 @@ DEPENDENCIES="
         x11-dri/mesa
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}"/${PN}-3.1.0-python37.patch
+)
+

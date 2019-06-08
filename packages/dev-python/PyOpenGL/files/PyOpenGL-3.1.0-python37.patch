@@ -1,0 +1,112 @@
+Source/Upstream: Yes, fixed in bzr https://bazaar.launchpad.net/~mcfletch/pyopengl/trunk/revision/1077
+Reason: Fix build with Python 3.7
+
+From d50611a4bc27229ea0eed25550bca7d5b58fb3b7 Mon Sep 17 00:00:00 2001
+From: "Mike C. Fletcher" <mcfletch@vrplumber.com>
+Date: Mon, 5 Nov 2018 00:43:47 -0500
+Subject: [PATCH] Rename SGIX async module to async_
+
+---
+ OpenGL/GL/SGIX/{async.py => async_.py}     | 10 +++++-----
+ OpenGL/raw/GL/SGIX/{async.py => async_.py} |  4 ++--
+ src/codegenerator.py                       |  2 ++
+ src/openglgenerator.py                     |  3 ++-
+ 4 files changed, 11 insertions(+), 8 deletions(-)
+ rename OpenGL/GL/SGIX/{async.py => async_.py} (91%)
+ rename OpenGL/raw/GL/SGIX/{async.py => async_.py} (92%)
+
+diff --git a/OpenGL/GL/SGIX/async.py b/OpenGL/GL/SGIX/async_.py
+similarity index 91%
+rename from OpenGL/GL/SGIX/async.py
+rename to OpenGL/GL/SGIX/async_.py
+index eeadbdd5..30b7a483 100644
+--- a/OpenGL/GL/SGIX/async.py
++++ b/OpenGL/GL/SGIX/async_.py
+@@ -1,7 +1,7 @@
+-'''OpenGL extension SGIX.async
++'''OpenGL extension SGIX.async_
+ 
+ This module customises the behaviour of the 
+-OpenGL.raw.GL.SGIX.async to provide a more 
++OpenGL.raw.GL.SGIX.async_ to provide a more 
+ Python-friendly API
+ 
+ Overview (from the spec)
+@@ -49,14 +49,14 @@
+ 	See SGIX_async_pixel for the asynchronous pixel commands.
+ 
+ The official definition of this extension is available here:
+-http://www.opengl.org/registry/specs/SGIX/async.txt
++http://www.opengl.org/registry/specs/SGIX/async_.txt
+ '''
+ from OpenGL import platform, constant, arrays
+ from OpenGL import extensions, wrapper
+ import ctypes
+ from OpenGL.raw.GL import _types, _glgets
+-from OpenGL.raw.GL.SGIX.async import *
+-from OpenGL.raw.GL.SGIX.async import _EXTENSION_NAME
++from OpenGL.raw.GL.SGIX.async_ import *
++from OpenGL.raw.GL.SGIX.async_ import _EXTENSION_NAME
+ 
+ def glInitAsyncSGIX():
+     '''Return boolean indicating whether this extension is available'''
+diff --git a/OpenGL/raw/GL/SGIX/async.py b/OpenGL/raw/GL/SGIX/async_.py
+similarity index 92%
+rename from OpenGL/raw/GL/SGIX/async.py
+rename to OpenGL/raw/GL/SGIX/async_.py
+index 4248948b..70dae12e 100644
+--- a/OpenGL/raw/GL/SGIX/async.py
++++ b/OpenGL/raw/GL/SGIX/async_.py
+@@ -8,9 +8,9 @@
+ from OpenGL.constant import Constant as _C
+ 
+ import ctypes
+-_EXTENSION_NAME = 'GL_SGIX_async'
++_EXTENSION_NAME = 'GL_SGIX_async_'
+ def _f( function ):
+-    return _p.createFunction( function,_p.PLATFORM.GL,'GL_SGIX_async',error_checker=_errors._error_checker)
++    return _p.createFunction( function,_p.PLATFORM.GL,'GL_SGIX_async_',error_checker=_errors._error_checker)
+ GL_ASYNC_MARKER_SGIX=_C('GL_ASYNC_MARKER_SGIX',0x8329)
+ @_f
+ @_p.types(None,_cs.GLuint)
+diff --git a/src/codegenerator.py b/src/codegenerator.py
+index 9b3e97c2..85030a3d 100644
+--- a/src/codegenerator.py
++++ b/src/codegenerator.py
+@@ -245,6 +245,8 @@ def __init__( self, registry, overall, api=None ):
+         self.dll = '_p.PLATFORM.%s'%(self.prefix,)
+         if self.module[0].isdigit():
+             self.module = '%s_%s'%(self.prefix,self.module,)
++        if self.module == 'async':
++            self.module = 'async_'
+         self.camelModule = "".join([x.title() for x in self.module.split('_')])
+         self.rawModule = self.module
+         
+diff --git a/src/openglgenerator.py b/src/openglgenerator.py
+index d472e4e1..00b08dfc 100644
+--- a/src/openglgenerator.py
++++ b/src/openglgenerator.py
+@@ -33,6 +33,7 @@ class OpenGLGenerator( codegenerator.Generator ):
+ from OpenGL import constants as GLconstants
+ GLvoid = GL_types.GLvoid
+ """
++    @classmethod
+     def defaultEmitters( cls ):
+         """Produce the set of default emitter classes
+         """
+@@ -40,6 +41,7 @@ def defaultEmitters( cls ):
+             OpenGLFunction(),
+             OpenGLConstant(),
+         ] + cls._super.defaultEmitters()
++    @classmethod
+     def importAble( cls, name, value ):
+         """Determine whether this name/object should be imported from known symbols"""
+         return (
+@@ -47,7 +49,6 @@ def importAble( cls, name, value ):
+             isinstance( value, constant.Constant ) or 
+             value.__class__.__name__.endswith( 'CFunctionType') # this should be available *somewhere*!
+         )
+-    importAble = classmethod( importAble )
+ 
+     def filter_items( self, items, expressions=None,symbols=None, types=None ):
+         """Filter out PFN functions"""
