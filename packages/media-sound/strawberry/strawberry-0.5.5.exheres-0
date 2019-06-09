@@ -1,0 +1,106 @@
+# Copyright 2019 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'clementine-1.3.1-r3.exheres-0', which is:
+#   Copyright 2010 Timothy Redaelli
+#   Copyright 2011 Fabian Holler
+#   Copyright 2011 Bo Ørsted Andresen
+#   Copyright 2012 Lasse Brun <bruners@gmail.com>
+#   Copyright 2016 Ingmar Vanhassel
+
+require freedesktop-desktop gtk-icon-cache github [ user=jonaski pn=strawberry ] cmake [ api=2 ]
+
+SUMMARY="Qt5-fork of Clementine music player"
+DESCRIPTION="
+Strawberry is a music player and music collection organizer. It is a fork of Clementine released
+in 2018 aimed at music collectors, enthusiasts and audiophiles. The name is inspired by the band
+Strawbs. It's based on a heavily modified version of Clementine created in 2012-2013.
+It's written in C++ and Qt 5.
+"
+HOMEPAGE="https://www.strawbs.org/ ${HOMEPAGE}"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    cd              [[ description = [ Audio CD support ] ]]
+    imobiledevice   [[ description = [ iPhone, iPod Touch, iPad and Apple TV support ] ]]
+    ipod            [[ description = [ iPod classic support ] ]]
+    moodbar         [[ description = [ Builds the bundled gst-plugins-moodbar for moodbar support ] ]]
+    mtp             [[ description = [ support for MTP devices ] ]]
+    pulseaudio
+
+    imobiledevice   [[ requires = [ ipod ] ]]
+"
+
+DEPENDENCIES="
+    build:
+        dev-libs/boost
+        sys-devel/gettext
+        virtual/pkg-config
+    build+run:
+        dev-db/sqlite:3
+        dev-libs/boost
+        dev-libs/glib:2
+        dev-libs/libxml2:2.0
+        dev-libs/protobuf:=
+        media-libs/chromaprint
+        media-libs/gstreamer:1.0
+        media-libs/taglib[>=1.11.1]
+        media-plugins/gst-plugins-base:1.0
+        sys-apps/dbus
+        sys-sound/alsa-lib
+        x11-libs/qtbase:5[>=5.5.0][X(+)][sql][sqlite]
+        x11-libs/qttools:5[>=5.5.0]
+        x11-libs/qtx11extras:5[>=5.5.0]
+        cd? ( dev-libs/libcdio )
+        ipod? ( media-libs/libgpod[>=0.7.92] )
+        imobiledevice? (
+            app-pda/libimobiledevice[>=1.0]
+            app-pda/usbmuxd
+            dev-libs/libplist
+        )
+        moodbar? ( sci-libs/fftw[>=3.0.0] )
+        mtp? ( media-libs/libmtp[>=1.0] )
+        pulseaudio? ( media-sound/pulseaudio )
+    run:
+        media-plugins/gst-plugins-good:1.0[gstreamer_plugins:taglib]
+    suggestion:
+        media-plugins/gst-plugins-good:1.0[gstreamer_plugins:lame][gstreamer_plugins:mpg123] [[ description = [ encode & decode mp3s with gstreamer ] ]]
+"
+
+UPSTREAM_CHANGELOG="https://github.com/jonaski/strawberry/blob/master/Changelog"
+
+CMAKE_SRC_CONFIGURE_PARAMS=(
+    -DBUILD_WERROR=OFF
+    -DENABLE_DBUS:BOOL=ON
+    -DENABLE_DEVICEKIT:BOOL=OFF
+    -DENABLE_GIO:BOOL=ON
+    -DENABLE_VLC:BOOL=OFF
+    -DENABLE_XINE:BOOL=OFF
+)
+CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
+    'cd AUDIOCD'
+    IMOBILEDEVICE
+    'ipod LIBGPOD'
+    MOODBAR
+    'mtp LIBMTP'
+    'pulseaudio LIBPULSE'
+)
+
+src_install() {
+    cmake_src_install
+    # .desktop files belong in /usr/share/ instead of /usr/host/share/
+    edo mv "${IMAGE}"/usr/{$(exhost --target)/share/*,share}
+    edo rmdir "${IMAGE}"/usr/$(exhost --target)/share
+}
+
+pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+    gtk-icon-cache_pkg_postinst
+}
+
+pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+    gtk-icon-cache_pkg_postrm
+}
+
