@@ -76,7 +76,6 @@ DEPENDENCIES="
        !app-office/openoffice
        !app-office/openoffice-bin
     run:
-        dev-lang/python:3.5
         dev-libs/atk
         dev-libs/dbus-glib:1
         dev-libs/glib:2
@@ -93,7 +92,7 @@ DEPENDENCIES="
         x11-dri/mesa
         x11-libs/cairo
         x11-libs/gdk-pixbuf:2.0
-        x11-libs/gtk+:2[>=2.10.4]
+        x11-libs/gtk+:3
         x11-libs/libICE
         x11-libs/libSM
         x11-libs/libX11
