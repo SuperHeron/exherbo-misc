@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop udev-rules
-require python [ blacklist='3.7' multibuild=false with_opt=true ]
+require python [ blacklist='none' multibuild=false with_opt=true ]
 require option-renames [ renames=[ 'devmapper device-mapper' ] ] systemd-service
 
 export_exlib_phases pkg_pretend src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst
