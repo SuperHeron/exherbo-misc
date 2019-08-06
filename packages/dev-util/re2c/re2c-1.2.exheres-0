@@ -1,0 +1,35 @@
+# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=skvadrik release=${PV} suffix=tar.xz ]
+
+SUMMARY="Tool for generating C-based recognizers from regular expressions"
+DESCRIPTION="
+re2c is a tool for writing very fast and very flexible scanners. Unlike any other such tool, re2c
+focuses on generating high efficient code for regular expression matching. As a result this allows
+a much broader range of use than any traditional lexer offers. And Last but not least re2c
+generates warning free code that is equal to hand-written code in terms of size, speed and quality.
+"
+HOMEPAGE+=" http://${PN}.org"
+
+UPSTREAM_CHANGELOG="http://${PN}.org/releases/changelog/changelog.html [[ lang = en ]]"
+UPSTREAM_DOCUMENTATION="http://${PN}.org/manual/manual.html [[ lang = en ]]"
+UPSTREAM_RELEASE_NOTES="http://${PN}.org/releases/release_notes.html [[ lang = en ]]"
+
+LICENCES="public-domain"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        sys-devel/bison
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --enable-libs
+    --disable-debug
+    --disable-docs
+    --disable-static
+)
+
