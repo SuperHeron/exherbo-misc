@@ -30,7 +30,7 @@ DEPENDENCIES="
         dev-libs/nettle[>=3.1]
         dev-libs/pugixml[>=1.6]
         net-dns/libidn
-        net-libs/libfilezilla[>=0.15.1]
+        net-libs/libfilezilla[>=0.18.1]
         x11-apps/xdg-utils
         x11-libs/wxGTK:3.0[>=3.0.4][providers:gtk2?][providers:gtk3?]
         dbus? ( sys-apps/dbus[>=1.2] )
@@ -49,5 +49,10 @@ src_configure() {
         --with-pugixml=system \
         --with-wx-config="/usr/$(exhost --target)/bin/wx-config-3.0-$(option providers:gtk3 gtk3 gtk2)" \
         $(option_with dbus)
+}
+
+src_install() {
+    default
+    doenvd "${FILES}/90filezilla"
 }
 
