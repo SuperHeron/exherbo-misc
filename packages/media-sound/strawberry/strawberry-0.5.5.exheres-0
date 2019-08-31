@@ -7,7 +7,7 @@
 #   Copyright 2012 Lasse Brun <bruners@gmail.com>
 #   Copyright 2016 Ingmar Vanhassel
 
-require freedesktop-desktop gtk-icon-cache github [ user=jonaski pn=strawberry ] cmake [ api=2 ]
+require freedesktop-desktop gtk-icon-cache github [ user=jonaski pn=strawberry ] cmake
 
 SUMMARY="Qt5-fork of Clementine music player"
 DESCRIPTION="
