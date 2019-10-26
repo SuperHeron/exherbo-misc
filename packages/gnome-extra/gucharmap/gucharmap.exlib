@@ -1,11 +1,13 @@
 # Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop gtk-icon-cache vala [ vala_dep=true with_opt=true ]
-require gsettings gnome.org [ suffix='tar.xz' ]
+require gitlab [ prefix='https://gitlab.gnome.org' user=GNOME tag=${PV} new_download_scheme=true ]
+require gsettings freedesktop-desktop gtk-icon-cache
+require vala [ vala_dep=true with_opt=true ]
 require option-renames [ renames=[ 'vala vapi' ] ]
+require meson
 
-export_exlib_phases src_unpack src_prepare pkg_postinst pkg_postrm
+export_exlib_phases src_unpack pkg_postinst pkg_postrm
 
 UNICODE_PV="$(ever range 1-2).0"
 
@@ -25,26 +27,29 @@ DEPENDENCIES="
     build:
         dev-libs/libxml2:2.0
         dev-util/desktop-file-utils
-        dev-util/intltool[>=0.40.0]
-        sys-apps/appdata-tools
         sys-devel/gettext
         virtual/pkg-config[>=0.9.0]
         virtual/unzip
-        gtk-doc? (
-            dev-doc/gtk-doc[>=1.0]
-            gnome-desktop/gnome-doc-utils[>=0.9.0]
-        )
+        gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
         dev-libs/glib:2[>=2.32.0]
+        dev-libs/pcre2[>=10.21]
+        x11-libs/freetype:2[>=1.0]
         x11-libs/gtk+:3[>=3.4.0]
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.9.0] )
 "
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( "--with-unicode-data=${WORKBASE}/unicode-data" )
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'gtk-doc'
-    'gobject-introspection introspection'
-    'vapi vala'
+# DEFAULT_SRC_CONFIGURE_PARAMS=( "--with-unicode-data=${WORKBASE}/unicode-data" )
+MESON_SRC_CONFIGURE_PARAMS=(
+    -Ddbg=false
+
+    -Dcharmap=true
+    -Dgtk3=true
+)
+MESON_SRC_CONFIGURE_SWITCHES=(
+    'gtk-doc docs'
+    'gobject-introspection gir'
+    vapi
 )
 
 gucharmap_src_unpack() {
@@ -58,10 +63,6 @@ gucharmap_src_unpack() {
 
     edo cp "${FETCHEDDIR}/UCD-${UNICODE_PV}.zip" "${WORKBASE}/unicode-data/UCD.zip"
     edo cp "${FETCHEDDIR}/Unihan-${UNICODE_PV}.zip" "${WORKBASE}/unicode-data/Unihan.zip"
-}
-
-gucharmap_src_prepare() {
-    edo sed -i -e 's:itlocaledir = $(prefix)/$(DATADIRNAME)/locale:itlocaledir = $(datarootdir)/locale:' po/Makefile.in.in
 }
 
 gucharmap_pkg_postinst() {
