@@ -38,7 +38,7 @@ DEPENDENCIES="
         sys-devel/gettext
         virtual/pkg-config
     build+run:
-        dev-db/sqlite:3
+        dev-db/sqlite:3[>=3.9]
         dev-libs/boost
         dev-libs/glib:2
         dev-libs/libxml2:2.0
@@ -73,7 +73,6 @@ UPSTREAM_CHANGELOG="https://github.com/jonaski/strawberry/blob/master/Changelog"
 CMAKE_SRC_CONFIGURE_PARAMS=(
     -DBUILD_WERROR=OFF
     -DENABLE_DBUS:BOOL=ON
-    -DENABLE_DEVICEKIT:BOOL=OFF
     -DENABLE_GIO:BOOL=ON
     -DENABLE_VLC:BOOL=OFF
     -DENABLE_XINE:BOOL=OFF
