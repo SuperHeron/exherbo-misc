@@ -10,11 +10,11 @@ focuses on generating high efficient code for regular expression matching. As a 
 a much broader range of use than any traditional lexer offers. And Last but not least re2c
 generates warning free code that is equal to hand-written code in terms of size, speed and quality.
 "
-HOMEPAGE+=" http://${PN}.org"
+HOMEPAGE+=" https://${PN}.org"
 
-UPSTREAM_CHANGELOG="http://${PN}.org/releases/changelog/changelog.html [[ lang = en ]]"
-UPSTREAM_DOCUMENTATION="http://${PN}.org/manual/manual.html [[ lang = en ]]"
-UPSTREAM_RELEASE_NOTES="http://${PN}.org/releases/release_notes.html [[ lang = en ]]"
+UPSTREAM_CHANGELOG="https://${PN}.org/releases/changelog/changelog.html [[ lang = en ]]"
+UPSTREAM_DOCUMENTATION="https://${PN}.org/manual/manual.html [[ lang = en ]]"
+UPSTREAM_RELEASE_NOTES="https://${PN}.org/releases/release_notes.html [[ lang = en ]]"
 
 LICENCES="public-domain"
 SLOT="0"
