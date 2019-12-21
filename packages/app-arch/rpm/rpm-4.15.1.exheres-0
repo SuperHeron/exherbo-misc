@@ -1,4 +1,4 @@
-# Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2019 Pierre Lejeune <superheron@gmail.com>
 # Copyright 2010 Timothy Redaelli <timothy@redaelli.eu>
 # Distributed under the terms of the GNU General Public License v2
 
@@ -15,8 +15,8 @@ a description, and the like. There is also a library API,
 permitting advanced developers to manage such transactions
 from programming languages such as C or Python.
 "
-HOMEPAGE="http://rpm.org"
-DOWNLOADS="http://ftp.rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
+HOMEPAGE="https://rpm.org"
+DOWNLOADS="https://ftp.rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
 
 LICENCES="|| ( GPL-2 LGPL-2 )"
 SLOT="0"
