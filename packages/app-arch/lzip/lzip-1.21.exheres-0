@@ -1,4 +1,4 @@
-# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Lossless data compressor based on the LZMA algorithm"
@@ -9,7 +9,7 @@ the one of gzip or bzip2. Lzip decompresses almost as quickly as
 gzip and compresses better than bzip2, which makes it well suited
 for software distribution and data archiving.
 "
-HOMEPAGE="http://www.nongnu.org/${PN}/${PN}.html"
+HOMEPAGE="https://www.nongnu.org/${PN}/${PN}.html"
 DOWNLOADS="mirror://savannah/${PN}/${PNV}.tar.gz"
 
 LICENCES="GPL-3"
@@ -19,7 +19,7 @@ MYOPTIONS=""
 
 REMOTE_IDS="freecode:${PN}"
 
-UPSTREAM_DOCUMENTATION="http://www.nongnu.org/${PN}/manual/${PN}_manual.html"
+UPSTREAM_DOCUMENTATION="https://www.nongnu.org/${PN}/manual/${PN}_manual.html"
 
 src_configure() {
     # Not an autoconf script
