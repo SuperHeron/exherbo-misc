@@ -26,30 +26,19 @@ LO_LINGUAS=( 'am' 'ar' 'ast' 'bg' 'bn' 'bn_IN' 'bo' 'bs' 'ca' 'ca_valencia' 'cs'
              'vi' 'zh_CN' 'zh_TW' )
 
 DOWNLOADS_ROOT="mirror://${LO_PN_LONG}/stable/$(ever range 1-3)/rpm"
-DOWNLOADS="
-    platform:amd64? ( ${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_rpm.tar.gz )
-    platform:x86? ( ${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_rpm.tar.gz )
-"
+DOWNLOADS="${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_rpm.tar.gz"
 
 set_linguas() {
     for linguas in "${LO_LINGUAS[@]}"; do
-        local amd64_langpack='' x86_langpack=''
-        local amd64_helppack="${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_rpm_helppack_${linguas//_/-}.tar.gz"
-        local x86_helppack="${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_rpm_helppack_${linguas//_/-}.tar.gz"
+        local langpack=''
+        local helppack="${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_rpm_helppack_${linguas//_/-}.tar.gz"
         if [[ "${linguas}" != 'en_US' ]]; then
-            amd64_langpack="${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_rpm_langpack_${linguas//_/-}.tar.gz"
-            x86_langpack="${DOWNLOADS_ROOT}/x86/${LO_PNV_DOWNLOADS}_Linux_x86_rpm_langpack_${linguas//_/-}.tar.gz"
+            langpack="${DOWNLOADS_ROOT}/x86_64/${LO_PNV_DOWNLOADS}_Linux_x86-64_rpm_langpack_${linguas//_/-}.tar.gz"
         fi
         DOWNLOADS+="
             linguas:${linguas}? (
-                platform:amd64? (
-                    ${amd64_langpack}
-                    help? ( ${amd64_helppack} )
-                )
-                platform:x86? (
-                    ${x86_langpack}
-                    help? ( ${x86_helppack} )
-                )
+                ${langpack}
+                help? ( ${helppack} )
             )"
     done
 }
@@ -58,14 +47,13 @@ set_linguas
 
 LICENCES="LGPL-3"
 SLOT="0"
-PLATFORMS="~amd64 ~x86"
+PLATFORMS="~amd64"
 MYOPTIONS="
     extensions [[ description = [ Installs bundled extensions ] ]]
     gnome
     help [[ description = [ Installs help package ] ]]
     kde
     ( linguas: ${LO_LINGUAS[@]} ) [[ number-selected = at-least-one ]]
-    platform: amd64 x86
 "
 
 DEPENDENCIES="
@@ -81,9 +69,7 @@ DEPENDENCIES="
         dev-libs/glib:2
         media-libs/fontconfig
         media-libs/freetype:2
-        media-libs/gstreamer:0.10
         media-libs/gstreamer:1.0
-        media-plugins/gst-plugins-base:0.10
         media-plugins/gst-plugins-base:1.0
         net-dns/avahi
         net-print/cups
@@ -101,10 +87,10 @@ DEPENDENCIES="
         x11-libs/libXrandr
         x11-libs/libXrender
         x11-libs/pango
-        virtual/jre:*[>=1.5] [[ description = [ Needed by some features like Base ] ]]
+        virtual/jre:*[>=1.6] [[ description = [ Needed by some features like Base ] ]]
 "
 
-UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/download/release-notes/"
+UPSTREAM_RELEASE_NOTES="https://wiki.documentfoundation.org/ReleaseNotes/$(ever range 1-2)"
 
 pkg_setup() {
     exdirectory --allow /opt
@@ -118,55 +104,47 @@ rpm_unpack() {
 }
 
 src_unpack() {
-    if option platform:amd64; then
-        LO_ARCH='x86_64'
-        LO_ARCH_DIR='x86-64'
-    elif option platform:x86; then
-        LO_ARCH='i586'
-        LO_ARCH_DIR='x86'
-    fi
-
     default
     echo "Creating ${WORK}"
     edo mkdir -p "${WORK}"
 
     echo "Unpacking RPM files"
-    edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm/RPMS"
+    edo cd "${WORKBASE}/${LO_PNV}_Linux_x86-64_rpm/RPMS"
     for appl in base calc core draw firebird graphicfilter images impress librelogo math \
                 ogltrans onlineupdate ooofonts ooolinguistic postgresql-sdbc python-script-provider \
                 pyuno writer xsltfilter; do
-        rpm_unpack "${LO_BASIS}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+        rpm_unpack "${LO_BASIS}-${appl}-${PV}-${LO_BUILDID}.x86_64.rpm"
     done
-    rpm_unpack "${LO_PNV_LONG}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    rpm_unpack "${LO_PNV_LONG}-${PV}-${LO_BUILDID}.x86_64.rpm"
     for appl in base calc draw impress math ure writer; do
-        rpm_unpack "${LO_PNV_LONG}-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+        rpm_unpack "${LO_PNV_LONG}-${appl}-${PV}-${LO_BUILDID}.x86_64.rpm"
     done
     rpm_unpack "${LO_PNV_LONG}-freedesktop-menus-$(ever range 1-3)-${LO_BUILDID}.noarch.rpm"
     if option extensions; then
         for appl in {beanshell,javascript}-script-provider mediawiki-publisher nlpsolver \
                     pdf-import report-builder; do
-            rpm_unpack "${LO_BASIS}-extension-${appl}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+            rpm_unpack "${LO_BASIS}-extension-${appl}-${PV}-${LO_BUILDID}.x86_64.rpm"
         done
     fi
-    option gnome && rpm_unpack "${LO_BASIS}-gnome-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
-    option kde && rpm_unpack "${LO_BASIS}-kde-integration-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+    option gnome && rpm_unpack "${LO_BASIS}-gnome-integration-${PV}-${LO_BUILDID}.x86_64.rpm"
+    option kde && rpm_unpack "${LO_BASIS}-kde-integration-${PV}-${LO_BUILDID}.x86_64.rpm"
     echo "Unpacking language pack RPM files"
     for linguas in "${LO_LINGUAS[@]}"; do
         if option linguas:${linguas}; then
             linguas="${linguas//_/-}"
             case "${linguas}" in
-                en-US) edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm/RPMS"
+                en-US) edo cd "${WORKBASE}/${LO_PNV}_Linux_x86-64_rpm/RPMS"
                 ;;
-                * ) edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm_langpack_${linguas}/RPMS"
+                * ) edo cd "${WORKBASE}/${LO_PNV}_Linux_x86-64_rpm_langpack_${linguas}/RPMS"
                 ;;
             esac
-            rpm_unpack "${LO_PNV_LONG}-${linguas}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
-            dictrpm="${LO_PNV_LONG}-dict-${linguas%%-*}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+            rpm_unpack "${LO_PNV_LONG}-${linguas}-${PV}-${LO_BUILDID}.x86_64.rpm"
+            dictrpm="${LO_PNV_LONG}-dict-${linguas%%-*}-${PV}-${LO_BUILDID}.x86_64.rpm"
             [[ -e "${dictrpm}" ]] && rpm_unpack "${dictrpm}"
-            rpm_unpack "${LO_BASIS}-${linguas}-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+            rpm_unpack "${LO_BASIS}-${linguas}-${PV}-${LO_BUILDID}.x86_64.rpm"
             if option help; then
-                edo cd "${WORKBASE}/${LO_PNV}_Linux_${LO_ARCH_DIR}_rpm_helppack_${linguas}/RPMS"
-                rpm_unpack "${LO_BASIS}-${linguas}-help-${PV}-${LO_BUILDID}.${LO_ARCH}.rpm"
+                edo cd "${WORKBASE}/${LO_PNV}_Linux_x86-64_rpm_helppack_${linguas}/RPMS"
+                rpm_unpack "${LO_BASIS}-${linguas}-help-${PV}-${LO_BUILDID}.x86_64.rpm"
             fi
         fi
     done
