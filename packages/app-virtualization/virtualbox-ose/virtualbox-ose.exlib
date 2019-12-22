@@ -16,10 +16,10 @@ that is freely available as Open Source Software under the terms of the GNU
 General Public License (GPL).
 "
 
-HOMEPAGE="http://www.virtualbox.org"
+HOMEPAGE="https://www.virtualbox.org"
 MY_PNV="VirtualBox-${PV}"
 EXT_PN="Oracle_VM_VirtualBox_Extension_Pack"
-VBOX_DOWNLOADS_ROOT="http://download.virtualbox.org/${PN%-ose}/${PV}"
+VBOX_DOWNLOADS_ROOT="https://download.virtualbox.org/${PN%-ose}/${PV}"
 DOWNLOADS="
     ${VBOX_DOWNLOADS_ROOT}/${MY_PNV}.tar.bz2
     additions? ( ${VBOX_DOWNLOADS_ROOT}/VBoxGuestAdditions_${PV}.iso )
@@ -62,11 +62,6 @@ DEPENDENCIES="
         sys-libs/pam[>=1.0.0]
         sys-libs/zlib[>=1.2.1]
         sys-power/iasl
-        || (
-            app-cdr/genisoimage
-            app-cdr/cdrtools
-            app-cdr/cdrkit
-        )
         X? (
             media-libs/SDL:0[>=1.2.7][X]
             x11-libs/libX11
@@ -203,8 +198,9 @@ virtualbox-ose_src_prepare() {
 
     if option python; then
         local python_abi=$(python_get_abi)
-        ever at_least 3 ${python_abi} && python_abi+=m
+        ever at_least 3 ${python_abi} && ! ever at_least 3.8 ${python_abi} && python_abi+=m
         edo sed -e "s/SUPPYTHONLIBS=\"[a-z0-9. ]*/SUPPYTHONLIBS=\"python${python_abi}/" -i configure
+        edo sed -e "s/versions = \[[a-z0-9. \",]*/versions = \[ \"${python_abi}\" /" -i src/libs/xpcom18a4/python/gen_python_deps.py
     fi
 }
 
@@ -291,7 +287,7 @@ EOF
     insinto "${installdir}"
     doins -r components
 
-    for bin in *.r0 *.rc *.so iPxeBaseBin VBox{,CreateUSBNode,SysInfo}.sh \
+    for bin in *.r0 *.so iPxeBaseBin VBox{,CreateUSBNode,SysInfo}.sh \
                VBox{Autostart,BalloonCtrl,BugReport,CpuReport,ExtPackHelperApp,Manage,SVC,VMMPreload,XPCOMIPCD};
     do
         vbox_doins ${bin}
