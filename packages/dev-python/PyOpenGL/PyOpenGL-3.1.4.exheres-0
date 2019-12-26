@@ -1,4 +1,4 @@
-# Copyright 2013-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2013-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require pypi setup-py [ import=setuptools ]
@@ -10,6 +10,8 @@ The binding is created using the standard ctypes library, and is provided under 
 liberal BSD-style Open-Source license.
 "
 HOMEPAGE+=" http://pyopengl.sourceforge.net"
+
+RESTRICT="test"
 
 LICENCES="BSD-3"
 SLOT="0"
@@ -23,8 +25,4 @@ DEPENDENCIES="
         x11-dri/glu
         x11-dri/mesa
 "
-
-DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}"/${PN}-3.1.0-python37.patch
-)
 
