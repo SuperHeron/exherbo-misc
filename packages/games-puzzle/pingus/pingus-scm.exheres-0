@@ -1,7 +1,9 @@
-# Copyright 2010-2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require pingus
 
 PLATFORMS="~amd64"
+
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PN}-respect-toolchain.patch" )
 

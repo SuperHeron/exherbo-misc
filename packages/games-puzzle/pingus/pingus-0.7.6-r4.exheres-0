@@ -1,0 +1,17 @@
+# Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+MY_PV="v${PV}"
+
+require pingus
+
+PLATFORMS="~amd64"
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}/${PN}-respect-toolchain.patch"
+    "${FILES}/${PNV}-remove-lisp-getters.patch"
+    "${FILES}/${PNV}-SConscript-python3.patch"
+    "${FILES}/${PNV}-boost_signals2.patch"
+    "${FILES}/${PNV}-c++11.patch"
+    "${FILES}/${PNV}-missing-functional-header.patch"
+)

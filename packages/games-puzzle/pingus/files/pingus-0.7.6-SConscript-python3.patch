@@ -1,0 +1,35 @@
+Upstream: yes
+
+From 3b8d7bf2394b05e322509f712a22e231f2f0bbc9 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Sun, 27 Oct 2019 21:32:31 +0100
+Subject: [PATCH] Update SConscript to python3
+
+---
+ SConscript | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/SConscript b/SConscript
+index 96d775827..e521f0eb6 100644
+--- a/SConscript
++++ b/SConscript
+@@ -126,12 +126,12 @@ class Project:
+     def configure_end(self):
+         self.env = self.conf.Finish()
+ 
+-        print "Reports:"
+-        print self.reports
++        print("Reports:")
++        print(self.reports)
+ 
+         if not self.fatal_error == "":
+-            print "Fatal Errors:"
+-            print self.fatal_error
++            print("Fatal Errors:")
++            print(self.fatal_error)
+             Exit(1)
+ 
+     def configure_gxx(self):
+-- 
+2.24.1
+
