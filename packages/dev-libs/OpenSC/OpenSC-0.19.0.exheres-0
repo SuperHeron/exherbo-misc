@@ -1,7 +1,8 @@
-# Copyright 2016-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2016-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.15 ] ]
+require bash-completion
 
 SUMMARY="Open source smart card tools and middleware."
 DESCRIPTION="
@@ -36,10 +37,12 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--disable-tests'
     '--enable-man'
     '--enable-openssl'
     '--enable-readline'
     '--enable-zlib'
+    "--with-completiondir=${BASHCOMPLETIONDIR}"
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc' )
 
