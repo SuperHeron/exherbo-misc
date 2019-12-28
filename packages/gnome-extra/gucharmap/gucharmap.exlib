@@ -1,9 +1,10 @@
-# Copyright 2010-2016 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop gtk-icon-cache
+require freedesktop-desktop gtk-icon-cache vala [ vala_dep=true with_opt=true ]
+require option-renames [ renames=[ 'vala vapi' ] ]
 
-export_exlib_phases src_prepare src_configure pkg_postinst pkg_postrm
+export_exlib_phases src_prepare pkg_postinst pkg_postrm
 
 SUMMARY="GNOME Character Map"
 DESCRIPTION="Gucharmap is the GNOME Character Map, based on the Unicode Character Database."
@@ -14,7 +15,10 @@ MYOPTIONS="cjk gtk-doc gobject-introspection"
 
 DEPENDENCIES="
     build:
+        dev-libs/libxml2:2.0
+        dev-util/desktop-file-utils
         dev-util/intltool[>=0.40.0]
+        sys-apps/appdata-tools
         sys-devel/gettext
         virtual/pkg-config[>=0.9.0]
         gtk-doc? (
@@ -22,48 +26,20 @@ DEPENDENCIES="
             gnome-desktop/gnome-doc-utils[>=0.9.0]
         )
     build+run:
+        dev-libs/glib:2[>=2.32.0]
+        x11-libs/gtk+:3[>=3.4.0]
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.9.0] )
 "
-if ever at_least 3.0.0; then
-    require vala [ vala_dep=true with_opt=true ]
-    require option-renames [ renames=[ 'vala vapi' ] ]
-    DEPENDENCIES+="
-        build:
-            dev-libs/libxml2:2.0
-            dev-util/desktop-file-utils
-            sys-apps/appdata-tools
-        build+run:
-            dev-libs/glib:2[>=2.32.0]
-            x11-libs/gtk+:3[>=3.4.0]
-    "
-else
-    require python [ blacklist=3 multibuild=false with_opt=true ]
-    MYOPTIONS+=" ( providers: gtk2 gtk3 ) [[ number-selected = exactly-one ]]"
-    DEPENDENCIES+="
-        build+run:
-            dev-libs/glib:2[>=2.16.3]
-            gnome-platform/GConf:2
-            providers:gtk2? ( x11-libs/gtk+:2[>=2.14.0] )
-            providers:gtk3? ( x11-libs/gtk+:3[>=3.0.0] )
-            python? ( gnome-bindings/pygtk:2[>=2.7.1][python_abis:*(-)?] )
-    "
-fi
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'cjk unihan'
+    'gtk-doc'
+    'gobject-introspection introspection'
+    'vapi vala'
+)
 
 gucharmap_src_prepare() {
     edo sed -i -e 's:itlocaledir = $(prefix)/$(DATADIRNAME)/locale:itlocaledir = $(datarootdir)/locale:' po/Makefile.in.in
-}
-
-gucharmap_src_configure() {
-    local enable_python= enable_vapi=
-    ever at_least 3.0.0 || enable_python="$(option_enable python python-bindings)"
-    ever at_least 3.0.0 && enable_vapi="$(option_enable vapi vala)"
-    local gtk_version=3.0
-    ! ever at_least 3.0.0 && option providers:gtk2 && gtk_version=2.0
-    econf --with-gtk="${gtk_version}" \
-        $(option_enable cjk unihan) \
-        $(option_enable gtk-doc) \
-        $(option_enable gobject-introspection introspection) \
-        ${enable_python} ${enable_vapi}
 }
 
 gucharmap_pkg_postinst() {
@@ -75,4 +51,3 @@ gucharmap_pkg_postrm() {
     freedesktop-desktop_pkg_postrm
     gtk-icon-cache_pkg_postrm
 }
-
