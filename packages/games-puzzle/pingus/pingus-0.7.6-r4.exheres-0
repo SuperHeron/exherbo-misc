@@ -3,15 +3,42 @@
 
 MY_PV="v${PV}"
 
-require pingus
+require pingus scons
 
 PLATFORMS="~amd64"
 
+DEPENDENCIES="
+    build:
+        virtual/pkg-config
+    build+run:
+        dev-libs/boost
+        media-libs/libpng:=
+        media-libs/SDL:0
+        media-libs/SDL_image:1
+        media-libs/SDL_mixer:0[mikmod]
+"
+
 DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}/${PN}-respect-toolchain.patch"
+    "${FILES}/${PNV}-respect-toolchain.patch"
     "${FILES}/${PNV}-remove-lisp-getters.patch"
     "${FILES}/${PNV}-SConscript-python3.patch"
     "${FILES}/${PNV}-boost_signals2.patch"
     "${FILES}/${PNV}-c++11.patch"
     "${FILES}/${PNV}-missing-functional-header.patch"
 )
+
+src_prepare() {
+    default
+    edo sed -e "s/pkg-config/${PKG_CONFIG}/" -i ${WORK}/SConscript
+}
+
+src_configure() { :; }
+
+src_compile() {
+    escons --jobs ${EXJOBS:-1} CC="${CC}" CXX="${CXX}" CCFLAGS="${CFLAGS}" AR="${AR}" RANLIB="${RANLIB}" with_linuxevdev=True
+}
+
+src_install() {
+    emake install PREFIX=/usr/$(exhost --target) DATADIR=/usr/share/${PN} MANDIR=/usr/share/man DESTDIR="${IMAGE}"
+    emagicdocs
+}

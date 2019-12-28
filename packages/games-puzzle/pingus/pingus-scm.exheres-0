@@ -1,9 +1,60 @@
 # Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require pingus
+SCM_SECONDARY_REPOSITORIES="
+    logmich
+    pingus_googletest
+    tinygettext
+    uitest
+    chromium_googletest
+    sexp_cpp
+    benchmark
+    sexp_cpp_googletest
+    xdg
+"
+
+SCM_benchmark_REPOSITORY="https://github.com/google/benchmark.git"
+SCM_chromium_googletest_REPOSITORY="https://chromium.googlesource.com/external/googletest.git"
+SCM_logmich_REPOSITORY="https://github.com/logmich/logmich.git"
+SCM_tinygettext_REPOSITORY="https://github.com/tinygettext/tinygettext.git"
+SCM_pingus_googletest_REPOSITORY="https://github.com/google/googletest.git"
+SCM_sexp_cpp_googletest_REPOSITORY="https://github.com/google/googletest.git"
+SCM_uitest_REPOSITORY="https://github.com/Grumbel/uitest.git"
+SCM_sexp_cpp_REPOSITORY="https://github.com/lispparser/sexp-cpp.git"
+SCM_xdg_REPOSITORY="https://gitlab.com/pingus/external/xdg.git"
+
+SCM_EXTERNAL_REFS="
+    external/logmich:logmich
+    external/tinygettext:tinygettext
+    external/googletest:pingus_googletest
+    external/uitest:uitest
+    external/sexp-cpp:sexp_cpp
+    external/xdg:xdg
+"
+
+SCM_uitest_EXTERNAL_REFS="
+    external/googletest:chromium_googletest
+"
+
+SCM_sexp_cpp_EXTERNAL_REFS="
+    external/benchmark:benchmark
+    external/googletest:sexp_cpp_googletest
+"
+
+require pingus cmake
 
 PLATFORMS="~amd64"
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PN}-respect-toolchain.patch" )
+DEPENDENCIES="
+    build:
+        virtual/pkg-config
+    build+run:
+        dev-libs/boost
+        dev-libs/jsoncpp
+        media-libs/libpng:=
+        media-libs/SDL:2
+        media-libs/SDL_image:2
+        media-libs/SDL_mixer:2[mikmod]
+        x11-dri/mesa
+"
 

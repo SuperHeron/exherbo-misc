@@ -1,46 +1,16 @@
 # Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require scons gitlab
-
-export_exlib_phases src_prepare src_configure src_compile src_install
+require gitlab
 
 SUMMARY="Free Lemmings-like game"
 DESCRIPTION="
 Pingus is a free Lemmings-like game covered under the GNU GPL. It features
 currently 22 playable levels and runs under a wide variety of operating
-systems (Linux, Windows, etc.) 
+systems (Linux, Windows, etc.)
 "
 HOMEPAGE+=" https://${PN}.gitlab.io"
 
 LICENCES="GPL-3"
 SLOT="0"
 MYOPTIONS=""
-
-DEPENDENCIES="
-    build:
-        virtual/pkg-config
-    build+run:
-        dev-libs/boost
-        media-libs/libpng:=
-        media-libs/SDL:0
-        media-libs/SDL_image:1
-        media-libs/SDL_mixer:0[mikmod]
-"
-
-pingus_src_prepare() {
-    default
-    edo sed -e "s/pkg-config/${PKG_CONFIG}/" -i ${WORK}/SConscript
-}
-
-pingus_src_configure() { :; }
-
-pingus_src_compile() {
-    escons --jobs ${EXJOBS:-1} CC="${CC}" CXX="${CXX}" CCFLAGS="${CFLAGS}" AR="${AR}" RANLIB="${RANLIB}" with_linuxevdev=True
-}
-
-pingus_src_install() {
-    emake install PREFIX=/usr/$(exhost --target) DATADIR=/usr/share/${PN} MANDIR=/usr/share/man DESTDIR="${IMAGE}"
-    emagicdocs
-}
-
