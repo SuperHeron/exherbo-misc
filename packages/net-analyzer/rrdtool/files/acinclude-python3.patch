@@ -1,0 +1,39 @@
+Upstream: submitted, https://patch-diff.githubusercontent.com/raw/oetiker/rrdtool-1.x/pull/1072
+
+From a4a9da012ab1a5af869a6a4b30f5685d7bf8f2ab Mon Sep 17 00:00:00 2001
+From: Pierre Lejeune <superheron@gmail.com>
+Date: Mon, 30 Dec 2019 01:30:58 +0100
+Subject: [PATCH] Fix AM_CHECK_PYTHON_HEADERS macro for Python3
+
+This detects Python3 include paths like /usr/include/python3.7m.
+Taken from pygobject.
+---
+ m4/acinclude.m4 | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/m4/acinclude.m4 b/m4/acinclude.m4
+index 5872b017..d9d9eb25 100644
+--- a/m4/acinclude.m4
++++ b/m4/acinclude.m4
+@@ -426,11 +426,16 @@ AC_DEFUN([AM_CHECK_PYTHON_HEADERS],
+ [AC_REQUIRE([AM_PATH_PYTHON])
+ AC_MSG_CHECKING(for headers required to compile python extensions)
+ dnl deduce PYTHON_INCLUDES
+-py_prefix=`$PYTHON -c "import sys; print(sys.prefix)"`
+-py_exec_prefix=`$PYTHON -c "import sys; print(sys.exec_prefix)"`
+-PYTHON_INCLUDES="-I${py_prefix}/include/python${PYTHON_VERSION}"
+-if test "$py_prefix" != "$py_exec_prefix"; then
+-  PYTHON_INCLUDES="$PYTHON_INCLUDES -I${py_exec_prefix}/include/python${PYTHON_VERSION}"
++py_prefix=`$PYTHON -c "import sys; sys.stdout.write(sys.prefix)"`
++py_exec_prefix=`$PYTHON -c "import sys; sys.stdout.write(sys.exec_prefix)"`
++PYTHON_CONFIG=`which $PYTHON`-config
++if test -x "$PYTHON_CONFIG"; then
++  PYTHON_INCLUDES=`$PYTHON_CONFIG --includes 2>/dev/null`
++else
++  PYTHON_INCLUDES="-I${py_prefix}/include/python${PYTHON_VERSION}"
++  if test "$py_prefix" != "$py_exec_prefix"; then
++    PYTHON_INCLUDES="$PYTHON_INCLUDES -I${py_exec_prefix}/include/python${PYTHON_VERSION}"
++  fi
+ fi
+ AC_SUBST(PYTHON_INCLUDES)
+ dnl check if the headers exist:

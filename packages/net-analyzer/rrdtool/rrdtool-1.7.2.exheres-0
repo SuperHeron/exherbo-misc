@@ -1,8 +1,11 @@
-# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require setup-py [ import='distutils' blacklist=3 multibuild=false with_opt=true ]
+AT_M4DIR=( 'm4' )
+
+require setup-py [ import='distutils' blacklist=none multibuild=false with_opt=true ]
 require systemd-service lua [ multibuild=false with_opt=true ]
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.16 ] ]
 
 SUMMARY="A system to store and display time-series data"
 DESCRIPTION="
@@ -30,7 +33,7 @@ DEPENDENCIES="
         group/rrdtool
     build+run:
         dev-libs/libxml2:2.0[>=2.7.8]
-        dev-libs/glib:2[>=2.28.7]
+        dev-libs/glib:2[>=2.58]
         media-libs/libpng:=[>=1.4.8]
         x11-libs/cairo[>=1.10.2][pdf(+)][svg(+)]
         x11-libs/pango[>=1.28.4]
@@ -60,6 +63,10 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
 )
 
 src_prepare() {
+    # Do not apply patch twice
+    expatch "${FILES}/acinclude-python3.patch"
+
+    autotools_src_prepare
     if option python; then
         edo cd bindings/python
         setup-py_src_prepare
