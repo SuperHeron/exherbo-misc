@@ -1,0 +1,15 @@
+Source: written by Pierre Lejeune, for Exherbo
+Upstream: No(t reachable)
+Reason: Fix build with LibreSSL
+
+--- a/src/mail.c	2019-07-25 15:49:59.000000000 +0200
++++ b/src/mail.c	2019-12-31 00:19:45.186512269 +0100
+@@ -355,7 +355,7 @@
+ #ifndef HAVE_GNUTLS
+ static GMutex		**ssl_locks;
+ 
+-#if defined(OPENSSL_VERSION_NUMBER) && (OPENSSL_VERSION_NUMBER < 0x10100000L)
++#if (defined(OPENSSL_VERSION_NUMBER) && (OPENSSL_VERSION_NUMBER < 0x10100000L)) || defined(LIBRESSL_VERSION_NUMBER)
+ static void
+ ssl_locking_cb(int mode, int n, const char *file, int line)
+ 	{

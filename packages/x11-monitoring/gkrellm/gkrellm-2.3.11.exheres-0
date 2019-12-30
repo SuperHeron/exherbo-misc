@@ -1,4 +1,4 @@
-# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop
@@ -35,6 +35,8 @@ DEPENDENCIES="
 "
 
 REMOTE_IDS="freecode:${PN}"
+
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-libressl.patch" )
 
 DEFAULT_SRC_INSTALL_PARAMS=(
     "PKGCONFIGDIR=${IMAGE}/usr/$(exhost --target)/lib/pkgconfig"
