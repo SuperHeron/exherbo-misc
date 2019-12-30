@@ -1,4 +1,4 @@
-# Copyright 2012-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2012-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Some tools to be used with smart cards and PC/SC"
@@ -20,7 +20,8 @@ DEPENDENCIES="
     build+run:
         sys-apps/pcsc-lite
     run:
+        dev-perl/Glib-Perl
+        dev-perl/Gtk3-Perl
         dev-perl/pcsc-perl
-        dev-perl/Gtk2-Perl
 "
 
