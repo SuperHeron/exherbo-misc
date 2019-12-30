@@ -1,4 +1,4 @@
-# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 MY_PNV="FileZilla_${PV}_src"
@@ -30,7 +30,7 @@ DEPENDENCIES="
         dev-libs/nettle[>=3.1]
         dev-libs/pugixml[>=1.6]
         net-dns/libidn
-        net-libs/libfilezilla[>=0.18.1]
+        net-libs/libfilezilla[>=0.19.3]
         x11-apps/xdg-utils
         x11-libs/wxGTK:3.0[>=3.0.4][providers:gtk2?][providers:gtk3?]
         dbus? ( sys-apps/dbus[>=1.2] )
