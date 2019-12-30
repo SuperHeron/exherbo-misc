@@ -1,4 +1,4 @@
-# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require sourceforge [ project="${PN}$(ever major)" pnv="${PNV/-/_}" suffix='zip' ]
@@ -10,6 +10,7 @@ A cross-platform open source C and C++ software development toolkit. Generates
 C/C++ RPC code, XML data bindings, and efficient schema-specific parsers for
 SOAP Web services and other applications that benefit from an XML interface.
 "
+HOMEPAGE="https://www.genivia.com/dev.html"
 
 LICENCES="gSOAP-1.3b GPL-2"
 SLOT="0"
@@ -31,8 +32,8 @@ DEPENDENCIES="
         providers:openssl? ( dev-libs/openssl )
 "
 
-UPSTREAM_CHANGELOG="http://www.cs.fsu.edu/~engelen/changelog.html"
-UPSTREAM_DOCUMENTATION="http://www.cs.fsu.edu/~engelen/soapdoc2.html"
+UPSTREAM_CHANGELOG="https://www.genivia.com/changelog.html"
+UPSTREAM_DOCUMENTATION="https://www.genivia.com/doc/guide/html/index.html"
 
 WORK="${WORKBASE}/${PN}-$(ever range 1-2)"
 

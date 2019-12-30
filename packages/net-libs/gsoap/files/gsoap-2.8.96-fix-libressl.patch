@@ -1,0 +1,197 @@
+Source: from FreeBSD, https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=218375
+Upstream: Not yet submitted
+Reason: Fix build with LibreSSL
+
+--- gsoap/VisualStudio2005/wsdl2h/wsdl2h/stdsoap2.cpp.orig	2019-02-10 15:19:37 UTC
++++ gsoap/VisualStudio2005/wsdl2h/wsdl2h/stdsoap2.cpp
+@@ -4306,7 +4306,7 @@ ssl_auth_init(struct soap *soap)
+   ERR_clear_error();
+   if (!soap->ctx)
+   {
+-#if OPENSSL_VERSION_NUMBER >= 0x10100000L
++#if (OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER))
+     /* TLS_method: a TLS/SSL connection established may understand the SSLv3, TLSv1, TLSv1.1 and TLSv1.2 protocols. */
+     soap->ctx = SSL_CTX_new(TLS_method());
+ #else
+@@ -4394,7 +4394,7 @@ ssl_auth_init(struct soap *soap)
+ #endif
+   if ((soap->ssl_flags & SOAP_SSL_RSA))
+   {
+-#if OPENSSL_VERSION_NUMBER >= 0x10002000L
++#if (OPENSSL_VERSION_NUMBER >= 0x10002000L && !defined(LIBRESSL_VERSION_NUMBER))
+     if (SSL_CTX_need_tmp_RSA(soap->ctx))
+     {
+       unsigned long e = RSA_F4;
+--- gsoap/plugin/mecevp.c.orig	2019-01-27 15:50:03 UTC
++++ gsoap/plugin/mecevp.c
+@@ -336,7 +336,7 @@ soap_mec_init(struct soap *soap, struct soap_mec_data 
+   int ok = 1;
+   DBGLOG(TEST, SOAP_MESSAGE(fdebug, "soap_mec_init()\n"));
+   soap_ssl_init();
+-#if (OPENSSL_VERSION_NUMBER < 0x10100000L)
++#if (OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER))
+   data->ctx = (EVP_CIPHER_CTX*)SOAP_MALLOC(soap, sizeof(EVP_CIPHER_CTX));
+   if (data->ctx)
+     EVP_CIPHER_CTX_init(data->ctx);
+@@ -500,7 +500,7 @@ soap_mec_cleanup(struct soap *soap, struct soap_mec_da
+   data->type = NULL;
+   if (data->ctx)
+   {
+-#if (OPENSSL_VERSION_NUMBER < 0x10100000L)
++#if (OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER))
+     EVP_CIPHER_CTX_cleanup(data->ctx);
+     SOAP_FREE(soap, data->ctx);
+ #else
+--- gsoap/plugin/smdevp.c.orig	2018-07-22 18:18:22 UTC
++++ gsoap/plugin/smdevp.c
+@@ -480,7 +480,7 @@ soap_smd_init(struct soap *soap, struct soap_smd_data 
+   /* allocate and init the OpenSSL HMAC or EVP_MD context */
+   if ((alg & SOAP_SMD_ALGO) == SOAP_SMD_HMAC)
+   {
+-#if (OPENSSL_VERSION_NUMBER < 0x10100000L)
++#if (OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER))
+     data->ctx = (void*)SOAP_MALLOC(soap, sizeof(HMAC_CTX));
+     if (data->ctx)
+       HMAC_CTX_init((HMAC_CTX*)data->ctx);
+@@ -490,7 +490,7 @@ soap_smd_init(struct soap *soap, struct soap_smd_data 
+   }
+   else
+   {
+-#if (OPENSSL_VERSION_NUMBER < 0x10100000L)
++#if (OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER))
+     data->ctx = (void*)SOAP_MALLOC(soap, sizeof(EVP_MD_CTX));
+     if (data->ctx)
+       EVP_MD_CTX_init((EVP_MD_CTX*)data->ctx);
+@@ -510,7 +510,7 @@ soap_smd_init(struct soap *soap, struct soap_smd_data 
+     case SOAP_SMD_SHA1:
+       type = EVP_sha1();
+       break;
+-#if (OPENSSL_VERSION_NUMBER >= 0x0090800fL)
++#if (OPENSSL_VERSION_NUMBER >= 0x0090800fL || defined(LIBRESSL_VERSION_NUMBER))
+     case SOAP_SMD_SHA224:
+       type = EVP_sha224();
+       break;
+@@ -662,7 +662,7 @@ soap_smd_cleanup(struct soap *soap, struct soap_smd_da
+   (void)soap;
+   if (data->ctx)
+   {
+-#if (OPENSSL_VERSION_NUMBER < 0x10100000L)
++#if (OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER))
+     if ((data->alg & SOAP_SMD_ALGO) == SOAP_SMD_HMAC)
+       HMAC_CTX_cleanup((HMAC_CTX*)data->ctx);
+     else
+@@ -706,7 +706,7 @@ soap_smd_check(struct soap *soap, struct soap_smd_data
+     }
+     if (data->ctx)
+     {
+-#if (OPENSSL_VERSION_NUMBER < 0x10100000L)
++#if (OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER))
+       if ((data->alg & SOAP_SMD_ALGO) == SOAP_SMD_HMAC)
+         HMAC_CTX_cleanup((HMAC_CTX*)data->ctx);
+       else
+--- gsoap/samples/calc_vs2005/calc_vs2005/stdsoap2.cpp.orig	2019-02-10 15:19:36 UTC
++++ gsoap/samples/calc_vs2005/calc_vs2005/stdsoap2.cpp
+@@ -4306,7 +4306,7 @@ ssl_auth_init(struct soap *soap)
+   ERR_clear_error();
+   if (!soap->ctx)
+   {
+-#if OPENSSL_VERSION_NUMBER >= 0x10100000L
++#if (OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER))
+     /* TLS_method: a TLS/SSL connection established may understand the SSLv3, TLSv1, TLSv1.1 and TLSv1.2 protocols. */
+     soap->ctx = SSL_CTX_new(TLS_method());
+ #else
+@@ -4394,7 +4394,7 @@ ssl_auth_init(struct soap *soap)
+ #endif
+   if ((soap->ssl_flags & SOAP_SSL_RSA))
+   {
+-#if OPENSSL_VERSION_NUMBER >= 0x10002000L
++#if (OPENSSL_VERSION_NUMBER >= 0x10002000L && !defined(LIBRESSL_VERSION_NUMBER))
+     if (SSL_CTX_need_tmp_RSA(soap->ctx))
+     {
+       unsigned long e = RSA_F4;
+--- gsoap/stdsoap2.c.orig	2019-02-10 15:19:37 UTC
++++ gsoap/stdsoap2.c
+@@ -4306,7 +4306,7 @@ ssl_auth_init(struct soap *soap)
+   ERR_clear_error();
+   if (!soap->ctx)
+   {
+-#if OPENSSL_VERSION_NUMBER >= 0x10100000L
++#if (OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER))
+     /* TLS_method: a TLS/SSL connection established may understand the SSLv3, TLSv1, TLSv1.1 and TLSv1.2 protocols. */
+     soap->ctx = SSL_CTX_new(TLS_method());
+ #else
+@@ -4394,7 +4394,7 @@ ssl_auth_init(struct soap *soap)
+ #endif
+   if ((soap->ssl_flags & SOAP_SSL_RSA))
+   {
+-#if OPENSSL_VERSION_NUMBER >= 0x10002000L
++#if (OPENSSL_VERSION_NUMBER >= 0x10002000L && !defined(LIBRESSL_VERSION_NUMBER))
+     if (SSL_CTX_need_tmp_RSA(soap->ctx))
+     {
+       unsigned long e = RSA_F4;
+@@ -4473,10 +4473,12 @@ ssl_auth_init(struct soap *soap)
+     minv = TLS1_1_VERSION;
+   else if ((soap->ssl_flags & SOAP_TLSv1_2))
+     minv = TLS1_2_VERSION;
++#ifdef TLS1_3_VERSION
+   else if ((soap->ssl_flags & SOAP_TLSv1_3))
+     minv = TLS1_3_VERSION;
+   if ((soap->ssl_flags & SOAP_TLSv1_3) && OpenSSL_version_num() >= 0x10101000L)
+     maxv = TLS1_3_VERSION;
++#endif
+   else if ((soap->ssl_flags & SOAP_TLSv1_2))
+     maxv = TLS1_2_VERSION;
+   else if ((soap->ssl_flags & SOAP_TLSv1_1))
+@@ -6714,6 +6716,9 @@ soap_bind(struct soap *soap, const char *host, int por
+   }
+ #endif
+ #ifdef TCP_FASTOPEN
++       #ifndef SOL_TCP
++       #define SOL_TCP IPPROTO_TCP
++       #endif
+   if (!(soap->omode & SOAP_IO_UDP) && setsockopt(soap->master, IPPROTO_TCP, TCP_FASTOPEN, (char*)&set, sizeof(int)))
+   {
+     /* silently ignore */
+--- gsoap/stdsoap2.cpp.orig	2019-02-10 15:19:37 UTC
++++ gsoap/stdsoap2.cpp
+@@ -4306,7 +4306,7 @@ ssl_auth_init(struct soap *soap)
+   ERR_clear_error();
+   if (!soap->ctx)
+   {
+-#if OPENSSL_VERSION_NUMBER >= 0x10100000L
++#if (OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER))
+     /* TLS_method: a TLS/SSL connection established may understand the SSLv3, TLSv1, TLSv1.1 and TLSv1.2 protocols. */
+     soap->ctx = SSL_CTX_new(TLS_method());
+ #else
+@@ -4394,7 +4394,7 @@ ssl_auth_init(struct soap *soap)
+ #endif
+   if ((soap->ssl_flags & SOAP_SSL_RSA))
+   {
+-#if OPENSSL_VERSION_NUMBER >= 0x10002000L
++#if (OPENSSL_VERSION_NUMBER >= 0x10002000L && !defined(LIBRESSL_VERSION_NUMBER))
+     if (SSL_CTX_need_tmp_RSA(soap->ctx))
+     {
+       unsigned long e = RSA_F4;
+@@ -4473,10 +4473,12 @@ ssl_auth_init(struct soap *soap)
+     minv = TLS1_1_VERSION;
+   else if ((soap->ssl_flags & SOAP_TLSv1_2))
+     minv = TLS1_2_VERSION;
++#ifdef TLS1_3_VERSION
+   else if ((soap->ssl_flags & SOAP_TLSv1_3))
+     minv = TLS1_3_VERSION;
+   if ((soap->ssl_flags & SOAP_TLSv1_3) && OpenSSL_version_num() >= 0x10101000L)
+     maxv = TLS1_3_VERSION;
++#endif
+   else if ((soap->ssl_flags & SOAP_TLSv1_2))
+     maxv = TLS1_2_VERSION;
+   else if ((soap->ssl_flags & SOAP_TLSv1_1))
+@@ -6714,6 +6716,9 @@ soap_bind(struct soap *soap, const char *host, int por
+   }
+ #endif
+ #ifdef TCP_FASTOPEN
++       #ifndef SOL_TCP
++       #define SOL_TCP IPPROTO_TCP
++       #endif
+   if (!(soap->omode & SOAP_IO_UDP) && setsockopt(soap->master, IPPROTO_TCP, TCP_FASTOPEN, (char*)&set, sizeof(int)))
+   {
+     /* silently ignore */

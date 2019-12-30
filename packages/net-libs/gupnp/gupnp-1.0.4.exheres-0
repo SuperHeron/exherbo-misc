@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require gnome.org [ suffix='tar.xz' ]
@@ -21,11 +21,11 @@ The GUPnP framework consists of the following libraries:
     through libsoup). GUPnP does not include helpers for construction or control of specific
     standardized resources (e.g. MediaServer); this is left for higher level libraries utilizing
     the GUPnP framework.
-  
+
   * GUPnP-AV is a collection of helpers for building AV (audio/video) applications using GUPnP.
 
   * GUPnP-DLNA is a small utility library that aims to ease the DLNA-related tasks such as media
-    profile guessing, transcoding to a given profile, etc. 
+    profile guessing, transcoding to a given profile, etc.
 
 GUPnP is free software released under the GNU LGPL.
 "
@@ -60,8 +60,8 @@ RESTRICT="test" # network violation
 
 REMOTE_IDS="freecode:${PN}"
 
-UPSTREAM_RELEASE_NOTES="http://ftp.gnome.org/pub/GNOME/sources/${PN}/$(ever range 1-2)/${PNV}.news"
-UPSTREAM_DOCUMENTATION="http://developer.gnome.org/${PN}/$(ever range 1-2)"
+UPSTREAM_RELEASE_NOTES="https://ftp.gnome.org/pub/GNOME/sources/${PN}/$(ever range 1-2)/${PNV}.news"
+UPSTREAM_DOCUMENTATION="https://developer.gnome.org/${PN}/$(ever range 1-2)"
 
 src_prepare() {
     edo sed -e "s/if pkg-config/if \$PKG_CONFIG/" -i configure
