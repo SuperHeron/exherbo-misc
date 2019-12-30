@@ -1,15 +1,13 @@
 # Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-MY_PV="${PV/_}"
-
 SUMMARY="Virtual PDF printer using CUPS"
 DESCRIPTION="
 This software is designed to produce PDF files in a heterogeneous network
 by providing a PDF printer on the central fileserver.
 "
-HOMEPAGE="http://www.cups-pdf.de"
-DOWNLOADS="${HOMEPAGE}/src/${PN}_${MY_PV}.tar.gz"
+HOMEPAGE="https://www.cups-pdf.de"
+DOWNLOADS="${HOMEPAGE}/src/${PN}_${PV}.tar.gz"
 
 REMOTE_IDS="freecode:${PN/-/}"
 
@@ -24,7 +22,7 @@ DEPENDENCIES="
         net-print/cups
 "
 
-WORK="${WORKBASE}/${PN}-${MY_PV}/src"
+WORK="${WORKBASE}/${PN}-${PV}/src"
 
 src_compile() {
     edo ${CC} ${CFLAGS} ${PN}.c -o ${PN} $(cups-config --libs)
