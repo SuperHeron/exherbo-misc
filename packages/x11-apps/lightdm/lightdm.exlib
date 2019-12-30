@@ -1,9 +1,9 @@
 # Copyright 2012-2013 Quentin "Sardem FF7" Glidic <sardemff7@exherbo.org>
 # Copyright 2013, 2014 Lasse Brun <bruners@gmail.com>
-# Copyright 2018 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2018-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require github [ user='CanonicalLtd' release="${PV}" suffix='tar.xz' ] pam vala [ vala_dep=true ]
+require github [ user='canonical' release="${PV}" suffix='tar.xz' ] pam vala [ vala_dep=true ]
 require systemd-service [ systemd_tmpfiles=[ "${FILES}"/lightdm-tmpfiles.conf ] ]
 
 export_exlib_phases src_install
@@ -22,7 +22,6 @@ Key features are:
 - Low code complexity
 - Fast performance
 "
-HOMEPAGE="http://www.freedesktop.org/wiki/Software/LightDM"
 
 LICENCES="GPL-3 LGPL-3"
 SLOT="0"
