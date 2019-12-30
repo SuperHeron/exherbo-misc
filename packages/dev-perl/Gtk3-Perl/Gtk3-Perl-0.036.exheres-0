@@ -1,0 +1,33 @@
+# Copyright 2019 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'Gtk2-Perl-1.24992.exheres-0' from Exherbo, which is:
+#     Copyright 2008 Wulf C. Krueger <philantrop@exherbo.org>
+
+MY_PN=${PN/-Perl}
+MY_PNV=${MY_PN}-${PV}
+
+require perl-module [ module_author=XAOC ]
+
+SUMMARY="Perl bindings for GTK2"
+HOMEPAGE="http://gtk2-perl.sourceforge.net/"
+
+REMOTE_IDS+=" sourceforge:gtk2-perl"
+
+UPSTREAM_CHANGELOG="http://sourceforge.net/project/shownotes.php?release_id=627577&group_id=64773"
+UPSTREAM_RELEASE_NOTES=${UPSTREAM_CHANGELOG}
+UPSTREAM_DOCUMENTATION="http://gtk2-perl.sourceforge.net/doc/ [[ lang = en ]]"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        dev-perl/Cairo-GObject[>=1.000]
+        dev-perl/Glib-Object-Introspection[>=0.043]
+    build+run:
+        x11-libs/gtk+:3[>=3]
+"
+
+WORK=${WORKBASE}/${MY_PNV}
