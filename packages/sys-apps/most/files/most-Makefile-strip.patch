@@ -1,14 +1,14 @@
 Source: written by Pierre Lejeune <superheron@gmail.com> for Exherbo
 Upstream: no
 Reason: Do not strip
---- most-5.0.0a.orig/src/Makefile.in	2009-10-19 21:30:14.814375472 +0200
-+++ most-5.0.0a/src/Makefile.in	2009-10-19 21:39:21.699394399 +0200
+--- a/src/Makefile.in	2018-10-29 08:55:02.000000000 +0100
++++ b/src/Makefile.in	2019-12-30 18:56:10.106352826 +0100
 @@ -83,7 +83,7 @@
  	$(MKINSDIR) $(DEST_MANDIR)/man1
  	$(MKINSDIR) $(DEST_BINDIR)
  install: all installdirs
 -	$(INSTALL) -s $(OBJDIR)/most $(DEST_BINDIR)
 +	$(INSTALL) $(OBJDIR)/most $(DEST_BINDIR)
- 	$(INSTALL_DATA) ../most.1 $(DEST_MANDIR)/man1
+ 	$(INSTALL_DATA) ../doc/most.1 $(DEST_MANDIR)/man1
  	@for i in $(DOC_FILES); \
  	do \

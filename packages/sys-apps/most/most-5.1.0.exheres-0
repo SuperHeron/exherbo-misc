@@ -5,7 +5,7 @@
 
 require most
 
-DOWNLOADS="https://www.jedsoft.org/releases/${PN}/${PNV}.tar.bz2"
+DOWNLOADS="https://www.jedsoft.org/releases/${PN}/${PNV}.tar.gz"
 
 PLATFORMS="~amd64"
 

@@ -9,7 +9,7 @@ MOST is a powerful paging program for Unix, VMS, MSDOS, and win32 systems.
 Unlike other well-known paging programs, most supports multiple windows and can
 scroll left and right. Why settle for less?
 "
-HOMEPAGE="http://www.jedsoft.org/${PN}"
+HOMEPAGE="https://www.jedsoft.org/${PN}"
 
 LICENCES="GPL-2"
 SLOT="0"
