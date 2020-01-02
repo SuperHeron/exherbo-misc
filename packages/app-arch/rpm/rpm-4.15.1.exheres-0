@@ -16,7 +16,7 @@ permitting advanced developers to manage such transactions
 from programming languages such as C or Python.
 "
 HOMEPAGE="https://rpm.org"
-DOWNLOADS="https://ftp.rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
+DOWNLOADS="http://ftp.rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
 
 LICENCES="|| ( GPL-2 LGPL-2 )"
 SLOT="0"
