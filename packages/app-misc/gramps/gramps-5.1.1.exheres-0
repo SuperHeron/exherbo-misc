@@ -33,7 +33,7 @@ DEPENDENCIES="
         x11-libs/pango[gobject-introspection]
         x11-libs/gtk+:3[>=3.12.0][gobject-introspection]
     recommendation:
-        app-text/ghostscript [[ decsription = [ Helps create reports in PDF ] ]]
+        app-text/ghostscript [[ description = [ Helps create reports in PDF ] ]]
         dev-python/PyICU [[ description = [ Improves localised sorting ] ]]
         media-gfx/graphviz [[ description = [ Enable creation of graphs ] ]]
         x11-libs/osm-gps-map[>=0.8] [[ description = [ Used to show OpenStreetMaps in Geographic view ] ]]
