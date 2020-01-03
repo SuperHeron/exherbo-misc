@@ -1,4 +1,4 @@
-Upstream: submitted, https://patch-diff.githubusercontent.com/raw/oetiker/rrdtool-1.x/pull/1072
+Upstream: merged, https://github.com/oetiker/rrdtool-1.x/commit/caf8f7e4a06cd36a69142a46326e58296850781d
 
 From a4a9da012ab1a5af869a6a4b30f5685d7bf8f2ab Mon Sep 17 00:00:00 2001
 From: Pierre Lejeune <superheron@gmail.com>
