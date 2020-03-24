@@ -37,7 +37,7 @@ RESTRICT="test" # requires dbus
 
 DEPENDENCIES="
     build:
-        app-doc/gtk-doc-autotools
+        dev-doc/gtk-doc[>=1.32-r1]
         dev-util/intltool[>=0.35.0]
         dev-util/itstool
         gnome-desktop/yelp-tools
