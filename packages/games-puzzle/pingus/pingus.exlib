@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2020 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require gitlab
@@ -14,3 +14,4 @@ HOMEPAGE+=" https://${PN}.gitlab.io"
 LICENCES="GPL-3"
 SLOT="0"
 MYOPTIONS=""
+

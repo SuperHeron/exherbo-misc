@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2020 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SCM_SECONDARY_REPOSITORIES="
@@ -50,7 +50,7 @@ DEPENDENCIES="
         virtual/pkg-config
     build+run:
         dev-libs/boost
-        dev-libs/jsoncpp
+        dev-libs/jsoncpp:=
         media-libs/libpng:=
         media-libs/SDL:2
         media-libs/SDL_image:2
