@@ -18,12 +18,13 @@ General Public License (GPL).
 
 HOMEPAGE="https://www.virtualbox.org"
 MY_PNV="VirtualBox-${PV}"
+REAL_PV="${PV%[a-z]}"
 EXT_PN="Oracle_VM_VirtualBox_Extension_Pack"
-VBOX_DOWNLOADS_ROOT="https://download.virtualbox.org/${PN%-ose}/${PV}"
+VBOX_DOWNLOADS_ROOT="https://download.virtualbox.org/${PN%-ose}/${REAL_PV}"
 DOWNLOADS="
     ${VBOX_DOWNLOADS_ROOT}/${MY_PNV}.tar.bz2
-    additions? ( ${VBOX_DOWNLOADS_ROOT}/VBoxGuestAdditions_${PV}.iso )
-    extensions? ( ${VBOX_DOWNLOADS_ROOT}/${EXT_PN}-${PV}.vbox-extpack -> ${EXT_PN}-${PV}.tar.gz )
+    additions? ( ${VBOX_DOWNLOADS_ROOT}/VBoxGuestAdditions_${REAL_PV}.iso )
+    extensions? ( ${VBOX_DOWNLOADS_ROOT}/${EXT_PN}-${REAL_PV}.vbox-extpack -> ${EXT_PN}-${REAL_PV}.tar.gz )
 "
 
 LICENCES="CDDL-1.0 GPL-2 additions? ( PUEL ) extensions? ( PUEL )"
@@ -98,7 +99,7 @@ UPSTREAM_CHANGELOG="${HOMEPAGE}/wiki/Changelog"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/manual/UserManual.html"
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/News"
 
-WORK="${WORKBASE}/${MY_PNV}"
+WORK="${WORKBASE}/VirtualBox-${REAL_PV}"
 
 has_32bit_glibc() {
     case "$(exhost --target)" in
@@ -124,7 +125,7 @@ virtualbox-ose_src_unpack() {
     if optionq extensions; then
         edo mkdir "${WORK}"/${EXT_PN}
         edo pushd "${WORK}"/${EXT_PN}
-        unpack ${EXT_PN}-${PV}.tar.gz
+        unpack ${EXT_PN}-${REAL_PV}.tar.gz
         edo popd
     fi
 }
@@ -360,7 +361,7 @@ EOF
     # Install guest additions if required
     if optionq additions; then
         insinto /usr/share/${PN}
-        newins "${FETCHEDDIR}"/VBoxGuestAdditions_${PV}.iso VBoxGuestAdditions.iso
+        newins "${FETCHEDDIR}"/VBoxGuestAdditions_${REAL_PV}.iso VBoxGuestAdditions.iso
     fi
 
     if optionq extensions; then
