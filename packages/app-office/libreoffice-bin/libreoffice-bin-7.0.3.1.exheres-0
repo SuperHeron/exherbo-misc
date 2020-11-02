@@ -75,6 +75,8 @@ DEPENDENCIES="
         net-print/cups
         sys-apps/dbus
         sys-fs/e2fsprogs
+        virtual/jre:*[>=1.6] [[ description = [ Needed by some features like Base ] ]]
+        virtual/krb5
         x11-dri/mesa
         x11-libs/cairo
         x11-libs/gdk-pixbuf:2.0
@@ -87,7 +89,6 @@ DEPENDENCIES="
         x11-libs/libXrandr
         x11-libs/libXrender
         x11-libs/pango
-        virtual/jre:*[>=1.6] [[ description = [ Needed by some features like Base ] ]]
 "
 
 UPSTREAM_RELEASE_NOTES="https://wiki.documentfoundation.org/ReleaseNotes/$(ever range 1-2)"
