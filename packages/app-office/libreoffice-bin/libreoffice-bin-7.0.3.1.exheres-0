@@ -64,6 +64,7 @@ DEPENDENCIES="
        !app-office/openoffice
        !app-office/openoffice-bin
     run:
+        app-crypt/krb5
         dev-libs/atk
         dev-libs/dbus-glib:1
         dev-libs/glib:2
@@ -76,7 +77,6 @@ DEPENDENCIES="
         sys-apps/dbus
         sys-fs/e2fsprogs
         virtual/jre:*[>=1.6] [[ description = [ Needed by some features like Base ] ]]
-        virtual/krb5
         x11-dri/mesa
         x11-libs/cairo
         x11-libs/gdk-pixbuf:2.0
