@@ -13,6 +13,13 @@ SCM_SECONDARY_REPOSITORIES="
     benchmark
     cmake_modules
     geomcpp
+    strutcpp
+    priocpp
+
+    geomcpp_cmake_modules
+    sexp_cpp_cmake_modules
+    tinygettext_cmake_modules
+    uitest_cmake_modules
 "
 
 SCM_argparser_REPOSITORY="https://gitlab.com/argparser/argparser.git"
@@ -20,19 +27,29 @@ SCM_benchmark_REPOSITORY="https://github.com/google/benchmark.git"
 SCM_cmake_modules_REPOSITORY="https://gitlab.com/grumbel/cmake-modules.git"
 SCM_geomcpp_REPOSITORY="https://gitlab.com/grumbel/geomcpp.git"
 SCM_googletest_REPOSITORY="https://github.com/google/googletest.git"
-SCM_logmich_REPOSITORY="https://github.com/logmich/logmich.git"
-SCM_sexp_cpp_REPOSITORY="https://github.com/lispparser/sexp-cpp.git"
-SCM_shared_modules_REPOSITORY="https://github.com/Grumbel/shared-modules.git"
+SCM_googletest_REVISION="18f8200e3079b0e54fa00cb7ac55d4c39dcf6da6"
+SCM_logmich_REPOSITORY="https://gitlab.com/logmich/logmich.git"
+SCM_priocpp_REPOSITORY="https://gitlab.com/grumbel/priocpp.git"
+SCM_sexp_cpp_REPOSITORY="https://gitlab.com/lispparser/sexp-cpp.git"
+SCM_shared_modules_REPOSITORY="https://github.com/grumbel/shared-modules.git"
+SCM_strutcpp_REPOSITORY="https://gitlab.com/grumbel/strutcpp.git"
 SCM_tinygettext_REPOSITORY="https://github.com/tinygettext/tinygettext.git"
-SCM_uitest_REPOSITORY="https://github.com/Grumbel/uitest.git"
+SCM_uitest_REPOSITORY="https://gitlab.com/grumbel/uitest.git"
 SCM_xdgcpp_REPOSITORY="https://gitlab.com/grumbel/xdgcpp.git"
+
+SCM_geomcpp_cmake_modules_REPOSITORY="https://gitlab.com/grumbel/cmake-modules.git"
+SCM_sexp_cpp_cmake_modules_REPOSITORY="https://gitlab.com/grumbel/cmake-modules.git"
+SCM_tinygettext_cmake_modules_REPOSITORY="https://gitlab.com/grumbel/cmake-modules.git"
+SCM_uitest_cmake_modules_REPOSITORY="https://gitlab.com/grumbel/cmake-modules.git"
 
 SCM_EXTERNAL_REFS="
     external/argparser:argparser
     external/cmake-modules:cmake_modules
     external/logmich:logmich
     external/geomcpp:geomcpp
+    external/priocpp:priocpp
     external/sexp-cpp:sexp_cpp
+    external/strutcpp:strutcpp
     external/tinygettext:tinygettext
     external/uitest:uitest
     external/xdgcpp:xdgcpp
@@ -40,21 +57,21 @@ SCM_EXTERNAL_REFS="
 "
 
 SCM_geomcpp_EXTERNAL_REFS="
-    external/cmake-modules:cmake_modules
+    external/cmake-modules:geomcpp_cmake_modules
 "
 
 SCM_sexp_cpp_EXTERNAL_REFS="
     external/benchmark:benchmark
-    external/cmake-modules:cmake_modules
+    external/cmake-modules:sexp_cpp_cmake_modules
     external/googletest:googletest
 "
 
 SCM_tinygettext_EXTERNAL_REFS="
-    external/cmake-modules:cmake_modules
+    external/cmake-modules:tinygettext_cmake_modules
 "
 
 SCM_uitest_EXTERNAL_REFS="
-    external/cmake-modules:cmake_modules
+    external/cmake-modules:uitest_cmake_modules
 "
 
 require pingus cmake
