@@ -1,0 +1,27 @@
+# Copyright 2020 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi setup-py [ import="setuptools" blacklist="2" ] gtk-icon-cache
+
+SUMMARY="Linux devices manager for the Logitech Unifying Receiver."
+DESCRIPTION="
+Solaar is a Linux device manager for Logitech’s Unifying Receiver peripherals.
+It is able to pair/unpair devices with the receiver, for many devices show battery status,
+and show and modify some of the modifiable features of devices.
+"
+HOMEPAGE+=" https://pwr-solaar.github.io/Solaar"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        dev-python/PyYAML[>=5.1][python_abis:*(-)?]
+        dev-python/psutil[>=5.6.0][python_abis:*(-)?]
+        dev-python/python-xlib[>=0.27][python_abis:*(-)?]
+        dev-python/pyudev[>=0.13][python_abis:*(-)?]
+"
+
