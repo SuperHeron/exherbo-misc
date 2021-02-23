@@ -23,13 +23,10 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
     cd              [[ description = [ Audio CD support ] ]]
-    imobiledevice   [[ description = [ iPhone, iPod Touch, iPad and Apple TV support ] ]]
     ipod            [[ description = [ iPod classic support ] ]]
     moodbar         [[ description = [ Builds the bundled gst-plugins-moodbar for moodbar support ] ]]
     mtp             [[ description = [ support for MTP devices ] ]]
     pulseaudio
-
-    imobiledevice   [[ requires = [ ipod ] ]]
 "
 
 DEPENDENCIES="
@@ -41,6 +38,7 @@ DEPENDENCIES="
         dev-db/sqlite:3[>=3.9]
         dev-libs/boost
         dev-libs/glib:2
+        dev-libs/gnutls
         dev-libs/libxml2:2.0
         dev-libs/protobuf:=
         media-libs/chromaprint
@@ -49,15 +47,14 @@ DEPENDENCIES="
         media-plugins/gst-plugins-base:1.0
         sys-apps/dbus
         sys-sound/alsa-lib
+        x11-libs/libX11
         x11-libs/qtbase:5[>=5.5.0][X(+)][sql][sqlite]
         x11-libs/qttools:5[>=5.5.0]
         x11-libs/qtx11extras:5[>=5.5.0]
         cd? ( dev-libs/libcdio )
-        ipod? ( media-libs/libgpod[>=0.7.92] )
-        imobiledevice? (
-            app-pda/libimobiledevice[>=1.0]
-            app-pda/usbmuxd
-            dev-libs/libplist
+        ipod? (
+            media-libs/libgpod[>=0.7.92]
+            x11-libs/gdk-pixbuf:2.0
         )
         moodbar? ( sci-libs/fftw[>=3.0.0] )
         mtp? ( media-libs/libmtp[>=1.0] )
@@ -72,14 +69,23 @@ UPSTREAM_CHANGELOG="https://github.com/jonaski/strawberry/blob/master/Changelog"
 
 CMAKE_SRC_CONFIGURE_PARAMS=(
     -DBUILD_WERROR=OFF
+    -DENABLE_ALSA:BOOL=ON
+    -DENABLE_CHROMAPRINT:BOOL=ON
     -DENABLE_DBUS:BOOL=ON
     -DENABLE_GIO:BOOL=ON
+    -DENABLE_GLOBALSHORTCUTS:BOOL=ON
+    -DENABLE_GSTREAMER:BOOL=ON
+    -DENABLE_QOBUZ:BOOL=ON
+    -DENABLE_SPARKLE:BOOL=OFF
+    -DENABLE_SUBSONIC:BOOL=ON
+    -DENABLE_TIDAL:BOOL=ON
+    -DENABLE_UDISKS2:BOOL=ON
     -DENABLE_VLC:BOOL=OFF
-    -DENABLE_XINE:BOOL=OFF
+    -DENABLE_X11_GLOBALSHORTCUTS:BOOL=ON
+    -DUSE_SYSTEM_TAGLIB:BOOL=ON
 )
 CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
     'cd AUDIOCD'
-    IMOBILEDEVICE
     'ipod LIBGPOD'
     MOODBAR
     'mtp LIBMTP'
