@@ -1,0 +1,11 @@
+image: exherbo/exherbo_ci
+
+variables:
+  REPO: SuperHeron-misc
+  REPO_NAMESPACE: exherbo-unofficial
+  PALUDIS_REPO: SuperHeron-misc
+
+build:
+  script:
+    - buildtest
+
