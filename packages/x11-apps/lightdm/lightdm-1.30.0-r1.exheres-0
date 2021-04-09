@@ -6,3 +6,5 @@ require lightdm
 
 PLATFORMS="~amd64"
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/270b3bfcf84939ab2d71db3f3470cffd36816852.patch" )
+
