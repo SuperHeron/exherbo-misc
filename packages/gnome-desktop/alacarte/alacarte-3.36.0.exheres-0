@@ -14,19 +14,26 @@ HOMEPAGE="http://www.gnome.org"
 LICENCES="LGPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS=""
+MYOPTIONS="
+    doc
+"
 
 DEPENDENCIES="
     build:
         dev-util/intltool[>=0.40.0]
         sys-devel/gettext
         virtual/pkg-config
+        doc? ( dev-libs/libxslt )
     build+run:
         gnome-bindings/pygobject:3
         gnome-desktop/gnome-menus:3.0[>=3.5.3]
 "
 
 BUGS_TO="http://bugzilla.gnome.org/enter_bug.cgi?product=alacarte"
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'doc documentation'
+)
 
 src_prepare() {
     edo sed -i -e 's:itlocaledir = $(prefix)/$(DATADIRNAME)/locale:itlocaledir = $(datarootdir)/locale:' po/Makefile.in.in
