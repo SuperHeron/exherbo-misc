@@ -41,7 +41,7 @@ DEPENDENCIES="
         dev-libs/gnutls
         dev-libs/libxml2:2.0
         dev-libs/protobuf:=
-        media-libs/chromaprint
+        media-libs/chromaprint[>=1.4]
         media-libs/gstreamer:1.0
         media-libs/taglib[>=1.11.1]
         media-plugins/gst-plugins-base:1.0
@@ -70,18 +70,20 @@ UPSTREAM_CHANGELOG="https://github.com/jonaski/strawberry/blob/master/Changelog"
 CMAKE_SRC_CONFIGURE_PARAMS=(
     -DBUILD_WERROR=OFF
     -DENABLE_ALSA:BOOL=ON
-    -DENABLE_CHROMAPRINT:BOOL=ON
     -DENABLE_DBUS:BOOL=ON
     -DENABLE_GIO:BOOL=ON
     -DENABLE_GLOBALSHORTCUTS:BOOL=ON
     -DENABLE_GSTREAMER:BOOL=ON
+    -DENABLE_MUSICBRAINZ:BOOL=ON
     -DENABLE_QOBUZ:BOOL=ON
+    -DENABLE_SONGFINGERPRINTING:BOOL=ON
     -DENABLE_SPARKLE:BOOL=OFF
     -DENABLE_SUBSONIC:BOOL=ON
     -DENABLE_TIDAL:BOOL=ON
     -DENABLE_UDISKS2:BOOL=ON
     -DENABLE_VLC:BOOL=OFF
     -DENABLE_X11_GLOBALSHORTCUTS:BOOL=ON
+    -DUSE_TAGLIB:BOOL=TRUE
 )
 CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
     'cd AUDIOCD'
