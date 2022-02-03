@@ -34,7 +34,7 @@ DEPENDENCIES="
     build+run:
         dev-libs/glib:2[>=2.32.0]
         dev-libs/pcre2[>=10.21]
-        x11-libs/freetype:2[>=1.0]
+        media-libs/freetype:2[>=1.0]
         x11-libs/gtk+:3[>=3.4.0]
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.9.0] )
 "
