@@ -9,7 +9,7 @@ DESCRIPTION="
 Alacarte is a menu editor for GNOME using the freedesktop.org menu
 specification.
 "
-HOMEPAGE="http://www.gnome.org"
+HOMEPAGE="https://www.gnome.org"
 
 LICENCES="LGPL-2"
 SLOT="0"
@@ -31,8 +31,6 @@ DEPENDENCIES="
         gnome-bindings/pygobject:3
         gnome-desktop/gnome-menus:3.0[>=3.5.3]
 "
-
-BUGS_TO="http://bugzilla.gnome.org/enter_bug.cgi?product=alacarte"
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'doc documentation'
