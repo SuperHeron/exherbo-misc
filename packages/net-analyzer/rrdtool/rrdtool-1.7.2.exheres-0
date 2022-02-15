@@ -47,7 +47,6 @@ DEPENDENCIES="
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/doc/index.en.html"
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( PKGCONFIG=${PKG_CONFIG} LUA=/usr/$(exhost --target)/bin/lua )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'cgi rrdcgi'
     'dbi libdbi'
@@ -75,7 +74,10 @@ src_prepare() {
 }
 
 src_configure() {
+    PKGCONFIG=${PKG_CONFIG} \
+    LUA=/usr/$(exhost --target)/bin/lua$(lua get_abi) \
     default
+
     if option python; then
         edo cd bindings/python
         setup-py_src_configure
