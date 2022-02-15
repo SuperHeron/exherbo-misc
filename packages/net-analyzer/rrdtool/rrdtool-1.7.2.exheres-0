@@ -4,7 +4,8 @@
 AT_M4DIR=( 'm4' )
 
 require setup-py [ import='distutils' blacklist=none multibuild=false with_opt=true ]
-require systemd-service lua [ multibuild=false with_opt=true ]
+require lua [ multibuild=false with_opt=true ]
+require systemd-service
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.16 ] ]
 
 SUMMARY="A system to store and display time-series data"
