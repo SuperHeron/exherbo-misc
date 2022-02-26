@@ -46,7 +46,7 @@ MESON_SRC_CONFIGURE_PARAMS=(
     -Dcharmap=true
     -Dgtk3=true
 )
-MESON_SRC_CONFIGURE_SWITCHES=(
+MESON_SRC_CONFIGURE_OPTION_SWITCHES=(
     'gtk-doc docs'
     'gobject-introspection gir'
     vapi
