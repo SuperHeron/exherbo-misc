@@ -29,7 +29,6 @@ SLOT="0"
 MYOPTIONS="
     gobject-introspection
     gtk-doc
-    qt4 [[ description = [ Enable LightDM client Qt4 libraries ] ]]
     qt5 [[ description = [ Enable LightDM client Qt5 libraries ] ]]
 "
 
@@ -55,7 +54,6 @@ DEPENDENCIES="
         x11-libs/libxklavier
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.9.5] )
         gtk-doc? ( dev-doc/gtk-doc )
-        qt4? ( x11-libs/qt:4[dbus] )
         qt5? ( x11-libs/qtbase:5[gui] )
     recommendation:
         sys-apps/accountsservice [[
@@ -78,13 +76,12 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --disable-static
     --enable-tests
     --with-greeter-user=lightdm
-    --with-greeter-session=lightdm-greeter
+    --with-greeter-session=lightdm-gtk-greeter
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'gobject-introspection introspection'
     'gtk-doc'
-    'qt4 liblightdm-qt'
     'qt5 liblightdm-qt5'
 )
 
