@@ -1,0 +1,10 @@
+#!/sbin/openrc-run
+
+name="Light Display Manager"
+command="/usr/bin/lightdm"
+pidfile="/run/${RC_SVCNAME}.pid"
+command_background=true
+
+depend() {
+    want dbus elogind
+}

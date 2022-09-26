@@ -5,6 +5,7 @@
 
 require github [ user='canonical' release="${PV}" suffix='tar.xz' ] pam vala [ vala_dep=true ]
 require systemd-service [ systemd_tmpfiles=[ "${FILES}"/lightdm-tmpfiles.conf ] ]
+require openrc-service
 
 export_exlib_phases src_install
 
@@ -123,6 +124,7 @@ lightdm_src_install() {
     edo chown ${PN}:${PN} "${IMAGE}"/var/lib/${PN}{,-data}
 
     install_systemd_files
+    install_openrc_files
 
     edo rm "${IMAGE}"/etc/pam.d/${PN}
     pamd_mimic_system lightdm local-login auth account password session
