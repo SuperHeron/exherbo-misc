@@ -3,7 +3,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user="vslavik" suffix="tar.gz" release="v${PV}-oss" ] freedesktop-desktop
-require wxwidgets [ min_version='3.0.1' gtk_backends=[ 2 3 ] ]
+require wxwidgets [ min_version='3.0.1' ]
 
 SUMMARY="Cross-platform gettext catalogs (.po files) editor"
 DESCRIPTION="
@@ -26,18 +26,12 @@ DEPENDENCIES="
     build:
         virtual/pkg-config[>=0.9.0]
     build+run:
+        app-spell/gtkspell:3.0
         dev-cpp/lucene++[>=3.0.5]
         dev-libs/boost[>=1.60]
         dev-libs/icu:=
         dev-libs/pugixml[>=1.9]
-        providers:gtk2? (
-            app-spell/gtkspell:2
-            x11-libs/gtk+:2[>=2.20]
-        )
-        providers:gtk3? (
-            app-spell/gtkspell:3.0
-            x11-libs/gtk+:3
-        )
+        x11-libs/gtk+:3
 "
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.php"
@@ -49,9 +43,5 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'debug'
-)
-DEFAULT_SRC_CONFIGURE_OPTIONS=(
-    'providers:gtk2 --with-wx-config=wx-config-3.0-gtk2'
-    'providers:gtk3 --with-wx-config=wx-config-3.0-gtk3'
 )
 
