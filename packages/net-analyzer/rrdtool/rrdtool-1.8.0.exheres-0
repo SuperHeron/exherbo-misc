@@ -1,13 +1,11 @@
 # Copyright 2009-2019 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-AT_M4DIR=( 'm4' )
-
+require github [ user=oetiker project=${PN}-1.x release=v${PV} suffix=tar.gz ]
 require setup-py [ import='distutils' blacklist=none multibuild=false with_opt=true ]
 require lua [ multibuild=false with_opt=true ]
 require ruby [ multibuild=false with_opt=true ]
 require systemd-service
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.16 ] ]
 
 SUMMARY="A system to store and display time-series data"
 DESCRIPTION="
@@ -17,7 +15,6 @@ Use it to write your custom monitoring shell scripts or create
 whole applications using its Perl, Python, Ruby, TCL or PHP bindings.
 "
 HOMEPAGE="https://oss.oetiker.ch/${PN}"
-DOWNLOADS="${HOMEPAGE}/pub/${PNV}.tar.gz"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -30,9 +27,6 @@ DEPENDENCIES="
         sys-devel/gettext[>=0.17]
         sys-apps/groff
         virtual/pkg-config
-    run:
-        user/rrdtool
-        group/rrdtool
     build+run:
         dev-libs/libxml2:2.0[>=2.7.8]
         dev-libs/glib:2[>=2.58]
@@ -43,6 +37,9 @@ DEPENDENCIES="
         perl? ( dev-lang/perl:=[>=5.8.1] )
         tcl? ( dev-lang/tcl:=[>=8.3] )
         tcpd? ( sys-apps/tcp-wrappers )
+    run:
+        user/rrdtool
+        group/rrdtool
 "
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/doc/index.en.html"
@@ -63,10 +60,8 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
 )
 
 src_prepare() {
-    # Do not apply patch twice
-    expatch "${FILES}/acinclude-python3.patch"
+    default
 
-    autotools_src_prepare
     if option python; then
         edo cd bindings/python
         setup-py_src_prepare
@@ -87,6 +82,7 @@ src_configure() {
 
 src_compile() {
     default
+
     if option python; then
         edo cd bindings/python
         setup-py_src_compile
@@ -95,6 +91,7 @@ src_compile() {
 
 src_install() {
     default
+
     if option python; then
         edo cd bindings/python
         setup-py_src_install
@@ -109,3 +106,4 @@ src_install() {
 d /run/${PN} 0755 ${PN} ${PN}
 EOF
 }
+
