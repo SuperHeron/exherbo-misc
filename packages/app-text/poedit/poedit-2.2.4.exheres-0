@@ -3,6 +3,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user="vslavik" suffix="tar.gz" release="v${PV}-oss" ] freedesktop-desktop
+require wxwidgets [ min_version='3.0.1' gtk_backends=[ 2 3 ] ]
 
 SUMMARY="Cross-platform gettext catalogs (.po files) editor"
 DESCRIPTION="
@@ -19,7 +20,6 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
     debug
-    providers: ( gtk2 gtk3 ) [[ number-selected = exactly-one ]]
 "
 
 DEPENDENCIES="
@@ -30,7 +30,6 @@ DEPENDENCIES="
         dev-libs/boost[>=1.60]
         dev-libs/icu:=
         dev-libs/pugixml[>=1.9]
-        x11-libs/wxGTK:3.0[>=3.0.3][providers:gtk2?][providers:gtk3?]
         providers:gtk2? (
             app-spell/gtkspell:2
             x11-libs/gtk+:2[>=2.20]
