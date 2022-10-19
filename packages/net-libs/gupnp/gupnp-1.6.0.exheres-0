@@ -1,0 +1,89 @@
+# Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require gnome.org [ suffix='tar.xz' ]
+require vala [ vala_dep=true with_opt=true ]
+require meson
+
+SUMMARY="GUPnP is an object-oriented open source framework
+for creating UPnP devices and control points, written in C
+using GObject and libsoup. The GUPnP API is intended to be
+easy to use, efficient and flexible. It provides the same
+set of features as libupnp, but shields the developer from
+most of UPnP's internals."
+DESCRIPTION="
+The GUPnP framework consists of the following libraries:
+
+  * GSSDP implements resource discovery and announcement over SSDP.
+
+  * GUPnP implements the UPnP specification: resource announcement and discovery, description,
+    control, event notification, and presentation (GUPnP includes basic web server functionality
+    through libsoup). GUPnP does not include helpers for construction or control of specific
+    standardized resources (e.g. MediaServer); this is left for higher level libraries utilizing
+    the GUPnP framework.
+
+  * GUPnP-AV is a collection of helpers for building AV (audio/video) applications using GUPnP.
+
+  * GUPnP-DLNA is a small utility library that aims to ease the DLNA-related tasks such as media
+    profile guessing, transcoding to a given profile, etc.
+
+GUPnP is free software released under the GNU LGPL.
+"
+HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
+
+LICENCES="LGPL-2"
+SLOT="1.6"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    gobject-introspection
+    gtk-doc
+    networkmanager
+
+    gtk-doc [[ requires = gobject-introspection ]]
+    vapi [[ requires = gobject-introspection ]]
+
+    (
+        connman [[ description = [ Use connman to detect network interfaces ] ]]
+        networkmanager [[ description = [ Use NetworkManager to detect network interfaces ] ]]
+    ) [[ number-selected = at-most-one ]]
+"
+
+DEPENDENCIES="
+    build:
+        virtual/pkg-config[>=0.9.0]
+        gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=1.36.0] )
+        gtk-doc? ( dev-doc/gi-docgen[>=2021.1] )
+    build+run:
+        dev-libs/glib:2[>=2.69.0]
+        dev-libs/libxml2:2.0
+        gnome-desktop/libsoup:3.0[>=2.99.0][gobject-introspection?]
+        net-libs/gssdp:1.6[>=1.5.2][gobject-introspection?]
+        sys-apps/util-linux
+    run:
+        connman? ( net-misc/connman[>=0.80] )
+        networkmanager? ( net-apps/NetworkManager )
+"
+
+# Network violation
+RESTRICT="test"
+
+UPSTREAM_RELEASE_NOTES="https://ftp.gnome.org/pub/GNOME/sources/${PN}/$(ever range 1-2)/${PNV}.news"
+
+MESON_SRC_CONFIGURE_PARAMS=(
+    -Dexamples=false
+)
+MESON_SRC_CONFIGURE_OPTION_SWITCHES=(
+    'gobject-introspection introspection'
+    'gtk-doc gtk_doc'
+    vapi
+)
+
+src_configure() {
+    local context_manager='linux'
+    option networkmanager && context_manager='network-manager'
+    option connman && context_manager='connman'
+
+    meson_src_configure \
+        -Dcontext_manager=${context_manager}
+}
+
