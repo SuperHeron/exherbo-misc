@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require gitlab [ prefix='https://gitlab.gnome.org' user=GNOME tag=${PV} new_download_scheme=true ]
@@ -7,17 +7,13 @@ require vala [ vala_dep=true with_opt=true ]
 require option-renames [ renames=[ 'vala vapi' ] ]
 require meson
 
-export_exlib_phases src_unpack pkg_postinst pkg_postrm
+export_exlib_phases pkg_postinst pkg_postrm
 
 UNICODE_PV="$(ever range 1-2).0"
 
 SUMMARY="GNOME Character Map"
 DESCRIPTION="Gucharmap is the GNOME Character Map, based on the Unicode Character Database."
 HOMEPAGE="https://wiki.gnome.org/Apps/Gucharmap"
-DOWNLOADS+="
-    https://www.unicode.org/Public/zipped/${UNICODE_PV}/UCD.zip -> UCD-${UNICODE_PV}.zip
-    https://www.unicode.org/Public/zipped/${UNICODE_PV}/Unihan.zip -> Unihan-${UNICODE_PV}.zip
-"
 
 LICENCES="GPL-3"
 SLOT="0"
@@ -32,6 +28,7 @@ DEPENDENCIES="
         virtual/unzip
         gtk-doc? ( dev-doc/gtk-doc[>=1.0] )
     build+run:
+        app-text/unicode-data[~>${UNICODE_PV}]
         dev-libs/glib:2[>=2.32.0]
         dev-libs/pcre2[>=10.21]
         media-libs/freetype:2[>=1.0]
@@ -39,31 +36,14 @@ DEPENDENCIES="
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.9.0] )
 "
 
-# DEFAULT_SRC_CONFIGURE_PARAMS=( "--with-unicode-data=${WORKBASE}/unicode-data" )
 MESON_SRC_CONFIGURE_PARAMS=(
-    -Ddbg=false
-
-    -Dcharmap=true
-    -Dgtk3=true
+    -Ducd_path=/usr/share/unicode-data
 )
 MESON_SRC_CONFIGURE_OPTION_SWITCHES=(
     'gtk-doc docs'
     'gobject-introspection gir'
     vapi
 )
-
-gucharmap_src_unpack() {
-    unpack "${PNV}.tar.xz"
-
-    # Needs a specific version of Unicode data files to generate headers
-    edo mkdir "${WORKBASE}/unicode-data"
-    edo cd "${WORKBASE}/unicode-data"
-    unpack "UCD-${UNICODE_PV}.zip"
-    unpack "Unihan-${UNICODE_PV}.zip"
-
-    edo cp "${FETCHEDDIR}/UCD-${UNICODE_PV}.zip" "${WORKBASE}/unicode-data/UCD.zip"
-    edo cp "${FETCHEDDIR}/Unihan-${UNICODE_PV}.zip" "${WORKBASE}/unicode-data/Unihan.zip"
-}
 
 gucharmap_pkg_postinst() {
     freedesktop-desktop_pkg_postinst
