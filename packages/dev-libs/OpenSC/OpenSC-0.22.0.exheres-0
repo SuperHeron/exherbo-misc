@@ -36,6 +36,10 @@ DEPENDENCIES="
         providers:openssl? ( dev-libs/openssl )
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}"/0f7082ea46562b15221f428860b993e0519c6cbd.patch
+)
+
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     '--disable-tests'
     '--enable-man'
@@ -45,4 +49,9 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     "--with-completiondir=${BASHCOMPLETIONDIR}"
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc' )
+
+src_install(){
+    default
+    bash-completion_src_install
+}
 
