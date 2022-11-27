@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 # Based in part upon 'openoffice-bin-3.2.1.exheres-0' from Exherbo, which is:
 #     Copyright 2009, 2010 Pierre Lejeune
@@ -54,6 +54,7 @@ MYOPTIONS="
     help [[ description = [ Installs help package ] ]]
     kde
     ( linguas: ${LO_LINGUAS[@]} ) [[ number-selected = at-least-one ]]
+    ( providers: heimdal krb5 ) [[ number-selected = exactly-one ]]
 "
 
 DEPENDENCIES="
@@ -64,7 +65,6 @@ DEPENDENCIES="
        !app-office/openoffice
        !app-office/openoffice-bin
     run:
-        app-crypt/krb5
         dev-libs/atk
         dev-libs/dbus-glib:1
         dev-libs/glib:2
@@ -89,6 +89,8 @@ DEPENDENCIES="
         x11-libs/libXrandr
         x11-libs/libXrender
         x11-libs/pango
+        providers:heimdal? ( app-crypt/heimdal )
+        providers:krb5? ( app-crypt/krb5 )
 "
 
 UPSTREAM_RELEASE_NOTES="https://wiki.documentfoundation.org/ReleaseNotes/$(ever range 1-2)"
