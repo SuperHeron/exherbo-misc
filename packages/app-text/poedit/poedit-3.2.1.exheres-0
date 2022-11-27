@@ -1,9 +1,9 @@
-# Copyright 2009-2019 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2022 Pierre Lejeune <superheron@gmail.com>
 # Copyright 2017 Nadal Gonzalo García Zavala <snorkellingcactus@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user="vslavik" suffix="tar.gz" release="v${PV}-oss" ] freedesktop-desktop
-require wxwidgets [ min_version='3.0.1' wxwidgets_opts='[webkit]' ]
+require wxwidgets [ min_version='3.0.4' wxwidgets_opts='[webkit]' ]
 
 SUMMARY="Cross-platform gettext catalogs (.po files) editor"
 DESCRIPTION="
