@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require vim-plugin
-require github [ user=cespare pn="vim-${PN}" ]
+require github [ user=cespare pn="vim-${PN}" branch="main" ]
 
 SUMMARY="Vim syntax file for TOML"
 
