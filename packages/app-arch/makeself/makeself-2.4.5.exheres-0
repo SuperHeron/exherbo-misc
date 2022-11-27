@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user='megastep' suffix='run' release="release-${PV}" ]
@@ -28,11 +28,12 @@ DEPENDENCIES="
         providers:libressl? ( dev-libs/libressl:* )
         providers:openssl? ( dev-libs/openssl )
     suggestion:
-        app-arch/lz4[parts:binaries]    [[ description = [ Use lz4 for compression     ] ]]
-        app-arch/lzo:*                  [[ description = [ Use lzo for compression     ] ]]
-        app-arch/pbzip2[parts:binaries] [[ description = [ Use pbzip2 for compression  ] ]]
-        app-arch/pigz                   [[ description = [ Use pigz for compression    ] ]]
-        app-crypt/gnupg                 [[ description = [ Use GnuPG for encryption    ] ]]
+        app-arch/lz4[parts:binaries]    [[ description = [ Use lz4 for compression    ] ]]
+        app-arch/lzo:*                  [[ description = [ Use lzo for compression    ] ]]
+        app-arch/pbzip2[parts:binaries] [[ description = [ Use pbzip2 for compression ] ]]
+        app-arch/pigz                   [[ description = [ Use pigz for compression   ] ]]
+        app-arch/zstd                   [[ description = [ Use zstd for compression   ] ]]
+        app-crypt/gnupg                 [[ description = [ Use GnuPG for encryption   ] ]]
 "
 
 src_unpack() {
