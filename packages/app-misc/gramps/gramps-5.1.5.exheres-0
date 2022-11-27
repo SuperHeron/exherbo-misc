@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop freedesktop-mime github [ user='gramps-project' tag="v${PV}" ]
@@ -46,6 +46,7 @@ DEPENDENCIES="
         dev-python/numpy [[ description = [ Optionally used by PedigreeChart ] ]]
         fonts/freefont-ttf [[ description = [ Use more font support in reports ] ]]
         gnome-desktop/geocode-glib [[ description = [ Associate a geographical position to a place name ] ]]
+        media-libs/fontconfig [[ description = [ Display genealogical symbols ] ]]
         x11-libs/goocanvas:2.0 [[ description = [ Use GraphView plugin ] ]]
 "
 
