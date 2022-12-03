@@ -1,4 +1,4 @@
-# Copyright 2009-2020 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop udev-rules
@@ -39,7 +39,7 @@ MYOPTIONS="X alsa dbus opengl pulseaudio qt5 truetype
     webservice [[ description = [ Builds VBoxWebSrv ] ]]
     wine [[ description = [ Builds wine support ] ]]
 
-    ( opengl truetype ) [[ requires = X ]]
+    ( opengl ) [[ requires = X ]]
     ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
 "
 
@@ -56,15 +56,14 @@ DEPENDENCIES="
         dev-libs/libxslt[>=1.1.17]
         group/usb
         group/vboxusers
+        media-libs/libogg
         media-libs/libpng:=[>=1.2.5]
-        media-libs/opus
+        media-libs/libvorbis
         net-misc/curl[>=7.19.1]
         sys-libs/libcap
         sys-libs/pam[>=1.0.0]
-        sys-libs/zlib[>=1.2.1]
         sys-power/iasl
         X? (
-            media-libs/SDL:0[>=1.2.7][X]
             x11-libs/libX11
             x11-libs/libXcursor
             x11-libs/libXext
@@ -81,7 +80,6 @@ DEPENDENCIES="
                 x11-libs/qttools:5[>=5.6][gui]
                 x11-libs/qtx11extras:5[>=5.6]
             )
-            truetype? ( media-libs/SDL_ttf:0[>=2.0.6] )
         )
         alsa? ( sys-sound/alsa-lib[>=1.0.14] )
         dbus? ( sys-apps/dbus )
@@ -240,6 +238,10 @@ virtualbox-ose_src_configure() {
     export WINEPREFIX="${TEMP}"
     export XDG_CACHE_HOME="${TEMP}/.cache/"
     unset DISPLAY
+    # SDL:0 is deprecated, so disable it
+    myconf="${myconf} --disable-sdl --disable-sdl-ttf"
+    # Depend on system libraries instead of building in-tree ones when possible
+    myconf="${myconf} --enable-libogg --enable-libvorbis"
     # Call configure script directly as it is not a GNU one
     edo ./configure --disable-kmods ${myconf}
     esandbox disallow_net unix:/tmp/.wine-*/server-*/socket
@@ -288,7 +290,7 @@ EOF
     insinto "${installdir}"
     doins -r components
 
-    for bin in *.r0 *.so iPxeBaseBin VBox{,CreateUSBNode,SysInfo}.sh \
+    for bin in *.r0 *.so VBox{,CreateUSBNode,SysInfo}.sh \
                VBox{Autostart,BalloonCtrl,BugReport,CpuReport,ExtPackHelperApp,Manage,SVC,VMMPreload,XPCOMIPCD};
     do
         vbox_doins ${bin}
@@ -306,15 +308,9 @@ EOF
         dosym "${installdir}"/VBox.sh /usr/$(exhost --target)/bin/${link}
     done
 
-    vbox_doins VBoxTunctl
-    dosym "${installdir}"/VBoxTunctl /usr/$(exhost --target)/bin/VBoxTunctl
     dosym VBoxAuth.so "${installdir}"/VRDPAuth.so
 
     if option X; then
-        vbox_doins rdesktop-vrdp
-        vbox_doins VBoxSDL 4750
-        dosym "${installdir}"/VBox.sh /usr/$(exhost --target)/bin/VBoxSDL
-
         insinto /usr/share/applications
         doins virtualbox.desktop
 
@@ -322,7 +318,7 @@ EOF
         doins VBox.png
 
         insinto /usr/share/"${PN}"
-        doins -r {nls,UnattendedTemplates}
+        doins -r nls
 
         if option qt5; then
             vbox_doins VirtualBox
