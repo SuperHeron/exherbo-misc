@@ -1,77 +1,127 @@
-# Copyright 2010-2020 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SCM_SECONDARY_REPOSITORIES="
+    argpp
+    geomcpp
     logmich
-    googletest
+    priocpp
+    sexpcpp
+    strutcpp
+    tinycmmc
     tinygettext
     uitest
-    sexp_cpp
+    wstsound
     xdgcpp
-    shared_modules
-    argparser
-    benchmark
-    cmake_modules
-    geomcpp
-    strutcpp
-    priocpp
 
-    geomcpp_cmake_modules
-    sexp_cpp_cmake_modules
-    tinygettext_cmake_modules
-    uitest_cmake_modules
+    argpp_tinycmmc
+
+    geomcpp_tinycmmc
+
+    logmich_tinycmmc
+
+    priocpp_logmich
+    priocpp_logmich_tinycmmc
+    priocpp_sexpcpp
+    priocpp_sexpcpp_tinycmmc
+    priocpp_tinycmmc
+
+    sexpcpp_tinycmmc
+
+    strutcpp_tinycmmc
+
+    tinygettext_tinycmmc
+
+    uitest_tinycmmc
+
+    wstsound_tinycmmc
 "
 
-SCM_argparser_REPOSITORY="https://gitlab.com/argparser/argparser.git"
-SCM_benchmark_REPOSITORY="https://github.com/google/benchmark.git"
+SCM_argpp_REPOSITORY="https://github.com/grumbel/argpp.git"
 SCM_cmake_modules_REPOSITORY="https://gitlab.com/grumbel/cmake-modules.git"
 SCM_geomcpp_REPOSITORY="https://gitlab.com/grumbel/geomcpp.git"
-SCM_googletest_REPOSITORY="https://github.com/google/googletest.git"
-SCM_googletest_REVISION="18f8200e3079b0e54fa00cb7ac55d4c39dcf6da6"
 SCM_logmich_REPOSITORY="https://gitlab.com/logmich/logmich.git"
 SCM_priocpp_REPOSITORY="https://gitlab.com/grumbel/priocpp.git"
-SCM_sexp_cpp_REPOSITORY="https://gitlab.com/lispparser/sexp-cpp.git"
-SCM_shared_modules_REPOSITORY="https://github.com/grumbel/shared-modules.git"
+SCM_sexpcpp_REPOSITORY="https://gitlab.com/lispparser/sexp-cpp.git"
 SCM_strutcpp_REPOSITORY="https://gitlab.com/grumbel/strutcpp.git"
+SCM_tinycmmc_REPOSITORY="https://github.com/grumbel/tinycmmc.git"
 SCM_tinygettext_REPOSITORY="https://github.com/tinygettext/tinygettext.git"
 SCM_uitest_REPOSITORY="https://gitlab.com/grumbel/uitest.git"
+SCM_wstsound_REPOSITORY="https://github.com/WindstilleTeam/wstsound.git"
 SCM_xdgcpp_REPOSITORY="https://gitlab.com/grumbel/xdgcpp.git"
 
-SCM_geomcpp_cmake_modules_REPOSITORY="https://gitlab.com/grumbel/cmake-modules.git"
-SCM_sexp_cpp_cmake_modules_REPOSITORY="https://gitlab.com/grumbel/cmake-modules.git"
-SCM_tinygettext_cmake_modules_REPOSITORY="https://gitlab.com/grumbel/cmake-modules.git"
-SCM_uitest_cmake_modules_REPOSITORY="https://gitlab.com/grumbel/cmake-modules.git"
+SCM_argpp_tinycmmc_REPOSITORY="https://github.com/grumbel/tinycmmc.git"
+SCM_geomcpp_tinycmmc_REPOSITORY="https://github.com/grumbel/tinycmmc.git"
+SCM_logmich_tinycmmc_REPOSITORY="https://github.com/grumbel/tinycmmc.git"
+SCM_priocpp_logmich_tinycmmc_REPOSITORY="https://github.com/grumbel/tinycmmc.git"
+SCM_priocpp_logmich_REPOSITORY="https://gitlab.com/logmich/logmich.git"
+SCM_priocpp_sexpcpp_REPOSITORY="https://gitlab.com/lispparser/sexp-cpp.git"
+SCM_priocpp_sexpcpp_tinycmmc_REPOSITORY="https://github.com/grumbel/tinycmmc.git"
+SCM_priocpp_tinycmmc_REPOSITORY="https://github.com/grumbel/tinycmmc.git"
+SCM_sexpcpp_tinycmmc_REPOSITORY="https://github.com/grumbel/tinycmmc.git"
+SCM_strutcpp_tinycmmc_REPOSITORY="https://github.com/grumbel/tinycmmc.git"
+SCM_tinygettext_tinycmmc_REPOSITORY="https://gitlab.com/grumbel/tinycmmc.git"
+SCM_uitest_tinycmmc_REPOSITORY="https://gitlab.com/grumbel/tinycmmc.git"
+SCM_wstsound_tinycmmc_REPOSITORY="https://gitlab.com/grumbel/tinycmmc.git"
 
 SCM_EXTERNAL_REFS="
-    external/argparser:argparser
-    external/cmake-modules:cmake_modules
+    external/argpp:argpp
     external/logmich:logmich
     external/geomcpp:geomcpp
     external/priocpp:priocpp
-    external/sexp-cpp:sexp_cpp
+    external/sexpcpp:sexpcpp
     external/strutcpp:strutcpp
+    external/tinycmmc:tinycmmc
     external/tinygettext:tinygettext
     external/uitest:uitest
+    external/wstsound:wstsound
     external/xdgcpp:xdgcpp
-    shared-modules:shared_modules
+"
+
+SCM_argpp_EXTERNAL_REFS="
+    external/tinycmmc:argpp_tinycmmc
 "
 
 SCM_geomcpp_EXTERNAL_REFS="
-    external/cmake-modules:geomcpp_cmake_modules
+    external/tinycmmc:geomcpp_tinycmmc
 "
 
-SCM_sexp_cpp_EXTERNAL_REFS="
-    external/benchmark:benchmark
-    external/cmake-modules:sexp_cpp_cmake_modules
-    external/googletest:googletest
+SCM_logmich_EXTERNAL_REFS="
+    external/tinycmmc:logmich_tinycmmc
+"
+
+SCM_priocpp_EXTERNAL_REFS="
+    external/logmich:priocpp_logmich
+    external/sexpcpp:priocpp_sexpcpp
+    external/tinycmmc:priocpp_tinycmmc
+"
+
+SCM_priocpp_logmich_EXTERNAL_REFS="
+    external/tinycmmc:priocpp_logmich_tinycmmc
+"
+
+SCM_priocpp_sexpcpp_EXTERNAL_REFS="
+    external/tinycmmc:priocpp_sexpcpp_tinycmmc
+"
+
+SCM_sexpcpp_EXTERNAL_REFS="
+    external/tinycmmc:sexpcpp_tinycmmc
+"
+
+SCM_strutcpp_EXTERNAL_REFS="
+    external/tinycmmc:strutcpp_tinycmmc
 "
 
 SCM_tinygettext_EXTERNAL_REFS="
-    external/cmake-modules:tinygettext_cmake_modules
+    external/tinycmmc:tinygettext_tinycmmc
 "
 
 SCM_uitest_EXTERNAL_REFS="
-    external/cmake-modules:uitest_cmake_modules
+    external/tinycmmc:uitest_tinycmmc
+"
+
+SCM_wstsound_EXTERNAL_REFS="
+    external/tinycmmc:wstsound_tinycmmc
 "
 
 require pingus cmake
@@ -82,12 +132,14 @@ DEPENDENCIES="
     build:
         virtual/pkg-config
     build+run:
-        dev-libs/boost
+        dev-cpp/libsigc++:2
+        dev-libs/fmt
+        dev-libs/glm
         dev-libs/jsoncpp:=
+        media-libs/libmodplug
         media-libs/libpng:=
         media-libs/SDL:2
         media-libs/SDL_image:2
-        media-libs/SDL_mixer:2[mikmod]
         x11-dri/mesa
 "
 
