@@ -1,4 +1,4 @@
-# Copyright 2019 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2019-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 # Based in part upon 'Gtk2-Perl-1.24992.exheres-0' from Exherbo, which is:
 #     Copyright 2008 Wulf C. Krueger <philantrop@exherbo.org>
@@ -31,3 +31,4 @@ DEPENDENCIES="
 "
 
 WORK=${WORKBASE}/${MY_PNV}
+
