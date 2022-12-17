@@ -1,4 +1,4 @@
-# Copyright 2019 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2019-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require cargo
@@ -10,4 +10,9 @@ LICENCES="MIT"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
+
+src_prepare() {
+    default
+    edo mv "${WORK}"/man{,1}
+}
 
