@@ -1,7 +1,7 @@
 # Copyright 2010-2017 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require setup-py [ import='setuptools' ] pypi
+require py-pep517 [ backend='setuptools' test='pytest' ] pypi
 
 SUMMARY="PyEnchant is a spellchecking library for Python, based on the excellent Enchant library."
 DESCRIPTION="
@@ -12,7 +12,7 @@ of Enchant with the flexibility of Python and a nice 'Pythonic'
 object-oriented interface. It also aims to provide some higher-level
 functionality than is available in the C API.
 "
-HOMEPAGE+=" http://pythonhosted.org/${PN}/"
+HOMEPAGE+=" https://${PN}.github.io/${PN}/"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
@@ -25,7 +25,7 @@ DEPENDENCIES="
 "
 
 UPSTREAM_DOCUMENTATION="
-    http://pythonhosted.org/${PN}/tutorial.html [[ description = [ Tutorial ] ]]
-    http://pythonhosted.org/${PN}/api/enchant.html [[ description = [ API Doc ] ]]
+    https://${PN}.github.io/${PN}/tutorial.html [[ description = [ Tutorial ] ]]
+    https://${PN}.github.io/${PN}/api/index.html [[ description = [ API Doc ] ]]
 "
 
