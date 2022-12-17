@@ -1,8 +1,8 @@
-# Copyright 2009-2012 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2022 Pierre Lejeune <superheron@gmail.com>
 # Copyright 2016 Johannes Nixdorf <mixi@exherbo.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require systemd-service checksums [ sha1=[ ${PNV}.tar.gz=d5f5a180dbecd0fbcdc92bf0ba2fc001c962b55a ] ]
+require systemd-service checksums [ sha1=[ ${PNV}.tar.gz=0159531cc9f9fc6dd64cd734e2fd42601e44b5d9 ] ]
 
 SUMMARY="very secure FTP daemon"
 DESCRIPTION="
