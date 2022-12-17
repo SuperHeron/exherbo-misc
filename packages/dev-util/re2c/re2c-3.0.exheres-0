@@ -1,4 +1,4 @@
-# Copyright 2009-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=skvadrik release=${PV} suffix=tar.xz ]
@@ -13,27 +13,32 @@ generates warning free code that is equal to hand-written code in terms of size,
 HOMEPAGE+=" https://${PN}.org"
 
 UPSTREAM_CHANGELOG="https://${PN}.org/releases/changelog/changelog.html [[ lang = en ]]"
-UPSTREAM_DOCUMENTATION="https://${PN}.org/manual/manual.html [[ lang = en ]]"
+UPSTREAM_DOCUMENTATION="https://${PN}.org/manual/manual_c.html [[ lang = en ]]"
 UPSTREAM_RELEASE_NOTES="https://${PN}.org/releases/release_notes.html [[ lang = en ]]"
 
 LICENCES="public-domain"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS=""
+MYOPTIONS="doc golang rust"
 
 DEPENDENCIES="
     build:
         sys-devel/bison
+        doc? ( dev-python/docutils )
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --enable-libs
+    --enable-golang
+    --enable-rust
     --disable-benchmarks
     --disable-benchmarks-regenerate
     --disable-debug
-    --disable-docs
-    --disable-golang
     --disable-lexers
     --disable-static
+)
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'doc docs'
 )
 
