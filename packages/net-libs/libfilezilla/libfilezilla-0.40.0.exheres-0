@@ -1,4 +1,4 @@
-# Copyright 2016-2019 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2016-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="C++ library offering some basic functionality for platform-independent programs"
@@ -26,7 +26,8 @@ DEPENDENCIES="
         virtual/pkg-config
         doc? ( app-doc/doxygen )
     build+run:
-        dev-libs/gnutls[>=3.5.8]
+        dev-libs/gmp:=
+        dev-libs/gnutls[>=3.7.0]
         dev-libs/nettle:=[>=3.3]
     test:
         dev-cpp/cppunit[>=1.13.0]
