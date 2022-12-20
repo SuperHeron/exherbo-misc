@@ -1,7 +1,7 @@
-# Copyright 2013 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2013-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require gnome.org
+require gnome.org [ suffix='tar.xz' ]
 
 SUMMARY="OpenGL widget for GTK+ GUI toolkit"
 DESCRIPTION="
@@ -25,7 +25,6 @@ DEPENDENCIES="
     build:
         virtual/pkg-config
     build+run:
-        x11-dri/glu
         x11-dri/mesa
         x11-libs/gtk+:2
 "
