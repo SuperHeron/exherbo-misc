@@ -3,7 +3,7 @@ Upstream: no
 Reason: Do not strip
 --- a/src/Makefile.in	2018-10-29 08:55:02.000000000 +0100
 +++ b/src/Makefile.in	2019-12-30 18:56:10.106352826 +0100
-@@ -83,7 +83,7 @@
+@@ -89,7 +89,7 @@
  	$(MKINSDIR) $(DEST_MANDIR)/man1
  	$(MKINSDIR) $(DEST_BINDIR)
  install: all installdirs
