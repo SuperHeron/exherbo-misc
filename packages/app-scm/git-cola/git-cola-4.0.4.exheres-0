@@ -1,0 +1,27 @@
+# Copyright 2022 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2012 Nikolay Orlyuk
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi py-pep517 [ backend='setuptools' test='pytest' ]
+require freedesktop-desktop
+
+SUMMARY="A sleek and powerful Git GUI"
+DESCRIPTION="Git Cola is a powerful Git GUI with a slick and intuitive user interface."
+HOMEPAGE+=" http://git-cola.github.io"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+RESTRICT="test"
+
+DEPENDENCIES="
+    build+run:
+        dev-scm/git[>=2.2.0]
+        dev-python/QtPy[>=1.1.0][python_abis:*(-)?]
+        dev-python/send2trash[python_abis:*(-)?]
+    test:
+        dev-python/pytest-flake8[python_abis:*(-)?]
+"
+
