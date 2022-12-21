@@ -20,7 +20,7 @@ DEPENDENCIES="
     build+run:
         dev-scm/git[>=2.2.0]
         dev-python/QtPy[>=1.1.0][python_abis:*(-)?]
-        dev-python/send2trash[python_abis:*(-)?]
+        dev-python/Send2Trash[python_abis:*(-)?]
     test:
         dev-python/pytest-flake8[python_abis:*(-)?]
 "
