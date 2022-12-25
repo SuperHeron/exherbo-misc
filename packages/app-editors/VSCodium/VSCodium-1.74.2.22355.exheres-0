@@ -1,0 +1,59 @@
+# Copyright 2022 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require bash-completion
+require freedesktop-desktop
+require zsh-completion
+
+SUMMARY="Free/Libre Open Source Software Binaries of VS Code"
+DESCRIPTION="
+VSCodium is a community-driven, freely-licensed binary distribution of Microsoft’s editor VS Code.
+"
+HOMEPAGE="https://vscodium.com"
+DOWNLOADS="https://github.com/VSCodium/vscodium/releases/download/${PV}/${PN}-linux-x64-${PV}.tar.gz"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+"
+
+RESTRICT="strip"
+
+pkg_setup() {
+    exdirectory --allow /opt
+}
+
+src_unpack() {
+    edo mkdir "${WORK}"
+    edo cd "${WORK}"
+    default
+}
+
+src_install() {
+    edo cd "${WORK}"
+    insinto /opt/${PN}
+    doins -r *
+
+    edo chmod +x "${IMAGE}"/opt/${PN}/{,bin/}codium
+    edo chmod +x "${IMAGE}"/opt/${PN}/chrome_crashpad_handler
+
+    edo mkdir -p "${IMAGE}"/usr/$(exhost --target)/bin
+    dosym /opt/${PN}/bin/codium /usr/$(exhost --target)/bin/codium
+    dosym /opt/${PN}/bin/codium /usr/$(exhost --target)/bin/vscodium
+
+    insinto /usr/share/applications
+    doins "${FILES}"/vscodium.desktop
+    doins "${FILES}"/vscodium-uri-handler.desktop
+
+    insinto /usr/share/pixmaps
+    newins resources/app/resources/linux/code.png vscodium.png
+
+    dobashcompletion "${IMAGE}"/opt/${PN}/resources/completions/bash/codium codium
+    dozshcompletion "${IMAGE}"/opt/${PN}/resources/completions/zsh/_codium
+}
+
