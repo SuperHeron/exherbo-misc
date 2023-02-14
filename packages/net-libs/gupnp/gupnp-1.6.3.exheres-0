@@ -54,10 +54,10 @@ DEPENDENCIES="
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=1.36.0] )
         gtk-doc? ( dev-doc/gi-docgen[>=2021.1] )
     build+run:
-        dev-libs/glib:2[>=2.69.0]
+        dev-libs/glib:2[>=2.70.0]
         dev-libs/libxml2:2.0
         gnome-desktop/libsoup:3.0[>=2.99.0][gobject-introspection?]
-        net-libs/gssdp:1.6[>=1.5.2][gobject-introspection?]
+        net-libs/gssdp:1.6[>=1.6.2][gobject-introspection?]
         sys-apps/util-linux
     run:
         connman? ( net-misc/connman[>=0.80] )
