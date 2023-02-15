@@ -1,0 +1,29 @@
+Upstream: Yes, https://gitlab.gnome.org/GNOME/gupnp/-/commit/9cabca33361bdba9e97f26437467eb041e5b7846
+
+From 2f3705af1d035719d7885fe58265aecc094f22b4 Mon Sep 17 00:00:00 2001
+From: Marvin Schmidt <marv@exherbo.org>
+Date: Mon, 11 Apr 2022 19:57:40 +0200
+Subject: [PATCH] meson: Respect bindir option
+
+diff -Naur gupnp-1.0.7/meson.build gupnp-1.0.7.new/meson.build
+--- gupnp-1.0.7/meson.build	2021-05-24 10:18:23.000000000 +0200
++++ gupnp-1.0.7.new/meson.build	2023-02-14 15:04:05.152309904 +0100
+@@ -4,6 +4,9 @@
+ 
+ cc = meson.get_compiler('c')
+ 
++prefix = get_option('prefix')
++bindir = join_paths(prefix, get_option('bindir'))
++
+ conf = configuration_data()
+ conf.set_quoted('VERSION', meson.project_version())
+ 
+diff -Naur gupnp-1.0.7/tools/meson.build gupnp-1.0.7.new/tools/meson.build
+--- gupnp-1.0.7/tools/meson.build	2021-05-24 10:18:13.000000000 +0200
++++ gupnp-1.0.7.new/tools/meson.build	2023-02-14 15:04:54.515453305 +0100
+@@ -1 +1,4 @@
+-install_data('gupnp-binding-tool', install_dir : 'bin')
++install_data(
++  'gupnp-binding-tool',
++  install_dir : bindir
++)

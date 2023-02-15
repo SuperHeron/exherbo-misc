@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require gnome.org [ suffix='tar.xz' ]
-# Vala bindings are automagically enabled when g-i is
-require vala [ vala_dep=true with_opt=true option_name='gobject-introspection' ]
+require vala [ vala_dep=true with_opt=true ]
+require meson
 
 SUMMARY="GUPnP is an object-oriented open source framework
 for creating UPnP devices and control points, written in C
@@ -34,10 +34,15 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
 LICENCES="LGPL-2"
 SLOT="1.0"
 PLATFORMS="~amd64"
-MYOPTIONS="gobject-introspection gtk-doc networkmanager
-    connman [[ description = [ Connectivity support via connman ] ]]
-
-    ( connman networkmanager ) [[ number-selected = at-most-one ]]
+MYOPTIONS="
+    gobject-introspection
+    gtk-doc
+    networkmanager
+    vapi [[ requires = gobject-introspection ]]
+    (
+        connman [[ description = [ Use connman to detect network interfaces ] ]]
+        networkmanager [[ description = [ Use NetworkManager to detect network interfaces ] ]]
+    ) [[ number-selected = at-most-one ]]
 "
 
 DEPENDENCIES="
@@ -46,33 +51,40 @@ DEPENDENCIES="
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=1.36.0] )
         gtk-doc? ( dev-doc/gtk-doc[>=1.14] )
     build+run:
-        dev-libs/glib:2[>=2.40.0]
+        dev-libs/glib:2[>=2.44.0]
         dev-libs/libxml2:2.0
         gnome-desktop/libsoup:2.4[>=2.48.0][gobject-introspection?]
-        net-libs/gssdp:1.0[>=0.14.15][gobject-introspection?]
+        net-libs/gssdp:1.0[>=1.0.4][gobject-introspection?]
         sys-apps/util-linux
     run:
         connman? ( net-misc/connman[>=0.80] )
         networkmanager? ( net-apps/NetworkManager )
 "
 
-RESTRICT="test" # network violation
-
-REMOTE_IDS="freecode:${PN}"
+# Network violation
+RESTRICT="test"
 
 UPSTREAM_RELEASE_NOTES="https://ftp.gnome.org/pub/GNOME/sources/${PN}/$(ever range 1-2)/${PNV}.news"
-UPSTREAM_DOCUMENTATION="https://developer.gnome.org/${PN}/$(ever range 1-2)"
 
-src_prepare() {
-    edo sed -e "s/if pkg-config/if \$PKG_CONFIG/" -i configure
-}
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}"/${PN}-1.0.7-meson-respect-bindir-option.patch
+)
+
+MESON_SRC_CONFIGURE_PARAMS=(
+    -Dexamples=false
+)
+MESON_SRC_CONFIGURE_OPTION_SWITCHES=(
+    'gobject-introspection introspection'
+    'gtk-doc gtk_doc'
+    vapi
+)
 
 src_configure() {
     local context_manager='linux'
     option networkmanager && context_manager='network-manager'
     option connman && context_manager='connman'
-    econf $(option_enable gtk-doc) \
-          $(option_enable gobject-introspection introspection) \
-          --with-context-manager=${context_manager}
+
+    meson_src_configure \
+        -Dcontext_manager=${context_manager}
 }
 
