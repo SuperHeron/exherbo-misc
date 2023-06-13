@@ -1,4 +1,4 @@
-# Copyright 2009-2022 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2023 Pierre Lejeune <superheron@gmail.com>
 # Copyright 2017 Nadal Gonzalo García Zavala <snorkellingcactus@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
@@ -13,7 +13,7 @@ It aims to provide more convenient approach to editing catalogs than launching v
 file by hand.
 "
 
-HOMEPAGE+=" https://www.poedit.net"
+HOMEPAGE+=" https://poedit.net"
 
 LICENCES="MIT"
 SLOT="0"
