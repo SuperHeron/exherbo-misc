@@ -1,4 +1,4 @@
-# Copyright 2010-2022 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2023 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user='megastep' suffix='run' release="release-${PV}" ]
@@ -41,23 +41,18 @@ src_unpack() {
     edo sh "${FETCHEDDIR}/${PNV}.run" --target "${WORK}"
 }
 
-src_install() {
-    default
-    newbin "${PN}".sh "${PN}"
-    dobin "${PN}-header.sh"
-    doman "${PN}".1
-    dodoc "${PN}".lsm
-}
-
-src_prepare() {
-    edo sed "s|strings|$(exhost --tool-prefix)strings|" -i test/datetest
-}
-
 src_test() {
     edo pushd test
     for t in *test; do
         edo bash "$t"
     done
     edo popd
+}
+
+src_install() {
+    default
+    newbin "${PN}".sh "${PN}"
+    dobin "${PN}-header.sh"
+    doman "${PN}".1
 }
 
