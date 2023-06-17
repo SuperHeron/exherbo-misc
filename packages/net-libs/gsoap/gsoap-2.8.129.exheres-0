@@ -1,4 +1,4 @@
-# Copyright 2009-2022 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2023 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require sourceforge [ project="${PN}$(ever major)" pnv="${PNV/-/_}" suffix='zip' ]
