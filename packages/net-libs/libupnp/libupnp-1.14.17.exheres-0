@@ -1,8 +1,8 @@
-# Copyright 2012-2022 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2012-2023 Pierre Lejeune <superheron@gmail.com>
 # Copyright 2010 Timothy Redaelli <timothy@redaelli.eu>
 # Distributed under the terms of the GNU General Public License v2
 
-require sourceforge [ project=pupnp ]
+require github [ user='pupnp' project='pupnp' release="release-${PV}" suffix='tar.bz2' ]
 
 SUMMARY="A Portable Open Source UPnP Development Kit"
 
