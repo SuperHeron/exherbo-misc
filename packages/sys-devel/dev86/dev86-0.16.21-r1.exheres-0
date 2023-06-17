@@ -1,11 +1,10 @@
 # Copyright 2009-2014 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require github [ user='lkundrak' rev='c6f36cbafa979710b809f117562773dbd6825918' ]
+
 SUMMARY="Bruce's C compiler - Simple C compiler to generate 8086 code"
 DESCRIPTION="This is a cross development C compiler, assembler and linker environment for the production of 8086 executables."
-HOMEPAGE="http://v3.sk/~lkundrak/${PN}"
-MY_PNV="Dev86src-${PV}"
-DOWNLOADS="${HOMEPAGE}/${MY_PNV}.tar.gz"
 
 LICENCES="GPL-2 LGPL-2"
 SLOT="0"
