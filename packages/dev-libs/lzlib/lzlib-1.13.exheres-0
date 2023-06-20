@@ -1,0 +1,35 @@
+# Copyright 2023 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="A library providing in-memory LZMA compression and decompression functions"
+DESCRIPTION="
+Lzlib is a data compression library providing in-memory LZMA compression and decompression
+functions, including integrity checking of the decompressed data.
+The compressed data format used by the library is the lzip format.
+"
+HOMEPAGE="https://www.nongnu.org/lzip/${PN}.html"
+DOWNLOADS="mirror://savannah/lzip/${PN}/${PNV}.tar.gz"
+
+LICENCES="BSD-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+src_configure() {
+    # Not an autoconf script
+    edo ./configure \
+        --prefix=/usr \
+        --exec-prefix=/usr/$(exhost --target) \
+        --includedir=/usr/$(exhost --target)/include \
+        --disable-static \
+        CC="${CC}" \
+        CFLAGS="${CXXFLAGS}" \
+        LDFLAGS="${LDFLAGS}" \
+        AR="${AR}"
+}
+
+src_install() {
+    default
+    emake -j1 DESTDIR="${IMAGE}" "${DEFAULT_SRC_INSTALL_PARAMS[@]}" install-bin
+}
+
