@@ -1,0 +1,24 @@
+# Copyright 2023 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Virtual: lzip providers"
+HOMEPAGE=""
+
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    ( providers:
+        lzip
+        plzip
+    ) [[
+        *description = [ lzip provider ]
+        number-selected = at-least-one
+    ]]
+"
+
+DEPENDENCIES="
+    run:
+        providers:lzip? ( app-arch/lzip )
+        providers:plzip? ( app-arch/plzip )
+"
+
