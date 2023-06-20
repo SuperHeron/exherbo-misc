@@ -1,5 +1,7 @@
-# Copyright 2009-2022 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2023 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
+
+require alternatives
 
 SUMMARY="Lossless data compressor based on the LZMA algorithm"
 DESCRIPTION="
@@ -30,3 +32,12 @@ src_configure() {
         CXXFLAGS="${CXXFLAGS}" \
         LDFLAGS="${LDFLAGS}"
 }
+
+src_install() {
+    default
+    alternatives_for lzip "${PN}" "100"                                 \
+                     /usr/$(exhost --target)/bin/lzip "${PN}".lzip      \
+                     /usr/share/man/man1/lzip.1       "${PN}".lzip.1    \
+                     /usr/share/info/lzip.info        "${PN}".lzip.info
+}
+
