@@ -1,0 +1,41 @@
+# Copyright 2023 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require alternatives
+
+SUMMARY="Parallel (multi-threaded) implementation of lzip."
+DESCRIPTION="
+Plzip is a massively parallel (multi-threaded) implementation of lzip,
+fully compatible with lzip 1.4 or newer.
+"
+HOMEPAGE="https://www.nongnu.org/lzip/${PN}.html"
+DOWNLOADS="mirror://savannah/lzip/${PN}/${PNV}.tar.gz"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-libs/lzlib[>=1.12]
+"
+
+src_configure() {
+    # Not an autoconf script
+    edo ./configure \
+        --prefix=/usr \
+        --exec-prefix=/usr/$(exhost --target) \
+        CXX="${CXX}" \
+        CXXFLAGS="${CXXFLAGS}" \
+        LDFLAGS="${LDFLAGS}"
+}
+
+src_install() {
+    default
+    alternatives_for lzip "${PN}" "500"                            \
+                     /usr/$(exhost --target)/bin/lzip "${PN}"      \
+                     /usr/share/man/man1/lzip.1       "${PN}".1    \
+                     /usr/share/info/lzip.info        "${PN}".info
+}
+
