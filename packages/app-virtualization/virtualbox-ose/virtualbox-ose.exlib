@@ -85,7 +85,7 @@ DEPENDENCIES="
         dbus? ( sys-apps/dbus )
         device-mapper? ( sys-fs/lvm2 )
         providers:libressl? ( dev-libs/libressl:= )
-        providers:openssl? ( dev-libs/openssl )
+        providers:openssl? ( dev-libs/openssl:= )
         pulseaudio? ( media-sound/pulseaudio[>=0.9.0] )
         vnc? ( net-libs/libvncserver[>=0.9.7] )
         vpx? ( media-libs/libvpx:=[>=0.9.5] )
