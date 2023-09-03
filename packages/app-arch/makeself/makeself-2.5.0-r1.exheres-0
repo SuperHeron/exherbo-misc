@@ -26,7 +26,7 @@ MYOPTIONS="
 DEPENDENCIES="
     run:
         providers:libressl? ( dev-libs/libressl:* )
-        providers:openssl? ( dev-libs/openssl )
+        providers:openssl? ( dev-libs/openssl:= )
     suggestion:
         app-arch/lz4[parts:binaries]    [[ description = [ Use lz4 for compression    ] ]]
         app-arch/lzo:*                  [[ description = [ Use lzo for compression    ] ]]
