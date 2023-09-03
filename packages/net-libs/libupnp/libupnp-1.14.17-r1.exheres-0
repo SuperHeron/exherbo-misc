@@ -21,7 +21,7 @@ RESTRICT="test"
 
 DEPENDENCIES="
     build+run:
-        providers:openssl? ( dev-libs/openssl )
+        providers:openssl? ( dev-libs/openssl:= )
         providers:libressl? ( dev-libs/libressl:= )
 "
 
