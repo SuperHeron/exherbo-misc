@@ -31,7 +31,7 @@ DEPENDENCIES="
         lm_sensors? ( sys-apps/lm_sensors )
         providers:gnutls? ( dev-libs/gnutls )
         providers:libressl? ( dev-libs/libressl:= )
-        providers:openssl? ( dev-libs/openssl )
+        providers:openssl? ( dev-libs/openssl:= )
 "
 
 REMOTE_IDS="freecode:${PN}"
