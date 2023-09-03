@@ -28,7 +28,7 @@ DEPENDENCIES="
         sys-devel/flex
     build+run:
         providers:gnutls? ( dev-libs/gnutls )
-        providers:openssl? ( dev-libs/openssl )
+        providers:openssl? ( dev-libs/openssl:= )
 "
 
 UPSTREAM_CHANGELOG="https://www.genivia.com/changelog.html"
