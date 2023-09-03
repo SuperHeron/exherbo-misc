@@ -34,7 +34,7 @@ DEPENDENCIES="
         sys-libs/ncurses
         sys-libs/readline:=
         providers:libressl? ( dev-libs/libressl:= )
-        providers:openssl? ( dev-libs/openssl )
+        providers:openssl? ( dev-libs/openssl:= )
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
