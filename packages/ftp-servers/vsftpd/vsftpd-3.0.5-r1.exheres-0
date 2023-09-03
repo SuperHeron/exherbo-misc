@@ -27,7 +27,7 @@ DEPENDENCIES="
         user/ftp
         tcp-wrappers? ( sys-apps/tcp-wrappers )
         providers:libressl? ( dev-libs/libressl:= )
-        providers:openssl? ( dev-libs/openssl )
+        providers:openssl? ( dev-libs/openssl:= )
 "
 
 UPSTREAM_CHANGELOG="https://security.appspot.com/${PN}/Changelog"
