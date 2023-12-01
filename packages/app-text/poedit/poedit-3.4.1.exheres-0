@@ -45,3 +45,12 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'debug'
 )
 
+src_prepare() {
+    # fix locale search path to not search under prefix
+    edo sed \
+        -e 's#wxStandardPaths::Get().GetInstallPrefix() + "/share/locale"#"/usr/share/locale"#g' \
+        -i src/edapp.cpp
+
+    default
+}
+
