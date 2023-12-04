@@ -3,6 +3,7 @@
 
 MY_PNV="FileZilla_${PV}_src"
 
+require wxwidgets [ wxwidgets_opts="[providers:gtk2?][providers:gtk3?]" ]
 require freedesktop-desktop
 
 SUMMARY="FileZilla Client, free FTP client"
@@ -31,7 +32,6 @@ DEPENDENCIES="
         net-dns/libidn
         net-libs/libfilezilla[>=0.43.0]
         x11-apps/xdg-utils
-        x11-libs/wxGTK:3.0[>=3.0.4][providers:gtk2?][providers:gtk3?]
         dbus? ( sys-apps/dbus[>=1.2] )
         providers:gtk2? ( x11-libs/gtk+:2 )
         providers:gtk3? ( x11-libs/gtk+:3 )
@@ -48,7 +48,7 @@ src_configure() {
         --disable-manualupdatecheck \
         --enable-locales \
         --with-pugixml=system \
-        --with-wx-config="/usr/$(exhost --target)/bin/wx-config-3.0-$(option providers:gtk3 gtk3 gtk2)" \
+        --with-wx-config=$(wxwidgets_get_config) \
         $(option_with dbus)
 }
 
