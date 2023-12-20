@@ -1,10 +1,10 @@
 # Copyright 2016-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require github [ release="${PV}" suffix='tar.gz' ]
+require github [ release="${PV}" pnv="${PNV,,}" suffix='tar.gz' ]
 require bash-completion
 
-SUMMARY="Open source smart card tools and middleware."
+SUMMARY="Open source smart card tools and middleware"
 DESCRIPTION="
 OpenSC provides a set of libraries and utilities to work with smart cards. Its main focus is on
 cards that support cryptographic operations, and facilitate their use in security applications
@@ -14,7 +14,6 @@ On the card OpenSC implements the PKCS#15 standard and aims to be compatible wit
 software/card that does so, too.
 "
 HOMEPAGE="${HOMEPAGE}/wiki"
-WORK="${WORKBASE}/opensc-${PV}"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
@@ -28,27 +27,48 @@ DEPENDENCIES="
     build:
         app-text/docbook-xsl-stylesheets
         dev-libs/libxslt [[ note = [ For xsltproc ] ]]
-        dev-scm/git
+        virtual/pkg-config
     build+run:
+        dev-libs/glib:2
         sys-apps/pcsc-lite
         sys-libs/ncurses
         sys-libs/readline:=
         providers:libressl? ( dev-libs/libressl:= )
-        providers:openssl? ( dev-libs/openssl:= )
+        providers:openssl? ( dev-libs/openssl:=[>=1.1.1] )
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    '--disable-tests'
-    '--enable-man'
-    '--enable-openssl'
-    '--enable-readline'
-    '--enable-zlib'
-    "--with-completiondir=${BASHCOMPLETIONDIR}"
+    --enable-autostart-items
+    --enable-man
+    --enable-notify
+    --enable-openssl
+    --enable-pcsc
+    --enable-readline
+    --enable-sm
+    --enable-thread-locking
+    --enable-zlib
+    --disable-assert
+    --disable-cmocka
+    --disable-cryptotokenkit
+    --disable-ctapi
+    --disable-dnie-ui
+    --disable-fuzzing
+    --disable-gcov
+    --disable-minidriver
+    --disable-openct
+    --disable-openpace
+    --disable-pedantic
+    --disable-piv-sm
+    --disable-static
+    --disable-tests
+    --disable-valgrind
+    --with-completiondir=${BASHCOMPLETIONDIR}
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc' )
 
-src_install(){
+src_install() {
     default
+
     bash-completion_src_install
 }
 
