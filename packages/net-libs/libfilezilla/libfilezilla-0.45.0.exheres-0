@@ -1,6 +1,8 @@
 # Copyright 2016-2023 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require utf8-locale
+
 SUMMARY="C++ library offering some basic functionality for platform-independent programs"
 DESCRIPTION="
 libfilezilla is a free, open source C++ library, offering some basic
@@ -29,14 +31,19 @@ DEPENDENCIES="
         dev-libs/gmp:=[>=6.2]
         dev-libs/gnutls[>=3.7.0]
         dev-libs/nettle:=[>=3.3]
+        !libc:musl? ( dev-libs/libxcrypt:= )
     test:
         dev-cpp/cppunit[>=1.13.0]
 "
 
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --disable-static
+)
+
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc doxygen-doc' )
 
-src_test(){
-  # locale needs to be set to UTF-8
-  # for the string_test::test_conversion2 test
-  LC_ALL=en_US.UTF-8 make check
+pkg_setup() {
+    # required for test string_test::test_conversion2
+    require_utf8_locale
 }
+
