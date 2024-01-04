@@ -7,7 +7,10 @@ require wxwidgets [ wxwidgets_opts="[providers:gtk2?][providers:gtk3?]" ]
 require freedesktop-desktop
 
 SUMMARY="FileZilla Client, free FTP client"
-DESCRIPTION="FileZilla Client is a fast and reliable cross-platform FTP, FTPS and SFTP client with lots of useful features and an intuitive graphical user interface."
+DESCRIPTION="
+FileZilla Client is a fast and reliable cross-platform FTP, FTPS and SFTP client with lots of
+useful features and an intuitive graphical user interface.
+"
 
 HOMEPAGE="https://filezilla-project.org"
 DOWNLOADS="https://download.filezilla-project.org/client/${MY_PNV}.tar.xz"
@@ -22,6 +25,7 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build:
+        dev-libs/boost[>=1.76]
         sys-devel/gettext[>=0.11.0]
         virtual/pkg-config[>=0.9.0]
     build+run:
@@ -30,7 +34,7 @@ DEPENDENCIES="
         dev-libs/nettle:=[>=3.1]
         dev-libs/pugixml[>=1.6]
         net-dns/libidn
-        net-libs/libfilezilla[>=0.43.0]
+        net-libs/libfilezilla[>=0.45.0]
         x11-apps/xdg-utils
         dbus? ( sys-apps/dbus[>=1.2] )
         providers:gtk2? ( x11-libs/gtk+:2 )
@@ -41,12 +45,10 @@ DEPENDENCIES="
 
 UPSTREAM_DOCUMENTATION="https://wiki.filezilla-project.org/Documentation"
 
-DEFAULT_SRC_PREPARE_PATCHES=( -p2 "${FILES}/${PNV}-10966.patch" )
-
 src_configure() {
     econf \
-        --disable-manualupdatecheck \
         --enable-locales \
+        --disable-manualupdatecheck \
         --with-pugixml=system \
         --with-wx-config=$(wxwidgets_get_config) \
         $(option_with dbus)
@@ -54,6 +56,6 @@ src_configure() {
 
 src_install() {
     default
-    doenvd "${FILES}/90filezilla"
+    doenvd "${FILES}"/90filezilla
 }
 
