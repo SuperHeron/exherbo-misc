@@ -21,11 +21,7 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="doc golang rust"
 
-DEPENDENCIES="
-    build:
-        sys-devel/bison
-        doc? ( dev-python/docutils )
-"
+DEPENDENCIES=""
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --enable-libs
@@ -34,11 +30,9 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --disable-benchmarks
     --disable-benchmarks-regenerate
     --disable-debug
+    --disable-docs
     --disable-lexers
+    --disable-parsers
     --disable-static
-)
-
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
-    'doc docs'
 )
 
