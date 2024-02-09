@@ -50,7 +50,7 @@ DEPENDENCIES="
         dev-libs/protobuf:=
         media-libs/chromaprint[>=1.4]
         media-libs/gstreamer:1.0
-        media-libs/taglib[>=1.12.0]
+        media-libs/taglib:=[>=1.12.0]
         media-plugins/gst-plugins-base:1.0
         sys-apps/dbus
         sys-sound/alsa-lib
