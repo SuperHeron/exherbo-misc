@@ -9,12 +9,12 @@
 
 require freedesktop-desktop gtk-icon-cache cmake
 
-SUMMARY="Qt5-fork of Clementine music player"
+SUMMARY="Strawberry Music Player"
 DESCRIPTION="
 Strawberry is a music player and music collection organizer. It is a fork of Clementine released
 in 2018 aimed at music collectors, enthusiasts and audiophiles. The name is inspired by the band
 Strawbs. It's based on a heavily modified version of Clementine created in 2012-2013.
-It's written in C++ and Qt 5.
+It's written in C++ and Qt.
 "
 HOMEPAGE="https://www.strawberrymusicplayer.org"
 DOWNLOADS="https://files.strawberrymusicplayer.org/${PNV}.tar.xz"
@@ -37,14 +37,13 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build:
-        dev-libs/boost
         sys-devel/gettext
         virtual/pkg-config
+        x11-proto/xorgproto
     build+run:
         dev-db/sqlite:3[>=3.9]
         dev-libs/boost
         dev-libs/glib:2
-        dev-libs/gnutls
         dev-libs/icu:=
         dev-libs/libxml2:2.0
         dev-libs/protobuf:=
@@ -55,7 +54,6 @@ DEPENDENCIES="
         sys-apps/dbus
         sys-sound/alsa-lib
         x11-libs/libX11
-        x11-proto/xorgproto
         cd? ( dev-libs/libcdio )
         ipod? (
             media-libs/libgpod[>=0.7.92]
@@ -85,9 +83,13 @@ UPSTREAM_CHANGELOG="https://github.com/${PN}musicplayer/${PN}/blob/${PV}/Changel
 
 CMAKE_SRC_CONFIGURE_PARAMS=(
     -DBUILD_WERROR=OFF
+    # currently not packages, fallback to bundled version
+    -DCMAKE_DISABLE_FIND_PACKAGE_KDSingleApplication:BOOL=TRUE
     -DENABLE_ALSA:BOOL=ON
     -DENABLE_DBUS:BOOL=ON
+    -DENABLE_EBUR128:BOOL=FALSE
     -DENABLE_GIO:BOOL=ON
+    -DENABLE_GIO_UNIX:BOOL=TRUE
     -DENABLE_GLOBALSHORTCUTS:BOOL=ON
     -DENABLE_GSTREAMER:BOOL=ON
     -DENABLE_MUSICBRAINZ:BOOL=ON
@@ -96,10 +98,13 @@ CMAKE_SRC_CONFIGURE_PARAMS=(
     -DENABLE_SPARKLE:BOOL=OFF
     -DENABLE_SUBSONIC:BOOL=ON
     -DENABLE_TIDAL:BOOL=ON
+    -DENABLE_TRANSLATIONS:BOOL=TRUE
     -DENABLE_UDISKS2:BOOL=ON
-    -DENABLE_VLC:BOOL=OFF
     -DENABLE_X11_GLOBALSHORTCUTS:BOOL=ON
+    -DUSE_BUNDLE:BOOL=FALSE
+    -DUSE_ICU:BOOL=TRUE
     -DUSE_TAGLIB:BOOL=ON
+    -DUSE_TAGPARSER:BOOL=FALSE
 )
 CMAKE_SRC_CONFIGURE_OPTIONS=(
     'qt5 BUILD_WITH_QT5'
