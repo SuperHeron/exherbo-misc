@@ -3,7 +3,7 @@
 
 MY_PNV="FileZilla_${PV}_src"
 
-require wxwidgets [ wxwidgets_opts="[providers:gtk2?][providers:gtk3?]" ]
+require wxwidgets [ min_version="3.2.1" wxwidgets_opts="[providers:gtk2?][providers:gtk3?]" ]
 require freedesktop-desktop
 
 SUMMARY="FileZilla Client, free FTP client"
@@ -34,7 +34,7 @@ DEPENDENCIES="
         dev-libs/nettle:=[>=3.1]
         dev-libs/pugixml[>=1.6]
         net-dns/libidn
-        net-libs/libfilezilla[>=0.45.0]
+        net-libs/libfilezilla[>=0.47.0]
         x11-apps/xdg-utils
         dbus? ( sys-apps/dbus[>=1.2] )
         providers:gtk2? ( x11-libs/gtk+:2 )
@@ -47,7 +47,10 @@ UPSTREAM_DOCUMENTATION="https://wiki.filezilla-project.org/Documentation"
 
 src_configure() {
     econf \
+        --enable-ftp \
+        --enable-gui \
         --enable-locales \
+        --enable-sftp \
         --disable-manualupdatecheck \
         --with-pugixml=system \
         --with-wx-config=$(wxwidgets_get_config) \
@@ -56,6 +59,7 @@ src_configure() {
 
 src_install() {
     default
+
     doenvd "${FILES}"/90filezilla
 }
 
