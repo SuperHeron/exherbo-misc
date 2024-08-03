@@ -32,13 +32,14 @@ GUPnP is free software released under the GNU LGPL.
 HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
 
 LICENCES="LGPL-2"
-SLOT="1.2"
+SLOT="1.6"
 PLATFORMS="~amd64"
 MYOPTIONS="
     gobject-introspection
     gtk-doc
     networkmanager
 
+    gtk-doc [[ requires = gobject-introspection ]]
     vapi [[ requires = gobject-introspection ]]
 
     (
@@ -51,12 +52,12 @@ DEPENDENCIES="
     build:
         virtual/pkg-config[>=0.9.0]
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=1.36.0] )
-        gtk-doc? ( dev-doc/gtk-doc[>=1.14] )
+        gtk-doc? ( dev-doc/gi-docgen[>=2021.1] )
     build+run:
-        dev-libs/glib:2[>=2.66.0]
+        dev-libs/glib:2[>=2.70.0][gobject-introspection(+)?]
         dev-libs/libxml2:2.0
-        gnome-desktop/libsoup:2.4[>=2.48.0][gobject-introspection?]
-        net-libs/gssdp:1.2[>=1.3.0][gobject-introspection?]
+        gnome-desktop/libsoup:3.0[>=2.99.0][gobject-introspection?]
+        net-libs/gssdp:1.6[>=1.6.2][gobject-introspection?]
         sys-apps/util-linux
     run:
         connman? ( net-misc/connman[>=0.80] )

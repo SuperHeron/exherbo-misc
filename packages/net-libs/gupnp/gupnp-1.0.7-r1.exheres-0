@@ -51,7 +51,7 @@ DEPENDENCIES="
         gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=1.36.0] )
         gtk-doc? ( dev-doc/gtk-doc[>=1.14] )
     build+run:
-        dev-libs/glib:2[>=2.44.0]
+        dev-libs/glib:2[>=2.44.0][gobject-introspection(+)?]
         dev-libs/libxml2:2.0
         gnome-desktop/libsoup:2.4[>=2.48.0][gobject-introspection?]
         net-libs/gssdp:1.0[>=1.0.4][gobject-introspection?]
