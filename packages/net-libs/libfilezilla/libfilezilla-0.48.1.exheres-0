@@ -15,7 +15,9 @@ of the highlights include:
   with timestamps originating from different sources
 "
 HOMEPAGE="https://lib.filezilla-project.org"
-DOWNLOADS="https://download.filezilla-project.org/${PN}/${PNV}.tar.xz"
+DOWNLOADS="
+    manual: ${PNV}.tar.xz
+"
 
 LICENCES="GPL-2"
 SLOT="0"

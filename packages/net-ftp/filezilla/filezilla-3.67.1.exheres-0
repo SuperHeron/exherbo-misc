@@ -13,7 +13,9 @@ useful features and an intuitive graphical user interface.
 "
 
 HOMEPAGE="https://filezilla-project.org"
-DOWNLOADS="https://download.filezilla-project.org/client/${MY_PNV}.tar.xz"
+DOWNLOADS="
+    manual: ${MY_PNV}.tar.xz
+"
 
 LICENCES="GPL-2"
 SLOT="0"
