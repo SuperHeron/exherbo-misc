@@ -34,7 +34,7 @@ DEPENDENCIES="
         dev-libs/nettle:=[>=3.1]
         dev-libs/pugixml[>=1.6]
         net-dns/libidn
-        net-libs/libfilezilla[>=0.47.0]
+        net-libs/libfilezilla[>=0.48.1]
         x11-apps/xdg-utils
         dbus? ( sys-apps/dbus[>=1.2] )
         providers:gtk2? ( x11-libs/gtk+:2 )
