@@ -65,7 +65,7 @@ DEPENDENCIES="
        !app-office/openoffice
        !app-office/openoffice-bin
     run:
-        dev-libs/atk
+        dev-libs/at-spi2-core[>=2.52.0]
         dev-libs/dbus-glib:1
         dev-libs/glib:2
         media-libs/fontconfig
