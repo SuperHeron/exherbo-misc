@@ -1,0 +1,36 @@
+# Copyright 2010-2017 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require gnome.org [ suffix='tar.xz' ]
+require meson
+
+SUMMARY="This is a library to handle UPnP IGD port mapping"
+HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
+
+LICENCES="LGPL-2.1"
+SLOT="1.6"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    gobject-introspection
+    gtk-doc
+"
+
+DEPENDENCIES="
+    build:
+        virtual/pkg-config[>=0.9.0]
+        gobject-introspection? ( gnome-desktop/gobject-introspection:1[>=0.10.0] )
+        gtk-doc? ( dev-doc/gtk-doc[>=1.10] )
+    build+run:
+        dev-libs/glib:2[>=2.70][gobject-introspection(+)?]
+        net-libs/gssdp:1.6[>=1.6.0][gobject-introspection?]
+        net-libs/gupnp:1.6[>=1.6.0][gobject-introspection?]
+"
+
+# needs network access
+RESTRICT="test"
+
+MESON_SRC_CONFIGURE_OPTION_SWITCHES=(
+    'gobject-introspection introspection'
+    'gtk-doc gtk_doc'
+)
+
