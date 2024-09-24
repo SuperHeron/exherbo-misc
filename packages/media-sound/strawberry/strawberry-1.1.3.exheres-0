@@ -8,6 +8,7 @@
 #   Copyright 2016 Ingmar Vanhassel
 
 require freedesktop-desktop gtk-icon-cache cmake
+require option-renames [ renames=[ 'qt5 providers:qt5' 'qt6 providers:qt6' ] ]
 
 SUMMARY="Strawberry Music Player"
 DESCRIPTION="
@@ -28,11 +29,9 @@ MYOPTIONS="
     moodbar     [[ description = [ Builds the bundled gst-plugins-moodbar for moodbar support ] ]]
     mtp         [[ description = [ Support for MTP devices ] ]]
     pulseaudio
-    qt5         [[ description = [ Build with QT5 ] ]]
-    qt6         [[ description = [ Build with QT6 ] ]]
     vlc         [[ description = [ Use VLC backend ] ]]
 
-    ( qt5 qt6 ) [[ number-selected = exactly-one ]]
+    ( providers: qt5 qt6 ) [[ number-selected = exactly-one ]]
 "
 
 DEPENDENCIES="
@@ -40,6 +39,8 @@ DEPENDENCIES="
         sys-devel/gettext
         virtual/pkg-config
         x11-proto/xorgproto
+        providers:qt5? ( x11-libs/qttools:5[>=5.12.0] )
+        providers:qt6? ( x11-libs/qttools:6[>=6.2.0] )
     build+run:
         dev-db/sqlite:3[>=3.9]
         dev-libs/boost
@@ -62,15 +63,12 @@ DEPENDENCIES="
         moodbar? ( sci-libs/fftw[>=3.0.0] )
         mtp? ( media-libs/libmtp[>=1.0] )
         pulseaudio? ( media-sound/pulseaudio )
-        qt5? (
+        providers:qt5? (
             x11-libs/qtbase:5[>=5.12.0][X(+)][gui][sql][sqlite]
-            x11-libs/qttools:5[>=5.12.0]
             x11-libs/qtx11extras:5[>=5.12.0]
         )
-        qt6? (
+        providers:qt6? (
             x11-libs/qtbase:6[>=6.2.0][gui][sql][sqlite]
-            x11-libs/qttools:6[>=6.2.0]
-            x11-libs/qtx11extras:6[>=6.2.0]
         )
         vlc? ( media/vlc )
     run:
@@ -85,8 +83,10 @@ CMAKE_SRC_CONFIGURE_PARAMS=(
     -DBUILD_WERROR=OFF
     # currently not packages, fallback to bundled version
     -DCMAKE_DISABLE_FIND_PACKAGE_KDSingleApplication:BOOL=TRUE
+    -DCMAKE_DISABLE_FIND_PACKAGE_KDSingleApplication-qt6:BOOL=TRUE
     -DENABLE_ALSA:BOOL=ON
     -DENABLE_DBUS:BOOL=ON
+    -DENABLE_DEBUG_OUTPUT_DEFAULT:BOOL=FALSE
     -DENABLE_EBUR128:BOOL=FALSE
     -DENABLE_GIO:BOOL=ON
     -DENABLE_GIO_UNIX:BOOL=TRUE
@@ -96,19 +96,22 @@ CMAKE_SRC_CONFIGURE_PARAMS=(
     -DENABLE_QOBUZ:BOOL=ON
     -DENABLE_SONGFINGERPRINTING:BOOL=ON
     -DENABLE_SPARKLE:BOOL=OFF
+    -DENABLE_SPOTIFY:BOOL=FALSE
     -DENABLE_SUBSONIC:BOOL=ON
     -DENABLE_TIDAL:BOOL=ON
     -DENABLE_TRANSLATIONS:BOOL=TRUE
     -DENABLE_UDISKS2:BOOL=ON
     -DENABLE_X11_GLOBALSHORTCUTS:BOOL=ON
+    -DHAVE_TRANSLATIONS:BOOL=TRUE
+    -DINSTALL_TRANSLATIONS:BOOL=FALSE
+    -DLINGUAS:STRING=All
     -DUSE_BUNDLE:BOOL=FALSE
-    -DUSE_ICU:BOOL=TRUE
     -DUSE_TAGLIB:BOOL=ON
     -DUSE_TAGPARSER:BOOL=FALSE
 )
 CMAKE_SRC_CONFIGURE_OPTIONS=(
-    'qt5 BUILD_WITH_QT5'
-    'qt6 BUILD_WITH_QT6'
+    'providers:qt5 BUILD_WITH_QT5'
+    'providers:qt6 BUILD_WITH_QT6'
 )
 CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
     'cd AUDIOCD'
@@ -119,11 +122,14 @@ CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
     VLC
 )
 
-src_install() {
-    cmake_src_install
-    # .desktop files belong in /usr/share/ instead of /usr/host/share/
-    edo mv "${IMAGE}"/usr/{$(exhost --target)/share/*,share}
-    edo rmdir "${IMAGE}"/usr/$(exhost --target)/share
+src_prepare() {
+    cmake_src_prepare
+
+    # fix install
+    # TODO: turn into proper patch and submit upstream
+    edo sed \
+        -e 's:DESTINATION share:DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}:g' \
+        -i dist/CMakeLists.txt
 }
 
 pkg_postinst() {
