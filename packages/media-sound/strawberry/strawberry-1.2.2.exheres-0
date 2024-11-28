@@ -8,7 +8,6 @@
 #   Copyright 2016 Ingmar Vanhassel
 
 require freedesktop-desktop gtk-icon-cache cmake
-require option-renames [ renames=[ 'qt5 providers:qt5' 'qt6 providers:qt6' ] ]
 
 SUMMARY="Strawberry Music Player"
 DESCRIPTION="
@@ -29,32 +28,29 @@ MYOPTIONS="
     moodbar     [[ description = [ Builds the bundled gst-plugins-moodbar for moodbar support ] ]]
     mtp         [[ description = [ Support for MTP devices ] ]]
     pulseaudio
-    vlc         [[ description = [ Use VLC backend ] ]]
-
-    ( providers: qt5 qt6 ) [[ number-selected = exactly-one ]]
+    spotify     [[ description = [ Support for Spotify ] ]]
 "
+
+# TODO: figure out
+RESTRICT="test"
 
 DEPENDENCIES="
     build:
-        sys-devel/gettext
         virtual/pkg-config
         x11-proto/xorgproto
-        providers:qt5? ( x11-libs/qttools:5[>=5.12.0] )
-        providers:qt6? ( x11-libs/qttools:6[>=6.2.0] )
+        x11-libs/qttools:6[>=6.4.0]
     build+run:
         dev-db/sqlite:3[>=3.9]
         dev-libs/boost
         dev-libs/glib:2
         dev-libs/icu:=
-        dev-libs/libxml2:2.0
-        dev-libs/protobuf:=
         media-libs/chromaprint[>=1.4]
         media-libs/gstreamer:1.0
         media-libs/taglib:=[>=1.12.0]
         media-plugins/gst-plugins-base:1.0
-        sys-apps/dbus
         sys-sound/alsa-lib
         x11-libs/libX11
+        x11-libs/qtbase:6[>=6.4.0][gui][sql][sqlite]
         cd? ( dev-libs/libcdio )
         ipod? (
             media-libs/libgpod[>=0.7.92]
@@ -63,16 +59,11 @@ DEPENDENCIES="
         moodbar? ( sci-libs/fftw[>=3.0.0] )
         mtp? ( media-libs/libmtp[>=1.0] )
         pulseaudio? ( media-sound/pulseaudio )
-        providers:qt5? (
-            x11-libs/qtbase:5[>=5.12.0][X(+)][gui][sql][sqlite]
-            x11-libs/qtx11extras:5[>=5.12.0]
-        )
-        providers:qt6? (
-            x11-libs/qtbase:6[>=6.2.0][gui][sql][sqlite]
-        )
-        vlc? ( media/vlc )
+    test:
+        dev-cpp/gtest
     run:
         media-plugins/gst-plugins-good:1.0[gstreamer_plugins:taglib]
+        spotify? ( media-plugins/gst-plugins-rs[gstreamer_plugins:spotify] )
     suggestion:
         media-plugins/gst-plugins-good:1.0[gstreamer_plugins:lame][gstreamer_plugins:mpg123] [[ description = [ encode & decode mp3s with gstreamer ] ]]
 "
@@ -80,46 +71,36 @@ DEPENDENCIES="
 UPSTREAM_CHANGELOG="https://github.com/${PN}musicplayer/${PN}/blob/${PV}/Changelog"
 
 CMAKE_SRC_CONFIGURE_PARAMS=(
-    -DBUILD_WERROR=OFF
-    # currently not packages, fallback to bundled version
-    -DCMAKE_DISABLE_FIND_PACKAGE_KDSingleApplication:BOOL=TRUE
+    -DBUILD_WERROR:BOOL=FALSE
+    # tests are currently restricted, last checked: 1.2.2
+    -DCMAKE_DISABLE_FIND_PACKAGE_GTest:BOOL=TRUE
+    # currently not packaged, fallback to bundled version
     -DCMAKE_DISABLE_FIND_PACKAGE_KDSingleApplication-qt6:BOOL=TRUE
-    -DENABLE_ALSA:BOOL=ON
-    -DENABLE_DBUS:BOOL=ON
+    -DENABLE_ALSA:BOOL=TRUE
     -DENABLE_DEBUG_OUTPUT_DEFAULT:BOOL=FALSE
     -DENABLE_EBUR128:BOOL=FALSE
-    -DENABLE_GIO:BOOL=ON
+    -DENABLE_GIO:BOOL=TRUE
     -DENABLE_GIO_UNIX:BOOL=TRUE
-    -DENABLE_GLOBALSHORTCUTS:BOOL=ON
-    -DENABLE_GSTREAMER:BOOL=ON
-    -DENABLE_MUSICBRAINZ:BOOL=ON
-    -DENABLE_QOBUZ:BOOL=ON
-    -DENABLE_SONGFINGERPRINTING:BOOL=ON
-    -DENABLE_SPARKLE:BOOL=OFF
-    -DENABLE_SPOTIFY:BOOL=FALSE
-    -DENABLE_SUBSONIC:BOOL=ON
-    -DENABLE_TIDAL:BOOL=ON
+    -DENABLE_KGLOBALACCEL_GLOBALSHORTCUTS:BOOL=TRUE
+    -DENABLE_MUSICBRAINZ:BOOL=TRUE
+    -DENABLE_QOBUZ:BOOL=TRUE
+    -DENABLE_SONGFINGERPRINTING:BOOL=TRUE
+    -DENABLE_SUBSONIC:BOOL=TRUE
+    -DENABLE_TIDAL:BOOL=TRUE
     -DENABLE_TRANSLATIONS:BOOL=TRUE
-    -DENABLE_UDISKS2:BOOL=ON
-    -DENABLE_X11_GLOBALSHORTCUTS:BOOL=ON
+    -DENABLE_UDISKS2:BOOL=TRUE
+    -DENABLE_X11_GLOBALSHORTCUTS:BOOL=TRUE
     -DHAVE_TRANSLATIONS:BOOL=TRUE
     -DINSTALL_TRANSLATIONS:BOOL=FALSE
-    -DLINGUAS:STRING=All
     -DUSE_BUNDLE:BOOL=FALSE
-    -DUSE_TAGLIB:BOOL=ON
-    -DUSE_TAGPARSER:BOOL=FALSE
-)
-CMAKE_SRC_CONFIGURE_OPTIONS=(
-    'providers:qt5 BUILD_WITH_QT5'
-    'providers:qt6 BUILD_WITH_QT6'
 )
 CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
     'cd AUDIOCD'
-    'ipod LIBGPOD'
+    'ipod GPOD'
     MOODBAR
-    'mtp LIBMTP'
-    'pulseaudio LIBPULSE'
-    VLC
+    MTP
+    'pulseaudio PULSE'
+    SPOTIFY
 )
 
 src_prepare() {
