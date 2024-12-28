@@ -1,0 +1,41 @@
+# Copyright 2024 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=linuxmint ] gtk-icon-cache
+
+SUMMARY="A configuration tool for the LightDM display manager"
+DESCRIPTION="
+A configuration tool for the LightDM display manager
+This tool currently lets users configure slick-greeter.
+Its scope can (should/will?) be extended to configure the LightDM display manager itself and to detect and configure other greeters such as lightdm-gtk-greeter.
+"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        sys-devel/gettext
+    run:
+        dev-lang/python:*[>=3.0.0]
+        dev-python/setproctitle
+        x11-apps/lightdm
+        x11-apps/slick-greeter
+        x11-apps/xrandr
+        x11-libs/gtk+:3[gobject-introspection]
+"
+
+src_install() {
+    into /usr/${CHOST}
+    dobin usr/bin/${PN}
+
+    insinto /usr/${CHOST}/lib
+    insopts -m755
+    doins -r usr/lib/${PN}
+
+    insinto /usr
+    doins -r usr/share
+}
+
