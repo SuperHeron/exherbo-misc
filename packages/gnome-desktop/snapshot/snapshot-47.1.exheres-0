@@ -1,0 +1,54 @@
+# Copyright 2025 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require meson [ rust=true ]
+require gnome.org [ suffix=tar.xz ] gsettings gtk-icon-cache
+
+SUMMARY="Take pictures and videos"
+HOMEPAGE="https://apps.gnome.org/en/Snapshot/"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="X"
+
+DEPENDENCIES="
+    build:
+        dev-libs/appstream:=
+        dev-util/desktop-file-utils
+        sys-devel/gettext
+    build+run:
+        dev-libs/glib:2[>=2.75.0]
+        dev-libs/libadwaita:1[>=1.6.0]
+        media-libs/gstreamer:1.0[>=1.20.0]
+        x11-libs/gtk:4.0[>=4.13.6][X?]
+    run:
+        media/pipewire[camera][gstreamer]
+        media-gfx/glycin-loaders
+        media-libs/libcamera[gstreamer]
+        media-plugins/gst-plugins-base:1.0[>=1.20.0]
+        media-plugins/gst-plugins-bad:1.0[>=1.20.0]
+        media-plugins/gst-plugins-rs[gstreamer_plugins:gtk4]
+        sys-apps/xdg-desktop-portal
+        sys-apps/xdg-desktop-portal-gnome
+"
+
+MESON_SRC_CONFIGURE_OPTION_FEATURES=( 'X x11' )
+
+src_install() {
+    export GSETTINGS_DISABLE_SCHEMAS_COMPILE=1
+    meson_src_install
+    unset GSETTINGS_DISABLE_SCHEMAS_COMPILE
+}
+
+pkg_postinst()
+{
+    gsettings_pkg_postinst
+    gtk-icon-cache_pkg_postinst
+}
+
+pkg_postrm()
+{
+    gsettings_pkg_postrm
+    gtk-icon-cache_pkg_postrm
+}
