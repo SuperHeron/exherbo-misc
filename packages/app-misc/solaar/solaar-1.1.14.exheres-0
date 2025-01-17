@@ -1,7 +1,7 @@
-# Copyright 2020-2023 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2020-2025 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require pypi setup-py [ import="setuptools" blacklist="2" ] gtk-icon-cache
+require pypi setup-py [ import="setuptools" blacklist="2" multibuild="false" ] gtk-icon-cache
 
 SUMMARY="Linux devices manager for the Logitech Unifying Receiver."
 DESCRIPTION="
@@ -17,9 +17,12 @@ PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
+    build:
+        sys-devel/gettext
     build+run:
         dev-libs/libappindicator:0.1[gobject-introspection]
         dev-python/PyYAML[>=5.1][python_abis:*(-)?]
+        dev-python/dbus-python[python_abis:*(-)?]
         dev-python/evdev[>=1.1.2][python_abis:*(-)?]
         dev-python/psutil[>=5.6.0][python_abis:*(-)?]
         dev-python/python-xlib[>=0.27][python_abis:*(-)?]
@@ -27,6 +30,14 @@ DEPENDENCIES="
         dev-python/typing-extensions[python_abis:*(-)?]
         gnome-bindings/pygobject:3[python_abis:*(-)?]
         x11-libs/gtk+:3[gobject-introspection]
+        x11-libs/libX11
+        x11-libs/libXtst
         x11-libs/libnotify[>=0.7][gobject-introspection]
 "
+
+src_install() {
+    setup-py_src_install
+    edo mv ${IMAGE}/usr/lib/* ${IMAGE}/usr/${CHOST}/lib
+    edo rmdir ${IMAGE}/usr/lib
+}
 
