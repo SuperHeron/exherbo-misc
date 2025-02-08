@@ -1,8 +1,8 @@
-# Copyright 2009-2022 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2025 Pierre Lejeune <superheron@gmail.com>
 # Copyright 2010 Timothy Redaelli <timothy@redaelli.eu>
 # Distributed under the terms of the GNU General Public License v2
 
-require flag-o-matic python [ blacklist=none multibuild=false with_opt=true ]
+require cmake python [ blacklist=none multibuild=false with_opt=true ]
 require lua [ multibuild=false whitelist="5.2 5.3 5.4" ]
 
 SUMMARY="Powerful command line driven package management system"
@@ -22,21 +22,28 @@ DOWNLOADS="http://ftp.rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
 LICENCES="|| ( GPL-2 LGPL-2 )"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="acl caps"
+MYOPTIONS="
+    acl
+    caps
+    ( providers: elfutils libelf ) [[ number-selected = exactly-one ]]
+    "
 
 DEPENDENCIES="
     build:
         sys-devel/gettext
         virtual/pkg-config
     build+run:
-        app-arch/unzip
-        dev-lang/lua:=[>=5.2]
-        dev-libs/nspr
-        dev-libs/nss
-        dev-libs/popt
-        sys-libs/db:=[>=4.5]
+        app-arch/libarchive
+        app-crypt/rpm-sequoia[>=1.7.0]
+        dev-db/sqlite:3[>=3.22.0]
+        dev-libs/popt[>=1.13]
+        dev-util/debugedit[>=0.3]
+        sys-apps/dbus
+        sys-libs/openmp
         acl? ( sys-apps/acl )
         caps? ( sys-libs/libcap )
+        providers:elfutils? ( dev-util/elfutils[>=0.142] )
+        providers:libelf? ( dev-libs/libelf[>=0.8.12] )
     suggestion:
         app-arch/lzip
         app-arch/p7zip
@@ -45,30 +52,37 @@ DEPENDENCIES="
         sys-apps/fakechroot
 "
 
+RESTRICT="test" # Needs docker or podman
+
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/wiki/Docs"
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/Releases/${PV}"
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( --with-external-db )
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'python' )
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
-    'acl'
-    'caps cap'
+CMAKE_SRC_CONFIGURE_PARAMS=(
+    '-DENABLE_TESTSUITE=FALSE'
+    '-DWITH_AUDIT=FALSE'
+    '-DWITH_SELINUX=FALSE'
+)
+CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
+    'python PYTHON'
+)
+CMAKE_SRC_CONFIGURE_OPTION_WITHS=(
+    'acl ACL'
+    'caps CAP'
 )
 
-pkg_setup() {
-    eval "$(eclectic lua script $(lua_get_abi))"
-    default
-}
-
-src_configure() {
-    append-cppflags "$($(exhost --tool-prefix)pkg-config --cflags-only-I nspr nss)"
-    append-ldflags "$($(exhost --tool-prefix)pkg-config --libs-only-L nss)"
-    default
-}
-
 src_install() {
-    default
-    edo find "${IMAGE}" -type d -empty -delete
-    option python && python_bytecompile
+    cmake_src_install
+
+    edo cd "${IMAGE}"/usr
+    edo mv $(exhost --target)/share/* share
+    edo rmdir $(exhost --target)/share
+
+    if option python; then
+        edo mv lib/* $(exhost --target)/lib
+        edo rmdir lib
+        python_bytecompile
+    fi
+
+    keepdir /usr/$(exhost --target)/lib/${PN}/lua
 }
 
