@@ -1,0 +1,35 @@
+# Copyright 2025 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=rpm-software-management ] cargo
+
+SUMMARY="An OpenPGP backend for rpm using Sequoia PGP"
+DESCRIPTION="
+This library provides an implementation of the rpm's pgp interface using Sequoia.
+"
+
+LICENCES="LGPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-libs/nettle:=
+"
+
+src_install() {
+    local soname="lib${PN/-/_}.so"
+
+    emagicdocs
+    insinto /usr/$(exhost --target)/lib
+
+    edo cd "${WORK}"/target/$(rust_target_arch_name)/release
+    newins ${soname} ${soname}.1
+    edo ln -s ${soname}.1 ${IMAGE}/usr/$(exhost --target)/lib/${soname}
+
+    cd "${WORK}"/target/release
+    insinto /usr/$(exhost --target)/lib/pkgconfig
+    doins ${PN}.pc
+}
+
