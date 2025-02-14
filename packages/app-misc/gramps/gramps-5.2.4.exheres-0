@@ -1,8 +1,8 @@
-# Copyright 2010-2022 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2025 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require freedesktop-desktop freedesktop-mime github [ user='gramps-project' tag="v${PV}" ]
-require setup-py [ import='distutils' blacklist='2' multibuild=false python_opts='[berkdb]' ]
+require setup-py [ import='distutils' blacklist='2' multibuild=false python_opts='[sqlite]' ]
 require gtk-icon-cache
 
 SUMMARY="Genealogical Research and Analysis Management Programming System"
@@ -25,29 +25,31 @@ DEPENDENCIES="
         sys-devel/gettext
     build+run:
         dev-db/sqlite:3
-        dev-python/bsddb3[python_abis:*(-)?]
+        dev-python/berkeleydb[python_abis:*(-)?]
+        dev-python/pycairo[>=1.13.3]
         gnome-bindings/pygobject[>=3.12.0][cairo][python_abis:*(-)?]
         gnome-desktop/librsvg:2[gobject-introspection]
         x11-apps/xdg-utils
-        x11-libs/cairo
+        x11-libs/cairo[>=1.14.0]
         x11-libs/pango[gobject-introspection]
-        x11-libs/gtk+:3[>=3.12.0][gobject-introspection]
+        x11-libs/gtk+:3[>=3.24.0][gobject-introspection]
     recommendation:
         app-text/ghostscript [[ description = [ Helps create reports in PDF ] ]]
         dev-python/PyICU [[ description = [ Improves localised sorting ] ]]
-        media-gfx/graphviz [[ description = [ Enable creation of graphs ] ]]
-        x11-libs/osm-gps-map[>=0.8] [[ description = [ Used to show OpenStreetMaps in Geographic view ] ]]
+        dev-python/imagesize [[ description = [ Provides better image processing performance ] ]]
+        media-gfx/graphviz[python] [[ description = [ Enable creation of graphs ] ]]
+        x11-libs/osm-gps-map[>=0.8][gobject-introspection] [[ description = [ Used to show OpenStreetMaps in Geographic view ] ]]
     suggestion:
-        app-spell/gtkspell:3.0[>=3.0.0][gobject-introspection] [[ description = [ Enable use spell checking ] ]]
         dev-libs/gexiv2[>=0.5][gobject-introspection] [[ description = [ Enable management of Exif metadata ] ]]
         dev-scm/rcs [[ description = [ Manage multiple versions of family tree ] ]]
         dev-python/Pillow [[ description = [ Crop and convert to JPEG images ] ]]
         dev-python/networkx [[ description = [ Use NetworkChart plugin ] ]]
         dev-python/numpy [[ description = [ Optionally used by PedigreeChart ] ]]
         fonts/freefont-ttf [[ description = [ Use more font support in reports ] ]]
-        gnome-desktop/geocode-glib [[ description = [ Associate a geographical position to a place name ] ]]
+        gnome-desktop/geocode-glib[gobject-introspection] [[ description = [ Associate a geographical position to a place name ] ]]
+        gnome-desktop/gspell:1[gobject-introspection] [[ description = [ Enable spell checking ] ]]
         media-libs/fontconfig [[ description = [ Display genealogical symbols ] ]]
-        x11-libs/goocanvas:2.0 [[ description = [ Use GraphView plugin ] ]]
+        x11-libs/goocanvas:2.0[gobject-introspection][python] [[ description = [ Use GraphView plugin ] ]]
 "
 
 UPSTREAM_DOCUMENTATION="http://www.gramps-project.org/wiki/index.php?title=User_manual"
@@ -56,9 +58,9 @@ DEFAULT_SRC_CONFIGURE_PARAMS=( --disable-mime-install )
 
 src_install() {
     setup-py_src_install
-    # Override resource-path file containing ${WORK}
-    # This file cannot contain any newline or carriage return
-    echo -n /usr/share > ${IMAGE}/$(python_get_sitedir)/${PN}/gen/utils/resource-path
+    hereenvd 50${PN} <<EOF
+GRAMPS_RESOURCES=/usr/share
+EOF
 }
 
 pkg_postinst() {
