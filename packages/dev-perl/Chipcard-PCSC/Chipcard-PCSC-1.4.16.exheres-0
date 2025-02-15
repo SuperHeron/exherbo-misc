@@ -1,0 +1,31 @@
+# Copyright 2025 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'pcsc-perl-1.4.14.exheres-0' from Exherbo, which is:
+#     Copyright 2012-2016 Pierre Lejeune <superheron@gmail.com>
+
+MY_PNV="${PN}-v${PV}"
+
+require perl-module [ module_author='WHOM' ]
+
+SUMMARY="Chipcard::PCSC - Smart card reader interface library"
+DESCRIPTION="The PCSC module implements the Chipcard::PCSC class. Objects of this class are used
+to communicate with the PCSC-lite daemon.
+"
+HOMEPAGE+=" https://${PN}.apdu.fr"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        sys-apps/pcsc-lite
+"
+WORK="${WORKBASE}/${MY_PNV}"
+
+src_prepare() {
+    edo sed -i -e "s:pkg-config:${PKG_CONFIG}:" Makefile.PL
+    default
+}
+
