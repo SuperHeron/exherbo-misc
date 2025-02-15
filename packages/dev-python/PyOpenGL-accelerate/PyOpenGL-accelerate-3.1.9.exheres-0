@@ -1,7 +1,10 @@
-# Copyright 2014-2019 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2014-2025 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require pypi setup-py [ import="setuptools" ]
+MY_PN="${PN,,}"
+MY_PNV="${MY_PN/-/_}-${PV}"
+
+require pypi py-pep517 [ backend='setuptools' work="${MY_PNV}" ]
 
 SUMMARY="Acceleration code for PyOpenGL"
 DESCRIPTION="
