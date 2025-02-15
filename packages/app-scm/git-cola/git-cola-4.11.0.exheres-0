@@ -1,0 +1,47 @@
+# Copyright 2022-2025 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2012 Nikolay Orlyuk
+# Distributed under the terms of the GNU General Public License v2
+
+MY_PNV="${PN/-/_}-${PV}"
+
+require pypi py-pep517 [ backend='setuptools' test='pytest' multibuild=false ]
+require freedesktop-desktop gtk-icon-cache
+
+SUMMARY="The highly caffeinated Git GUI"
+DESCRIPTION="Git Cola is a sleek and powerful graphical user interface for Git."
+HOMEPAGE+=" http://git-cola.github.io"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+RESTRICT="test"
+
+DEPENDENCIES="
+    build+run:
+        dev-scm/git[>=2.2.0]
+        dev-python/QtPy[>=2.0.0][python_abis:*(-)?]
+    test:
+        dev-python/pytest-flake8[python_abis:*(-)?]
+    suggestion:
+        dev-python/Send2Trash[python_abis:*(-)?]
+"
+
+WORK="${WORKBASE}/${MY_PNV}"
+
+src_install() {
+    py-pep517_src_install
+    emake -j1 DESTDIR="${IMAGE}" prefix=/usr install-desktop-files install-icons install-htmldocs install-metainfo
+}
+
+pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+    gtk-icon-cache_pkg_postinst
+}
+
+pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+    gtk-icon-cache_pkg_postrm
+}
+
