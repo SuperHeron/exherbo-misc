@@ -1,9 +1,9 @@
-# Copyright 2014-2022 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2014-2025 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SCM_REPOSITORY="https://gitlab.xiph.org/xiph/${PN}.git"
 
-require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ]
+require scm-git autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.17 ] ]
 
 SUMMARY="Video compression codec"
 DESCRIPTION="
