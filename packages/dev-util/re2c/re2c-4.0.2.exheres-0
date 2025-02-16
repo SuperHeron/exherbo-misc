@@ -1,4 +1,4 @@
-# Copyright 2009-2022 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2025 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=skvadrik release=${PV} suffix=tar.xz ]
@@ -19,14 +19,11 @@ UPSTREAM_RELEASE_NOTES="https://${PN}.org/releases/release_notes.html [[ lang = 
 LICENCES="public-domain"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="doc golang rust"
+MYOPTIONS=""
 
 DEPENDENCIES=""
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    --enable-libs
-    --enable-golang
-    --enable-rust
     --disable-benchmarks
     --disable-benchmarks-regenerate
     --disable-debug
@@ -35,4 +32,9 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --disable-parsers
     --disable-static
 )
+
+src_install() {
+    default
+    dodoc -r examples
+}
 
