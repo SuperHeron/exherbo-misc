@@ -1,9 +1,9 @@
-# Copyright 2020-2023 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2020-2025 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require gnome.org [ suffix=tar.xz ] meson gsettings gtk-icon-cache vala
 
-SUMMARY="GHex - a hex editor for GNOME"
+SUMMARY="Simple hex editor for the GNOME desktop"
 DESCRIPTION="
 GHex allows the user to load data from any file, view and edit it in either hex or ascii.
 Useful for debugging problems with object code or encodings.
