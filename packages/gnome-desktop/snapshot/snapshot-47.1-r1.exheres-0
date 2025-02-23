@@ -24,7 +24,7 @@ DEPENDENCIES="
         x11-libs/gtk:4.0[>=4.13.6][X?]
     run:
         media/pipewire[camera][gstreamer]
-        media-gfx/glycin-loaders
+        media-gfx/glycin-loaders:1
         media-libs/libcamera[gstreamer]
         media-plugins/gst-plugins-base:1.0[>=1.20.0]
         media-plugins/gst-plugins-bad:1.0[>=1.20.0]
