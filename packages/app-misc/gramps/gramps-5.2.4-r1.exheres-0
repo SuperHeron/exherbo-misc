@@ -49,7 +49,7 @@ DEPENDENCIES="
         gnome-desktop/geocode-glib[gobject-introspection] [[ description = [ Associate a geographical position to a place name ] ]]
         gnome-desktop/gspell:1[gobject-introspection] [[ description = [ Enable spell checking ] ]]
         media-libs/fontconfig [[ description = [ Display genealogical symbols ] ]]
-        x11-libs/goocanvas:2.0[gobject-introspection][python] [[ description = [ Use GraphView plugin ] ]]
+        x11-libs/goocanvas:3.0[gobject-introspection][python] [[ description = [ Use GraphView plugin ] ]]
 "
 
 UPSTREAM_DOCUMENTATION="http://www.gramps-project.org/wiki/index.php?title=User_manual"
