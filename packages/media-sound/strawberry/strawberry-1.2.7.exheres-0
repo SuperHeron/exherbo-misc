@@ -1,4 +1,4 @@
-# Copyright 2019-2023 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2019-2025 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 # Based in part upon 'clementine-1.3.1-r3.exheres-0', which is:
 #   Copyright 2010 Timothy Redaelli
@@ -23,12 +23,13 @@ LICENCES="GPL-3"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
-    cd          [[ description = [ Audio CD support ] ]]
-    ipod        [[ description = [ iPod classic support ] ]]
-    moodbar     [[ description = [ Builds the bundled gst-plugins-moodbar for moodbar support ] ]]
-    mtp         [[ description = [ Support for MTP devices ] ]]
+    cd            [[ description = [ Audio CD support ] ]]
+    ipod          [[ description = [ iPod classic support ] ]]
+    moodbar       [[ description = [ Builds the bundled gst-plugins-moodbar for moodbar support ] ]]
+    mtp           [[ description = [ Support for MTP devices ] ]]
+    normalization [[ description = [ Enables EBU R 128 loudness normalization ] ]]
     pulseaudio
-    spotify     [[ description = [ Support for Spotify ] ]]
+    spotify       [[ description = [ Support for Spotify ] ]]
 "
 
 # TODO: figure out
@@ -58,6 +59,7 @@ DEPENDENCIES="
         )
         moodbar? ( sci-libs/fftw[>=3.0.0] )
         mtp? ( media-libs/libmtp[>=1.0] )
+        normalization? ( media-libs/libebur128 )
         pulseaudio? ( media-sound/pulseaudio )
     test:
         dev-cpp/gtest
@@ -99,6 +101,7 @@ CMAKE_SRC_CONFIGURE_OPTION_ENABLES=(
     'ipod GPOD'
     MOODBAR
     MTP
+    'normalization EBUR128'
     'pulseaudio PULSE'
     SPOTIFY
 )
