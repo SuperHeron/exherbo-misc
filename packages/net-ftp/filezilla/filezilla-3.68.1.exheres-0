@@ -1,4 +1,4 @@
-# Copyright 2009-2023 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2025 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 MY_PNV="FileZilla_${PV}_src"
@@ -13,9 +13,9 @@ useful features and an intuitive graphical user interface.
 "
 
 HOMEPAGE="https://filezilla-project.org"
-DOWNLOADS="
-    manual: ${MY_PNV}.tar.xz
-"
+
+# https://trac.filezilla-project.org/ticket/13186
+DOWNLOADS="manual: ${MY_PNV}.tar.xz"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -36,7 +36,7 @@ DEPENDENCIES="
         dev-libs/nettle:=[>=3.1]
         dev-libs/pugixml[>=1.6]
         net-dns/libidn
-        net-libs/libfilezilla[>=0.48.1]
+        net-libs/libfilezilla[>=0.49.0]
         x11-apps/xdg-utils
         dbus? ( sys-apps/dbus[>=1.2] )
         providers:gtk2? ( x11-libs/gtk+:2 )
