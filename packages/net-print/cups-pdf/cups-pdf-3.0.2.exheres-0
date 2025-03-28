@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2025 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Virtual PDF printer using CUPS"
@@ -22,15 +22,17 @@ DEPENDENCIES="
         net-print/cups
 "
 
-WORK="${WORKBASE}/${PN}-${PV}/src"
-
 src_compile() {
+    edo cd src
     edo ${CC} ${CFLAGS} ${PN}.c -o ${PN} $(cups-config --libs)
 }
 
 src_install() {
     local uppercase_PN="$(echo ${PN} | tr '[:lower:]' '[:upper:]')"
 
+    emagicdocs
+
+    edo cd src
     exeinto "$(cups-config --serverbin)"/backend
     exeopts '-m0700'
     doexe "${PN}"
@@ -42,7 +44,5 @@ src_install() {
 
     insinto "$(cups-config --datadir)"/model
     doins "${uppercase_PN}"_{no,}opt.ppd
-
-    emagicdocs
 }
 
