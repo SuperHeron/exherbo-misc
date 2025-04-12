@@ -1,0 +1,26 @@
+# Copyright 2025 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user='i-rinat' tag="v${PV}" ] cmake
+
+SUMMARY="VDPAU driver with OpenGL/VAAPI backend"
+DESCRIPTION="
+This is the VDPAU driver with VA-API/OpenGL backend.
+It uses OpenGL under the hood to accelerate drawing and scaling and VA-API (if available) to
+accelerate video decoding.
+"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        virtual/pkg-config
+    build+run:
+        x11-dri/mesa[X][vaapi]
+        x11-libs/libX11
+        x11-libs/libva[X]
+"
+
