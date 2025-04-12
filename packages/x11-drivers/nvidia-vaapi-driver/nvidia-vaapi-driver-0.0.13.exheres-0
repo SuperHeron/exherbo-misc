@@ -1,0 +1,27 @@
+# Copyright 2025 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=elFarto tag="v${PV}" ] meson
+
+SUMMARY="A VA-API implemention using NVIDIA's NVDEC"
+DESCRIPTION="
+This is an VA-API implementation that uses NVDEC as a backend. This implementation is specifically
+designed to be used by Firefox for accelerated decode of web content, and may not operate correctly
+in other applications.
+"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        dev-libs/libglvnd
+        media-libs/nv-codec-headers[>=11.1.5.1]
+        x11-dri/libdrm[>=2.4.60]
+        x11-libs/libva[>=1.8.0]
+        media-plugins/gst-plugins-bad:1.0
+"
+
