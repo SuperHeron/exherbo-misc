@@ -28,6 +28,11 @@ DEPENDENCIES="
         sys-libs/db:=[>=4.8&<${MAX_PV}]
 "
 
+src_configure() {
+    export YES_I_HAVE_THE_RIGHT_TO_USE_THIS_BERKELEY_DB_VERSION=1
+    setup-py_src_configure
+}
+
 setup-py_test_one_multibuild() {
     edo ${PYTHON} -B test.py
 }
