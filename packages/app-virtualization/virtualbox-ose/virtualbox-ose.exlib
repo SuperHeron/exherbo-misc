@@ -1,11 +1,11 @@
 # Copyright 2009-2022 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop udev-rules
+require freedesktop-desktop freedesktop-mime gtk-icon-cache udev-rules
 require python [ blacklist='none' multibuild=false with_opt=true ]
 require option-renames [ renames=[ 'devmapper device-mapper' ] ] systemd-service
 
-export_exlib_phases pkg_pretend src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst
+export_exlib_phases pkg_pretend src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst pkg_postrm
 
 SUMMARY="A family of powerful x86 virtualization products"
 DESCRIPTION="
@@ -19,7 +19,7 @@ General Public License (GPL).
 HOMEPAGE="https://www.virtualbox.org"
 MY_PNV="VirtualBox-${PV}"
 REAL_PV="${PV%[a-z]}"
-EXT_PN="Oracle_VM_VirtualBox_Extension_Pack"
+EXT_PN="Oracle_VirtualBox_Extension_Pack"
 VBOX_DOWNLOADS_ROOT="https://download.virtualbox.org/${PN%-ose}/${REAL_PV}"
 DOWNLOADS="
     ${VBOX_DOWNLOADS_ROOT}/${MY_PNV}.tar.bz2
@@ -29,7 +29,7 @@ DOWNLOADS="
 
 LICENCES="CDDL-1.0 GPL-2 additions? ( PUEL ) extensions? ( PUEL )"
 SLOT="0"
-MYOPTIONS="X alsa dbus opengl pulseaudio qt5 truetype
+MYOPTIONS="X alsa dbus opengl pulseaudio qt6 truetype
     additions [[ description = [ Installs Guest Additions ISO ] ]]
     device-mapper [[ description = [ Installs VBoxVolInfo, dependent of libdevmapper ] ]]
     extensions [[ description = [ Install Extension Pack (binary) ] ]]
@@ -75,10 +75,10 @@ DEPENDENCIES="
                 x11-dri/mesa
                 x11-libs/libXmu
             )
-            qt5? (
-                x11-libs/qtbase:5[>=5.6][gui]
-                x11-libs/qttools:5[>=5.6][gui]
-                x11-libs/qtx11extras:5[>=5.6]
+            qt6? (
+                x11-libs/qtbase:6[>=6.3][gui]
+                x11-libs/qttools:6[>=6.3][assistant][gui]
+                x11-libs/qtscxml:6[>=6.3]
             )
         )
         alsa? ( sys-sound/alsa-lib[>=1.0.14] )
@@ -98,6 +98,8 @@ UPSTREAM_DOCUMENTATION="${HOMEPAGE}/manual/UserManual.html"
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/News"
 
 WORK="${WORKBASE}/VirtualBox-${REAL_PV}"
+
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-libvorbis.patch" )
 
 has_32bit_glibc() {
     case "$(exhost --target)" in
@@ -208,8 +210,8 @@ virtualbox-ose_src_configure() {
     if optionq X; then
         optionq opengl || myconf="${myconf} --disable-opengl"
         optionq truetype || myconf="${myconf} --disable-sdl-ttf"
-        if optionq qt5; then
-            myconf="${myconf} --enable-qt5"
+        if optionq qt6; then
+            myconf="${myconf} --enable-qt6"
         else
             myconf="${myconf} --disable-qt"
         fi
@@ -285,13 +287,25 @@ EOF
     # Move kernel modules files
     insinto /usr/src/${PNV}
     doins -r src/*
+    hereins dkms.conf <<EOF
+PACKAGE_NAME="${PN}"
+PACKAGE_VERSION="${PV}"
+AUTOINSTALL="yes"
+MAKE[0]="'make'"
+BUILT_MODULE_NAME[0]="vboxdrv"
+DEST_MODULE_LOCATION[0]="/kernel/misc"
+BUILT_MODULE_NAME[1]="vboxnetadp"
+DEST_MODULE_LOCATION[1]="/kernel/misc"
+BUILT_MODULE_NAME[2]="vboxnetflt"
+DEST_MODULE_LOCATION[2]="/kernel/misc"
+EOF
 
     dodir "${installdir}" /usr/$(exhost --target)/bin
     insinto "${installdir}"
     doins -r components
 
     for bin in *.r0 *.so VBox{,CreateUSBNode,SysInfo}.sh \
-               VBox{Autostart,BalloonCtrl,BugReport,CpuReport,ExtPackHelperApp,Manage,SVC,VMMPreload,XPCOMIPCD};
+               VBox{Autostart,BalloonCtrl,BugReport,CpuReport,ExtPackHelperApp,Manage,SVC,VMMPreload};
     do
         vbox_doins ${bin}
     done
@@ -311,24 +325,29 @@ EOF
     dosym VBoxAuth.so "${installdir}"/VRDPAuth.so
 
     if option X; then
-        insinto /usr/share/applications
-        doins virtualbox.desktop
-
         insinto /usr/share/pixmaps
         doins VBox.png
+
+        pushd icons
+        for i in *; do
+            insinto /usr/share/icons/hicolor/${i}/mimetypes
+            doins ${i}/*
+        done
+        popd
 
         insinto /usr/share/"${PN}"
         doins -r nls
 
-        if option qt5; then
+        if option qt6; then
+            insinto /usr/share/applications
+            doins virtualbox.desktop
+
+            insinto /usr/share/mime
+            doins virtualbox.xml
+
             vbox_doins VirtualBox
             dosym "${installdir}"/VBox.sh /usr/$(exhost --target)/bin/VirtualBox
             vbox_doins VirtualBoxVM 4750
-        fi
-
-        if option opengl; then
-            vbox_doins VBoxTestOGL
-            dosym "${installdir}"/VBoxTestOGL /usr/$(exhost --target)/bin/VBoxTestOGL
         fi
     fi
 
@@ -370,6 +389,10 @@ EOF
 }
 
 virtualbox-ose_pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+    freedesktop-mime_pkg_postinst
+    gtk-icon-cache_pkg_postinst
+
     ewarn "This exheres does not build the kernel modules for VirtualBox, you will have to do this"
     ewarn "on your own. The source code has been installed to /usr/src/${PNV}"
 
@@ -383,5 +406,11 @@ virtualbox-ose_pkg_postinst() {
 
     elog "In order to expose USB devices to VirtualBox guests, your user must be a member of"
     elog "the 'usb' group."
+}
+
+virtualbox-ose_pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+    freedesktop-mime_pkg_postrm
+    gtk-icon-cache_pkg_postrm
 }
 

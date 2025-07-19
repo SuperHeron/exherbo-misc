@@ -1,0 +1,18 @@
+Source: written by Pierre Lejeune <superheron@gmail.com>, from Exherbo
+Upstream: submitted, https://github.com/VirtualBox/virtualbox/issues/94
+Reason: Fix build with system vorbis(enc)
+
+--- a/configure	2025-07-14 14:18:32.000000000 +0200
++++ b/configure	2025-07-21 17:27:35.480347558 +0200
+@@ -1844,9 +1844,9 @@
+   if which_wrapper pkg-config > /dev/null; then
+     libvorbis_ver=`pkg-config vorbis --modversion 2>> $LOG`
+     if [ $? -eq 0 ]; then
+-      FLGVRB=`pkg-config vorbis --cflags`
++      FLGVRB=`pkg-config vorbis vorbisenc --cflags`
+       INCVRB=`strip_I "$FLGVRB"`
+-      LIBVRB=`pkg-config vorbis --libs`
++      LIBVRB=`pkg-config vorbis vorbisenc --libs`
+     fi
+     cat > $ODIR.tmp_src.cc << EOF
+ #include <cstdio>
