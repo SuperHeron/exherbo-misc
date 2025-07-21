@@ -114,9 +114,9 @@ has_32bit_glibc() {
 
 virtualbox-ose_pkg_pretend() {
     if ! has_32bit_glibc; then
-        ewarn 'You do not have a 32-bits glibc.'
-        ewarn 'You will *only* be able to run 64-bits guests.'
-        ewarn 'Please install 32-bits cross-toolchain if you also want to run 32-bits guests.'
+        eerror "A 32-bits glibc is needed to install ${PN}."
+        eerror 'Please install a 32-bits cross-toolchain.'
+        die 'No 32-bits cross-toolchain detected.'
     fi
 }
 
