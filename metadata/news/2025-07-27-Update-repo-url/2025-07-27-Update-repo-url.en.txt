@@ -1,0 +1,12 @@
+Title: Repository URL update
+Author: Pierre Lejeune <superheron@gmail.com>
+Content-Type: text/plain
+Posted: 2025-07-27
+Revision: 1
+News-Item-Format: 1.0
+
+SuperHeron-misc repository is hosted on Exherbo GitLab at https://gitlab.exherbo.org/exherbo-unofficial/SuperHeron-misc.git.
+Please submit issues and patches there.
+
+GitHub repository located at https://github.com/SuperHeron/exherbo-misc.git now serves as a mirror and is kept for convenience.
+
