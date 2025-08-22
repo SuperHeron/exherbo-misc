@@ -99,8 +99,6 @@ UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/News"
 
 WORK="${WORKBASE}/VirtualBox-${REAL_PV}"
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-libvorbis.patch" )
-
 has_32bit_glibc() {
     case "$(exhost --target)" in
         x86_64-pc-linux-gnu)
@@ -138,8 +136,8 @@ virtualbox-ose_src_prepare() {
 
     edo sed -e "s/pkg-config/${PKG_CONFIG}/" \
             -e "s/\$CC -m32/\$CC32/" \
-            -e "s/CC32=\"\"/CC32=\"i686-pc-linux-gnu-gcc\"/" \
-            -e "s/CXX32=\"\"/CXX32=\"i686-pc-linux-gnu-g++\"/" \
+            -e "s/CC32=\"\"/CC32=\"i686-pc-linux-gnu-cc\"/" \
+            -e "s/CXX32=\"\"/CXX32=\"i686-pc-linux-gnu-c++\"/" \
             -e "s/CXX_FLAGS=\"\"/CXX_FLAGS=\"-std=c++11\"/" \
             -i configure
 
@@ -184,15 +182,19 @@ virtualbox-ose_src_prepare() {
     echo "TOOL_GCC32_AR := i686-pc-linux-gnu-ar" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX3_AR := ${AR}" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX32_AR := i686-pc-linux-gnu-ar" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC3_AS := ${CC}" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC32_AS := i686-pc-linux-gnu-cc" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GCC3_LD := ${CC}" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GCC3_LD_SYSMOD := ${LD}" >> "${WORK}/LocalConfig.kmk"
-    echo "TOOL_GCC32_LD := i686-pc-linux-gnu-gcc" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC32_CC := i686-pc-linux-gnu-cc" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC32_CXX := i686-pc-linux-gnu-c++" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GCC32_LD := i686-pc-linux-gnu-cc" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GCC32_LD_SYSMOD := i686-pc-linux-gnu-ld" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GCC3_OBJCOPY := $(exhost --target)-objcopy" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GCC32_OBJCOPY := i686-pc-linux-gnu-objcopy" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX3_LD := ${CXX}" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX3_LD_SYSMOD := ${LD}" >> "${WORK}/LocalConfig.kmk"
-    echo "TOOL_GXX32_LD := i686-pc-linux-gnu-g++" >> "${WORK}/LocalConfig.kmk"
+    echo "TOOL_GXX32_LD := i686-pc-linux-gnu-c++" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX32_LD_SYSMOD := i686-pc-linux-gnu-ld" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX3_OBJCOPY := $(exhost --target)-objcopy" >> "${WORK}/LocalConfig.kmk"
     echo "TOOL_GXX32_OBJCOPY := i686-pc-linux-gnu-objcopy" >> "${WORK}/LocalConfig.kmk"
