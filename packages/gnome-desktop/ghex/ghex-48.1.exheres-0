@@ -26,8 +26,8 @@ DEPENDENCIES="
         gtk-doc? ( dev-doc/gtk-doc )
     build+run:
         dev-libs/glib:2[>=2.68.0][gobject-introspection(+)?]
-        dev-libs/libadwaita:1[gobject-introspection?][vala_abis:*(-)?]
-        x11-libs/gtk:4.0[>=4.4.0]
+        dev-libs/libadwaita:1[>=1.7][gobject-introspection?][vala_abis:*(-)?]
+        x11-libs/gtk:4.0[>=4.17.5]
         gobject-introspection? ( gnome-desktop/gobject-introspection:1 )
     run:
         gnome-desktop/yelp
