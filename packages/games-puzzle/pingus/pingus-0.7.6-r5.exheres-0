@@ -42,4 +42,7 @@ src_compile() {
 src_install() {
     emake install PREFIX=/usr/$(exhost --target) DATADIR=/usr/share/${PN} MANDIR=/usr/share/man DESTDIR="${IMAGE}"
     emagicdocs
+
+    insinto /usr/share/applications
+    doins "${FILES}"/${PN}.desktop
 }
