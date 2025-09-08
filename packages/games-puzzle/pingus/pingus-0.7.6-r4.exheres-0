@@ -25,6 +25,7 @@ DEFAULT_SRC_PREPARE_PATCHES=(
     "${FILES}/${PNV}-boost_signals2.patch"
     "${FILES}/${PNV}-c++11.patch"
     "${FILES}/${PNV}-missing-functional-header.patch"
+    "${FILES}/${PNV}-gcc-15.patch"
 )
 
 src_prepare() {
