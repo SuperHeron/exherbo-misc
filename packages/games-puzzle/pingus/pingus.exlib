@@ -1,7 +1,7 @@
 # Copyright 2010-2020 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require gitlab
+require github [ tag=${MY_PV} ]
 
 SUMMARY="Free Lemmings-like game"
 DESCRIPTION="
@@ -9,7 +9,7 @@ Pingus is a free Lemmings-like game covered under the GNU GPL. It features
 currently 22 playable levels and runs under a wide variety of operating
 systems (Linux, Windows, etc.)
 "
-HOMEPAGE+=" https://${PN}.gitlab.io"
+HOMEPAGE+=" https://${PN}.github.io"
 
 LICENCES="GPL-3"
 SLOT="0"
