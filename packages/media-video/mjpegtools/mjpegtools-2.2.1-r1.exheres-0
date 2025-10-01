@@ -20,7 +20,7 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build+run:
-        media-libs/SDL:0[>1.1.3]
+        media-libs/sdl12-compat[>1.1.3]
         media-libs/SDL_gfx
         media-libs/libpng:=
         x11-libs/gtk+:2[>=2.4.0]
