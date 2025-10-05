@@ -19,9 +19,11 @@ DEPENDENCIES="
         sys-devel/gettext
     build+run:
         dev-libs/glib:2[>=2.75.0]
-        dev-libs/libadwaita:1[>=1.6.0]
+        dev-libs/libadwaita:1[>=1.8.0]
         media-libs/gstreamer:1.0[>=1.20.0]
-        x11-libs/gtk:4.0[>=4.13.6][X?]
+        media-libs/lcms2[>=2.12.0]
+        sys-libs/libseccomp[>=2.5.0]
+        x11-libs/gtk:4.0[>=4.18][X?]
     run:
         media/pipewire[camera][gstreamer]
         media-gfx/glycin-loaders:1
