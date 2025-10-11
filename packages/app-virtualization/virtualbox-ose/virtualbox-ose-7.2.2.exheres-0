@@ -5,3 +5,5 @@ require virtualbox-ose
 
 PLATFORMS="~amd64"
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-curl_proxytype-to-long.patch" )
+
