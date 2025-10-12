@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2010-2025 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require py-pep517 [ backend='setuptools' test='pytest' ] pypi
@@ -21,7 +21,7 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
-        app-spell/enchant:0[>=1.5.0]
+        app-spell/enchant:2
 "
 
 UPSTREAM_DOCUMENTATION="
