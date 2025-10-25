@@ -28,7 +28,7 @@ DEPENDENCIES="
     build+run:
         app-spell/gtkspell:3.0
         dev-cpp/lucene++[>=3.0.5]
-        dev-libs/boost[>=1.60]
+        dev-libs/boost[>=1.69]
         dev-libs/icu:=[>=54]
         dev-libs/pugixml[>=1.9]
         x11-libs/gtk+:3
