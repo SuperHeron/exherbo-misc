@@ -3,7 +3,7 @@
 # Based in part upon 'bsddb3-6.2.9.exheres-0', which is:
 #     Copyright 2016-2022 Pierre Lejeune <superheron@gmail.com>
 
-require pypi setup-py [ import='setuptools' ]
+require pypi setup-py [ import='setuptools' blacklist='3.9' ]
 
 SUMMARY="Python bindings for Oracle Berkeley DB"
 DESCRIPTION="
