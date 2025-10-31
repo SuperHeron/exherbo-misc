@@ -138,7 +138,7 @@ DEPENDENCIES="
         dev-libs/jsoncpp:=
         media-libs/libmodplug
         media-libs/libpng:=
-        media-libs/SDL:2
+        media-libs/sdl2-compat
         media-libs/SDL_image:2
         x11-dri/mesa
 "
