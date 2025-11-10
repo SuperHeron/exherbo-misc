@@ -35,6 +35,10 @@ DEPENDENCIES="
         x11-libs/libnotify[>=0.7][gobject-introspection]
 "
 
+src_prepare() {
+    edo sed -e 's/#MODE/MODE/' -i "${WORK}/rules.d/42-logitech-unify-permissions.rules"
+}
+
 src_install() {
     setup-py_src_install
     edo mv ${IMAGE}/usr/lib/* ${IMAGE}/usr/${CHOST}/lib
