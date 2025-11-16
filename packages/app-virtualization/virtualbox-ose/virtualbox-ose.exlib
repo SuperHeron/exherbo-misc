@@ -252,12 +252,12 @@ virtualbox-ose_src_configure() {
 }
 
 virtualbox-ose_src_compile() {
-    edo source env.sh
+    edo source ${WORK}/env.sh
     edo kmk -j${EXJOBS:-1} all VBOX_NM="${NM} -p"
 }
 
 virtualbox-ose_src_test() {
-    edo source env.sh
+    edo source ${WORK}/env.sh
     edo kmk -j1 test
 }
 
