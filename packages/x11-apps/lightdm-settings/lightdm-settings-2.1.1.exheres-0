@@ -1,4 +1,4 @@
-# Copyright 2025 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2025-2026 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=linuxmint ] gtk-icon-cache
