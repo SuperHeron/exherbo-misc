@@ -1,7 +1,7 @@
-# Copyright 2020-2025 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2020-2026 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require pypi setup-py [ import="setuptools" blacklist="2" multibuild="false" ] gtk-icon-cache
+require pypi setup-py [ import="setuptools" blacklist="2 3.9 3.10 3.11 3.12" multibuild="false" ] gtk-icon-cache
 
 SUMMARY="Linux devices manager for the Logitech Unifying Receiver."
 DESCRIPTION="
