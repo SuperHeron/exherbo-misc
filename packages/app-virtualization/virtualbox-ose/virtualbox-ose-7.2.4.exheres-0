@@ -1,9 +1,0 @@
-# Copyright 2010-2022 Pierre Lejeune <superheron@gmail.com>
-# Distributed under the terms of the GNU General Public License v2
-
-require virtualbox-ose
-
-PLATFORMS="~amd64"
-
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-curl_proxytype-to-long.patch" )
-
