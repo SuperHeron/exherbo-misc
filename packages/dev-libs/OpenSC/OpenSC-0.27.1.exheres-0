@@ -42,6 +42,7 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --enable-man
     --enable-notify
     --enable-openssl
+    --enable-p11_system_config_modules=/usr/share/p11-kit/modules
     --enable-pcsc
     --enable-readline
     --enable-sm
@@ -53,7 +54,7 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --disable-ctapi
     --disable-dnie-ui
     --disable-fuzzing
-    --disable-gcov
+    --disable-integration-tests
     --disable-minidriver
     --disable-openct
     --disable-openpace
@@ -63,6 +64,7 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --disable-tests
     --disable-valgrind
     --with-completiondir=${BASHCOMPLETIONDIR}
+    --without-gcov
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc' )
 
