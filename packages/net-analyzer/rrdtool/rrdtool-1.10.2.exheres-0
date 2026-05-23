@@ -1,8 +1,8 @@
-# Copyright 2009-2025 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2026 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=oetiker project=${PN}-1.x release=v${PV} suffix=tar.gz ]
-require setup-py [ import='distutils' blacklist=none multibuild=false with_opt=true ]
+require setup-py [ import='distutils' blacklist=2 multibuild=false with_opt=true ]
 require lua [ multibuild=false with_opt=true ]
 require ruby [ multibuild=false with_opt=true ]
 require systemd-service
@@ -19,7 +19,7 @@ HOMEPAGE="https://oss.oetiker.ch/${PN}"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="cgi dbi lua perl ruby tcl tcpd"
+MYOPTIONS="cgi dbi perl tcl tcpd"
 
 DEPENDENCIES="
     build:
