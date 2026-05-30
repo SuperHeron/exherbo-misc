@@ -1,0 +1,40 @@
+# Copyright 2026 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require meson
+
+SUMMARY="fzssh is a SSH/SFTP library based on libfilezilla"
+DESCRIPTION="
+This library is free software, it is distributed under the terms and conditions of the GNU Affero
+General Public License v3+ with attribution, see the library's README file for details.
+
+fzssh is a cross-platform library for all major operating systems, including but not limited to
+Linux, *BSD, macOS and Windows.
+"
+HOMEPAGE="https://${PN}.filezilla-project.org"
+
+# https://trac.filezilla-project.org/ticket/13186
+DOWNLOADS="manual: ${PNV}.tar.xz"
+
+LICENCES="AGPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        sys-devel/gettext
+        virtual/pkg-config
+    build+run:
+        app-crypt/argon2
+        dev-libs/gmp:=[>=6.2]
+        dev-libs/nettle:=[>=3.10]
+        net-libs/libfilezilla[>=0.55.3]
+    test:
+        dev-cpp/cppunit[>=1.13.0]
+"
+
+src_prepare() {
+    edo sed -i -e "s:include/${PN}/:$(exhost --target)/include/${PN}/:" ${MESON_SOURCE}/meson.build
+}
+
