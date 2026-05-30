@@ -1,4 +1,4 @@
-# Copyright 2009-2025 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2026 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 MY_PNV="FileZilla_${PV}_src"
@@ -36,7 +36,8 @@ DEPENDENCIES="
         dev-libs/nettle:=[>=3.1]
         dev-libs/pugixml[>=1.6]
         net-dns/libidn
-        net-libs/libfilezilla[>=0.51.1]
+        net-libs/fzssh[>=1.2.1]
+        net-libs/libfilezilla[>=0.55.5]
         x11-apps/xdg-utils
         dbus? ( sys-apps/dbus[>=1.2] )
         providers:gtk2? ( x11-libs/gtk+:2 )
@@ -53,7 +54,7 @@ src_configure() {
         --enable-gui \
         --enable-locales \
         --enable-sftp \
-        --disable-manualupdatecheck \
+        --disable-autoupdatecheck \
         --with-pugixml=system \
         --with-wx-config=$(wxwidgets_get_config) \
         $(option_with dbus)
