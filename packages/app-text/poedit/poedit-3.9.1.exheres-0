@@ -13,7 +13,7 @@ It aims to provide more convenient approach to editing catalogs than launching v
 file by hand.
 "
 
-HOMEPAGE+=" https://poedit.net"
+HOMEPAGE+=" https://poedit.com"
 
 LICENCES="MIT"
 SLOT="0"
