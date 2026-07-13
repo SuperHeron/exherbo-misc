@@ -32,7 +32,6 @@ DEPENDENCIES="
         media-plugins/gst-plugins-bad:1.0[>=1.20.0]
         media-plugins/gst-plugins-rs[gstreamer_plugins:gtk4]
         sys-apps/xdg-desktop-portal
-        sys-apps/xdg-desktop-portal-gnome
 "
 
 MESON_SRC_CONFIGURE_OPTION_FEATURES=( 'X x11' )
