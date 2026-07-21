@@ -1,5 +1,7 @@
-# Copyright 2013-2019 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2013-2026 Pierre Lejeune <superheron@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
+
+require github [ user=rsyslog release="v${PV}" suffix='tar.gz' ]
 
 SUMMARY="Normalisation for syslog messages"
 DESCRIPTION="
@@ -10,8 +12,7 @@ In short words, one will be able to throw arbitrary log message to liblognorm, o
 and for each message it will output well-defined name-value pairs and a set of tags describing
 the message.
 "
-HOMEPAGE="https://www.${PN}.com"
-DOWNLOADS="${HOMEPAGE}/files/download/${PNV}.tar.gz"
+HOMEPAGE+=" https://www.${PN}.com"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
@@ -25,10 +26,8 @@ DEPENDENCIES="
     build+run:
         dev-libs/libestr
         dev-libs/libfastjson
-        dev-libs/pcre
+        dev-libs/pcre2[>=10.0]
 "
-
-REMOTE_IDS="freecode:${PN}"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( '--enable-regex' )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'debug' 'doc docs' )
