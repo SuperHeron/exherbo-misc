@@ -50,7 +50,6 @@ DEPENDENCIES="
     build+run:
         !app-virtualization/virtualbox-bin
         app-arch/makeself
-        dev-lang/yasm[>=0.5.1]
         dev-libs/libIDL:2
         dev-libs/libxml2:2.0[>=2.6.26]
         dev-libs/libxslt[>=1.1.17]
@@ -63,6 +62,10 @@ DEPENDENCIES="
         sys-libs/libcap
         sys-libs/pam[>=1.0.0]
         sys-power/iasl
+        || (
+            dev-lang/nasm[>=2.16.0]
+            dev-lang/yasm[>=0.5.1]
+        )
         X? (
             x11-libs/libX11
             x11-libs/libXcursor
