@@ -1,0 +1,50 @@
+# Copyright 2009-2026 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require freedesktop-desktop meson gtk-icon-cache systemd-service
+require option-renames [ renames=[ 'gnutls providers:gnutls' ] ]
+
+SUMMARY="GKrellM - GNU (or Gtk) Krell Monitors (or Meters)"
+DESCRIPTION="
+GKrellM is a single process stack of system monitors which supports
+applying themes to match its appearance to your window manager, Gtk,
+or any other theme.
+"
+HOMEPAGE="http://${PN}.srcbox.net"
+DOWNLOADS="${HOMEPAGE}/releases/${PNV}.tar.bz2"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS="
+    lm_sensors
+    ( providers: gnutls libressl openssl ) [[ number-selected = exactly-one ]]
+"
+
+DEPENDENCIES="
+    build:
+        sys-devel/gettext
+        virtual/pkg-config
+    build+run:
+        dev-libs/glib:2[>=2.32]
+        x11-libs/gtk+:2[>=2.24]
+        x11-libs/libX11
+        x11-libs/libICE
+        x11-libs/libSM
+        sys-apps/systemd
+        lm_sensors? ( sys-apps/lm_sensors )
+        providers:gnutls? ( dev-libs/gnutls[>=3.6] )
+        providers:libressl? ( dev-libs/libressl:= )
+        providers:openssl? ( dev-libs/openssl:=[>=1.1] )
+"
+
+REMOTE_IDS="freecode:${PN}"
+
+src_configure() {
+    local ssl=none
+    $(option providers:gnutls) && ssl=gnutls
+    $(option providers:libressl) || $(option providers:openssl) && ssl=openssl
+    exmeson -Dnls=enabled -Dntlm=disabled $(meson_feature lm_sensors lmsensors) \
+        -Dssl=${ssl} -Dsystemd=enabled -Dsystemd-unit-dir=${SYSTEMDSYSTEMUNITDIR} -Dx11=enabled
+}
+
