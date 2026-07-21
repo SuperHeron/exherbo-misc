@@ -19,6 +19,8 @@ from programming languages such as C or Python.
 HOMEPAGE="https://rpm.org"
 DOWNLOADS="http://ftp.rpm.org/releases/${PN}-$(ever range 1-2).x/${PNV}.tar.bz2"
 
+REMOTE_IDS="github:rpm-software-management/rpm"
+
 LICENCES="|| ( GPL-2 LGPL-2 )"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
