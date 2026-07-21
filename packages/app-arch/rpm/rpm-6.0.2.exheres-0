@@ -1,8 +1,8 @@
-# Copyright 2009-2025 Pierre Lejeune <superheron@gmail.com>
+# Copyright 2009-2026 Pierre Lejeune <superheron@gmail.com>
 # Copyright 2010 Timothy Redaelli <timothy@redaelli.eu>
 # Distributed under the terms of the GNU General Public License v2
 
-require cmake python [ blacklist=none multibuild=false with_opt=true ]
+require cmake python [ blacklist="2 3.9" multibuild=false with_opt=true ]
 require lua [ multibuild=false whitelist="5.2 5.3 5.4" ]
 
 SUMMARY="Powerful command line driven package management system"
@@ -28,7 +28,7 @@ MYOPTIONS="
     acl
     caps
     ( providers: elfutils libelf ) [[ number-selected = exactly-one ]]
-    "
+"
 
 DEPENDENCIES="
     build:
@@ -60,6 +60,7 @@ UPSTREAM_DOCUMENTATION="${HOMEPAGE}/wiki/Docs"
 UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/Releases/${PV}"
 
 CMAKE_SRC_CONFIGURE_PARAMS=(
+    '-DCMAKE_INSTALL_SYSCONFDIR:PATH=/etc'
     '-DENABLE_TESTSUITE=FALSE'
     '-DWITH_AUDIT=FALSE'
     '-DWITH_SELINUX=FALSE'
@@ -86,5 +87,6 @@ src_install() {
     fi
 
     keepdir /usr/$(exhost --target)/lib/${PN}/lua
+    keepdir /etc/${PN}
 }
 
