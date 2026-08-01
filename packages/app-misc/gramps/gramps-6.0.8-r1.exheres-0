@@ -40,7 +40,7 @@ DEPENDENCIES="
         media-gfx/graphviz[python] [[ description = [ Enable creation of graphs ] ]]
         x11-libs/osm-gps-map[>=0.8][gobject-introspection] [[ description = [ Used to show OpenStreetMaps in Geographic view ] ]]
     suggestion:
-        dev-libs/gexiv2[>=0.5][gobject-introspection] [[ description = [ Enable management of Exif metadata ] ]]
+        dev-libs/gexiv2:0[>=0.5][gobject-introspection] [[ description = [ Enable management of Exif metadata ] ]]
         dev-scm/rcs [[ description = [ Manage multiple versions of family tree ] ]]
         dev-python/Pillow [[ description = [ Crop and convert to JPEG images ] ]]
         dev-python/networkx [[ description = [ Use NetworkChart plugin ] ]]
