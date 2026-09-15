@@ -1,0 +1,13 @@
+# Copyright 2019 Pierre Lejeune <superheron@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require cargo
+
+SUMMARY="A better way to navigate directories"
+HOMEPAGE+=" https://dystroy.org/broot/"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
