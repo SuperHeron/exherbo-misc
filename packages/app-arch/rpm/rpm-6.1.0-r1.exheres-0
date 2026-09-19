@@ -47,8 +47,8 @@ DEPENDENCIES="
         providers:elfutils? ( dev-util/elfutils[>=0.142] )
         providers:libelf? ( dev-libs/libelf[>=0.8.12] )
     suggestion:
+        app-arch/7zip
         app-arch/lzip
-        app-arch/p7zip
         app-crypt/gnupg
         net-misc/curl
         sys-apps/fakechroot
