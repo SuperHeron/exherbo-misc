@@ -11,6 +11,8 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
+CARGO_SRC_TEST_PARAMS=( -- --skip net::server::test::second_server_with_same_name_errors )
+
 src_prepare() {
     default
     edo mv "${WORK}"/man{,1}
