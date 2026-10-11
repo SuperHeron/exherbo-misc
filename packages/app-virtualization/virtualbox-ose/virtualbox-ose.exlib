@@ -206,7 +206,7 @@ virtualbox-ose_src_prepare() {
         local python_abi=$(python_get_abi)
         ever at_least 3 ${python_abi} && ! ever at_least 3.8 ${python_abi} && python_abi+=m
         edo sed -e "s/SUPPYTHONLIBS=\"[a-z0-9. ]*/SUPPYTHONLIBS=\"python${python_abi}/" -i configure
-        edo sed -e "s/versions = \[[a-z0-9. \",]*/versions = \[ \"${python_abi}\" /" -i src/libs/xpcom18a4/python/gen_python_deps.py
+        echo 'VBOX_WITH_PYLINT :=' >> "${WORK}/LocalConfig.kmk"
     fi
 
     echo "VBOX_GSOAP_INSTALLED := $(option webservice 1)" >> "${WORK}/LocalConfig.kmk"
