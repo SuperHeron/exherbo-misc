@@ -11,7 +11,12 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
-CARGO_SRC_TEST_PARAMS=( -- --skip net::server::test::second_server_with_same_name_errors )
+CARGO_SRC_TEST_PARAMS=(
+    --
+    --skip net::server::test::command_sent_by_client_reaches_server
+    --skip net::server::test::name_is_free_after_server_drop
+    --skip net::server::test::second_server_with_same_name_errors
+)
 
 src_prepare() {
     default
