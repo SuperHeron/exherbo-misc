@@ -16,8 +16,8 @@ of the highlights include:
 "
 HOMEPAGE="https://lib.filezilla-project.org"
 
-# https://trac.filezilla-project.org/ticket/13186
-DOWNLOADS="manual: ${PNV}.tar.xz"
+# https://trac.filezilla-project.org/ticket/13186, use ArchLinux mirror instead
+DOWNLOADS="https://mirrors.mit.edu/archlinux/other/packages/${PN}/${PNV}.tar.xz"
 
 LICENCES="GPL-2"
 SLOT="0"
