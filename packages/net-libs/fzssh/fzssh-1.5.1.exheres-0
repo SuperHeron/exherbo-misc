@@ -13,8 +13,8 @@ Linux, *BSD, macOS and Windows.
 "
 HOMEPAGE="https://${PN}.filezilla-project.org"
 
-# https://trac.filezilla-project.org/ticket/13186
-DOWNLOADS="manual: ${PNV}.tar.xz"
+# https://trac.filezilla-project.org/ticket/13186, use ArchLinux mirror instead
+DOWNLOADS="https://mirrors.mit.edu/archlinux/other/packages/${PN}/${PNV}.tar.xz"
 
 LICENCES="AGPL-3"
 SLOT="0"
@@ -29,7 +29,7 @@ DEPENDENCIES="
         app-crypt/argon2
         dev-libs/gmp:=[>=6.2]
         dev-libs/nettle:=[>=3.10]
-        net-libs/libfilezilla[>=0.55.3]
+        net-libs/libfilezilla[>=0.58.0]
     test:
         dev-cpp/cppunit[>=1.13.0]
 "
