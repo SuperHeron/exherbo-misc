@@ -14,8 +14,8 @@ useful features and an intuitive graphical user interface.
 
 HOMEPAGE="https://filezilla-project.org"
 
-# https://trac.filezilla-project.org/ticket/13186
-DOWNLOADS="manual: ${MY_PNV}.tar.xz"
+# https://trac.filezilla-project.org/ticket/13186, use ArchLinux mirror instead
+DOWNLOADS="https://mirrors.mit.edu/archlinux/other/packages/${PN}/${PNV}.tar.xz"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -34,10 +34,10 @@ DEPENDENCIES="
         dev-db/sqlite:3[>=3.7]
         dev-libs/gnutls[>=3.4.15]
         dev-libs/nettle:=[>=3.1]
-        dev-libs/pugixml[>=1.6]
+        dev-libs/pugixml[>=1.9]
         net-dns/libidn
-        net-libs/fzssh[>=1.3.0]
-        net-libs/libfilezilla[>=0.56.1]
+        net-libs/fzssh[>=1.4.0]
+        net-libs/libfilezilla[>=0.57.0]
         x11-apps/xdg-utils
         dbus? ( sys-apps/dbus[>=1.2] )
         providers:gtk2? ( x11-libs/gtk+:2 )
